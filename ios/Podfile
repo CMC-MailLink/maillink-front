@@ -23,8 +23,8 @@ target 'MailLinkApp' do
   # you should disable the next line.
   use_flipper!()
 
+  use_flipper!({ 'Flipper-Folly' => '2.6.7' }) # update this part
   post_install do |installer|
-    react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    flipper_post_install(installer)
   end
 end
