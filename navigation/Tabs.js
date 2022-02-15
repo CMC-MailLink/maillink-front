@@ -30,9 +30,13 @@ const Tabs = () => {
         name="Search"
         component={Search}
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image source={SearchTabs} />
+              <Image
+                style={{width: 31.03, height: 31.04}}
+                source={SearchTabs}
+              />
               <Text style={{top: 4, ...styles.iconText}}>작가찾기</Text>
             </View>
           ),
@@ -42,9 +46,10 @@ const Tabs = () => {
         name="Mail"
         component={Mail}
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View>
-              <Image source={LogoTabs} />
+              <Image style={{width: 42, height: 33}} source={LogoTabs} />
             </View>
           ),
           tabBarButton: props => <CustomTabBarButton {...props} />,
@@ -54,9 +59,10 @@ const Tabs = () => {
         name="Profile"
         component={Profile}
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image source={ProfileTabs} />
+              <Image style={{width: 24, height: 29}} source={ProfileTabs} />
               <Text style={{top: 5, ...styles.iconText}}>프로필</Text>
             </View>
           ),
@@ -69,7 +75,8 @@ const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
     backgroundColor: '#FFFFFF',
-    borderTopEndRadius: 15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
     height: 103,
     shadowColor: '#000000',
     shadowOffset: {
