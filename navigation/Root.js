@@ -6,7 +6,7 @@ import Stack from './Stack';
 const Nav = createNativeStackNavigator();
 
 const Root = () => (
-  <Nav.Navigator screenOptions={{presentation: 'modal', headerShown: false}}>
+  <Nav.Navigator screenOptions={{presentation: 'card', headerShown: false}}>
     <Nav.Screen name="Tabs" component={Tabs}></Nav.Screen>
     <Nav.Screen name="Stack" component={Stack}></Nav.Screen>
   </Nav.Navigator>
