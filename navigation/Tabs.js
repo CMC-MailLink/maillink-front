@@ -2,11 +2,11 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import Search from '../Screen/Search';
-import Mail from '../Screen/Mail';
 import Profile from '../Screen/Profile';
 import LogoTabs from '../assets/images/LogoTabs.png';
 import SearchTabs from '../assets/images/SearchTabs.png';
 import ProfileTabs from '../assets/images/ProfileTabs.png';
+import Stack from './Stack';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,8 +43,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Mail"
-        component={Mail}
+        name="Stack"
+        component={Stack}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (

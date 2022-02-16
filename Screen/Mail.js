@@ -55,9 +55,12 @@ const Mail = () => {
             0&nbsp;
           </Text>
           <Text style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
-            개의 메일이&nbsp;도착했습니다.
+            개의 메일이
           </Text>
         </View>
+        <Text style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
+          도착했습니다.
+        </Text>
       </View>
     </View>
   );
