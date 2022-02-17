@@ -88,15 +88,15 @@ const MailBody = () => {
     }
   };
   const onPressMail = () => {
-    rowList[rowOpen].closeRow();
+    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
     setMailSelect(true);
   };
   const onPressSave = () => {
-    rowList[rowOpen].closeRow();
+    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
     setMailSelect(false);
   };
   const onPressRecent = () => {
-    rowList[rowOpen].closeRow();
+    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
     if (mailSelect) {
       setMailRecentSelect(true);
       setMail(data =>
@@ -122,7 +122,7 @@ const MailBody = () => {
     }
   };
   const onPressOld = () => {
-    rowList[rowOpen].closeRow();
+    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
     if (mailSelect) {
       setMailRecentSelect(false);
       setMail(data =>
