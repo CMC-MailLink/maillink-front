@@ -56,6 +56,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
+        style={{justifyContent: 'center'}}
         name="Profile"
         component={Profile}
         options={{
@@ -71,13 +72,14 @@ const Tabs = () => {
     </Tab.Navigator>
   );
 };
+
 const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    height: 103,
+    height: 103 - 23.78,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     backgroundColor: '#4562F1',
   },
-  iconView: {alignItems: 'center', top: 13},
+  iconView: {alignItems: 'center', position: 'absolute', bottom: 3},
   iconText: {
     color: '#BEBEBE',
     fontFamily: 'NotoSansKR-Medium',
