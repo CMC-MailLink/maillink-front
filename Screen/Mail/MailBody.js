@@ -13,10 +13,12 @@ import SubscribeMail from '../../assets/images/SubscribeMail.png';
 import SendMail from '../../assets/images/SendMail.png';
 import StarMail from '../../assets/images/StarMail.png';
 import AuthorMail from '../../assets/images/AuthorMail.png';
+import {set} from 'lodash';
 
 const MailBody = () => {
   const [mailSelect, setMailSelect] = useState(true);
-  const [recentSelect, setRecentSelect] = useState(true);
+  const [mailRecentSelect, setMailRecentSelect] = useState(true);
+  const [bookmarkRecentSelect, setBookmarkRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
   const [mail, setMail] = useState([
     {
@@ -24,7 +26,7 @@ const MailBody = () => {
       author: '이작가',
       title: '청춘예찬2',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 12',
+      date: '21. 02. 13',
     },
     {
       key: '1',
@@ -45,7 +47,7 @@ const MailBody = () => {
       author: '최작가',
       title: '파란 하늘',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 11',
+      date: '21. 02. 10',
     },
   ]);
   const [bookmark, setBookMark] = useState([
@@ -54,7 +56,7 @@ const MailBody = () => {
       author: '이작가',
       title: '청춘예찬2',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 12',
+      date: '21. 02. 13',
     },
     {
       key: '1',
@@ -71,6 +73,8 @@ const MailBody = () => {
       date: '21. 02. 11',
     },
   ]);
+  const [rowList, setRowList] = useState([]);
+  const [rowOpen, setRowOpen] = useState();
   const bookmarkRow = (rowMap, key) => {
     //즐겨찾기
     if (rowMap[key]) {
@@ -83,10 +87,66 @@ const MailBody = () => {
       rowMap[key].closeRow();
     }
   };
-  const onPressMail = () => setMailSelect(true);
-  const onPressSave = () => setMailSelect(false);
-  const onPressRecent = () => setRecentSelect(true);
-  const onPressOld = () => setRecentSelect(false);
+  const onPressMail = () => {
+    rowList[rowOpen].closeRow();
+    setMailSelect(true);
+  };
+  const onPressSave = () => {
+    rowList[rowOpen].closeRow();
+    setMailSelect(false);
+  };
+  const onPressRecent = () => {
+    rowList[rowOpen].closeRow();
+    if (mailSelect) {
+      setMailRecentSelect(true);
+      setMail(data =>
+        data.slice().sort(function (a, b) {
+          if (a.date >= b.date) {
+            return -1;
+          } else if (a.date < b.date) {
+            return 1;
+          }
+        }),
+      );
+    } else {
+      setBookmarkRecentSelect(true);
+      setBookMark(data =>
+        data.slice().sort(function (a, b) {
+          if (a.date >= b.date) {
+            return -1;
+          } else if (a.date < b.date) {
+            return 1;
+          }
+        }),
+      );
+    }
+  };
+  const onPressOld = () => {
+    rowList[rowOpen].closeRow();
+    if (mailSelect) {
+      setMailRecentSelect(false);
+      setMail(data =>
+        data.slice().sort(function (a, b) {
+          if (a.date >= b.date) {
+            return 1;
+          } else if (a.date < b.date) {
+            return -1;
+          }
+        }),
+      );
+    } else {
+      setBookmarkRecentSelect(false);
+      setBookMark(data =>
+        data.slice().sort(function (a, b) {
+          if (a.date >= b.date) {
+            return 1;
+          } else if (a.date < b.date) {
+            return -1;
+          }
+        }),
+      );
+    }
+  };
 
   const renderItem = (data, rowMap) => (
     <View
@@ -99,7 +159,8 @@ const MailBody = () => {
       }}>
       <Image
         style={{position: 'absolute', width: 42, height: 42, left: 36, top: 14}}
-        source={AuthorMail}></Image>
+        source={AuthorMail}
+      />
       <View style={{flexDirection: 'row'}}>
         <Text
           style={{
@@ -156,6 +217,10 @@ const MailBody = () => {
       </TouchableOpacity>
     </View>
   );
+  const onRowOpen = (rowKey, rowMap, toValue) => {
+    setRowList(rowMap);
+    setRowOpen(rowKey);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -202,7 +267,13 @@ const MailBody = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#000000' : '#BEBEBE',
+                color: mailSelect
+                  ? mailRecentSelect
+                    ? '#000000'
+                    : '#BEBEBE'
+                  : bookmarkRecentSelect
+                  ? '#000000'
+                  : '#BEBEBE',
               }}>
               최신순
             </Text>
@@ -214,7 +285,13 @@ const MailBody = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#BEBEBE' : '#000000',
+                color: mailSelect
+                  ? mailRecentSelect
+                    ? '#BEBEBE'
+                    : '#000000'
+                  : bookmarkRecentSelect
+                  ? '#BEBEBE'
+                  : '#000000',
               }}>
               오래된순
             </Text>
@@ -230,9 +307,7 @@ const MailBody = () => {
             rightOpenValue={-150}
             stopRightSwipe={-150}
             disableRightSwipe={true}
-            previewRowKey={'0'}
-            previewOpenValue={-40}
-            previewOpenDelay={3000}
+            onRowOpen={onRowOpen}
           />
         </View>
       ) : (
