@@ -3,12 +3,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Mail from '../Screen/Mail/Mail';
 import Alarm from '../Screen/Alarm';
 import MailSearch from '../Screen/Mail/MailSearch';
+import Reading from '../Screen/Reading';
 
 const NativeStack = createNativeStackNavigator();
 
 const Stack = () => {
   return (
     <NativeStack.Navigator
+      sceneContainerStyle={{
+        backgroundColor: '#fff',
+      }}
       screenOptions={{
         headerBackTitleVisible: false,
         headerShadowVisible: false,
@@ -24,6 +28,7 @@ const Stack = () => {
         component={MailSearch}
         options={{headerShown: false}}
       />
+      <NativeStack.Screen name="Reading" component={Reading} />
     </NativeStack.Navigator>
   );
 };

@@ -129,68 +129,74 @@ const MailSearch = () => {
       <ScrollView>
         {submit ? (
           <View>
-            {result.map((data, index) => (
-              <View
-                key={index}
-                style={{
-                  height: 114,
-                  backgroundColor: '#FFF',
-                  paddingTop: 14,
-                  borderBottomColor: '#EBEBEB',
-                  borderBottomWidth: 1,
-                }}>
-                <Image
+            {result.length ? (
+              result.map((data, index) => (
+                <View
+                  key={index}
                   style={{
-                    position: 'absolute',
-                    width: 42,
-                    height: 42,
-                    left: 36,
-                    top: 14,
-                  }}
-                  source={AuthorMail}
-                />
-                <View style={{flexDirection: 'row'}}>
-                  <Text
-                    style={{
-                      color: '#4562F1',
-                      fontFamily: 'NotoSansKR-Bold',
-                      fontSize: 16,
-                      left: 93,
-                    }}>
-                    {data.author}
-                  </Text>
-                  <Text
+                    height: 114,
+                    backgroundColor: '#FFF',
+                    paddingTop: 14,
+                    borderBottomColor: '#EBEBEB',
+                    borderBottomWidth: 1,
+                  }}>
+                  <Image
                     style={{
                       position: 'absolute',
-                      color: '#BEBEBE',
-                      fontFamily: 'NotoSansKR-Thin',
-                      fontSize: 12,
-                      right: 20,
+                      width: 42,
+                      height: 42,
+                      left: 36,
+                      top: 14,
+                    }}
+                    source={AuthorMail}
+                  />
+                  <View style={{flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        color: '#4562F1',
+                        fontFamily: 'NotoSansKR-Bold',
+                        fontSize: 16,
+                        left: 93,
+                      }}>
+                      {data.author}
+                    </Text>
+                    <Text
+                      style={{
+                        position: 'absolute',
+                        color: '#BEBEBE',
+                        fontFamily: 'NotoSansKR-Thin',
+                        fontSize: 12,
+                        right: 20,
+                      }}>
+                      {data.date}
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontFamily: 'NotoSansKR-Bold',
+                      fontSize: 14,
+                      left: 93,
                     }}>
-                    {data.date}
+                    {data.title}
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#828282',
+                      fontFamily: 'NotoSansKR-Thin',
+                      fontSize: 14,
+                      left: 93,
+                      width: 230,
+                    }}>
+                    {data.body}
                   </Text>
                 </View>
-                <Text
-                  style={{
-                    color: '#000',
-                    fontFamily: 'NotoSansKR-Bold',
-                    fontSize: 14,
-                    left: 93,
-                  }}>
-                  {data.title}
-                </Text>
-                <Text
-                  style={{
-                    color: '#828282',
-                    fontFamily: 'NotoSansKR-Thin',
-                    fontSize: 14,
-                    left: 93,
-                    width: 230,
-                  }}>
-                  {data.body}
-                </Text>
-              </View>
-            ))}
+              ))
+            ) : (
+              <Image
+                style={{width: 390, height: 78, top: 244}}
+                source={NoDataMail}></Image>
+            )}
           </View>
         ) : (
           <View>

@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {useNavigation} from '@react-navigation/native';
 
 import SubscribeMail from '../../assets/images/SubscribeMail.png';
 import SendMail from '../../assets/images/SendMail.png';
@@ -16,6 +17,7 @@ import AuthorMail from '../../assets/images/AuthorMail.png';
 import {set} from 'lodash';
 
 const MailBody = () => {
+  const navigation = useNavigation();
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
@@ -104,6 +106,22 @@ const MailBody = () => {
     setRowList(rowMap);
     setRowOpen(rowKey);
   };
+  const onRowClose = (rowKey, rowMap, toValue) => {
+    setRowOpen(null);
+  };
+  const onPressMailItem = (rowMap, data) => {
+    rowList
+      ? rowList[rowOpen]
+        ? null
+        : navigation.navigate('Stack', {
+            screen: 'Reading',
+            params: {...data},
+          })
+      : navigation.navigate('Stack', {
+          screen: 'Reading',
+          params: {...data},
+        });
+  };
 
   useEffect(() => {
     if (mailSelect) {
@@ -129,60 +147,68 @@ const MailBody = () => {
     }
   }, [recentSelect, mailSelect]);
 
-  const renderItem = (data, rowMap) => (
-    <View
-      style={{
-        height: 114,
-        backgroundColor: '#FFF',
-        paddingTop: 14,
-        borderBottomColor: '#EBEBEB',
-        borderBottomWidth: 1,
-      }}>
-      <Image
-        style={{position: 'absolute', width: 42, height: 42, left: 36, top: 14}}
-        source={AuthorMail}
-      />
-      <View style={{flexDirection: 'row'}}>
-        <Text
-          style={{
-            color: '#4562F1',
-            fontFamily: 'NotoSansKR-Bold',
-            fontSize: 16,
-            left: 93,
-          }}>
-          {data.item.author}
-        </Text>
-        <Text
+  const renderItem = (data, rowMap, rowKey) => (
+    <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
+      <View
+        style={{
+          height: 114,
+          backgroundColor: '#FFF',
+          paddingTop: 14,
+          borderBottomColor: '#EBEBEB',
+          borderBottomWidth: 1,
+        }}>
+        <Image
           style={{
             position: 'absolute',
-            color: '#BEBEBE',
-            fontFamily: 'NotoSansKR-Thin',
-            fontSize: 12,
-            right: 20,
+            width: 42,
+            height: 42,
+            left: 36,
+            top: 14,
+          }}
+          source={AuthorMail}
+        />
+        <View style={{flexDirection: 'row'}}>
+          <Text
+            style={{
+              color: '#4562F1',
+              fontFamily: 'NotoSansKR-Bold',
+              fontSize: 16,
+              left: 93,
+            }}>
+            {data.item.author}
+          </Text>
+          <Text
+            style={{
+              position: 'absolute',
+              color: '#BEBEBE',
+              fontFamily: 'NotoSansKR-Thin',
+              fontSize: 12,
+              right: 20,
+            }}>
+            {data.item.date}
+          </Text>
+        </View>
+        <Text
+          style={{
+            color: '#000',
+            fontFamily: 'NotoSansKR-Bold',
+            fontSize: 14,
+            left: 93,
           }}>
-          {data.item.date}
+          {data.item.title}
+        </Text>
+        <Text
+          style={{
+            color: '#828282',
+            fontFamily: 'NotoSansKR-Thin',
+            fontSize: 14,
+            left: 93,
+            width: 230,
+          }}>
+          {data.item.body}
         </Text>
       </View>
-      <Text
-        style={{
-          color: '#000',
-          fontFamily: 'NotoSansKR-Bold',
-          fontSize: 14,
-          left: 93,
-        }}>
-        {data.item.title}
-      </Text>
-      <Text
-        style={{
-          color: '#828282',
-          fontFamily: 'NotoSansKR-Thin',
-          fontSize: 14,
-          left: 93,
-          width: 230,
-        }}>
-        {data.item.body}
-      </Text>
-    </View>
+    </TouchableWithoutFeedback>
   );
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
@@ -273,6 +299,7 @@ const MailBody = () => {
             stopRightSwipe={-150}
             disableRightSwipe={true}
             onRowOpen={onRowOpen}
+            onRowClose={onRowClose}
           />
         </View>
       ) : (
