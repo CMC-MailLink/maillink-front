@@ -16,35 +16,61 @@ import AuthorMail from '../assets/images/AuthorMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
-const Mail = () => {
-  const [mailData, setMailData] = useState(true);
-  const [mail, setMail] = useState([
+const Alarm = () => {
+  const [alarmData, setAlarmData] = useState(true);
+  const [alarm, setAlarm] = useState([
     {
       key: '0',
       author: '이작가',
       title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 12',
     },
     {
       key: '1',
-      author: '김작가',
+      author: '이작가',
       title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
       date: '21. 02. 12',
     },
     {
       key: '2',
-      author: '이작가',
+      author: '덩이',
       title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
       date: '21. 02. 11',
     },
     {
       key: '3',
-      author: '최작가',
+      author: '리티',
       title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 11',
+    },
+    {
+      key: '4',
+      author: '덩이',
+      title: '파란 하늘',
+      date: '21. 02. 11',
+    },
+    {
+      key: '5',
+      author: '비비',
+      title: '파란 하늘',
+      date: '21. 02. 11',
+    },
+    {
+      key: '6',
+      author: '비비',
+      title: '파란 하늘',
+      date: '21. 02. 11',
+    },
+    {
+      key: '7',
+      author: '비비',
+      title: '파란 하늘',
+      date: '21. 02. 11',
+    },
+    {
+      key: '8',
+      author: '비비',
+      title: '파란 하늘',
       date: '21. 02. 11',
     },
   ]);
@@ -101,12 +127,17 @@ const Mail = () => {
       <View style={styles.bodyHeader}>
         <View
           style={{
-            width: 239,
+            width: 232,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            left: 70,
+            left: 78,
           }}>
-          <View style={{borderBottomWidth: 1, borderBottomColor: '#4562F1'}}>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#4562F1',
+              borderBottomLength: 10,
+            }}>
             <Text style={{...styles.bodyHeaderText, color: '#000000'}}>
               알림함
             </Text>
@@ -115,20 +146,11 @@ const Mail = () => {
             <Text style={styles.bodyHeaderText}>쪽지함</Text>
           </View>
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            width: 92,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            right: 19,
-          }}
-        />
       </View>
-      {mailData ? (
+      {alarmData ? (
         <View style={styles.bodyContainer}>
           <SwipeListView
-            data={mail}
+            data={alarm}
             renderItem={renderItem}
             rightOpenValue={-150}
             stopRightSwipe={-150}
@@ -218,25 +240,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingLeft: 15,
   },
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75,
-  },
-  backRightBtnLeft: {
-    backgroundColor: '#F5F8FF',
-    right: 75,
-  },
-  backRightBtnRight: {
-    backgroundColor: '#E8ECFF',
-    right: 0,
-  },
   backTextWhite: {
     color: '#FFF',
   },
 });
 
-export default Mail;
+export default Alarm;
