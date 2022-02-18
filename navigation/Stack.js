@@ -1,7 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Mail from '../Screen/Mail';
+import Mail from '../Screen/Mail/Mail';
 import Alarm from '../Screen/Alarm';
+import MailSearch from '../Screen/Mail/MailSearch';
 
 const NativeStack = createNativeStackNavigator();
 
@@ -18,6 +19,10 @@ const Stack = () => {
         options={{headerShown: false}}
       />
       <NativeStack.Screen name="Alarm" component={Alarm} />
+<<<<<<< HEAD
+=======
+      <NativeStack.Screen name="MailSearch" component={MailSearch} />
+>>>>>>> bibi
     </NativeStack.Navigator>
   );
 };
