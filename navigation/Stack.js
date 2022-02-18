@@ -19,7 +19,11 @@ const Stack = () => {
         options={{headerShown: false}}
       />
       <NativeStack.Screen name="Alarm" component={Alarm} />
-      <NativeStack.Screen name="MailSearch" component={MailSearch} />
+      <NativeStack.Screen
+        name="MailSearch"
+        component={MailSearch}
+        options={{headerShown: false}}
+      />
     </NativeStack.Navigator>
   );
 };
