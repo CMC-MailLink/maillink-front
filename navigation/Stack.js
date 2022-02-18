@@ -7,15 +7,7 @@ import MailSearch from '../Screen/Mail/MailSearch';
 
 const NativeStack = createNativeStackNavigator();
 
-const Stack = ({navigation, route}) => {
-  React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName === 'Alarm') {
-      navigation.setOptions({tabBarStyle: {display: 'none'}});
-    } else {
-      navigation.setOptions({tabBarStyle: {display: 'flex'}});
-    }
-  }, [navigation, route]);
+const Stack = () => {
   return (
     <NativeStack.Navigator
       screenOptions={{

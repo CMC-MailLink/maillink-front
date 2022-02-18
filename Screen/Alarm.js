@@ -22,56 +22,29 @@ const Alarm = () => {
     {
       key: '0',
       author: '이작가',
-      title: '청춘예찬2',
       date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '청춘예찬2',
+      context: null,
     },
     {
       key: '1',
       author: '이작가',
-      title: '별 헤는 밤',
       date: '21. 02. 12',
+      newpost: null,
+      subscribe: '님을 구독했습니다.',
+      title: '청춘예찬2',
+      context: '당신과 연결되어 기쁩니다.',
     },
     {
       key: '2',
       author: '덩이',
-      title: '청춘예찬',
-      date: '21. 02. 11',
-    },
-    {
-      key: '3',
-      author: '리티',
-      title: '파란 하늘',
-      date: '21. 02. 11',
-    },
-    {
-      key: '4',
-      author: '덩이',
-      title: '파란 하늘',
-      date: '21. 02. 11',
-    },
-    {
-      key: '5',
-      author: '비비',
-      title: '파란 하늘',
-      date: '21. 02. 11',
-    },
-    {
-      key: '6',
-      author: '비비',
-      title: '파란 하늘',
-      date: '21. 02. 11',
-    },
-    {
-      key: '7',
-      author: '비비',
-      title: '파란 하늘',
-      date: '21. 02. 11',
-    },
-    {
-      key: '8',
-      author: '비비',
-      title: '파란 하늘',
-      date: '21. 02. 11',
+      date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '자화상2',
+      context: null,
     },
   ]);
 
@@ -80,7 +53,7 @@ const Alarm = () => {
   const renderItem = (data, rowMap) => (
     <View
       style={{
-        height: 114,
+        height: 71,
         backgroundColor: '#FFF',
         paddingTop: 14,
         borderBottomColor: '#EBEBEB',
@@ -92,17 +65,26 @@ const Alarm = () => {
       />
       <Text
         style={{
-          color: '#4562F1',
+          color: '#3C3C3C',
           fontFamily: 'NotoSansKR-Bold',
-          fontSize: 16,
+          fontSize: 14,
           left: 93,
         }}>
         {data.item.author}
       </Text>
       <Text
         style={{
-          color: '#000',
-          fontFamily: 'NotoSansKR-Bold',
+          color: '#3C3C3C',
+          fontFamily: 'NotoSansKR',
+          fontSize: 14,
+          left: 93,
+        }}>
+        {alarm.newpost ? data.item.newpost : data.item.subscribe}
+      </Text>
+      <Text
+        style={{
+          color: '#828282',
+          fontFamily: 'NotoSansKR',
           fontSize: 14,
           left: 93,
         }}>
