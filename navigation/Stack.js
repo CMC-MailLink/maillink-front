@@ -15,8 +15,9 @@ const Stack = () => {
       <NativeStack.Screen
         name="Mail"
         component={Mail}
-        options={{headerShown: false}}></NativeStack.Screen>
-      <NativeStack.Screen name="Alarm" component={Alarm}></NativeStack.Screen>
+        options={{headerShown: false}}
+      />
+      <NativeStack.Screen name="Alarm" component={Alarm} />
     </NativeStack.Navigator>
   );
 };
