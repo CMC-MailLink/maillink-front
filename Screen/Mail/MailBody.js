@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,7 @@ import {set} from 'lodash';
 
 const MailBody = () => {
   const [mailSelect, setMailSelect] = useState(true);
-  const [mailRecentSelect, setMailRecentSelect] = useState(true);
-  const [bookmarkRecentSelect, setBookmarkRecentSelect] = useState(true);
+  const [recentSelect, setRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
   const [mail, setMail] = useState([
     {
@@ -50,7 +49,7 @@ const MailBody = () => {
       date: '21. 02. 10',
     },
   ]);
-  const [bookmark, setBookMark] = useState([
+  const [bookmark, setBookmark] = useState([
     {
       key: '0',
       author: '이작가',
@@ -73,80 +72,62 @@ const MailBody = () => {
       date: '21. 02. 11',
     },
   ]);
-  const [rowList, setRowList] = useState([]);
-  const [rowOpen, setRowOpen] = useState();
+  const [rowList, setRowList] = useState(null);
+  const [rowOpen, setRowOpen] = useState(null);
   const bookmarkRow = (rowMap, key) => {
-    //즐겨찾기
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
   };
   const sendRow = (rowMap, key) => {
-    //쪽지보내기
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
   };
   const onPressMail = () => {
-    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setMailSelect(true);
   };
   const onPressSave = () => {
-    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setMailSelect(false);
   };
   const onPressRecent = () => {
-    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
-    if (mailSelect) {
-      setMailRecentSelect(true);
-      setMail(data =>
-        data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
-            return -1;
-          } else if (a.date < b.date) {
-            return 1;
-          }
-        }),
-      );
-    } else {
-      setBookmarkRecentSelect(true);
-      setBookMark(data =>
-        data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
-            return -1;
-          } else if (a.date < b.date) {
-            return 1;
-          }
-        }),
-      );
-    }
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    setRecentSelect(true);
   };
   const onPressOld = () => {
-    rowList.lenngth ? rowList[rowOpen].closeRow() : null;
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    setRecentSelect(false);
+  };
+  const onRowOpen = (rowKey, rowMap, toValue) => {
+    setRowList(rowMap);
+    setRowOpen(rowKey);
+  };
+
+  useEffect(() => {
     if (mailSelect) {
-      setMailRecentSelect(false);
       setMail(data =>
         data.slice().sort(function (a, b) {
           if (a.date >= b.date) {
-            return 1;
+            return recentSelect ? -1 : 1;
           } else if (a.date < b.date) {
-            return -1;
+            return recentSelect ? 1 : -1;
           }
         }),
       );
     } else {
-      setBookmarkRecentSelect(false);
-      setBookMark(data =>
+      setBookmark(data =>
         data.slice().sort(function (a, b) {
           if (a.date >= b.date) {
-            return 1;
+            return recentSelect ? -1 : 1;
           } else if (a.date < b.date) {
-            return -1;
+            return recentSelect ? 1 : -1;
           }
         }),
       );
     }
-  };
+  }, [recentSelect, mailSelect]);
 
   const renderItem = (data, rowMap) => (
     <View
@@ -217,10 +198,6 @@ const MailBody = () => {
       </TouchableOpacity>
     </View>
   );
-  const onRowOpen = (rowKey, rowMap, toValue) => {
-    setRowList(rowMap);
-    setRowOpen(rowKey);
-  };
 
   return (
     <View style={{flex: 1}}>
@@ -267,13 +244,7 @@ const MailBody = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: mailSelect
-                  ? mailRecentSelect
-                    ? '#000000'
-                    : '#BEBEBE'
-                  : bookmarkRecentSelect
-                  ? '#000000'
-                  : '#BEBEBE',
+                color: recentSelect ? '#000000' : '#BEBEBE',
               }}>
               최신순
             </Text>
@@ -285,13 +256,7 @@ const MailBody = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: mailSelect
-                  ? mailRecentSelect
-                    ? '#BEBEBE'
-                    : '#000000'
-                  : bookmarkRecentSelect
-                  ? '#BEBEBE'
-                  : '#000000',
+                color: recentSelect ? '#BEBEBE' : '#000000',
               }}>
               오래된순
             </Text>
