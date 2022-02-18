@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,6 +7,8 @@ import {
   Pressable,
   Alert,
   Text,
+  Animated,
+  Easing,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -20,14 +22,38 @@ const STATUSBAR_HEIGHT = 48;
 const Mail = () => {
   const navigation = useNavigation();
   const [searchSelect, setSearchSelect] = useState(false);
+  const [spread, setSpread] = useState(false);
+  const [textDisplay, setTextDisplay] = useState(false);
+  const spreadAnim = useRef(new Animated.Value(0)).current;
   const onPressSearch = () => {
     setSearchSelect(!searchSelect);
+    setSpread(!spread);
   };
   const onPressSearchPage = () => {
     navigation.navigate('Stack', {
       screen: 'MailSearch',
     });
   };
+
+  useEffect(() => {
+    spread
+      ? Animated.timing(spreadAnim, {
+          toValue: 1,
+          duration: 200,
+          easing: Easing.linear,
+          useNativeDriver: false,
+        }).start(({finished}) => {
+          setTextDisplay(true);
+        })
+      : Animated.timing(spreadAnim, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.linear,
+          useNativeDriver: false,
+        }).start(({finished}) => {
+          setTextDisplay(false);
+        });
+  }, [spread, spreadAnim]);
 
   return (
     <View style={{flex: 1}}>
@@ -47,11 +73,20 @@ const Mail = () => {
             onPress={onPressSearchPage}
             style={styles.searchPageButton}
             activeOpacity={1}>
-            <View style={styles.searchPageView}>
-              <Text style={styles.searchText}>
-                작가 또는 제목을 검색해보세요.
-              </Text>
-            </View>
+            <Animated.View
+              style={{
+                ...styles.searchPageView,
+                width: spreadAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [44, 348],
+                }),
+              }}>
+              {textDisplay ? (
+                <Text style={styles.searchText}>
+                  작가 또는 제목을 검색해보세요.
+                </Text>
+              ) : null}
+            </Animated.View>
           </Pressable>
         ) : null}
         <TouchableOpacity
@@ -98,7 +133,9 @@ const styles = StyleSheet.create({
     shadowRadius: 23,
   },
   searchPageView: {
-    width: 348,
+    // width: 348,
+    position: 'absolute',
+    right: -174,
     height: 44,
     borderRadius: 43,
     backgroundColor: '#FFFFFF',
