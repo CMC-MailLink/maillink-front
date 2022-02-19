@@ -9,8 +9,10 @@ import {
   Animated,
   Easing,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native';
 
 import MailHeader from './MailHeader';
 import MailBody from './MailBody';
@@ -64,13 +66,16 @@ const Mail = () => {
 
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+      {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <StatusBar barStyle="light-content" />
       <MailHeader></MailHeader>
       <MailBody></MailBody>
       {/* Search */}
       <View
         style={{
           position: 'absolute',
-          top: 261 - STATUSBAR_HEIGHT - 22,
+          top: 261 - 22,
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
@@ -116,6 +121,7 @@ const Mail = () => {
           </View>
         </TouchableOpacity>
       </View>
+      {/* </SaferAreaView> */}
     </View>
   );
 };

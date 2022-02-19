@@ -28,7 +28,11 @@ const Stack = () => {
         component={MailSearch}
         options={{headerShown: false}}
       />
-      <NativeStack.Screen name="Reading" component={Reading} />
+      <NativeStack.Screen
+        name="Reading"
+        component={Reading}
+        options={{headerShown: false}}
+      />
     </NativeStack.Navigator>
   );
 };
