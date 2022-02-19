@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import Search from '../Screen/Search';
-import Profile from '../Screen/Profile';
+import Profile from '../Screen/Profile/Profile';
 import Mail from '../Screen/Mail/Mail';
 import LogoTabs from '../assets/images/LogoTabs.png';
 import SearchTabs from '../assets/images/SearchTabs.png';

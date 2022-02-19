@@ -31,6 +31,11 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
+  const onPressShare = () => {
+    navigation.navigate('Stacks', {
+      screen: 'InstaShare',
+    });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -122,6 +127,9 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
             {params.item.body}
             {params.item.body}
           </Text>
+          <TouchableOpacity onPress={onPressShare}>
+            <Text>Share Instagram</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

@@ -135,6 +135,9 @@ const MailSearch = () => {
       <ScrollView>
         {submit ? (
           <View>
+            <View style={styles.titleView}>
+              <Text style={styles.titleText}>메일에서 찾은 결과</Text>
+            </View>
             {result.length ? (
               result.map((data, index) => (
                 <TouchableWithoutFeedback

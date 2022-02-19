@@ -12,6 +12,10 @@ target 'MailLinkApp' do
     :hermes_enabled => false
   )
 
+
+
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   target 'MailLinkAppTests' do
     inherit! :complete
     # Pods for testing
