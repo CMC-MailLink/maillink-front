@@ -7,7 +7,11 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  SafeAreaView,
+  StatusBar,
   TouchableWithoutFeedback,
+  Modal,
+  TextInput,
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
@@ -16,6 +20,8 @@ import AccordionProfile from '../../assets/images/AccordionProfile.png';
 import AccordionProfile2 from '../../assets/images/AccordionProfile2.png';
 import SearchProfile from '../../assets/images/SearchProfile.png';
 import AuthorMail from '../../assets/images/AuthorMail.png';
+import DefaultProfile from '../../assets/images/DefaultProfile.png';
+import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -45,6 +51,7 @@ const Profile = () => {
   ]);
   const [category, setCategory] = useState(false);
   const [recentSelect, setRecentSelect] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBranch = index => {
     var temp = branchSelect;
@@ -71,6 +78,13 @@ const Profile = () => {
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };
+  const [name, setName] = useState('영이');
+  const [editName, setEditName] = useState('영이');
+  const onPressModalConfirm = () => {
+    setName(editName);
+    setModalVisible(!modalVisible);
+  };
+
   useEffect(() => {
     if (recentSelect) {
       setAuthor(data =>
@@ -97,6 +111,69 @@ const Profile = () => {
 
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+      <StatusBar barStyle="light-content" />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>이름 수정</Text>
+            <TextInput
+              style={{
+                width: 208,
+                color: '#3C3C3C',
+                textAlign: 'center',
+                fontFamily: 'NotoSansKR-Bold',
+                fontSize: 24,
+                paddingBottom: 10,
+                borderBottomColor: '#4562F1',
+                borderBottomWidth: 1,
+              }}
+              value={editName}
+              onChangeText={setEditName}></TextInput>
+            <Text
+              style={{
+                marginTop: 10,
+                fontFamily: 'NotoSansKR-Light',
+                fontSize: 14,
+                color: '#BEBEBE',
+              }}>
+              사용할 수 있는 이름이에요.
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Light',
+                fontSize: 14,
+                color: '#BEBEBE',
+              }}>
+              (최대 한글 6자)
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: 27,
+                right: 27,
+              }}>
+              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                <View style={{marginRight: 27}}>
+                  <Text style={styles.modalCancel}>취소</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={onPressModalConfirm}>
+                <View>
+                  <Text style={styles.modalConfirm}>확인</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
         <TouchableOpacity
@@ -110,7 +187,25 @@ const Profile = () => {
             source={SettingProfile}></Image>
         </TouchableOpacity>
       </View>
-      <View style={styles.profileView}></View>
+      <View style={styles.profileView}>
+        <View style={{alignItems: 'center', top: -39}}>
+          <Image
+            style={{width: 78, height: 78}}
+            source={DefaultProfile}></Image>
+          <Image
+            style={{width: 42, height: 42, top: -31, left: 25}}
+            source={ImageEditProfile}></Image>
+          <View style={{alignItems: 'center', top: -37}}>
+            <Text style={styles.profileName}>{name}</Text>
+            <Text style={styles.profileCategory}>독자님</Text>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <View style={styles.nameEditView}>
+                <Text style={styles.nameEditText}>이름 수정</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
       <View style={styles.profileAccordion}>
         {category ? (
           <TouchableWithoutFeedback onPress={onPressAccordion}>
@@ -389,9 +484,8 @@ const Profile = () => {
 const styles = StyleSheet.create({
   headerView: {
     width: '100%',
-    height: 150 - 48,
+    height: 121 - 48,
     backgroundColor: '#4562F1',
-    alignItems: 'center',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
   },
@@ -543,6 +637,62 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',
+  },
+  profileName: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 20,
+    color: '#3C3C3C',
+  },
+  profileCategory: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 16,
+    color: '#BEBEBE',
+  },
+  nameEditView: {
+    width: 75,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    borderColor: '#BEBEBE',
+    borderWidth: 1,
+    marginTop: 7,
+  },
+  nameEditText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 12,
+    color: '#3C3C3C',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(52, 52, 52, 0.3)',
+  },
+  modalView: {
+    width: 330,
+    height: 296,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalHeader: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    color: '#3C3C3C',
+    position: 'absolute',
+    top: 20,
+  },
+  modalCancel: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    color: '#BEBEBE',
+  },
+  modalConfirm: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    color: '#4562F1',
   },
 });
 
