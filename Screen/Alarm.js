@@ -75,7 +75,7 @@ const Alarm = () => {
       <Text
         style={{
           color: '#3C3C3C',
-          fontFamily: 'NotoSansKR',
+          fontFamily: 'NotoSansKR-Medium',
           fontSize: 14,
           left: 93,
         }}>
@@ -84,7 +84,7 @@ const Alarm = () => {
       <Text
         style={{
           color: '#828282',
-          fontFamily: 'NotoSansKR',
+          fontFamily: 'NotoSansKR-Medium',
           fontSize: 14,
           left: 93,
         }}>
@@ -109,16 +109,18 @@ const Alarm = () => {
       <View style={styles.bodyHeader}>
         <View
           style={{
-            width: 232,
+            width: 273,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            left: 78,
+            left: 36,
           }}>
           <View
             style={{
+              width: 123,
+              alignItems: 'center',
               borderBottomWidth: 1,
               borderBottomColor: '#4562F1',
-              borderBottomLength: 10,
+              borderBottomLength: 100,
             }}>
             <Text style={{...styles.bodyHeaderText, color: '#000000'}}>
               알림함
