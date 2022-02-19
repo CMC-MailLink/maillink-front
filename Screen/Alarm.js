@@ -9,16 +9,25 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {SwipeListView} from 'react-native-swipe-list-view';
-import SubscribeMail from '../assets/images/SubscribeMail.png';
 import AuthorMail from '../assets/images/AuthorMail.png';
+import Refresh from '../assets/images/Refresh.png';
+import {setBlockTracking} from 'vue';
 
 const STATUSBAR_HEIGHT = 48;
 
 const Alarm = () => {
   const [alarmData, setAlarmData] = useState(true);
+  const [alarmSelect, setAlarmSelect] = useState(true);
+  const navigation = useNavigation();
+  const onPressAlarm = () => {
+    setAlarmSelect(true);
+  };
+  const onPressLetter = () => {
+    setAlarmSelect(false);
+  };
   const [alarm, setAlarm] = useState([
     {
       key: '0',
@@ -60,8 +69,8 @@ const Alarm = () => {
       key: '4',
       author: '덩이',
       date: '21. 02. 12',
-      newpost: '님을 구독했습니다.',
-      subscribe: null,
+      newpost: null,
+      subscribe: '님을 구독했습니다.',
       title: null,
       context: '당신과 연결되어 기쁩니다',
     },
@@ -74,9 +83,43 @@ const Alarm = () => {
       title: '봄',
       context: null,
     },
+    {
+      key: '6',
+      author: '비비',
+      date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '봄',
+      context: null,
+    },
+    {
+      key: '7',
+      author: '비비',
+      date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '봄',
+      context: null,
+    },
+    {
+      key: '8',
+      author: '비비',
+      date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '봄',
+      context: null,
+    },
   ]);
-
-  const navigation = useNavigation();
+  //refreshing 기능
+  const [refreshing, setRefreshing] = React.useState(false);
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   const renderItem = data => (
     <View
@@ -166,6 +209,14 @@ const Alarm = () => {
           style={styles.bodyContainer}
           data={alarm}
           renderItem={renderItem}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              style={styles.refresh}
+              tintColor="#4562F1"
+            />
+          }
           //keyExtractor={item => item.id}
         />
       ) : (
@@ -243,6 +294,11 @@ const styles = StyleSheet.create({
   },
   backTextWhite: {
     color: '#FFF',
+  },
+  refresh: {
+    shadowColor: '#4562F1',
+    shadowOpacity: 0.12,
+    shadowRadius: 23,
   },
 });
 

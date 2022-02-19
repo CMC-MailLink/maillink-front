@@ -64,8 +64,8 @@ const Mail = () => {
 
   return (
     <View style={{flex: 1}}>
-      <MailHeader></MailHeader>
-      <MailBody></MailBody>
+      <MailHeader />
+      <MailBody />
       {/* Search */}
       <View
         style={{
