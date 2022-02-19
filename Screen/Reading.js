@@ -40,17 +40,19 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback>
           <View style={{position: 'absolute', right: 61}}>
-            <Image style={{width: 21, height: 20.5}} source={StarMail2} />
+            <Image style={{width: 21, height: 20.5}} source={StarMail2}></Image>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback>
           <View style={{position: 'absolute', right: 22}}>
-            <Image style={{width: 21.54, height: 23.82}} source={SendMail2} />
+            <Image
+              style={{width: 21.54, height: 23.82}}
+              source={SendMail2}></Image>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -61,8 +63,7 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.authorView}>
         <Image
           style={{width: 30, height: 30, marginRight: 12}}
-          source={AuthorMail}
-        />
+          source={AuthorMail}></Image>
         <Text style={styles.authorText}>{params.item.author}</Text>
         <TouchableOpacity
           onPress={onPressSubscribe}

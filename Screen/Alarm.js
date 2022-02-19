@@ -8,13 +8,10 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
-  StatusBar,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthorMail from '../assets/images/AuthorMail.png';
-import {SafeAreaView} from 'react-native';
-import BackMail2 from '../assets/images/BackMail2.png';
+
 const STATUSBAR_HEIGHT = 48;
 
 const Alarm = () => {
@@ -26,9 +23,6 @@ const Alarm = () => {
   };
   const onPressLetter = () => {
     setAlarmSelect(false);
-  };
-  const onPressBack = () => {
-    navigation.goBack();
   };
   const [alarm, setAlarm] = useState([
     {
@@ -180,15 +174,6 @@ const Alarm = () => {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0}} />
-      <StatusBar barStyle="dark-content" />
-      <View style={styles.headerView}>
-        <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
       {/* body */}
       <View style={styles.bodyHeader}>
         <View
@@ -255,11 +240,6 @@ const styles = StyleSheet.create({
   header: {
     height: 261 - STATUSBAR_HEIGHT,
     backgroundColor: '#4562F1',
-  },
-  headerView: {
-    width: '100%',
-    alignItems: 'center',
-    flexDirection: 'row',
   },
   headerText: {
     fontSize: 25,
