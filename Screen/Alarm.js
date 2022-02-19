@@ -5,16 +5,12 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  ScrollView,
   FlatList,
   RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthorMail from '../assets/images/AuthorMail.png';
-import Refresh from '../assets/images/Refresh.png';
-import {setBlockTracking} from 'vue';
 
 const STATUSBAR_HEIGHT = 48;
 
@@ -182,25 +178,32 @@ const Alarm = () => {
       <View style={styles.bodyHeader}>
         <View
           style={{
-            width: 273,
+            width: 241,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            left: 36,
+            left: 76,
           }}>
-          <View
-            style={{
-              width: 123,
-              alignItems: 'center',
-              borderBottomWidth: 1,
-              borderBottomColor: '#4562F1',
-              borderBottomLength: 100,
-            }}>
-            <Text style={{...styles.bodyHeaderText, color: '#000000'}}>
-              알림함
-            </Text>
+          <View style={alarmSelect ? styles.bodyHeaderBorder : null}>
+            <TouchableOpacity onPress={onPressAlarm}>
+              <Text
+                style={{
+                  ...styles.bodyHeaderText,
+                  color: alarmSelect ? '#000000' : '#BEBEBE',
+                }}>
+                알림함
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View>
-            <Text style={styles.bodyHeaderText}>쪽지함</Text>
+          <View style={alarmSelect ? null : styles.bodyHeaderBorder}>
+            <TouchableOpacity onPress={onPressLetter}>
+              <Text
+                style={{
+                  ...styles.bodyHeaderText,
+                  color: alarmSelect ? '#BEBEBE' : '#000000',
+                }}>
+                쪽지함
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -243,21 +246,9 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     includeFontPadding: false,
   },
-  searchButton: {
-    position: 'absolute',
-    top: 261 - STATUSBAR_HEIGHT - 22,
-    left: 326,
-    shadowColor: '#000000',
-    shadowOpacity: 0.12,
-    shadowRadius: 23,
-  },
-  searchView: {
-    width: 44,
-    height: 44,
-    borderRadius: 90,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
+  bodyHeaderBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#4562F1',
   },
   bodyContainer: {
     backgroundColor: '#FFFFFF',
@@ -277,28 +268,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BEBEBE',
     paddingBottom: 8,
-  },
-  bodyHeaderTextOrder: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 12,
-    color: '#BEBEBE',
-    paddingBottom: 8,
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-  },
-  backTextWhite: {
-    color: '#FFF',
-  },
-  refresh: {
-    shadowColor: '#4562F1',
-    shadowOpacity: 0.12,
-    shadowRadius: 23,
   },
 });
 

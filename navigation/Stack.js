@@ -22,7 +22,11 @@ const Stack = () => {
         component={Mail}
         options={{headerShown: false}}
       />
-      <NativeStack.Screen name="Alarm" component={Alarm} />
+      <NativeStack.Screen
+        name="Alarm"
+        component={Alarm}
+        options={{headerTitle: ''}}
+      />
       <NativeStack.Screen
         name="MailSearch"
         component={MailSearch}
