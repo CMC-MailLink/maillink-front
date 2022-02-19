@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -46,11 +47,38 @@ const Alarm = () => {
       title: '자화상2',
       context: null,
     },
+    {
+      key: '3',
+      author: '리티',
+      date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '날개 1-2',
+      context: null,
+    },
+    {
+      key: '4',
+      author: '덩이',
+      date: '21. 02. 12',
+      newpost: '님을 구독했습니다.',
+      subscribe: null,
+      title: null,
+      context: '당신과 연결되어 기쁩니다',
+    },
+    {
+      key: '5',
+      author: '비비',
+      date: '21. 02. 12',
+      newpost: '님의 새 글입니다.',
+      subscribe: null,
+      title: '봄',
+      context: null,
+    },
   ]);
 
   const navigation = useNavigation();
 
-  const renderItem = (data, rowMap) => (
+  const renderItem = data => (
     <View
       style={{
         height: 71,
@@ -66,39 +94,41 @@ const Alarm = () => {
       <Text
         style={{
           color: '#3C3C3C',
-          fontFamily: 'NotoSansKR-Bold',
           fontSize: 14,
           left: 93,
         }}>
-        {data.item.author}
+        <Text
+          style={{
+            fontFamily: 'NotoSansKR-Bold',
+          }}>
+          {data.item.author}&nbsp;
+        </Text>
+        <Text
+          style={{
+            fontFamily: 'NotoSansKR-Regular',
+          }}>
+          {data.item.newpost ? data.item.newpost : data.item.subscribe}
+        </Text>
       </Text>
       <Text
         style={{
-          color: '#3C3C3C',
-          fontFamily: 'NotoSansKR-Medium',
-          fontSize: 14,
-          left: 93,
-        }}>
-        {alarm.newpost ? data.item.newpost : data.item.subscribe}
-      </Text>
-      <Text
-        style={{
+          paddingTop: 3,
           color: '#828282',
-          fontFamily: 'NotoSansKR-Medium',
+          fontFamily: 'NotoSansKR-Regular',
           fontSize: 14,
           left: 93,
         }}>
-        {data.item.title}
+        {data.item.newpost ? data.item.title : data.item.context}
       </Text>
       <Text
         style={{
-          color: '#828282',
-          fontFamily: 'NotoSansKR-Thin',
-          fontSize: 14,
-          left: 93,
-          width: 230,
+          position: 'absolute',
+          color: '#BEBEBE',
+          fontFamily: 'NotoSansKR-Light',
+          fontSize: 12,
+          right: 20,
         }}>
-        {data.item.body}
+        {data.item.date}
       </Text>
     </View>
   );
@@ -132,18 +162,12 @@ const Alarm = () => {
         </View>
       </View>
       {alarmData ? (
-        <View style={styles.bodyContainer}>
-          <SwipeListView
-            data={alarm}
-            renderItem={renderItem}
-            rightOpenValue={-150}
-            stopRightSwipe={-150}
-            disableRightSwipe={true}
-            previewRowKey={'0'}
-            previewOpenValue={-40}
-            previewOpenDelay={3000}
-          />
-        </View>
+        <FlatList
+          style={styles.bodyContainer}
+          data={alarm}
+          renderItem={renderItem}
+          //keyExtractor={item => item.id}
+        />
       ) : (
         <View
           style={{
@@ -151,15 +175,8 @@ const Alarm = () => {
             justifyContent: 'center',
             backgroundColor: '#FFFFFF',
             flex: 1,
-          }}>
-          <Image
-            style={{
-              width: 261,
-              height: 211,
-            }}
-            source={SubscribeMail}
-          />
-        </View>
+          }}
+        />
       )}
     </View>
   );
