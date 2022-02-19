@@ -19,7 +19,7 @@ const Stacks = () => (
       headerShown: false,
     }}>
     <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
-    <Stack.Screen name="Alarm" component={Alarm} />
+    <Stack.Screen name="Alarm" component={Alarm} options={{headerTitle: ''}} />
     <Stack.Screen
       name="MailSearch"
       component={MailSearch}
