@@ -34,7 +34,7 @@ const Mail = () => {
     setSpread(!spread);
   };
   const onPressSearchPage = () => {
-    navigation.navigate('Stack', {
+    navigation.navigate('Stacks', {
       screen: 'MailSearch',
     });
   };

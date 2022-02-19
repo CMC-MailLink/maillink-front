@@ -17,7 +17,7 @@ const STATUSBAR_HEIGHT = 48;
 const MailHeader = () => {
   const navigation = useNavigation();
   const goToAlarm = () => {
-    navigation.navigate('Stack', {
+    navigation.navigate('Stacks', {
       screen: 'Alarm',
     });
   };

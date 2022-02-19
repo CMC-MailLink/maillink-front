@@ -112,11 +112,11 @@ const MailBody = () => {
     rowList
       ? rowList[rowOpen]
         ? null
-        : navigation.navigate('Stack', {
+        : navigation.navigate('Stacks', {
             screen: 'Reading',
             params: {...data},
           })
-      : navigation.navigate('Stack', {
+      : navigation.navigate('Stacks', {
           screen: 'Reading',
           params: {...data},
         });
