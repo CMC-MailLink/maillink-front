@@ -25,7 +25,7 @@ LogBox.ignoreLogs([
 const Reading = ({navigation: {setOptions}, route: {params}}) => {
   const [subscribe, setSubscribe] = useState(false);
   const onPressSubscribe = () => {
-    //subscribe
+    setSubscribe(!subscribe);
   };
   const navigation = useNavigation();
   const onPressBack = () => {

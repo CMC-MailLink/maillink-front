@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   View,
@@ -7,12 +7,15 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  TouchableWithoutFeedback,
 } from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import SettingProfile from '../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../assets/images/AccordionProfile.png';
 import AccordionProfile2 from '../../assets/images/AccordionProfile2.png';
 import SearchProfile from '../../assets/images/SearchProfile.png';
+import AuthorMail from '../../assets/images/AuthorMail.png';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -41,6 +44,7 @@ const Profile = () => {
     true,
   ]);
   const [category, setCategory] = useState(false);
+  const [recentSelect, setRecentSelect] = useState(true);
 
   const onPressBranch = index => {
     var temp = branchSelect;
@@ -52,6 +56,44 @@ const Profile = () => {
     temp[index] = !temp[index];
     setViveSelect({...temp});
   };
+  const [author, setAuthor] = useState([
+    {name: '이작가', intro: '안녕하세요. 이작가입니다.', order: 1, update: 3},
+    {name: '김작가', intro: '안녕하세요. 김작가입니다.', order: 2, update: 2},
+    {name: '덩이', intro: '안녕하세요. 덩이입니다.', order: 3, update: 1},
+  ]);
+  const onPressRecent = () => {
+    setRecentSelect(true);
+  };
+  const onPressOld = () => {
+    setRecentSelect(false);
+  };
+  const [subscribe, setSubscribe] = useState(false);
+  const onPressSubscribe = () => {
+    setSubscribe(!subscribe);
+  };
+  useEffect(() => {
+    if (recentSelect) {
+      setAuthor(data =>
+        data.slice().sort(function (a, b) {
+          if (a.order >= b.order) {
+            return 1;
+          } else if (a.order < b.order) {
+            return -1;
+          }
+        }),
+      );
+    } else {
+      setAuthor(data =>
+        data.slice().sort(function (a, b) {
+          if (a.update >= b.update) {
+            return 1;
+          } else if (a.update < b.update) {
+            return -1;
+          }
+        }),
+      );
+    }
+  }, [recentSelect]);
 
   return (
     <View style={{flex: 1}}>
@@ -70,19 +112,24 @@ const Profile = () => {
       </View>
       <View style={styles.profileView}></View>
       <View style={styles.profileAccordion}>
-        <Text style={styles.accordionText}>구독작가</Text>
         {category ? (
-          <TouchableOpacity onPress={onPressAccordion}>
-            <Image
-              style={{width: 10, height: 5}}
-              source={AccordionProfile}></Image>
-          </TouchableOpacity>
+          <TouchableWithoutFeedback onPress={onPressAccordion}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.accordionText}>구독작가</Text>
+              <Image
+                style={{width: 10, height: 5}}
+                source={AccordionProfile}></Image>
+            </View>
+          </TouchableWithoutFeedback>
         ) : (
-          <TouchableOpacity onPress={onPressAccordion}>
-            <Image
-              style={{width: 10, height: 5}}
-              source={AccordionProfile2}></Image>
-          </TouchableOpacity>
+          <TouchableWithoutFeedback onPress={onPressAccordion}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.accordionText}>구독작가</Text>
+              <Image
+                style={{width: 10, height: 5}}
+                source={AccordionProfile2}></Image>
+            </View>
+          </TouchableWithoutFeedback>
         )}
         <TouchableOpacity
           style={{position: 'absolute', right: 20}}
@@ -271,7 +318,70 @@ const Profile = () => {
           </View>
         </View>
       ) : null}
-      <View style={styles.bodyHeader}></View>
+      <View style={styles.bodyHeader}>
+        <Text style={{...styles.bodyHeaderText, color: '#828282'}}>
+          총&nbsp;
+        </Text>
+        <Text style={{...styles.bodyHeaderText, color: '#3C3C3C'}}>
+          {author.length}
+        </Text>
+        <Text style={{...styles.bodyHeaderText, color: '#828282'}}>
+          &nbsp;명
+        </Text>
+        <View
+          style={{
+            position: 'absolute',
+            width: 92,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            right: 57,
+          }}>
+          <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
+            <Text
+              style={{
+                ...styles.bodyHeaderTextOrder,
+                color: recentSelect ? '#000000' : '#BEBEBE',
+              }}>
+              최신구독순
+            </Text>
+          </TouchableOpacity>
+          <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
+            •
+          </Text>
+          <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
+            <Text
+              style={{
+                ...styles.bodyHeaderTextOrder,
+                color: recentSelect ? '#BEBEBE' : '#000000',
+              }}>
+              업데이트순
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {author.map((data, index) => (
+        <View key={index} style={styles.bodyItem}>
+          <Image
+            style={{width: 42, height: 42, marginRight: 10}}
+            source={AuthorMail}></Image>
+          <View>
+            <Text style={styles.bodyItemName}>{data.name}</Text>
+            <Text style={styles.bodyItemIntro}>{data.intro}</Text>
+          </View>
+          <TouchableOpacity
+            onPress={onPressSubscribe}
+            style={subscribe ? styles.subscribeView : styles.subscribeNotView}>
+            <View>
+              <Text
+                style={
+                  subscribe ? styles.subscribeText : styles.subscribeNotText
+                }>
+                {subscribe ? '구독중' : '구독하기'}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ))}
     </View>
   );
 };
@@ -326,6 +436,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
+    flexDirection: 'row',
+    paddingLeft: 20,
+    alignItems: 'center',
+  },
+  bodyHeaderText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
   },
   accordionText: {
     fontFamily: 'NotoSansKR-Medium',
@@ -372,6 +489,60 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 26,
     marginRight: 7,
+  },
+  bodyItem: {
+    height: 68,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 20,
+  },
+  bodyItemName: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 14,
+    color: '#3C3C3C',
+  },
+  bodyItemIntro: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#828282',
+  },
+  bodyHeaderTextOrder: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 12,
+    paddingHorizontal: 3,
+  },
+  subscribeView: {
+    position: 'absolute',
+    right: 20,
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    borderColor: '#BEBEBE',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subscribeNotView: {
+    position: 'absolute',
+    right: 20,
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#4562F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subscribeText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 12,
+    color: '#828282',
+  },
+  subscribeNotText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 12,
+    color: '#FFF',
   },
 });
 
