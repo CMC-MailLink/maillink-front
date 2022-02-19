@@ -10,6 +10,7 @@ import {
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
+  useEffect,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthorMail from '../assets/images/AuthorMail.png';
@@ -21,6 +22,7 @@ const Alarm = () => {
   const [alarmData, setAlarmData] = useState(true);
   const [alarmSelect, setAlarmSelect] = useState(true);
   const navigation = useNavigation();
+  const [recentSelect, setRecentSelect] = useState(true);
   const onPressAlarm = () => {
     setAlarmSelect(true);
   };
@@ -113,6 +115,32 @@ const Alarm = () => {
       context: null,
     },
   ]);
+  const [message, setMessage] = useState([
+    {
+      key: '0',
+      sender: '이작가',
+      messageContext: '저도 감사했습니다~',
+      date: '21. 02. 10',
+    },
+    {
+      key: '1',
+      sender: '이작가',
+      messageContext: '안녕하세요~',
+      date: '21. 02. 11',
+    },
+    {
+      key: '2',
+      sender: '이작가',
+      messageContext: '넵 맞습니다!',
+      date: '21. 02. 12',
+    },
+    {
+      key: '3',
+      sender: '이작가',
+      messageContext: '이부분에서는 저렇게 생각했는데 ...',
+      date: '21. 02. 13',
+    },
+  ]);
   //refreshing 기능
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = timeout => {
@@ -146,7 +174,7 @@ const Alarm = () => {
           style={{
             fontFamily: 'NotoSansKR-Bold',
           }}>
-          {data.item.author}&nbsp;
+          {data.item.author ? data.item.author : data.item.sender}&nbsp;
         </Text>
         <Text
           style={{
@@ -163,6 +191,7 @@ const Alarm = () => {
           fontSize: 14,
           left: 93,
         }}>
+        {data.item.messageContext}
         {data.item.newpost ? data.item.title : data.item.context}
       </Text>
       <Text
@@ -189,7 +218,8 @@ const Alarm = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      {/* body */}
+
+      {/* header */}
       <View style={styles.bodyHeader}>
         <View
           style={{
@@ -222,10 +252,12 @@ const Alarm = () => {
           </View>
         </View>
       </View>
+
+      {/* body */}
       {alarmData ? (
         <FlatList
           style={styles.bodyContainer}
-          data={alarm}
+          data={alarmSelect ? alarm : message}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl

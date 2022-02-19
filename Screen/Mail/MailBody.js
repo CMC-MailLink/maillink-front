@@ -123,30 +123,6 @@ const MailBody = () => {
         });
   };
 
-  useEffect(() => {
-    if (mailSelect) {
-      setMail(data =>
-        data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
-            return recentSelect ? -1 : 1;
-          } else if (a.date < b.date) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-    } else {
-      setBookmark(data =>
-        data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
-            return recentSelect ? -1 : 1;
-          } else if (a.date < b.date) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-    }
-  }, [recentSelect, mailSelect]);
-
   const renderItem = (data, rowMap, rowKey) => (
     <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
       <View
