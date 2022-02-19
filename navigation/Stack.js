@@ -1,15 +1,18 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import Mail from '../Screen/Mail/Mail';
 import Alarm from '../Screen/Alarm';
 import MailSearch from '../Screen/Mail/MailSearch';
+import Reading from '../Screen/Reading';
 
 const NativeStack = createNativeStackNavigator();
 
 const Stack = () => {
   return (
     <NativeStack.Navigator
+      sceneContainerStyle={{
+        backgroundColor: '#fff',
+      }}
       screenOptions={{
         headerBackTitleVisible: false,
         headerShadowVisible: false,
@@ -19,12 +22,13 @@ const Stack = () => {
         component={Mail}
         options={{headerShown: false}}
       />
+      <NativeStack.Screen name="Alarm" component={Alarm} />
       <NativeStack.Screen
-        name="Alarm"
-        component={Alarm}
-        options={{headerTitle: ''}}
+        name="MailSearch"
+        component={MailSearch}
+        options={{headerShown: false}}
       />
-      <NativeStack.Screen name="MailSearch" component={MailSearch} />
+      <NativeStack.Screen name="Reading" component={Reading} />
     </NativeStack.Navigator>
   );
 };

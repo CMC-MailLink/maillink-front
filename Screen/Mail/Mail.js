@@ -5,10 +5,10 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
-  Alert,
   Text,
   Animated,
   Easing,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -24,6 +24,8 @@ const Mail = () => {
   const [searchSelect, setSearchSelect] = useState(false);
   const [spread, setSpread] = useState(false);
   const [textDisplay, setTextDisplay] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const spreadAnim = useRef(new Animated.Value(0)).current;
   const onPressSearch = () => {
     setSearchSelect(!searchSelect);
@@ -33,6 +35,11 @@ const Mail = () => {
     navigation.navigate('Stack', {
       screen: 'MailSearch',
     });
+  };
+  const onRefresh = async () => {
+    setRefreshing(true);
+    //refresh
+    setRefreshing(false);
   };
 
   useEffect(() => {
