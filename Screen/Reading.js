@@ -6,10 +6,17 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native';
 import {LogBox} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native';
 
 import AuthorMail from '../assets/images/AuthorMail.png';
+import BackMail2 from '../assets/images/BackMail2.png';
+import SendMail2 from '../assets/images/SendMail2.png';
+import StarMail2 from '../assets/images/StarMail2.png';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -20,9 +27,35 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressSubscribe = () => {
     //subscribe
   };
+  const navigation = useNavigation();
+  const onPressBack = () => {
+    navigation.goBack();
+  };
 
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#F8F8F8'}} />
+      {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.headerView}>
+        <TouchableWithoutFeedback onPress={onPressBack}>
+          <View style={{left: 24}}>
+            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <View style={{position: 'absolute', right: 61}}>
+            <Image style={{width: 21, height: 20.5}} source={StarMail2}></Image>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <View style={{position: 'absolute', right: 22}}>
+            <Image
+              style={{width: 21.54, height: 23.82}}
+              source={SendMail2}></Image>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>{params.item.title}</Text>
         <Text style={styles.dateText}>{params.item.date}</Text>
@@ -95,6 +128,13 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
   );
 };
 const styles = StyleSheet.create({
+  headerView: {
+    width: '100%',
+    height: 91 - 48,
+    backgroundColor: '#F8F8F8',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
   titleView: {
     height: 75,
     borderBottomColor: '#EBEBEB',

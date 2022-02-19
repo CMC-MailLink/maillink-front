@@ -15,7 +15,6 @@ import SubscribeMail from '../../assets/images/SubscribeMail.png';
 import SendMail from '../../assets/images/SendMail.png';
 import StarMail from '../../assets/images/StarMail.png';
 import AuthorMail from '../../assets/images/AuthorMail.png';
-import {set} from 'lodash';
 
 const MailBody = () => {
   const navigation = useNavigation();
@@ -114,11 +113,11 @@ const MailBody = () => {
     rowList
       ? rowList[rowOpen]
         ? null
-        : navigation.navigate('Stack', {
+        : navigation.navigate('Stacks', {
             screen: 'Reading',
             params: {...data},
           })
-      : navigation.navigate('Stack', {
+      : navigation.navigate('Stacks', {
           screen: 'Reading',
           params: {...data},
         });
@@ -328,7 +327,8 @@ const styles = StyleSheet.create({
   bodyContainer: {
     backgroundColor: '#FFFFFF',
     flex: 1,
-    paddingBottom: 103 - 23.78,
+    // paddingBottom: 103 - 23.78,
+    paddingBottom: 103,
   },
   bodyHeader: {
     height: 62.01,
