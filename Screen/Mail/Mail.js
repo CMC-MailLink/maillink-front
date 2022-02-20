@@ -4,11 +4,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Pressable,
-  Text,
-  Animated,
-  Easing,
-  ActivityIndicator,
   StatusBar,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -19,6 +14,8 @@ import MailHeader from './MailHeader';
 import MailBody from './MailBody';
 
 import SearchMail from '../../assets/images/SearchMail.png';
+import LogoMail from '../../assets/images/LogoMail.png';
+import AlarmMail from '../../assets/images/AlarmMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
@@ -43,6 +40,11 @@ const Mail = () => {
     setRefreshing(true);
     //refresh
     setRefreshing(false);
+  };
+  const goToAlarm = () => {
+    navigation.navigate('Stacks', {
+      screen: 'Alarm',
+    });
   };
 
   // useEffect(() => {
@@ -70,7 +72,33 @@ const Mail = () => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="light-content" />
+      <View style={{height: 50, backgroundColor: '#4562F1'}}>
+        <Image
+          style={{
+            position: 'absolute',
+            top: 56.25 - STATUSBAR_HEIGHT,
+            left: 20,
+            width: 101.94,
+            height: 22.5,
+          }}
+          source={LogoMail}
+        />
+      </View>
       <MailHeader></MailHeader>
+      <View style={{position: 'absolute', top: 48, left: 0}}>
+        <TouchableOpacity onPress={goToAlarm}>
+          <Image
+            style={{
+              position: 'absolute',
+              top: 56.24 - STATUSBAR_HEIGHT,
+              left: 349,
+              width: 19,
+              height: 22.51,
+            }}
+            source={AlarmMail}
+          />
+        </TouchableOpacity>
+      </View>
       <MailBody></MailBody>
       {/* Search */}
       {/* <View

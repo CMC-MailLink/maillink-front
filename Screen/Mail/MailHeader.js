@@ -8,56 +8,32 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import LogoMail from '../../assets/images/LogoMail.png';
-import AlarmMail from '../../assets/images/AlarmMail.png';
 import ReaderMail from '../../assets/images/ReaderMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
 const MailHeader = () => {
   const navigation = useNavigation();
-  const goToAlarm = () => {
-    navigation.navigate('Stacks', {
-      screen: 'Alarm',
-    });
-  };
 
   return (
     <View style={styles.header}>
       <Image
         style={{
           position: 'absolute',
-          top: 56.25 - STATUSBAR_HEIGHT,
-          left: 20,
-          width: 101.94,
-          height: 22.5,
-        }}
-        source={LogoMail}
-      />
-      <Image
-        style={{
-          position: 'absolute',
-          top: 35 - STATUSBAR_HEIGHT,
-          left: 122,
-          width: 278,
-          height: 292,
+          top: 74 - STATUSBAR_HEIGHT - 50,
+          left: 192 + 10,
+          width: 171,
+          height: 188,
         }}
         source={ReaderMail}
       />
-      <TouchableWithoutFeedback onPress={goToAlarm}>
-        <Image
-          style={{
-            position: 'absolute',
-            top: 56.24 - STATUSBAR_HEIGHT,
-            left: 349,
-            width: 19,
-            height: 22.51,
-          }}
-          source={AlarmMail}
-        />
-      </TouchableWithoutFeedback>
+
       <View
-        style={{position: 'absolute', top: 113 - STATUSBAR_HEIGHT, left: 20}}>
+        style={{
+          position: 'absolute',
+          top: 113 - STATUSBAR_HEIGHT - 50,
+          left: 20,
+        }}>
         <View style={{flexDirection: 'row'}}>
           <Text
             style={{
@@ -88,7 +64,7 @@ const MailHeader = () => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 261 - STATUSBAR_HEIGHT,
+    height: 261 - STATUSBAR_HEIGHT - 50,
     backgroundColor: '#4562F1',
   },
   headerText: {
