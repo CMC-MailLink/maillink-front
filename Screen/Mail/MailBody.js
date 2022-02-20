@@ -166,7 +166,7 @@ const MailBody = () => {
           }}
           source={AuthorMail}
         />
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text
             style={{
               color: '#4562F1',
@@ -193,6 +193,7 @@ const MailBody = () => {
             fontFamily: 'NotoSansKR-Bold',
             fontSize: 14,
             left: 93,
+            marginBottom: 5,
           }}>
           {data.item.title}
         </Text>
@@ -229,17 +230,17 @@ const MailBody = () => {
       <View style={styles.bodyHeader}>
         <View
           style={{
-            width: 129,
+            width: 111.5,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            left: 36,
+            left: 20.5,
           }}>
           <View style={mailSelect ? styles.bodyHeaderBorder : null}>
             <TouchableOpacity onPress={onPressMail}>
               <Text
                 style={{
                   ...styles.bodyHeaderText,
-                  color: mailSelect ? '#000000' : '#BEBEBE',
+                  color: mailSelect ? '#3C3C3C' : '#BEBEBE',
                 }}>
                 메일함
               </Text>
@@ -327,10 +328,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     flex: 1,
     // paddingBottom: 103 - 23.78,
-    paddingBottom: 103,
+    paddingBottom: 84.5,
   },
   bodyHeader: {
-    height: 62.01,
+    height: 41.63,
     backgroundColor: '#FFFFFF',
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
   },
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
+    fontSize: 14,
     color: '#BEBEBE',
     paddingBottom: 8,
   },

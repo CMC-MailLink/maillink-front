@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
+import {FloatingAction} from 'react-native-floating-action';
 
 import MailHeader from './MailHeader';
 import MailBody from './MailBody';
@@ -23,16 +24,16 @@ const STATUSBAR_HEIGHT = 48;
 
 const Mail = () => {
   const navigation = useNavigation();
-  const [searchSelect, setSearchSelect] = useState(false);
+  // const [searchSelect, setSearchSelect] = useState(false);
   const [spread, setSpread] = useState(false);
   const [textDisplay, setTextDisplay] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const spreadAnim = useRef(new Animated.Value(0)).current;
-  const onPressSearch = () => {
-    setSearchSelect(!searchSelect);
-    setSpread(!spread);
-  };
+  // const spreadAnim = useRef(new Animated.Value(0)).current;
+  // const onPressSearch = () => {
+  //   setSearchSelect(!searchSelect);
+  //   setSpread(!spread);
+  // };
   const onPressSearchPage = () => {
     navigation.navigate('Stacks', {
       screen: 'MailSearch',
@@ -44,25 +45,25 @@ const Mail = () => {
     setRefreshing(false);
   };
 
-  useEffect(() => {
-    spread
-      ? Animated.timing(spreadAnim, {
-          toValue: 1,
-          duration: 200,
-          easing: Easing.linear,
-          useNativeDriver: false,
-        }).start(({finished}) => {
-          setTextDisplay(true);
-        })
-      : Animated.timing(spreadAnim, {
-          toValue: 0,
-          duration: 500,
-          easing: Easing.linear,
-          useNativeDriver: false,
-        }).start(({finished}) => {
-          setTextDisplay(false);
-        });
-  }, [spread, spreadAnim]);
+  // useEffect(() => {
+  //   spread
+  //     ? Animated.timing(spreadAnim, {
+  //         toValue: 1,
+  //         duration: 200,
+  //         easing: Easing.linear,
+  //         useNativeDriver: false,
+  //       }).start(({finished}) => {
+  //         setTextDisplay(true);
+  //       })
+  //     : Animated.timing(spreadAnim, {
+  //         toValue: 0,
+  //         duration: 500,
+  //         easing: Easing.linear,
+  //         useNativeDriver: false,
+  //       }).start(({finished}) => {
+  //         setTextDisplay(false);
+  //       });
+  // }, [spread, spreadAnim]);
 
   return (
     <View style={{flex: 1}}>
@@ -72,7 +73,7 @@ const Mail = () => {
       <MailHeader></MailHeader>
       <MailBody></MailBody>
       {/* Search */}
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           top: 261 - 22,
@@ -120,7 +121,36 @@ const Mail = () => {
             />
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <FloatingAction
+        actions={[
+          {
+            icon: (
+              <Image
+                style={{
+                  width: 22,
+                  height: 22,
+                }}
+                source={SearchMail}
+              />
+            ),
+            name: 'bt_search',
+            position: 1,
+            buttonSize: 50,
+          },
+        ]}
+        color="#FFF"
+        distanceToEdge={{vertical: 110, horizontal: 17}}
+        buttonSize={50}
+        shadow={{
+          shadowOpacity: 0.12,
+          shadowColor: '#000000',
+          shadowRadius: 23,
+        }}
+        overrideWithAction={true}
+        animated={false}
+        onPressItem={name => onPressSearchPage()}
+      />
       {/* </SaferAreaView> */}
     </View>
   );

@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import LogoMail from '../../assets/images/LogoMail.png';
 import AlarmMail from '../../assets/images/AlarmMail.png';
-import BookMail from '../../assets/images/BookMail.png';
+import ReaderMail from '../../assets/images/ReaderMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
@@ -37,12 +37,12 @@ const MailHeader = () => {
       <Image
         style={{
           position: 'absolute',
-          top: 45 - STATUSBAR_HEIGHT,
-          left: 133,
-          width: 269,
-          height: 283,
+          top: 35 - STATUSBAR_HEIGHT,
+          left: 122,
+          width: 278,
+          height: 292,
         }}
-        source={BookMail}
+        source={ReaderMail}
       />
       <TouchableWithoutFeedback onPress={goToAlarm}>
         <Image
