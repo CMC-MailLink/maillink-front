@@ -25,11 +25,16 @@ LogBox.ignoreLogs([
 const Reading = ({navigation: {setOptions}, route: {params}}) => {
   const [subscribe, setSubscribe] = useState(false);
   const onPressSubscribe = () => {
-    //subscribe
+    setSubscribe(!subscribe);
   };
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
+  };
+  const onPressShare = () => {
+    navigation.navigate('Stacks', {
+      screen: 'InstaShare',
+    });
   };
 
   return (
@@ -122,6 +127,9 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
             {params.item.body}
             {params.item.body}
           </Text>
+          <TouchableOpacity onPress={onPressShare}>
+            <Text>Share Instagram</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
