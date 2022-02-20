@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,6 @@ import {
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
-  useEffect,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthorMail from '../assets/images/AuthorMail.png';
@@ -22,16 +21,7 @@ const Alarm = () => {
   const [alarmData, setAlarmData] = useState(true);
   const [alarmSelect, setAlarmSelect] = useState(true);
   const navigation = useNavigation();
-  const [recentSelect, setRecentSelect] = useState(true);
-  const onPressAlarm = () => {
-    setAlarmSelect(true);
-  };
-  const onPressLetter = () => {
-    setAlarmSelect(false);
-  };
-  const onPressBack = () => {
-    navigation.goBack();
-  };
+
   const [alarm, setAlarm] = useState([
     {
       key: '0',
@@ -146,70 +136,97 @@ const Alarm = () => {
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
+  const onPressAlarm = () => {
+    setAlarmSelect(true);
+  };
+  const onPressLetter = () => {
+    setAlarmSelect(false);
+  };
+  const onPressBack = () => {
+    navigation.goBack();
+  };
+  const onPressMessageItem = data => {
+    navigation.navigate('Stacks', {
+      screen: 'Message',
+      params: {...data},
+    });
+  };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
   const renderItem = data => (
-    <View
-      style={{
-        height: 71,
-        backgroundColor: '#FFF',
-        paddingTop: 14,
-        borderBottomColor: '#EBEBEB',
-        borderBottomWidth: 1,
-      }}>
-      <Image
-        style={{position: 'absolute', width: 42, height: 42, left: 36, top: 14}}
-        source={AuthorMail}
-      />
-      <Text
+    <TouchableOpacity
+      disabled={alarmSelect}
+      onPress={e => onPressMessageItem(data)}>
+      <View
         style={{
-          color: '#3C3C3C',
-          fontSize: 14,
-          left: 93,
+          height: 71,
+          backgroundColor: '#FFF',
+          paddingTop: 14,
+          borderBottomColor: '#EBEBEB',
+          borderBottomWidth: 1,
         }}>
+        <Image
+          style={{
+            position: 'absolute',
+            width: 42,
+            height: 42,
+            left: 36,
+            top: 14,
+          }}
+          source={AuthorMail}
+        />
         <Text
           style={{
-            fontFamily: 'NotoSansKR-Bold',
+            color: '#3C3C3C',
+            fontSize: 14,
+            left: 93,
           }}>
-          {data.item.author ? data.item.author : data.item.sender}&nbsp;
+          <Text
+            style={{
+              fontFamily: 'NotoSansKR-Bold',
+            }}>
+            {data.item.author ? data.item.author : data.item.sender}&nbsp;
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'NotoSansKR-Regular',
+            }}>
+            {data.item.newpost ? data.item.newpost : data.item.subscribe}
+          </Text>
         </Text>
         <Text
           style={{
+            paddingTop: 3,
+            color: '#828282',
             fontFamily: 'NotoSansKR-Regular',
+            fontSize: 14,
+            left: 93,
           }}>
-          {data.item.newpost ? data.item.newpost : data.item.subscribe}
+          {data.item.messageContext}
+          {data.item.newpost ? data.item.title : data.item.context}
         </Text>
-      </Text>
-      <Text
-        style={{
-          paddingTop: 3,
-          color: '#828282',
-          fontFamily: 'NotoSansKR-Regular',
-          fontSize: 14,
-          left: 93,
-        }}>
-        {data.item.messageContext}
-        {data.item.newpost ? data.item.title : data.item.context}
-      </Text>
-      <Text
-        style={{
-          position: 'absolute',
-          color: '#BEBEBE',
-          fontFamily: 'NotoSansKR-Light',
-          fontSize: 12,
-          right: 20,
-        }}>
-        {data.item.date}
-      </Text>
-    </View>
+        <Text
+          style={{
+            position: 'absolute',
+            color: '#BEBEBE',
+            fontFamily: 'NotoSansKR-Light',
+            fontSize: 12,
+            right: 20,
+          }}>
+          {data.item.date}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
+
+      {/* upperHeader */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -219,7 +236,7 @@ const Alarm = () => {
         </TouchableWithoutFeedback>
       </View>
 
-      {/* header */}
+      {/* mainHeader */}
       <View style={styles.bodyHeader}>
         <View
           style={{

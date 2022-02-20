@@ -7,6 +7,7 @@ import Reading from '../Screen/Reading';
 import InstaShare from '../Screen/InstaShare';
 import ProfileSearch from '../Screen/Profile/ProfileSearch';
 import Setting from '../Screen/Setting';
+import Message from '../Screen/Message';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ const Stacks = () => (
     }}>
     <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
     <Stack.Screen name="Alarm" component={Alarm} options={{headerTitle: ''}} />
+    <Stack.Screen
+      name="Message"
+      component={Message}
+      options={{headerTitle: ''}}
+    />
     <Stack.Screen
       name="MailSearch"
       component={MailSearch}
