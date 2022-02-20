@@ -114,19 +114,19 @@ const Alarm = () => {
     },
     {
       key: '1',
-      sender: '이작가',
+      sender: '덩이',
       messageContext: '안녕하세요~',
       date: '21. 02. 11',
     },
     {
       key: '2',
-      sender: '이작가',
+      sender: '동구리',
       messageContext: '넵 맞습니다!',
       date: '21. 02. 12',
     },
     {
       key: '3',
-      sender: '이작가',
+      sender: '비비',
       messageContext: '이부분에서는 저렇게 생각했는데 ...',
       date: '21. 02. 13',
     },
@@ -156,7 +156,7 @@ const Alarm = () => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  const renderItem = data => (
+  const renderItem = (data, rowMap) => (
     <TouchableOpacity
       disabled={alarmSelect}
       onPress={e => onPressMessageItem(data)}>
