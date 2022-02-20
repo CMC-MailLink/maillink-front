@@ -6,12 +6,10 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Pressable,
   SafeAreaView,
   StatusBar,
   TouchableWithoutFeedback,
   Modal,
-  TextInput,
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
@@ -22,64 +20,47 @@ import SearchProfile from '../../assets/images/SearchProfile.png';
 import AuthorMail from '../../assets/images/AuthorMail.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
+import ProfileModal from './ProfileModal';
 
 const Profile = () => {
   const navigation = useNavigation();
-  const onPressSearchPage = () => {
-    navigation.navigate('Stacks', {
-      screen: 'ProfileSearch',
-    });
-  };
-  const onPressSetting = () => {
-    navigation.navigate('Stacks', {
-      screen: 'Setting',
-    });
-  };
-  const onPressAccordion = () => {
-    setCategory(!category);
-  };
-  const [branchSelect, setBranchSelect] = useState([true, true, true]);
-  const [viveSelect, setViveSelect] = useState([
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
+  const [branch, setBranch] = useState([
+    {category: '시', select: true},
+    {category: '소설', select: true},
+    {category: '에세이', select: true},
   ]);
-  const [category, setCategory] = useState(false);
-  const [recentSelect, setRecentSelect] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const onPressBranch = index => {
-    var temp = branchSelect;
-    temp[index] = !temp[index];
-    setBranchSelect({...temp});
-  };
-  const onPressVive = index => {
-    var temp = viveSelect;
-    temp[index] = !temp[index];
-    setViveSelect({...temp});
-  };
+  const [vive, setVive] = useState([
+    {category: '편안', select: true},
+    {category: '맑은', select: true},
+    {category: '서정', select: true},
+    {category: '잔잔', select: true},
+    {category: '명랑', select: true},
+    {category: '유쾌', select: true},
+    {category: '달달', select: true},
+    {category: '키치', select: true},
+  ]);
   const [author, setAuthor] = useState([
     {name: '이작가', intro: '안녕하세요. 이작가입니다.', order: 1, update: 3},
     {name: '김작가', intro: '안녕하세요. 김작가입니다.', order: 2, update: 2},
     {name: '덩이', intro: '안녕하세요. 덩이입니다.', order: 3, update: 1},
   ]);
-  const onPressRecent = () => {
-    setRecentSelect(true);
-  };
-  const onPressOld = () => {
-    setRecentSelect(false);
-  };
+  const [category, setCategory] = useState(false);
+  const [recentSelect, setRecentSelect] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
-  const onPressSubscribe = () => {
-    setSubscribe(!subscribe);
-  };
   const [name, setName] = useState('영이');
   const [editName, setEditName] = useState('영이');
+
+  const onPressBranch = index => {
+    var temp = branch;
+    temp[index].select = !temp[index].select;
+    setBranch([...temp]);
+  };
+  const onPressVive = index => {
+    var temp = vive;
+    temp[index].select = !temp[index].select;
+    setVive([...temp]);
+  };
   const onPressModalConfirm = () => {
     setName(editName);
     setModalVisible(!modalVisible);
@@ -120,65 +101,22 @@ const Profile = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>이름 수정</Text>
-            <TextInput
-              style={{
-                width: 208,
-                color: '#3C3C3C',
-                textAlign: 'center',
-                fontFamily: 'NotoSansKR-Bold',
-                fontSize: 24,
-                paddingBottom: 10,
-                borderBottomColor: '#4562F1',
-                borderBottomWidth: 1,
-              }}
-              value={editName}
-              onChangeText={setEditName}></TextInput>
-            <Text
-              style={{
-                marginTop: 10,
-                fontFamily: 'NotoSansKR-Light',
-                fontSize: 14,
-                color: '#BEBEBE',
-              }}>
-              사용할 수 있는 이름이에요.
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Light',
-                fontSize: 14,
-                color: '#BEBEBE',
-              }}>
-              (최대 한글 6자)
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                position: 'absolute',
-                bottom: 27,
-                right: 27,
-              }}>
-              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                <View style={{marginRight: 27}}>
-                  <Text style={styles.modalCancel}>취소</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={onPressModalConfirm}>
-                <View>
-                  <Text style={styles.modalConfirm}>확인</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+        <ProfileModal
+          editName={editName}
+          setEditName={setEditName}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          onPressModalConfirm={onPressModalConfirm}></ProfileModal>
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
         <TouchableOpacity
           style={{position: 'absolute', right: 20, bottom: 18}}
-          onPress={onPressSetting}>
+          onPress={() => {
+            navigation.navigate('Stacks', {
+              screen: 'Setting',
+            });
+          }}>
           <Image
             style={{
               width: 18.68,
@@ -188,7 +126,12 @@ const Profile = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.profileView}>
-        <View style={{alignItems: 'center', top: -39}}>
+        <View
+          style={{
+            alignItems: 'center',
+            top: -39,
+            width: 80,
+          }}>
           <Image
             style={{width: 78, height: 78}}
             source={DefaultProfile}></Image>
@@ -208,7 +151,7 @@ const Profile = () => {
       </View>
       <View style={styles.profileAccordion}>
         {category ? (
-          <TouchableWithoutFeedback onPress={onPressAccordion}>
+          <TouchableWithoutFeedback onPress={() => setCategory(!category)}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.accordionText}>구독작가</Text>
               <Image
@@ -217,7 +160,7 @@ const Profile = () => {
             </View>
           </TouchableWithoutFeedback>
         ) : (
-          <TouchableWithoutFeedback onPress={onPressAccordion}>
+          <TouchableWithoutFeedback onPress={() => setCategory(!category)}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.accordionText}>구독작가</Text>
               <Image
@@ -228,7 +171,11 @@ const Profile = () => {
         )}
         <TouchableOpacity
           style={{position: 'absolute', right: 20}}
-          onPress={onPressSearchPage}>
+          onPress={() =>
+            navigation.navigate('Stacks', {
+              screen: 'ProfileSearch',
+            })
+          }>
           <Image style={{width: 16, height: 16}} source={SearchProfile}></Image>
         </TouchableOpacity>
       </View>
@@ -236,178 +183,97 @@ const Profile = () => {
         <View style={styles.categoryView}>
           <View style={styles.branchView}>
             <Text style={styles.categoryText}>갈래</Text>
-            <TouchableOpacity onPress={e => onPressBranch(0)}>
-              <View
-                style={{
-                  ...styles.itemViewOne,
-                  borderColor: branchSelect[0] ? '#4562F1' : '#EBEBEB',
-                }}>
-                <Text
-                  style={{
-                    ...styles.itemText,
-                    color: branchSelect[0] ? '#4562F1' : '#828282',
-                  }}>
-                  시
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={e => onPressBranch(1)}>
-              <View
-                style={{
-                  ...styles.itemViewTwo,
-                  borderColor: branchSelect[1] ? '#4562F1' : '#EBEBEB',
-                }}>
-                <Text
-                  style={{
-                    ...styles.itemText,
-                    color: branchSelect[0] ? '#4562F1' : '#828282',
-                  }}>
-                  소설
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={e => onPressBranch(2)}>
-              <View
-                style={{
-                  ...styles.itemViewThree,
-                  borderColor: branchSelect[2] ? '#4562F1' : '#EBEBEB',
-                }}>
-                <Text
-                  style={{
-                    ...styles.itemText,
-                    color: branchSelect[0] ? '#4562F1' : '#828282',
-                  }}>
-                  에세이
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <View
+              style={{flexDirection: 'row', position: 'absolute', left: 58}}>
+              {branch.length
+                ? branch.map((data, index) => (
+                    <TouchableOpacity
+                      onPress={e => onPressBranch(index)}
+                      key={index}>
+                      <View
+                        style={{
+                          ...styles.itemViewTwo,
+                          borderColor: data.select ? '#4562F1' : '#EBEBEB',
+                        }}>
+                        <Text
+                          style={{
+                            ...styles.itemText,
+                            color: data.select ? '#4562F1' : '#828282',
+                          }}>
+                          {data.category}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))
+                : null}
+            </View>
           </View>
           <View style={styles.viveView}>
             <Text style={styles.categoryText}>분위기</Text>
-            <View>
-              <View style={{flexDirection: 'row', marginBottom: 10}}>
-                <TouchableOpacity onPress={e => onPressVive(0)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[0] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[0] ? '#4562F1' : '#828282',
-                      }}>
-                      편안
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={e => onPressVive(1)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[1] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[1] ? '#4562F1' : '#828282',
-                      }}>
-                      맑은
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={e => onPressVive(2)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[2] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[2] ? '#4562F1' : '#828282',
-                      }}>
-                      서정
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={e => onPressVive(3)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[3] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[3] ? '#4562F1' : '#828282',
-                      }}>
-                      잔잔
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={e => onPressVive(4)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[4] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[4] ? '#4562F1' : '#828282',
-                      }}>
-                      명랑
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+            <View
+              style={{
+                height: 72,
+                justifyContent: 'space-evenly',
+                position: 'absolute',
+                left: 58,
+              }}>
+              <View style={{flexDirection: 'row'}}>
+                {vive.length
+                  ? vive.map((data, index) => {
+                      if (index > 4) return null;
+                      else
+                        return (
+                          <TouchableOpacity
+                            onPress={e => onPressVive(index)}
+                            key={index}>
+                            <View
+                              style={{
+                                ...styles.itemViewTwo,
+                                borderColor: data.select
+                                  ? '#4562F1'
+                                  : '#EBEBEB',
+                              }}>
+                              <Text
+                                style={{
+                                  ...styles.itemText,
+                                  color: data.select ? '#4562F1' : '#828282',
+                                }}>
+                                {data.category}
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                    })
+                  : null}
               </View>
               <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={e => onPressVive(5)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[5] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[5] ? '#4562F1' : '#828282',
-                      }}>
-                      유쾌
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={e => onPressVive(6)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[6] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[6] ? '#4562F1' : '#828282',
-                      }}>
-                      달달
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={e => onPressVive(7)}>
-                  <View
-                    style={{
-                      ...styles.itemViewTwo,
-                      borderColor: viveSelect[7] ? '#4562F1' : '#EBEBEB',
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: viveSelect[7] ? '#4562F1' : '#828282',
-                      }}>
-                      키치
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                {vive.length
+                  ? vive.map((data, index) => {
+                      if (index < 5) return null;
+                      else
+                        return (
+                          <TouchableOpacity
+                            onPress={e => onPressVive(index)}
+                            key={index}>
+                            <View
+                              style={{
+                                ...styles.itemViewTwo,
+                                borderColor: data.select
+                                  ? '#4562F1'
+                                  : '#EBEBEB',
+                              }}>
+                              <Text
+                                style={{
+                                  ...styles.itemText,
+                                  color: data.select ? '#4562F1' : '#828282',
+                                }}>
+                                {data.category}
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                    })
+                  : null}
               </View>
             </View>
           </View>
@@ -431,7 +297,9 @@ const Profile = () => {
             justifyContent: 'space-between',
             right: 57,
           }}>
-          <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
+          <TouchableOpacity
+            onPress={() => setRecentSelect(true)}
+            activeOpacity={1}>
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
@@ -443,7 +311,9 @@ const Profile = () => {
           <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
             •
           </Text>
-          <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
+          <TouchableOpacity
+            onPress={() => setRecentSelect(false)}
+            activeOpacity={1}>
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
@@ -464,7 +334,7 @@ const Profile = () => {
             <Text style={styles.bodyItemIntro}>{data.intro}</Text>
           </View>
           <TouchableOpacity
-            onPress={onPressSubscribe}
+            onPress={() => setSubscribe(!subscribe)}
             style={subscribe ? styles.subscribeView : styles.subscribeNotView}>
             <View>
               <Text
@@ -499,6 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomColor: '#F8F8F8',
     borderBottomWidth: 3,
+    alignItems: 'center',
   },
   profileAccordion: {
     height: 42,
@@ -548,7 +419,6 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
-    marginRight: 30,
   },
   itemViewOne: {
     width: 42,
@@ -662,37 +532,6 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#3C3C3C',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(52, 52, 52, 0.3)',
-  },
-  modalView: {
-    width: 330,
-    height: 296,
-    borderRadius: 15,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalHeader: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#3C3C3C',
-    position: 'absolute',
-    top: 20,
-  },
-  modalCancel: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#BEBEBE',
-  },
-  modalConfirm: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#4562F1',
   },
 });
 
