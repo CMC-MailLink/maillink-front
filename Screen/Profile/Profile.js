@@ -21,6 +21,7 @@ import AuthorMail from '../../assets/images/AuthorMail.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import ProfileModal from './ProfileModal';
+import {defaultPath} from 'tough-cookie';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -50,6 +51,7 @@ const Profile = () => {
   const [subscribe, setSubscribe] = useState(false);
   const [name, setName] = useState('영이');
   const [editName, setEditName] = useState('영이');
+  const [imageUri, setImageUri] = useState('');
 
   const onPressBranch = index => {
     var temp = branch;
@@ -64,6 +66,36 @@ const Profile = () => {
   const onPressModalConfirm = () => {
     setName(editName);
     setModalVisible(!modalVisible);
+  };
+  const [filePath, setFilePath] = useState(null);
+  const [fileData, setFileData] = useState(null);
+  const [fileUri, setFileUri] = useState(null);
+
+  const onPressEditImage = async () => {
+    const options = {
+      storageOptions: {
+        path: 'images',
+        mediaType: 'photo',
+        maxWidth: 78,
+        maxHeight: 78,
+      },
+      includeBase64: true,
+    };
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+        };
+        setImageUri(source);
+      }
+    });
   };
 
   useEffect(() => {
@@ -132,12 +164,16 @@ const Profile = () => {
             top: -39,
             width: 80,
           }}>
-          <Image
-            style={{width: 78, height: 78}}
-            source={DefaultProfile}></Image>
-          <Image
-            style={{width: 42, height: 42, top: -31, left: 25}}
-            source={ImageEditProfile}></Image>
+          <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <Image
+              style={{width: 78, height: 78, borderRadius: 90}}
+              source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <Image
+              style={{width: 42, height: 42, top: -31, left: 25}}
+              source={ImageEditProfile}></Image>
+          </TouchableWithoutFeedback>
           <View style={{alignItems: 'center', top: -37}}>
             <Text style={styles.profileName}>{name}</Text>
             <Text style={styles.profileCategory}>독자님</Text>
