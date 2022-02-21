@@ -6,6 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
@@ -14,6 +16,9 @@ import SubscribeMail from '../../assets/images/SubscribeMail.png';
 import SendMail from '../../assets/images/SendMail.png';
 import StarMail from '../../assets/images/StarMail.png';
 import AuthorMail from '../../assets/images/AuthorMail.png';
+import ReaderMail from '../../assets/images/ReaderMail.png';
+
+const STATUSBAR_HEIGHT = 48;
 
 const MailBody = () => {
   const navigation = useNavigation();
@@ -44,6 +49,27 @@ const MailBody = () => {
     },
     {
       key: '3',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+    },
+    {
+      key: '4',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+    },
+    {
+      key: '5',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+    },
+    {
+      key: '6',
       author: '최작가',
       title: '파란 하늘',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
@@ -225,105 +251,193 @@ const MailBody = () => {
     </View>
   );
 
+  const [refreshing, setRefreshing] = React.useState(false);
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   return (
     <View style={{flex: 1}}>
-      <View style={styles.bodyHeader}>
+      <View
+        style={{
+          height: 300,
+          width: '100%',
+          backgroundColor: '#4562F1',
+          position: 'absolute',
+        }}></View>
+      <ScrollView
+        stickyHeaderIndices={[2]}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View
           style={{
-            width: 111.5,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            left: 20.5,
-          }}>
-          <View style={mailSelect ? styles.bodyHeaderBorder : null}>
-            <TouchableOpacity onPress={onPressMail}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: mailSelect ? '#3C3C3C' : '#BEBEBE',
-                }}>
-                메일함
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={mailSelect ? null : styles.bodyHeaderBorder}>
-            <TouchableOpacity onPress={onPressSave}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: mailSelect ? '#BEBEBE' : '#000000',
-                }}>
-                저장함
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View
-          style={{
+            backgroundColor: 'red',
+            height: -300,
             position: 'absolute',
-            width: 92,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            right: 19,
-          }}>
-          <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
-            <Text
-              style={{
-                ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#000000' : '#BEBEBE',
-              }}>
-              최신순
-            </Text>
-          </TouchableOpacity>
-          <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
-            •
-          </Text>
-          <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
-            <Text
-              style={{
-                ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#BEBEBE' : '#000000',
-              }}>
-              오래된순
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {mailDataExist ? (
-        <View style={styles.bodyContainer}>
-          <SwipeListView
-            data={mailSelect ? mail : bookmark}
-            renderItem={renderItem}
-            renderHiddenItem={renderHiddenItem}
-            rightOpenValue={-150}
-            stopRightSwipe={-150}
-            disableRightSwipe={true}
-            onRowOpen={onRowOpen}
-            onRowClose={onRowClose}
-          />
-        </View>
-      ) : (
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
-            flex: 1,
-          }}>
+            top: 300,
+            left: 0,
+            right: 0,
+          }}
+        />
+        <View style={styles.header}>
           <Image
             style={{
-              width: 261,
-              height: 211,
+              position: 'absolute',
+              top: 0,
+              right: 30,
+              width: 166,
+              height: 178,
             }}
-            source={SubscribeMail}
+            source={ReaderMail}
           />
+
+          <View
+            style={{
+              position: 'absolute',
+              top: 113 - STATUSBAR_HEIGHT - 35,
+              left: 20,
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  fontFamily: 'NotoSansKR-Bold',
+                  ...styles.headerText,
+                }}>
+                영이&nbsp;
+              </Text>
+              <Text
+                style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
+                님,{' '}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{fontFamily: 'NotoSansKR-Bold', ...styles.headerText}}>
+                0&nbsp;
+              </Text>
+              <Text
+                style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
+                개의 메일이
+              </Text>
+            </View>
+            <Text
+              style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
+              도착했습니다.
+            </Text>
+          </View>
         </View>
-      )}
+        <View style={styles.bodyHeader}>
+          <View
+            style={{
+              width: 111.5,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              left: 20.5,
+            }}>
+            <View style={mailSelect ? styles.bodyHeaderBorder : null}>
+              <TouchableOpacity onPress={onPressMail}>
+                <Text
+                  style={{
+                    ...styles.bodyHeaderText,
+                    color: mailSelect ? '#3C3C3C' : '#BEBEBE',
+                  }}>
+                  메일함
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={mailSelect ? null : styles.bodyHeaderBorder}>
+              <TouchableOpacity onPress={onPressSave}>
+                <Text
+                  style={{
+                    ...styles.bodyHeaderText,
+                    color: mailSelect ? '#BEBEBE' : '#000000',
+                  }}>
+                  저장함
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              width: 92,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              right: 19,
+            }}>
+            <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
+              <Text
+                style={{
+                  ...styles.bodyHeaderTextOrder,
+                  color: recentSelect ? '#000000' : '#BEBEBE',
+                }}>
+                최신순
+              </Text>
+            </TouchableOpacity>
+            <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
+              •
+            </Text>
+            <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
+              <Text
+                style={{
+                  ...styles.bodyHeaderTextOrder,
+                  color: recentSelect ? '#BEBEBE' : '#000000',
+                }}>
+                오래된순
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {mailDataExist ? (
+          <View style={styles.bodyContainer}>
+            <SwipeListView
+              data={mailSelect ? mail : bookmark}
+              renderItem={renderItem}
+              renderHiddenItem={renderHiddenItem}
+              rightOpenValue={-150}
+              stopRightSwipe={-150}
+              disableRightSwipe={true}
+              onRowOpen={onRowOpen}
+              onRowClose={onRowClose}
+            />
+          </View>
+        ) : (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#FFFFFF',
+              flex: 1,
+            }}>
+            <Image
+              style={{
+                width: 261,
+                height: 211,
+              }}
+              source={SubscribeMail}
+            />
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  header: {
+    height: 261 - STATUSBAR_HEIGHT - 35,
+    backgroundColor: '#4562F1',
+  },
+  headerText: {
+    fontSize: 25,
+    color: '#FFFFFF',
+    includeFontPadding: false,
+  },
   bodyContainer: {
     backgroundColor: '#FFFFFF',
     flex: 1,

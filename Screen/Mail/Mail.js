@@ -5,6 +5,8 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  ScrollView,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
@@ -67,12 +69,19 @@ const Mail = () => {
   //       });
   // }, [spread, spreadAnim]);
 
+  const [offsetY, setOffsetY] = useState(0);
+  const onScroll = event => {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  };
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="light-content" />
-      <View style={{height: 50, backgroundColor: '#4562F1'}}>
+      <View style={{height: 35, backgroundColor: '#4562F1'}}>
         <Image
           style={{
             position: 'absolute',
@@ -83,9 +92,6 @@ const Mail = () => {
           }}
           source={LogoMail}
         />
-      </View>
-      <MailHeader></MailHeader>
-      <View style={{position: 'absolute', top: 48, left: 0}}>
         <TouchableOpacity onPress={goToAlarm}>
           <Image
             style={{
@@ -99,6 +105,8 @@ const Mail = () => {
           />
         </TouchableOpacity>
       </View>
+      {/* <View style={{height: 100, backgroundColor: 'pink'}}></View> */}
+      {/* <MailHeader></MailHeader> */}
       <MailBody></MailBody>
       {/* Search */}
       {/* <View

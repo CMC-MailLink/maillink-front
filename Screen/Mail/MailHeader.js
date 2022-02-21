@@ -1,29 +1,20 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 import ReaderMail from '../../assets/images/ReaderMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
 const MailHeader = () => {
-  const navigation = useNavigation();
-
   return (
     <View style={styles.header}>
       <Image
         style={{
           position: 'absolute',
-          top: 74 - STATUSBAR_HEIGHT - 50,
-          left: 192 + 10,
-          width: 171,
-          height: 188,
+          top: 0,
+          right: 30,
+          width: 166,
+          height: 178,
         }}
         source={ReaderMail}
       />
@@ -31,7 +22,7 @@ const MailHeader = () => {
       <View
         style={{
           position: 'absolute',
-          top: 113 - STATUSBAR_HEIGHT - 50,
+          top: 113 - STATUSBAR_HEIGHT - 35,
           left: 20,
         }}>
         <View style={{flexDirection: 'row'}}>
@@ -64,7 +55,7 @@ const MailHeader = () => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 261 - STATUSBAR_HEIGHT - 50,
+    height: 261 - STATUSBAR_HEIGHT - 35,
     backgroundColor: '#4562F1',
   },
   headerText: {

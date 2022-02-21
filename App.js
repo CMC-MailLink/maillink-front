@@ -24,7 +24,7 @@ const MyTheme = {
 };
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   setCustomText(customTextProps);
   useEffect(() => {
     SplashScreen.hide();
