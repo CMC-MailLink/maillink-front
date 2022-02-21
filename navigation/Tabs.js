@@ -24,6 +24,7 @@ const CustomTabBarButton = ({children, onPress}) => (
 const Tabs = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Mail"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: styles.navigator,

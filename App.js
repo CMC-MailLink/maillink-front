@@ -7,6 +7,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 
+import SignIn from './Screen/Login/SignIn';
+
 const customTextProps = {
   style: {
     fontFamily: 'NotoSansKR-regular',
@@ -22,10 +24,15 @@ const MyTheme = {
 };
 
 const App = () => {
+  const [isLogged, setIsLogged] = useState(false);
   setCustomText(customTextProps);
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  if (!isLogged) {
+    return <SignIn></SignIn>;
+  }
 
   return (
     <SafeAreaProvider>
