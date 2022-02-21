@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import Root from './navigation/Root';
 import {setCustomText} from 'react-native-global-props';
 import {StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 
 const customTextProps = {
   style: {
@@ -22,6 +23,9 @@ const MyTheme = {
 
 const App = () => {
   setCustomText(customTextProps);
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <SafeAreaProvider>
