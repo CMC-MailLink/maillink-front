@@ -7,7 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 
-const ProfileModal = ({
+const ReaderProfileModal = ({
   editName,
   setEditName,
   modalVisible,
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
     right: 27,
   },
 });
-export default ProfileModal;
+export default ReaderProfileModal;

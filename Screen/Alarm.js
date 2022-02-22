@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import AuthorMail from '../assets/images/AuthorMail.png';
+import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
 import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 const STATUSBAR_HEIGHT = 48;
@@ -146,7 +146,7 @@ const Alarm = () => {
     navigation.goBack();
   };
   const onPressMessageItem = data => {
-    navigation.navigate('Stacks', {
+    navigation.navigate('ReaderStacks', {
       screen: 'Message',
       params: {...data},
     });
@@ -176,7 +176,7 @@ const Alarm = () => {
             left: 36,
             top: 14,
           }}
-          source={AuthorMail}
+          source={AuthorProfileImage}
         />
         <Text
           style={{

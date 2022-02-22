@@ -14,7 +14,8 @@ target 'MailLinkApp' do
 
 
 
-  pod 'RNShare', :path => '../node_modules/react-native-share'
+
+
 
   target 'MailLinkAppTests' do
     inherit! :complete

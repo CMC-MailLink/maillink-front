@@ -1,76 +1,77 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import Search from '../Screen/Search';
-import Profile from '../Screen/Profile/Profile';
 
-import LogoTabs from '../assets/images/LogoTabs.png';
-import SearchTabs from '../assets/images/SearchTabs.png';
-import ProfileTabs from '../assets/images/ProfileTabs.png';
-import Mail from '../Screen/Mail/Mail.js';
+import AuthorWrite from '../../Screen/Author/Write/AuthorWrite';
+import AuthorMail from '../../Screen/Author/Mail/AuthorMail';
+import AuthorProfile from '../../Screen/Author/Profile/AuthorProfile';
 
-const Tab = createBottomTabNavigator();
+import LogoTabs from '../../assets/images/LogoTabs.png';
+import ProfileTabs from '../../assets/images/ProfileTabs.png';
+import WriteTabs from '../../assets/images/WriteTabs.png';
+
+const AuthorTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={styles.customButton}
-    activeOpacity={1}>
-    <View style={styles.customView}>{children}</View>
-  </TouchableOpacity>
+  <View style={{}}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.customButton}
+      activeOpacity={1}>
+      <View style={styles.customView}>{children}</View>
+    </TouchableOpacity>
+  </View>
 );
 
-const Tabs = () => {
+const AuthorTabs = () => {
   return (
-    <Tab.Navigator
+    <AuthorTab.Navigator
+      initialRouteName="AuthorMail"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: styles.navigator,
       }}>
-      <Tab.Screen
-        name="Search"
-        component={Search}
+      <AuthorTab.Screen
+        name="AuthorWrite"
+        component={AuthorWrite}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image
-                style={{width: 31.03, height: 31.04}}
-                source={SearchTabs}
-              />
-              <Text style={{top: 4, ...styles.iconText}}>작가찾기</Text>
+              <Image style={{width: 21, height: 21}} source={WriteTabs} />
+              <Text style={{top: 4, ...styles.iconText}}>메일쓰기</Text>
             </View>
           ),
         }}
       />
-      <Tab.Screen
-        name="Mail"
-        component={Mail}
+      <AuthorTab.Screen
+        name="AuthorMail"
+        component={AuthorMail}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View>
-              <Image style={{width: 42, height: 33}} source={LogoTabs} />
+              <Image style={{width: 33.6, height: 26.4}} source={LogoTabs} />
             </View>
           ),
           tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
-      <Tab.Screen
+      <AuthorTab.Screen
         style={{justifyContent: 'center'}}
-        name="Profile"
-        component={Profile}
+        name="AuthorProfile"
+        component={AuthorProfile}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image style={{width: 24, height: 29}} source={ProfileTabs} />
+              <Image style={{width: 18, height: 21.27}} source={ProfileTabs} />
               <Text style={{top: 5, ...styles.iconText}}>프로필</Text>
             </View>
           ),
         }}
       />
-    </Tab.Navigator>
+    </AuthorTab.Navigator>
   );
 };
 
@@ -81,14 +82,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     // height: 103 - 23.78,
-    height: 103,
+    height: 84.5,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: -6,
+      height: -3,
     },
-    shadowOpacity: 0.07,
-    shadowRadius: 30,
+    shadowOpacity: 0.12,
+    shadowRadius: 23,
   },
   customButton: {
     top: -21,
@@ -103,8 +104,8 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   customView: {
-    width: 80,
-    height: 80,
+    width: 64,
+    height: 64,
     borderRadius: 90,
     backgroundColor: '#4562F1',
   },
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
   iconText: {
     color: '#BEBEBE',
     fontFamily: 'NotoSansKR-Medium',
-    fontSize: 12,
+    fontSize: 10,
   },
 });
 
-export default Tabs;
+export default AuthorTabs;

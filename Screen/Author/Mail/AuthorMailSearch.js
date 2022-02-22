@@ -11,14 +11,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import BackMail from '../../assets/images/BackMail.png';
-import SearchMail from '../../assets/images/SearchMail.png';
-import RecentSearchMail from '../../assets/images/RecentSearchMail.png';
-import DeleteMail from '../../assets/images/DeleteMail.png';
-import NoDataMail from '../../assets/images/NoDataMail.png';
-import AuthorMail from '../../assets/images/AuthorMail.png';
+import BackMail from '../../../assets/images/BackMail.png';
+import SearchMail from '../../../assets/images/SearchMail.png';
+import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
+import DeleteMail from '../../../assets/images/DeleteMail.png';
+import NoDataMail from '../../../assets/images/NoDataMail.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
-const MailSearch = () => {
+const AuthorMailSearch = () => {
   const [recentSearch, setRecentSearch] = useState([
     '이작가',
     '별 헤는 밤',
@@ -87,8 +87,8 @@ const MailSearch = () => {
     setResult([...res]);
   };
   const onPressMailItem = data => {
-    navigation.navigate('Stacks', {
-      screen: 'Reading',
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorReading',
       params: {item: {...data}},
     });
   };
@@ -159,7 +159,7 @@ const MailSearch = () => {
                         left: 36,
                         top: 14,
                       }}
-                      source={AuthorMail}
+                      source={AuthorProfileImage}
                     />
                     <View style={{flexDirection: 'row'}}>
                       <Text
@@ -317,4 +317,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MailSearch;
+export default AuthorMailSearch;

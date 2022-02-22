@@ -1,64 +1,32 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import LogoMail from '../../assets/images/LogoMail.png';
-import AlarmMail from '../../assets/images/AlarmMail.png';
-import BookMail from '../../assets/images/BookMail.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
 const STATUSBAR_HEIGHT = 48;
 
-const MailHeader = () => {
-  const navigation = useNavigation();
-  const goToAlarm = () => {
-    navigation.navigate('Stacks', {
-      screen: 'Alarm',
-    });
-  };
-
+const AuthorMailHeader = () => {
   return (
     <View style={styles.header}>
       <Image
         style={{
           position: 'absolute',
-          top: 56.25 - STATUSBAR_HEIGHT,
-          left: 20,
-          width: 101.94,
-          height: 22.5,
+          top: 0,
+          right: 30,
+          width: 166,
+          height: 178,
         }}
-        source={LogoMail}
+        source={AuthorProfileImage}
       />
-      <Image
+
+      <View
         style={{
           position: 'absolute',
-          top: 45 - STATUSBAR_HEIGHT,
-          left: 133,
-          width: 269,
-          height: 283,
-        }}
-        source={BookMail}
-      />
-      <TouchableWithoutFeedback onPress={goToAlarm}>
-        <Image
-          style={{
-            position: 'absolute',
-            top: 56.24 - STATUSBAR_HEIGHT,
-            left: 349,
-            width: 19,
-            height: 22.51,
-          }}
-          source={AlarmMail}
-        />
-      </TouchableWithoutFeedback>
-      <View
-        style={{position: 'absolute', top: 113 - STATUSBAR_HEIGHT, left: 20}}>
+          top: 113 - STATUSBAR_HEIGHT - 35,
+          left: 20,
+        }}>
         <View style={{flexDirection: 'row'}}>
           <Text
             style={{
@@ -89,7 +57,7 @@ const MailHeader = () => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 261 - STATUSBAR_HEIGHT,
+    height: 261 - STATUSBAR_HEIGHT - 35,
     backgroundColor: '#4562F1',
   },
   headerText: {
@@ -99,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MailHeader;
+export default AuthorMailHeader;

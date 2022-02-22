@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,21 +8,23 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   StatusBar,
+  TextInput,
 } from 'react-native';
 import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
+import {SelectableText} from '@alentoma/react-native-selectable-text';
 
-import AuthorMail from '../assets/images/AuthorMail.png';
-import BackMail2 from '../assets/images/BackMail2.png';
-import SendMail2 from '../assets/images/SendMail2.png';
-import StarMail2 from '../assets/images/StarMail2.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import BackMail2 from '../../../assets/images/BackMail2.png';
+import SendMail2 from '../../../assets/images/SendMail2.png';
+import StarMail2 from '../../../assets/images/StarMail2.png';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-const Reading = ({navigation: {setOptions}, route: {params}}) => {
+const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   const [subscribe, setSubscribe] = useState(false);
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
@@ -31,9 +33,15 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressShare = () => {
-    navigation.navigate('Stacks', {
+  const onSelectionChange = (
+    eventType,
+    content,
+    selectionStart,
+    selectionEnd,
+  ) => {
+    navigation.navigate('AuthorStacks', {
       screen: 'InstaShare',
+      params: content,
     });
   };
 
@@ -66,8 +74,7 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.authorView}>
         <Image
           style={{width: 30, height: 30, marginRight: 12}}
-          source={AuthorMail}
-        />
+          source={AuthorProfileImage}></Image>
         <Text style={styles.authorText}>{params.item.author}</Text>
         <TouchableOpacity
           onPress={onPressSubscribe}
@@ -84,51 +91,31 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
       </View>
       <ScrollView>
         <View style={styles.bodyView}>
-          <Text style={styles.bodyText}>
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-            {params.item.body}
-          </Text>
-          <TouchableOpacity onPress={onPressShare}>
-            <Text>Share Instagram</Text>
-          </TouchableOpacity>
+          <SelectableText
+            menuItems={['공유']}
+            /* 
+    Called when the user taps in a item of the selection menu:
+    - eventType: (string) is the label
+    - content: (string) the selected text portion
+    - selectionStart: (int) is the start position of the selected text
+    - selectionEnd: (int) is the end position of the selected text
+   */
+            onSelection={({
+              eventType,
+              content,
+              selectionStart,
+              selectionEnd,
+            }) => {
+              onSelectionChange(
+                eventType,
+                content,
+                selectionStart,
+                selectionEnd,
+              );
+            }}
+            value={params.item.body}
+            style={styles.bodyText}
+          />
         </View>
       </ScrollView>
     </View>
@@ -210,6 +197,7 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     color: '#3C3C3C',
+    width: '100%',
   },
 });
-export default Reading;
+export default AuthorReading;

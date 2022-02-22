@@ -13,16 +13,17 @@ import {
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-import SettingProfile from '../../assets/images/SettingProfile.png';
-import AccordionProfile from '../../assets/images/AccordionProfile.png';
-import AccordionProfile2 from '../../assets/images/AccordionProfile2.png';
-import SearchProfile from '../../assets/images/SearchProfile.png';
-import AuthorMail from '../../assets/images/AuthorMail.png';
-import DefaultProfile from '../../assets/images/DefaultProfile.png';
-import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
-import ProfileModal from './ProfileModal';
+import SettingProfile from '../../../assets/images/SettingProfile.png';
+import AccordionProfile from '../../../assets/images/AccordionProfile.png';
+import AccordionProfile2 from '../../../assets/images/AccordionProfile2.png';
+import SearchProfile from '../../../assets/images/SearchProfile.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
+import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 
-const Profile = () => {
+import ReaderProfileModal from './ReaderProfileModal';
+
+const ReaderProfile = () => {
   const navigation = useNavigation();
   const [branch, setBranch] = useState([
     {category: '시', select: true},
@@ -50,6 +51,7 @@ const Profile = () => {
   const [subscribe, setSubscribe] = useState(false);
   const [name, setName] = useState('영이');
   const [editName, setEditName] = useState('영이');
+  const [imageUri, setImageUri] = useState('');
 
   const onPressBranch = index => {
     var temp = branch;
@@ -64,6 +66,36 @@ const Profile = () => {
   const onPressModalConfirm = () => {
     setName(editName);
     setModalVisible(!modalVisible);
+  };
+  const [filePath, setFilePath] = useState(null);
+  const [fileData, setFileData] = useState(null);
+  const [fileUri, setFileUri] = useState(null);
+
+  const onPressEditImage = async () => {
+    const options = {
+      storageOptions: {
+        path: 'images',
+        mediaType: 'photo',
+        maxWidth: 78,
+        maxHeight: 78,
+      },
+      includeBase64: true,
+    };
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+        };
+        setImageUri(source);
+      }
+    });
   };
 
   useEffect(() => {
@@ -101,19 +133,19 @@ const Profile = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <ProfileModal
+        <ReaderProfileModal
           editName={editName}
           setEditName={setEditName}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}></ProfileModal>
+          onPressModalConfirm={onPressModalConfirm}></ReaderProfileModal>
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
         <TouchableOpacity
           style={{position: 'absolute', right: 20, bottom: 18}}
           onPress={() => {
-            navigation.navigate('Stacks', {
+            navigation.navigate('ReaderStacks', {
               screen: 'Setting',
             });
           }}>
@@ -130,14 +162,18 @@ const Profile = () => {
           style={{
             alignItems: 'center',
             top: -39,
-            width: 80,
+            width: 160,
           }}>
-          <Image
-            style={{width: 78, height: 78}}
-            source={DefaultProfile}></Image>
-          <Image
-            style={{width: 42, height: 42, top: -31, left: 25}}
-            source={ImageEditProfile}></Image>
+          <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <Image
+              style={{width: 78, height: 78, borderRadius: 90}}
+              source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <Image
+              style={{width: 42, height: 42, top: -31, left: 25}}
+              source={ImageEditProfile}></Image>
+          </TouchableWithoutFeedback>
           <View style={{alignItems: 'center', top: -37}}>
             <Text style={styles.profileName}>{name}</Text>
             <Text style={styles.profileCategory}>독자님</Text>
@@ -172,8 +208,8 @@ const Profile = () => {
         <TouchableOpacity
           style={{position: 'absolute', right: 20}}
           onPress={() =>
-            navigation.navigate('Stacks', {
-              screen: 'ProfileSearch',
+            navigation.navigate('ReaderStacks', {
+              screen: 'ReaderProfileSearch',
             })
           }>
           <Image style={{width: 16, height: 16}} source={SearchProfile}></Image>
@@ -328,7 +364,7 @@ const Profile = () => {
         <View key={index} style={styles.bodyItem}>
           <Image
             style={{width: 42, height: 42, marginRight: 10}}
-            source={AuthorMail}></Image>
+            source={AuthorProfileImage}></Image>
           <View>
             <Text style={styles.bodyItemName}>{data.name}</Text>
             <Text style={styles.bodyItemIntro}>{data.intro}</Text>
@@ -512,11 +548,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 20,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   profileCategory: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   nameEditView: {
     width: 75,
@@ -535,4 +573,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default ReaderProfile;

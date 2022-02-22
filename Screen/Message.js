@@ -12,10 +12,11 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import AuthorMail from '../assets/images/AuthorMail.png';
+import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
 import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 import Report from '../assets/images/Report.png';
+// import MessageData from '../assets/data/Message';
 
 const STATUSBAR_HEIGHT = 48;
 
@@ -28,35 +29,35 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       type: '받은쪽지',
       sender: '이작가',
       date: '21. 02. 12',
-      context: '안녕하세요',
-      localtime: '1:00',
+      context: '저도 감사합니다.',
+      localtime: '3:00',
       daytime: '오후',
     },
     {
       key: '1',
-      type: '보낸쪽지',
+      type: '받은쪽지',
       sender: '이작가',
       date: '21. 02. 12',
-      context: '넵넵',
-      localtime: '2:00',
+      context: '저도 감사합니다.',
+      localtime: '3:00',
       daytime: '오후',
     },
     {
       key: '2',
       type: '받은쪽지',
-      sender: '이작가',
+      sender: '나동현',
       date: '21. 02. 12',
-      context: '일정 알 수  있을까요?',
+      context: '이 쪽지는 나동현의 쪽지입니다.',
       localtime: '3:00',
       daytime: '오후',
     },
     {
       key: '3',
-      type: '보낸쪽지',
+      type: '받은쪽지',
       sender: '이작가',
       date: '21. 02. 12',
       context: '저도 감사합니다.',
-      localtime: '4:00',
+      localtime: '3:00',
       daytime: '오후',
     },
     {
@@ -65,7 +66,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       sender: '이작가',
       date: '21. 02. 12',
       context: '저도 감사합니다.',
-      localtime: '5:00',
+      localtime: '3:00',
       daytime: '오후',
     },
   ]);
@@ -114,7 +115,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           left: 36,
           top: 14,
         }}
-        source={AuthorMail}
+        source={AuthorProfileImage}
       />
       <Text
         style={{
@@ -126,7 +127,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           style={{
             fontFamily: 'NotoSansKR-Bold',
           }}>
-          {data.item.type}&nbsp;
+          {data.item.author ? data.item.author : data.item.sender}&nbsp;
         </Text>
         <Text
           style={{
@@ -183,7 +184,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               width: 42,
               height: 42,
             }}
-            source={AuthorMail}
+            source={AuthorProfileImage}
           />
           <Text
             style={{

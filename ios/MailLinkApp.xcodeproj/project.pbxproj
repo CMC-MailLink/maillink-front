@@ -11,15 +11,16 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1CBAE312B55F4CB886B207FD /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */; };
+		2604717427C2AF8300569794 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2604717327C2AF8300569794 /* SplashScreen.storyboard */; };
+		2E099B2CAA2843E0A12570B1 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */; };
+		4E3AD04C853F42D0B2A395D2 /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */; };
+		5ADE07D69FFC4CD7B91B81DB /* NotoSansKR-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */; };
+		610833BC28C04B729754DF64 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		933CCD052E6A48D4863AEBA7 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */; };
 		952E0E68202E20EF9FBE25DF /* libPods-MailLinkApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD3D8E93A781C63BC1DBEE1 /* libPods-MailLinkApp.a */; };
 		BE87839C727B7F75DBD2ECCB /* libPods-MailLinkApp-MailLinkAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 120BAFF601DD03A6ACA3685D /* libPods-MailLinkApp-MailLinkAppTests.a */; };
-		610833BC28C04B729754DF64 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */; };
-		5ADE07D69FFC4CD7B91B81DB /* NotoSansKR-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */; };
-		2E099B2CAA2843E0A12570B1 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */; };
-		933CCD052E6A48D4863AEBA7 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */; };
-		1CBAE312B55F4CB886B207FD /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */; };
-		4E3AD04C853F42D0B2A395D2 /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,17 +46,18 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MailLinkApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MailLinkApp/main.m; sourceTree = "<group>"; };
 		22ABF41B49CE22B224ED582E /* Pods-MailLinkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.release.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.release.xcconfig"; sourceTree = "<group>"; };
+		2604717327C2AF8300569794 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Regular.otf"; path = "../assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
+		43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Bold.otf"; path = "../assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
+		69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Thin.otf"; path = "../assets/fonts/NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MailLinkApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8CD3D8E93A781C63BC1DBEE1 /* libPods-MailLinkApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90B9D4069AD49793745077C0 /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig"; path = "Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Medium.otf"; path = "../assets/fonts/NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		B476E2472D1E23F7331688B9 /* Pods-MailLinkApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.debug.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.debug.xcconfig"; sourceTree = "<group>"; };
+		CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Light.otf"; path = "../assets/fonts/NotoSansKR-Light.otf"; sourceTree = "<group>"; };
+		CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Black.otf"; path = "../assets/fonts/NotoSansKR-Black.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Black.otf"; path = "../assets/fonts/NotoSansKR-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Bold.otf"; path = "../assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Light.otf"; path = "../assets/fonts/NotoSansKR-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Medium.otf"; path = "../assets/fonts/NotoSansKR-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Regular.otf"; path = "../assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Thin.otf"; path = "../assets/fonts/NotoSansKR-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				2604717327C2AF8300569794 /* SplashScreen.storyboard */,
 				13B07FAE1A68108700A75B9A /* MailLinkApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MailLinkAppTests */,
@@ -150,20 +153,8 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EBA3D4B41A3AD4BF857E7188 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B476E2472D1E23F7331688B9 /* Pods-MailLinkApp.debug.xcconfig */,
-				22ABF41B49CE22B224ED582E /* Pods-MailLinkApp.release.xcconfig */,
-				90B9D4069AD49793745077C0 /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */,
-				09A5B870C818006EC00CF65C /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		D061F1023AE74652B497EB93 /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */,
 				43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */,
@@ -174,7 +165,17 @@
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
+		};
+		EBA3D4B41A3AD4BF857E7188 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B476E2472D1E23F7331688B9 /* Pods-MailLinkApp.debug.xcconfig */,
+				22ABF41B49CE22B224ED582E /* Pods-MailLinkApp.release.xcconfig */,
+				90B9D4069AD49793745077C0 /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */,
+				09A5B870C818006EC00CF65C /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -271,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				2604717427C2AF8300569794 /* SplashScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				610833BC28C04B729754DF64 /* NotoSansKR-Black.otf in Resources */,
 				5ADE07D69FFC4CD7B91B81DB /* NotoSansKR-Bold.otf in Resources */,

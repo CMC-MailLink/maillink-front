@@ -10,7 +10,8 @@ import {
 import {captureRef} from 'react-native-view-shot';
 import Share from 'react-native-share';
 
-const InstaShare = () => {
+const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
+  console.log(params);
   const viewRef = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const shareDummyImage = async () => {
@@ -65,7 +66,7 @@ const InstaShare = () => {
       <View
         ref={viewRef}
         style={{width: 200, height: 200, backgroundColor: 'black'}}>
-        <Text style={{color: 'white'}}>인스타그램 공유 TEST </Text>
+        <Text style={{color: 'white'}}>{params}</Text>
       </View>
       <TouchableOpacity style={{marginTop: 30}} onPress={shareDummyImage}>
         <Text style={{fontSize: 20, fontWeight: '700', textAlign: 'center'}}>
