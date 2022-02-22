@@ -14,16 +14,16 @@ import {
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 
-import SubscribeMail from '../../../assets/images/SubscribeMail.png';
+import WriteMail from '../../../assets/images/WriteMail.png';
 import SendMail from '../../../assets/images/SendMail.png';
 import StarMail from '../../../assets/images/StarMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import AuthorMail from '../../../assets/images/AuthorMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
 const AuthorMailBody = () => {
   const navigation = useNavigation();
-  const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
   const [mail, setMail] = useState([
@@ -31,122 +31,64 @@ const AuthorMailBody = () => {
       key: '0',
       author: '이작가',
       title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의',
       date: '21. 02. 13',
     },
     {
       key: '1',
       author: '김작가',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
+      title: '청춘예찬1',
+      body: '그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의',
       date: '21. 02. 12',
     },
     {
       key: '2',
       author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
+      title: '청춘예찬0',
+      body: '그들은 광야에서 얼마나 무엇을 때문이다. 인생을 것은 같으며, 것이다. 발휘하기 굳세게 인생의 설산에',
       date: '21. 02. 11',
     },
     {
       key: '3',
       author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      title: '청춘예찬',
+      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
     },
     {
       key: '4',
       author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      title: '청춘예찬',
+      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
     },
     {
       key: '5',
       author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      title: '청춘예찬',
+      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
     },
     {
       key: '6',
       author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      title: '청춘예찬',
+      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
     },
   ]);
-  const [bookmark, setBookmark] = useState([
-    {
-      key: '0',
-      author: '이작가',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      author: '김작가',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-  ]);
-  const [rowList, setRowList] = useState(null);
-  const [rowOpen, setRowOpen] = useState(null);
-  const bookmarkRow = (rowMap, key) => {
-    if (rowMap[key]) {
-      rowMap[key].closeRow();
-    }
-  };
-  const sendRow = (rowMap, key) => {
-    if (rowMap[key]) {
-      rowMap[key].closeRow();
-    }
-  };
-  const onPressMail = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
-    setMailSelect(true);
-  };
-  const onPressSave = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
-    setMailSelect(false);
-  };
+
   const onPressRecent = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(true);
   };
   const onPressOld = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(false);
   };
-  const onRowOpen = (rowKey, rowMap, toValue) => {
-    setRowList(rowMap);
-    setRowOpen(rowKey);
-  };
-  const onRowClose = (rowKey, rowMap, toValue) => {
-    setRowOpen(null);
-  };
   const onPressMailItem = (rowMap, data) => {
-    rowList
-      ? rowList[rowOpen]
-        ? null
-        : navigation.navigate('AuthorStacks', {
-            screen: 'AuthorReading',
-            params: {...data},
-          })
-      : navigation.navigate('AuthorStacks', {
-          screen: 'AuthorReading',
-          params: {...data},
-        });
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorReading',
+      params: {...data},
+    });
   };
 
   useEffect(() => {
@@ -154,77 +96,45 @@ const AuthorMailBody = () => {
   }, []);
 
   useEffect(() => {
-    if (mailSelect) {
-      setMail(data =>
-        data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
-            return recentSelect ? -1 : 1;
-          } else if (a.date < b.date) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-    } else {
-      setBookmark(data =>
-        data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
-            return recentSelect ? -1 : 1;
-          } else if (a.date < b.date) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-    }
-  }, [recentSelect, mailSelect]);
+    setMail(data =>
+      data.slice().sort(function (a, b) {
+        if (a.date >= b.date) {
+          return recentSelect ? -1 : 1;
+        } else if (a.date < b.date) {
+          return recentSelect ? 1 : -1;
+        }
+      }),
+    );
+  }, [recentSelect]);
 
   const renderItem = (data, rowMap, rowKey) => (
     <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
       <View
         style={{
-          height: 114,
+          height: 100,
           backgroundColor: '#FFF',
-          paddingTop: 14,
+          paddingTop: 12,
           borderBottomColor: '#EBEBEB',
           borderBottomWidth: 1,
         }}>
-        <Image
-          style={{
-            position: 'absolute',
-            width: 42,
-            height: 42,
-            left: 36,
-            top: 14,
-          }}
-          source={AuthorProfileImage}
-        />
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              color: '#4562F1',
-              fontFamily: 'NotoSansKR-Bold',
-              fontSize: 16,
-              left: 93,
-            }}>
-            {data.item.author}
-          </Text>
-          <Text
-            style={{
-              position: 'absolute',
-              color: '#BEBEBE',
-              fontFamily: 'NotoSansKR-Thin',
-              fontSize: 12,
-              right: 20,
-            }}>
-            {data.item.date}
-          </Text>
-        </View>
         <Text
           style={{
-            color: '#000',
+            position: 'absolute',
+            color: '#BEBEBE',
+            fontFamily: 'NotoSansKR-Thin',
+            fontSize: 12,
+            right: 20,
+            top: 16,
+          }}>
+          {data.item.date}
+        </Text>
+        <Text
+          style={{
+            color: '#3C3C3C',
             fontFamily: 'NotoSansKR-Bold',
-            fontSize: 14,
-            left: 93,
-            marginBottom: 5,
+            fontSize: 16,
+            left: 20,
+            marginBottom: 8,
           }}>
           {data.item.title}
         </Text>
@@ -233,27 +143,13 @@ const AuthorMailBody = () => {
             color: '#828282',
             fontFamily: 'NotoSansKR-Thin',
             fontSize: 14,
-            left: 93,
-            width: 230,
+            left: 20,
+            width: 301,
           }}>
           {data.item.body}
         </Text>
       </View>
     </TouchableWithoutFeedback>
-  );
-  const renderHiddenItem = (data, rowMap) => (
-    <View style={styles.rowBack}>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => bookmarkRow(rowMap, data.item.key)}>
-        <Image style={{width: 21, height: 20.5}} source={StarMail} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => sendRow(rowMap, data.item.key)}>
-        <Image style={{width: 21.54, height: 23.82}} source={SendMail} />
-      </TouchableOpacity>
-    </View>
   );
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -287,6 +183,7 @@ const AuthorMailBody = () => {
             top: 300,
             left: 0,
             right: 0,
+            flex: 1,
           }}
         />
         <View style={styles.header}>
@@ -294,11 +191,11 @@ const AuthorMailBody = () => {
             style={{
               position: 'absolute',
               top: 0,
-              right: 30,
-              width: 166,
-              height: 178,
+              right: 32,
+              width: 176,
+              height: 179,
             }}
-            source={AuthorProfileImage}
+            source={AuthorMail}
           />
 
           <View
@@ -313,7 +210,7 @@ const AuthorMailBody = () => {
                   fontFamily: 'NotoSansKR-Bold',
                   ...styles.headerText,
                 }}>
-                영이&nbsp;
+                덩이&nbsp;
               </Text>
               <Text
                 style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
@@ -322,50 +219,30 @@ const AuthorMailBody = () => {
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text
-                style={{fontFamily: 'NotoSansKR-Bold', ...styles.headerText}}>
-                0&nbsp;
-              </Text>
-              <Text
                 style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
-                개의 메일이
+                새 메일을
               </Text>
             </View>
             <Text
               style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
-              도착했습니다.
+              작성해보세요.
             </Text>
           </View>
         </View>
         <View style={styles.bodyHeader}>
           <View
             style={{
-              width: 111.5,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               left: 20.5,
             }}>
-            <View style={mailSelect ? styles.bodyHeaderBorder : null}>
-              <TouchableOpacity onPress={onPressMail}>
-                <Text
-                  style={{
-                    ...styles.bodyHeaderText,
-                    color: mailSelect ? '#3C3C3C' : '#BEBEBE',
-                  }}>
-                  메일함
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={mailSelect ? null : styles.bodyHeaderBorder}>
-              <TouchableOpacity onPress={onPressSave}>
-                <Text
-                  style={{
-                    ...styles.bodyHeaderText,
-                    color: mailSelect ? '#BEBEBE' : '#000000',
-                  }}>
-                  저장함
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Medium',
+                fontSize: 14,
+                color: '#3C3C3C',
+              }}>
+              메일함
+            </Text>
           </View>
           <View
             style={{
@@ -401,14 +278,10 @@ const AuthorMailBody = () => {
         {mailDataExist ? (
           <View style={styles.bodyContainer}>
             <SwipeListView
-              data={mailSelect ? mail : bookmark}
+              data={mail}
               renderItem={renderItem}
-              renderHiddenItem={renderHiddenItem}
-              rightOpenValue={-150}
-              stopRightSwipe={-150}
               disableRightSwipe={true}
-              onRowOpen={onRowOpen}
-              onRowClose={onRowClose}
+              disableLeftSwipe={true}
             />
           </View>
         ) : (
@@ -417,14 +290,15 @@ const AuthorMailBody = () => {
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FFFFFF',
-              flex: 1,
+              height: 400,
             }}>
             <Image
               style={{
                 width: 261,
                 height: 211,
+                top: 100,
               }}
-              source={SubscribeMail}
+              source={WriteMail}
             />
           </View>
         )}
@@ -455,7 +329,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Bold',

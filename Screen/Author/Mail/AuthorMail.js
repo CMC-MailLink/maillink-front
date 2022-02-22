@@ -12,7 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 
-import AuthorMailHeader from './AuthorMailHeader';
+// import AuthorMailHeader from './AuthorMailHeader';
 import AuthorMailBody from './AuthorMailBody';
 
 import SearchMail from '../../../assets/images/SearchMail.png';

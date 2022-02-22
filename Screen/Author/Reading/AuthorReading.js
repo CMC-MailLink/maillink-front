@@ -56,16 +56,6 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
             <Image style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={{position: 'absolute', right: 61}}>
-            <Image style={{width: 21, height: 20.5}} source={StarMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={{position: 'absolute', right: 22}}>
-            <Image style={{width: 21.54, height: 23.82}} source={SendMail2} />
-          </View>
-        </TouchableWithoutFeedback>
       </View>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>{params.item.title}</Text>
@@ -76,18 +66,6 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
           style={{width: 30, height: 30, marginRight: 12}}
           source={AuthorProfileImage}></Image>
         <Text style={styles.authorText}>{params.item.author}</Text>
-        <TouchableOpacity
-          onPress={onPressSubscribe}
-          style={subscribe ? styles.subscribeView : styles.subscribeNotView}>
-          <View>
-            <Text
-              style={
-                subscribe ? styles.subscribeText : styles.subscribeNotText
-              }>
-              {subscribe ? '구독중' : '구독하기'}
-            </Text>
-          </View>
-        </TouchableOpacity>
       </View>
       <ScrollView>
         <View style={styles.bodyView}>
@@ -140,6 +118,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 18,
     color: '#3C3C3C',
+    marginBottom: 4,
   },
   dateText: {
     fontFamily: 'NotoSansKR-Regular',
