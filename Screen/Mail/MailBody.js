@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   RefreshControl,
+  LogBox,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
@@ -147,6 +148,10 @@ const MailBody = () => {
           params: {...data},
         });
   };
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   useEffect(() => {
     if (mailSelect) {

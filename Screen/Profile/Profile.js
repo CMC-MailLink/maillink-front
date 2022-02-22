@@ -162,7 +162,7 @@ const Profile = () => {
           style={{
             alignItems: 'center',
             top: -39,
-            width: 80,
+            width: 160,
           }}>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
@@ -548,11 +548,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 20,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   profileCategory: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   nameEditView: {
     width: 75,
