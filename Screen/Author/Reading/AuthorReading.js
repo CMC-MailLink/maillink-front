@@ -47,7 +47,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#F8F8F8'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
@@ -103,12 +103,14 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: 91 - 48,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     flexDirection: 'row',
   },
   titleView: {
     height: 75,
+    borderTopColor: '#EBEBEB',
+    borderTopWidth: 1,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     justifyContent: 'center',
