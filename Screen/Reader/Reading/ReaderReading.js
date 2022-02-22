@@ -15,16 +15,16 @@ import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {SelectableText} from '@alentoma/react-native-selectable-text';
 
-import AuthorMail from '../assets/images/AuthorMail.png';
-import BackMail2 from '../assets/images/BackMail2.png';
-import SendMail2 from '../assets/images/SendMail2.png';
-import StarMail2 from '../assets/images/StarMail2.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import BackMail2 from '../../../assets/images/BackMail2.png';
+import SendMail2 from '../../../assets/images/SendMail2.png';
+import StarMail2 from '../../../assets/images/StarMail2.png';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-const Reading = ({navigation: {setOptions}, route: {params}}) => {
+const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const [subscribe, setSubscribe] = useState(false);
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
@@ -39,7 +39,7 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
     selectionStart,
     selectionEnd,
   ) => {
-    navigation.navigate('Stacks', {
+    navigation.navigate('ReaderStacks', {
       screen: 'InstaShare',
       params: content,
     });
@@ -76,7 +76,7 @@ const Reading = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.authorView}>
         <Image
           style={{width: 30, height: 30, marginRight: 12}}
-          source={AuthorMail}></Image>
+          source={AuthorProfileImage}></Image>
         <Text style={styles.authorText}>{params.item.author}</Text>
         <TouchableOpacity
           onPress={onPressSubscribe}
@@ -202,4 +202,4 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
-export default Reading;
+export default ReaderReading;

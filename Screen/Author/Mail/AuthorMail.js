@@ -12,16 +12,16 @@ import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 
-import MailHeader from './MailHeader';
-import MailBody from './MailBody';
+import AuthorMailHeader from './AuthorMailHeader';
+import AuthorMailBody from './AuthorMailBody';
 
-import SearchMail from '../../assets/images/SearchMail.png';
-import LogoMail from '../../assets/images/LogoMail.png';
-import AlarmMail from '../../assets/images/AlarmMail.png';
+import SearchMail from '../../../assets/images/SearchMail.png';
+import LogoMail from '../../../assets/images/LogoMail.png';
+import AlarmMail from '../../../assets/images/AlarmMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
-const Mail = () => {
+const AuthorMail = () => {
   const navigation = useNavigation();
   // const [searchSelect, setSearchSelect] = useState(false);
   const [spread, setSpread] = useState(false);
@@ -34,8 +34,8 @@ const Mail = () => {
   //   setSpread(!spread);
   // };
   const onPressSearchPage = () => {
-    navigation.navigate('Stacks', {
-      screen: 'MailSearch',
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorMailSearch',
     });
   };
   const onRefresh = async () => {
@@ -44,7 +44,7 @@ const Mail = () => {
     setRefreshing(false);
   };
   const goToAlarm = () => {
-    navigation.navigate('Stacks', {
+    navigation.navigate('AuthorStacks', {
       screen: 'Alarm',
     });
   };
@@ -107,7 +107,7 @@ const Mail = () => {
       </View>
       {/* <View style={{height: 100, backgroundColor: 'pink'}}></View> */}
       {/* <MailHeader></MailHeader> */}
-      <MailBody></MailBody>
+      <AuthorMailBody></AuthorMailBody>
       {/* Search */}
       {/* <View
         style={{
@@ -228,4 +228,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Mail;
+export default AuthorMail;

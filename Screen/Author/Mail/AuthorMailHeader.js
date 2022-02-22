@@ -2,11 +2,11 @@ import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import ReaderMail from '../../assets/images/ReaderMail.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
 const STATUSBAR_HEIGHT = 48;
 
-const MailHeader = () => {
+const AuthorMailHeader = () => {
   return (
     <View style={styles.header}>
       <Image
@@ -17,7 +17,7 @@ const MailHeader = () => {
           width: 166,
           height: 178,
         }}
-        source={ReaderMail}
+        source={AuthorProfileImage}
       />
 
       <View
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MailHeader;
+export default AuthorMailHeader;

@@ -1,14 +1,15 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import Search from '../Screen/Search';
-import Profile from '../Screen/Profile/Profile';
-import Mail from '../Screen/Mail/Mail';
-import LogoTabs from '../assets/images/LogoTabs.png';
-import HeartTabs from '../assets/images/HeartTabs.png';
-import ProfileTabs from '../assets/images/ProfileTabs.png';
+import ReaderSearch from '../../Screen/Reader/Search/ReaderSearch';
+import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
+import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
 
-const Tab = createBottomTabNavigator();
+import LogoTabs from '../../assets/images/LogoTabs.png';
+import HeartTabs from '../../assets/images/HeartTabs.png';
+import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
+
+const ReaderTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
   <View style={{}}>
@@ -21,17 +22,17 @@ const CustomTabBarButton = ({children, onPress}) => (
   </View>
 );
 
-const Tabs = () => {
+const ReaderTabs = () => {
   return (
-    <Tab.Navigator
+    <ReaderTab.Navigator
       initialRouteName="Mail"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: styles.navigator,
       }}>
-      <Tab.Screen
+      <ReaderTab.Screen
         name="Search"
-        component={Search}
+        component={ReaderSearch}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
@@ -42,9 +43,9 @@ const Tabs = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="Mail"
-        component={Mail}
+      <ReaderTab.Screen
+        name="ReaderMail"
+        component={ReaderMail}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
@@ -55,21 +56,24 @@ const Tabs = () => {
           tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
-      <Tab.Screen
+      <ReaderTab.Screen
         style={{justifyContent: 'center'}}
-        name="Profile"
-        component={Profile}
+        name="ReaderProfile"
+        component={ReaderProfile}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image style={{width: 18, height: 21.27}} source={ProfileTabs} />
+              <Image
+                style={{width: 18, height: 21.27}}
+                source={ReaderProfileTabs}
+              />
               <Text style={{top: 5, ...styles.iconText}}>프로필</Text>
             </View>
           ),
         }}
       />
-    </Tab.Navigator>
+    </ReaderTab.Navigator>
   );
 };
 
@@ -115,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Tabs;
+export default ReaderTabs;

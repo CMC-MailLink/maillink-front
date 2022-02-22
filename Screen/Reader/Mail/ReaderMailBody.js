@@ -13,15 +13,15 @@ import {
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 
-import SubscribeMail from '../../assets/images/SubscribeMail.png';
-import SendMail from '../../assets/images/SendMail.png';
-import StarMail from '../../assets/images/StarMail.png';
-import AuthorMail from '../../assets/images/AuthorMail.png';
-import ReaderMail from '../../assets/images/ReaderMail.png';
+import SubscribeMail from '../../../assets/images/SubscribeMail.png';
+import SendMail from '../../../assets/images/SendMail.png';
+import StarMail from '../../../assets/images/StarMail.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import ReaderMail from '../../../assets/images/ReaderMail.png';
 
 const STATUSBAR_HEIGHT = 48;
 
-const MailBody = () => {
+const ReaderMailBody = () => {
   const navigation = useNavigation();
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
@@ -139,12 +139,12 @@ const MailBody = () => {
     rowList
       ? rowList[rowOpen]
         ? null
-        : navigation.navigate('Stacks', {
-            screen: 'Reading',
+        : navigation.navigate('ReaderStacks', {
+            screen: 'ReaderReading',
             params: {...data},
           })
-      : navigation.navigate('Stacks', {
-          screen: 'Reading',
+      : navigation.navigate('ReaderStacks', {
+          screen: 'ReaderReading',
           params: {...data},
         });
   };
@@ -195,7 +195,7 @@ const MailBody = () => {
             left: 36,
             top: 14,
           }}
-          source={AuthorMail}
+          source={AuthorProfileImage}
         />
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text
@@ -501,4 +501,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MailBody;
+export default ReaderMailBody;

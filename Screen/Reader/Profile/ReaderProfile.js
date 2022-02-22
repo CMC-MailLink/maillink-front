@@ -13,17 +13,17 @@ import {
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-import SettingProfile from '../../assets/images/SettingProfile.png';
-import AccordionProfile from '../../assets/images/AccordionProfile.png';
-import AccordionProfile2 from '../../assets/images/AccordionProfile2.png';
-import SearchProfile from '../../assets/images/SearchProfile.png';
-import AuthorMail from '../../assets/images/AuthorMail.png';
-import DefaultProfile from '../../assets/images/DefaultProfile.png';
-import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
-import ProfileModal from './ProfileModal';
-import {defaultPath} from 'tough-cookie';
+import SettingProfile from '../../../assets/images/SettingProfile.png';
+import AccordionProfile from '../../../assets/images/AccordionProfile.png';
+import AccordionProfile2 from '../../../assets/images/AccordionProfile2.png';
+import SearchProfile from '../../../assets/images/SearchProfile.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
+import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 
-const Profile = () => {
+import ReaderProfileModal from './ReaderProfileModal';
+
+const ReaderProfile = () => {
   const navigation = useNavigation();
   const [branch, setBranch] = useState([
     {category: '시', select: true},
@@ -133,19 +133,19 @@ const Profile = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <ProfileModal
+        <ReaderProfileModal
           editName={editName}
           setEditName={setEditName}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}></ProfileModal>
+          onPressModalConfirm={onPressModalConfirm}></ReaderProfileModal>
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
         <TouchableOpacity
           style={{position: 'absolute', right: 20, bottom: 18}}
           onPress={() => {
-            navigation.navigate('Stacks', {
+            navigation.navigate('ReaderStacks', {
               screen: 'Setting',
             });
           }}>
@@ -208,8 +208,8 @@ const Profile = () => {
         <TouchableOpacity
           style={{position: 'absolute', right: 20}}
           onPress={() =>
-            navigation.navigate('Stacks', {
-              screen: 'ProfileSearch',
+            navigation.navigate('ReaderStacks', {
+              screen: 'ReaderProfileSearch',
             })
           }>
           <Image style={{width: 16, height: 16}} source={SearchProfile}></Image>
@@ -364,7 +364,7 @@ const Profile = () => {
         <View key={index} style={styles.bodyItem}>
           <Image
             style={{width: 42, height: 42, marginRight: 10}}
-            source={AuthorMail}></Image>
+            source={AuthorProfileImage}></Image>
           <View>
             <Text style={styles.bodyItemName}>{data.name}</Text>
             <Text style={styles.bodyItemIntro}>{data.intro}</Text>
@@ -573,4 +573,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default ReaderProfile;
