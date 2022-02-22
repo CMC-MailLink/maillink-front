@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 
-import SignIn from './Screen/Login/SignIn';
+import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
 import AuthorRoot from './navigation/Author/AuthorRoot';
 
@@ -25,16 +25,12 @@ const MyTheme = {
 };
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
   const [isReader, setIsReader] = useState(false);
   setCustomText(customTextProps);
   useEffect(() => {
     SplashScreen.hide();
   }, []);
-
-  if (!isLogged) {
-    return <SignIn></SignIn>;
-  }
 
   return (
     <SafeAreaProvider>
@@ -42,7 +38,13 @@ const App = () => {
         {/* <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
         {/* <StatusBar barStyle="light-content" /> */}
-        {isReader ? <ReaderRoot /> : <AuthorRoot />}
+        {!isLogged ? (
+          <SignUpRoot></SignUpRoot>
+        ) : isReader ? (
+          <ReaderRoot />
+        ) : (
+          <AuthorRoot />
+        )}
         {/* </SafeAreaView> */}
       </NavigationContainer>
     </SafeAreaProvider>
