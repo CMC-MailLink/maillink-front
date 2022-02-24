@@ -33,7 +33,7 @@ const App = () => {
   }, []);
 
   if (!isLogged) {
-    return <SignIn></SignIn>;
+    return <SignIn />;
   }
 
   return (

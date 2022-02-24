@@ -25,53 +25,66 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const [sender, setSender] = useState('이작가');
   const [message, setMessage] = useState([
     {
-      key: '0',
-      type: '받은쪽지',
+      key: '5',
+      type: '받은 쪽지',
       sender: '이작가',
       date: '21. 02. 12',
-      context: '저도 감사합니다.',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '1',
-      type: '받은쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context: '저도 감사합니다.',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '2',
-      type: '받은쪽지',
-      sender: '나동현',
-      date: '21. 02. 12',
-      context: '이 쪽지는 나동현의 쪽지입니다.',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '3',
-      type: '받은쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context: '저도 감사합니다.',
+      context: '아하 감사합니다! 좋은 하루 되세요!',
       localtime: '3:00',
       daytime: '오후',
     },
     {
       key: '4',
-      type: '받은쪽지',
+      type: '보낸 쪽지',
       sender: '이작가',
       date: '21. 02. 12',
-      context: '저도 감사합니다.',
+      context:
+        '저는 이렇게 해석했는데, 그렇게 해석될 수 있겠네요! 독자님의 상상력 좋습니다!',
+      localtime: '3:00',
+      daytime: '오후',
+    },
+    {
+      key: '3',
+      type: '받은 쪽지',
+      sender: '나동현',
+      date: '21. 02. 12',
+      context:
+        '작가님의 글 중에서, ‘피가 광야에서 이는 위하여 없으면,부분을 저는 조금 비관적인 문장으로 해석하였는데, 작가님의 생각은 어떠셨는지 궁금합니다!',
+      localtime: '3:00',
+      daytime: '오후',
+    },
+    {
+      key: '2',
+      type: '보낸 쪽지',
+      sender: '이작가',
+      date: '21. 02. 12',
+      context: '안녕하세요!질문이 뭔가요 독자님?',
+      localtime: '3:00',
+      daytime: '오후',
+    },
+    {
+      key: '1',
+      type: '받은 쪽지',
+      sender: '이작가',
+      date: '21. 02. 12',
+      context:
+        '안녕하세요! 작가님 글 너무 잘보았습니다.혹시 질문 하나 드려도 될까요?',
+      localtime: '3:00',
+      daytime: '오후',
+    },
+    {
+      key: '0',
+      type: '보낸 쪽지',
+      sender: '이작가',
+      date: '21. 02. 12',
+      context: '저도 감사합니다~',
       localtime: '3:00',
       daytime: '오후',
     },
   ]);
   const [refreshing, setRefreshing] = React.useState(false);
   const [send, setSendSelect] = useState(false);
+  const [messageData, setMessageData] = useState(true);
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -101,61 +114,45 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const renderItem = data => (
     <View
       style={{
-        height: 71,
+        height: 95,
         backgroundColor: '#FFF',
-        paddingTop: 14,
+        paddingTop: 12,
         borderBottomColor: '#EBEBEB',
         borderBottomWidth: 1,
       }}>
-      <Image
-        style={{
-          position: 'absolute',
-          width: 42,
-          height: 42,
-          left: 36,
-          top: 14,
-        }}
-        source={AuthorProfileImage}
-      />
       <Text
         style={{
           color: '#3C3C3C',
+          fontFamily: 'NotoSansKR-Bold',
           fontSize: 14,
-          left: 93,
+          left: 22,
         }}>
-        <Text
-          style={{
-            fontFamily: 'NotoSansKR-Bold',
-          }}>
-          {data.item.author ? data.item.author : data.item.sender}&nbsp;
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'NotoSansKR-Regular',
-          }}>
-          {data.item.newpost ? data.item.newpost : data.item.subscribe}
-        </Text>
+        {data.item.type}
       </Text>
       <Text
         style={{
-          paddingTop: 3,
+          paddingTop: 17,
           color: '#828282',
           fontFamily: 'NotoSansKR-Regular',
           fontSize: 14,
-          left: 93,
+          left: 22,
+          right: 10,
+          bottom: 18,
         }}>
-        {data.item.messageContext}
-        {data.item.newpost ? data.item.title : data.item.context}
+        {data.item.context}
       </Text>
       <Text
         style={{
+          paddingTop: 15,
           position: 'absolute',
           color: '#BEBEBE',
           fontFamily: 'NotoSansKR-Light',
           fontSize: 12,
           right: 20,
         }}>
-        {data.item.date}
+        {data.item.date}&nbsp;&nbsp;
+        {data.item.daytime}&nbsp;
+        {data.item.localtime}
       </Text>
     </View>
   );
@@ -199,21 +196,32 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         </View>
         {renderMessageItem(message.sender)}
       </View>
-
       {/* body */}
-      <FlatList
-        style={styles.bodyContainer}
-        renderItem={renderItem}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            style={styles.refresh}
-            tintColor="#4562F1"
-          />
-        }
-        //keyExtractor={item => item.id}
-      />
+      {messageData ? (
+        <FlatList
+          style={styles.bodyContainer}
+          data={message}
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              style={styles.refresh}
+              tintColor="#4562F1"
+            />
+          }
+          //keyExtractor={item => item.id}
+        />
+      ) : (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#FFFFFF',
+            flex: 1,
+          }}
+        />
+      )}
     </View>
   );
 };
