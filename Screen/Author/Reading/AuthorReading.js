@@ -47,23 +47,13 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#F8F8F8'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 24}}>
             <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={{position: 'absolute', right: 61}}>
-            <Image style={{width: 21, height: 20.5}} source={StarMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={{position: 'absolute', right: 22}}>
-            <Image style={{width: 21.54, height: 23.82}} source={SendMail2} />
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -76,18 +66,6 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
           style={{width: 30, height: 30, marginRight: 12}}
           source={AuthorProfileImage}></Image>
         <Text style={styles.authorText}>{params.item.author}</Text>
-        <TouchableOpacity
-          onPress={onPressSubscribe}
-          style={subscribe ? styles.subscribeView : styles.subscribeNotView}>
-          <View>
-            <Text
-              style={
-                subscribe ? styles.subscribeText : styles.subscribeNotText
-              }>
-              {subscribe ? '구독중' : '구독하기'}
-            </Text>
-          </View>
-        </TouchableOpacity>
       </View>
       <ScrollView>
         <View style={styles.bodyView}>
@@ -125,12 +103,14 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: 91 - 48,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     flexDirection: 'row',
   },
   titleView: {
     height: 75,
+    borderTopColor: '#EBEBEB',
+    borderTopWidth: 1,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     justifyContent: 'center',
@@ -140,6 +120,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 18,
     color: '#3C3C3C',
+    marginBottom: 4,
   },
   dateText: {
     fontFamily: 'NotoSansKR-Regular',

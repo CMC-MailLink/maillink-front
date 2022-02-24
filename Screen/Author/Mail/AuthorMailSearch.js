@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 
 import BackMail from '../../../assets/images/BackMail.png';
@@ -99,6 +100,7 @@ const AuthorMailSearch = () => {
 
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <View style={styles.headerView}>
         <Text style={styles.headerText}>메일 검색</Text>
         <View style={styles.headerSearchContainer}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import NaverLogin from '../../assets/images/NaverLogin.png';
@@ -7,6 +8,13 @@ import KakaoLogin from '../../assets/images/KakaoLogin.png';
 import GoogleLogin from '../../assets/images/GoogleLogin.png';
 
 const SignIn = () => {
+  const navigation = useNavigation();
+  const onPressNaverLogin = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'SelfAuth',
+    });
+  };
+
   return (
     <View
       style={{
@@ -34,7 +42,7 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onPressNaverLogin}>
             <Image style={{width: 312, height: 52}} source={NaverLogin}></Image>
           </TouchableOpacity>
           <TouchableOpacity>
