@@ -114,33 +114,37 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const renderItem = data => (
     <View
       style={{
-        height: 95,
         backgroundColor: '#FFF',
         paddingTop: 12,
         borderBottomColor: '#EBEBEB',
         borderBottomWidth: 1,
       }}>
-      <Text
+      <View
         style={{
-          color: '#3C3C3C',
-          fontFamily: 'NotoSansKR-Bold',
-          fontSize: 14,
-          left: 22,
+          paddingRight: 70,
         }}>
-        {data.item.type}
-      </Text>
-      <Text
-        style={{
-          paddingTop: 17,
-          color: '#828282',
-          fontFamily: 'NotoSansKR-Regular',
-          fontSize: 14,
-          left: 22,
-          right: 10,
-          bottom: 18,
-        }}>
-        {data.item.context}
-      </Text>
+        <Text
+          style={{
+            color: '#3C3C3C',
+            fontFamily: 'NotoSansKR-Bold',
+            fontSize: 14,
+            left: 22,
+          }}>
+          {data.item.type}
+        </Text>
+        <Text
+          style={{
+            paddingTop: 22,
+            color: '#828282',
+            fontFamily: 'NotoSansKR-Regular',
+            fontSize: 14,
+            left: 22,
+            right: 10,
+            bottom: 18,
+          }}>
+          {data.item.context}
+        </Text>
+      </View>
       <Text
         style={{
           paddingTop: 15,
