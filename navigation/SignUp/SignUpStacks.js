@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignIn from '../../Screen/SignUp/SignIn';
 import SelfAuth from '../../Screen/SignUp/SelfAuth';
-
+import SetProfile from '../../Screen/SignUp/SetProfile';
 const ReaderStack = createNativeStackNavigator();
 
 const ReaderStacks = () => (
@@ -24,6 +24,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="SelfAuth"
       component={SelfAuth}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="SetProfile"
+      component={SetProfile}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

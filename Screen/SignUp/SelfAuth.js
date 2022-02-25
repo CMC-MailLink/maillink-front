@@ -55,6 +55,12 @@ const SelfAuth = () => {
   const onPressCheckBox = () => {
     setcheckbox(!checkbox);
   };
+  const goAlertName = () => {
+    Alert.alert('이름을 입력하세요.', {
+      text: '확인',
+      style: 'cancel',
+    });
+  };
   const goAlertPhone = () => {
     if (!authRequest) {
       Alert.alert('인증 요청을 하세요.', {
@@ -78,6 +84,11 @@ const SelfAuth = () => {
     Alert.alert('인증 번호를 입력하세요.', {
       text: '확인',
       style: 'cancel',
+    });
+  };
+  const goNextScreen = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'SetProfile',
     });
   };
   return (
@@ -212,7 +223,9 @@ const SelfAuth = () => {
       {/* footer: Button */}
       <View style={{left: 22, top: 160 + 25}}>
         <TouchableOpacity
-          onPress={!confirmSuccess && !checkbox ? null : null}
+          onPress={
+            !name ? goAlertName : !confirmSuccess ? goAlertPhone : goNextScreen
+          }
           style={
             confirmSuccess && checkbox && name
               ? styles.buttonAble
