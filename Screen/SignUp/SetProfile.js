@@ -10,24 +10,20 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import CheckBox from 'react-native-check-box';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
+import ProfileBasicImage from '../../assets/images/ProfileBasicImage.png';
 import {useNavigation} from '@react-navigation/native';
 const SetProfile = () => {
   const navigation = useNavigation();
   const [name, onChangeName] = useState('');
-  const [phone, onChangePhone] = useState();
-  const [number, onChangeNumber] = useState();
-  const [authRequest, setAuthRequest] = useState(false);
-  const [confirmRequest, setConfirmRequest] = useState(false);
-  const [realNumber, setrealNumber] = useState(1234);
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [checkbox, setcheckbox] = useState(false);
+
   const onPressBack = () => {
     navigation.goBack();
   };
-
+  const onPressNameConfirm = () => {
+    onChangeName();
+  };
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
@@ -52,7 +48,28 @@ const SetProfile = () => {
         <Text style={styles.IntroTitle}>설정해주세요.</Text>
         <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
       </View>
-      {/* Body: Profile */}
+      {/* Body: ProfileImage */}
+      <View style={{top: 111.76, left: 137.27}}>
+        <Image
+          style={{width: 115.47, height: 112.24}}
+          source={ProfileBasicImage}
+        />
+      </View>
+      {/* Body: ProfileName */}
+      <View style={{top: 111.76, left: 137.27}}>
+        <TextInput
+          style={styles.NameSet}
+          onChangeText={onChangeName}
+          value={name}
+          placeholder="닉네임을 입력해주세요."
+        />
+        <TouchableOpacity
+          onPress={onPressNameConfirm}
+          style={styles.confirmBasic}>
+          <Text style={styles.confirmBasicText}>확인</Text>
+        </TouchableOpacity>
+        <View style={styles.bodyNameBorder} />
+      </View>
     </View>
   );
 };
@@ -79,6 +96,36 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
+  },
+  NameSet: {
+    top: 59,
+    left: -135 + 44,
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 20,
+    color: '#BEBEBE',
+  },
+  bodyNameBorder: {
+    width: 301,
+    left: -135 + 44,
+    borderBottomWidth: 1,
+    borderBottomColor: '#BEBEBE',
+    paddingTop: 35 + 17,
+  },
+  confirmBasic: {
+    position: 'absolute',
+    bottom: 34,
+    right: 21 + 20,
+    width: 69,
+    height: 28,
+    borderRadius: 15,
+    backgroundColor: '#EBEBEB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirmBasicText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 12,
+    color: '#3C3C3C',
   },
   buttonDisable: {
     position: 'absolute',
