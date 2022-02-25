@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
@@ -18,10 +19,16 @@ const SelfAuth = () => {
   const [phone, onChangePhone] = useState('');
   const [authRequest, setAuthRequest] = useState(false);
   const onPressRequest = () => {
-    authRequest(!setAuthRequest);
+    setAuthRequest(true);
   };
   const onPressBack = () => {
     navigation.goBack();
+  };
+  const goAlertPhone = () => {
+    Alert.alert('휴대전화 번호를 입력해주세요.', {
+      text: '확인',
+      style: 'cancel',
+    });
   };
 
   return (
@@ -67,16 +74,31 @@ const SelfAuth = () => {
           value={phone}
           placeholder="휴대전화 번호 입력"
         />
-        <TouchableOpacity
-          onPress={onPressRequest}
-          style={authRequest ? styles.authRequest : styles.authNotRequest}>
-          <View>
-            <Text
-              style={authRequest ? styles.authRequest : styles.authNotRequest}>
-              인증요청
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {/* Body: AuthRequest */}
+        {authRequest ? (
+          <TouchableOpacity onPress={null} style={styles.authRequest}>
+            <View>
+              <Text style={styles.authRequestText}>재발송</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={phone === '' ? goAlertPhone : onPressRequest}
+            style={
+              phone === '' ? styles.basicAuthRequest : styles.changeAuthRequest
+            }>
+            <View>
+              <Text
+                style={
+                  phone === ''
+                    ? styles.basicAuthRequestText
+                    : styles.changeAuthRequestText
+                }>
+                인증요청
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
         <View style={styles.bodyNameBorder} />
       </View>
     </View>
@@ -117,31 +139,56 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BEBEBE',
     paddingTop: 14,
   },
-  authRequest: {
+  basicAuthRequest: {
     position: 'absolute',
-    right: 20,
+    bottom: 10,
+    right: 21 + 20,
     width: 69,
     height: 24,
     borderRadius: 15,
     borderColor: '#BEBEBE',
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    fontColor: '#BEBEBE',
+    borderWidth: 1,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  authNotRequest: {
+  basicAuthRequestText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 12,
+    color: '#BEBEBE',
+  },
+  changeAuthRequest: {
     position: 'absolute',
-    right: 20,
+    bottom: 10,
+    right: 21 + 20,
     width: 69,
     height: 24,
     borderRadius: 15,
-    borderColor: 'red',
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
+    backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  changeAuthRequestText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 12,
+    color: '#FFFFFF',
+  },
+  authRequest: {
+    position: 'absolute',
+    bottom: 10,
+    right: 21 + 20,
+    width: 69,
+    height: 24,
+    borderRadius: 15,
+    borderColor: '#BEBEBE',
+    backgroundColor: '#EBEBEB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  authRequestText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 12,
+    color: '#4562F1',
   },
 });
 
