@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
@@ -21,16 +22,47 @@ const SetProfile = () => {
   const [name, onChangeName] = useState('');
   const [checkMessage, onChangeCheckMessage] =
     useState('한글 6자까지 설정 가능합니다.');
+  const [confirmSuccess, setConfirmSuccess] = useState(false);
+  const [nameData, onChangeNameData] = useState('영이입니당당당');
+
   const onPressBack = () => {
     navigation.goBack();
   };
   const onPressNameConfirm = () => {
-    onChangeName();
+    onChangeName(name);
   };
   const onPressErase = () => {
-    console.log('dddsdsdb');
     onChangeName('');
   };
+  const onCheckName = () => {
+    onChangeName(name);
+  };
+  const goAlertName = () => {
+    Alert.alert('이름을 입력하세요.', {
+      text: '확인',
+      style: 'cancel',
+    });
+  };
+  const goNextScreen = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'SetProfile',
+    });
+  };
+
+  useEffect(() => {
+    if (name.length > 6) {
+      onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
+      setConfirmSuccess(false);
+    }
+    if (name === nameData) {
+      onChangeCheckMessage('이미 존재하는 닉네임입니다.');
+      setConfirmSuccess(false);
+    }
+    if (name.length <= 6 && name !== nameData) {
+      onChangeCheckMessage('사용할 수 있는 이름이에요');
+      setConfirmSuccess(true);
+    }
+  }, [name, nameData]);
 
   return (
     <View style={{flex: 1}}>
@@ -46,55 +78,83 @@ const SetProfile = () => {
       </View>
 
       {/* mainHeader */}
-      <Image
-        style={{width: 39.05, height: 30.44, top: 25, left: 25}}
-        source={SignUpStep2}
-      />
-      <View style={{top: 20 + 15.22, left: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.NameTitle}>프로필</Text>
-          <Text style={styles.IntroTitle}>을</Text>
-        </View>
-        <Text style={styles.IntroTitle}>설정해주세요.</Text>
-        <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
-      </View>
-
-      {/* Body: ProfileImage */}
-      <View style={{top: 111.76, left: 137.27}}>
+      <ScrollView>
         <Image
-          style={{width: 115.47, height: 112.24}}
-          source={ProfileBasicImage}
+          style={{width: 39.05, height: 30.44, top: 25, left: 25}}
+          source={SignUpStep2}
         />
-      </View>
+        <View style={{top: 20 + 15.22, left: 20}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.NameTitle}>프로필</Text>
+            <Text style={styles.IntroTitle}>을</Text>
+          </View>
+          <Text style={styles.IntroTitle}>설정해주세요.</Text>
+          <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
+        </View>
 
-      {/* Body: ProfileName */}
-      <View style={{top: 38 + 59, left: 137.27}}>
-        <TextInput
-          style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
-          onChangeText={onChangeName}
-          value={name}
-          placeholder="닉네임을 입력해주세요."
-        />
-        <TouchableWithoutFeedback onPress={onPressErase}>
-          <Image style={styles.eraseButton} source={EraseNickname} />
-        </TouchableWithoutFeedback>
-        <TouchableOpacity
-          onPress={onPressNameConfirm}
-          style={!name ? styles.confirmBasic : styles.confirmChange}>
-          <Text
-            style={!name ? styles.confirmBasicText : styles.confirmChangeText}>
-            확인
-          </Text>
-        </TouchableOpacity>
-        <View style={styles.bodyNameBorder} />
-      </View>
+        {/* Body: ProfileImage */}
+        <View style={{top: 111.76, left: 137.27}}>
+          <Image
+            style={{width: 115.47, height: 112.24}}
+            source={ProfileBasicImage}
+          />
+        </View>
 
-      {/* Body: NameCheck */}
-      <View style={{left: 45, top: 107}}>
-        <Text style={styles.checkMessage}>
-          {!name ? checkMessage : 'sdasdf'}
-        </Text>
-      </View>
+        {/* Body: ProfileName */}
+        <View style={{top: 38 + 59, left: 137.27}}>
+          <TextInput
+            style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
+            onChangeText={onChangeName}
+            value={name}
+            placeholder="닉네임을 입력해주세요."
+          />
+          <TouchableWithoutFeedback onPress={onPressErase}>
+            <Image style={styles.eraseButton} source={EraseNickname} />
+          </TouchableWithoutFeedback>
+          <TouchableOpacity
+            onPress={onPressNameConfirm}
+            style={!name ? styles.confirmBasic : styles.confirmChange}>
+            <Text
+              style={
+                !name ? styles.confirmBasicText : styles.confirmChangeText
+              }>
+              확인
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={
+              name.length > 6
+                ? styles.bodyNameBorderChange
+                : styles.bodyNameBorder
+            }
+          />
+        </View>
+
+        {/* Body: NameCheck */}
+        <View style={{left: 45, top: 107}}>
+          <Text style={styles.checkMessage}>{checkMessage}</Text>
+        </View>
+
+        {/* footer: Button */}
+        <View style={{left: 22, top: 160 + 25}}>
+          <TouchableOpacity
+            //onPress={}
+            style={
+              confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
+            }>
+            <View>
+              <Text
+                style={
+                  confirmSuccess && name
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                다음
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -141,6 +201,13 @@ const styles = StyleSheet.create({
     left: -135 + 44,
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
+    paddingTop: 15,
+  },
+  bodyNameBorderChange: {
+    width: 301,
+    left: -135 + 44,
+    borderBottomWidth: 1,
+    borderBottomColor: '#FF9B9B',
     paddingTop: 15,
   },
   confirmBasic: {
@@ -191,6 +258,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
+
   buttonAble: {
     position: 'absolute',
     top: 90,

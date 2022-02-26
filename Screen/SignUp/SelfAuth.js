@@ -88,7 +88,7 @@ const SelfAuth = () => {
   };
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SetProfile',
+      screen: 'SuccessModal',
     });
   };
   return (
