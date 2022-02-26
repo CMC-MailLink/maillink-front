@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,20 +13,29 @@ import {
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
 import ProfileBasicImage from '../../assets/images/ProfileBasicImage.png';
+import EraseNickname from '../../assets/images/EraseNickname.png';
 import {useNavigation} from '@react-navigation/native';
+
 const SetProfile = () => {
   const navigation = useNavigation();
   const [name, onChangeName] = useState('');
-
+  const [checkMessage, onChangeCheckMessage] =
+    useState('한글 6자까지 설정 가능합니다.');
   const onPressBack = () => {
     navigation.goBack();
   };
   const onPressNameConfirm = () => {
     onChangeName();
   };
+  const onPressErase = () => {
+    console.log('dddsdsdb');
+    onChangeName('');
+  };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
+
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -35,6 +44,7 @@ const SetProfile = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
+
       {/* mainHeader */}
       <Image
         style={{width: 39.05, height: 30.44, top: 25, left: 25}}
@@ -48,6 +58,7 @@ const SetProfile = () => {
         <Text style={styles.IntroTitle}>설정해주세요.</Text>
         <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
       </View>
+
       {/* Body: ProfileImage */}
       <View style={{top: 111.76, left: 137.27}}>
         <Image
@@ -55,20 +66,34 @@ const SetProfile = () => {
           source={ProfileBasicImage}
         />
       </View>
+
       {/* Body: ProfileName */}
-      <View style={{top: 111.76, left: 137.27}}>
+      <View style={{top: 38 + 59, left: 137.27}}>
         <TextInput
-          style={styles.NameSet}
+          style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
           onChangeText={onChangeName}
           value={name}
           placeholder="닉네임을 입력해주세요."
         />
+        <TouchableWithoutFeedback onPress={onPressErase}>
+          <Image style={styles.eraseButton} source={EraseNickname} />
+        </TouchableWithoutFeedback>
         <TouchableOpacity
           onPress={onPressNameConfirm}
-          style={styles.confirmBasic}>
-          <Text style={styles.confirmBasicText}>확인</Text>
+          style={!name ? styles.confirmBasic : styles.confirmChange}>
+          <Text
+            style={!name ? styles.confirmBasicText : styles.confirmChangeText}>
+            확인
+          </Text>
         </TouchableOpacity>
         <View style={styles.bodyNameBorder} />
+      </View>
+
+      {/* Body: NameCheck */}
+      <View style={{left: 45, top: 107}}>
+        <Text style={styles.checkMessage}>
+          {!name ? checkMessage : 'sdasdf'}
+        </Text>
       </View>
     </View>
   );
@@ -100,6 +125,13 @@ const styles = StyleSheet.create({
   NameSet: {
     top: 59,
     left: -135 + 44,
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 20,
+    color: '#3C3C3C',
+  },
+  NameSetPlaceHolder: {
+    top: 59,
+    left: -135 + 44,
     fontFamily: 'NotoSansKR-Light',
     fontSize: 20,
     color: '#BEBEBE',
@@ -109,15 +141,16 @@ const styles = StyleSheet.create({
     left: -135 + 44,
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
-    paddingTop: 35 + 17,
+    paddingTop: 15,
   },
   confirmBasic: {
     position: 'absolute',
-    bottom: 34,
-    right: 21 + 20,
+    bottom: 10,
+    left: 183 - 49,
     width: 69,
     height: 28,
     borderRadius: 15,
+    borderColor: '#BEBEBE',
     backgroundColor: '#EBEBEB',
     justifyContent: 'center',
     alignItems: 'center',
@@ -126,6 +159,22 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#3C3C3C',
+  },
+  confirmChange: {
+    position: 'absolute',
+    bottom: 10,
+    left: 183 - 49,
+    width: 69,
+    height: 28,
+    borderRadius: 15,
+    backgroundColor: '#4562F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirmChangeText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 12,
+    color: '#FFFFFF',
   },
   buttonDisable: {
     position: 'absolute',
@@ -157,6 +206,17 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+  },
+  eraseButton: {
+    width: 12,
+    height: 12,
+    marginTop: 41,
+    left: 240 - 129,
+  },
+  checkMessage: {
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 14,
+    color: '#BEBEBE',
   },
 });
 

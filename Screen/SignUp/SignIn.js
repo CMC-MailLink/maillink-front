@@ -11,7 +11,7 @@ const SignIn = () => {
   const navigation = useNavigation();
   const onPressNaverLogin = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SelfAuth',
+      screen: 'SetProfile',
     });
   };
 
