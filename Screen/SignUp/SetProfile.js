@@ -73,8 +73,8 @@ const SetProfile = () => {
       screen: 'SuccessModal',
     });
   };
-
   useEffect(() => {
+    setConfirmOverlap(false);
     if (name.length > 6) {
       onChangeCheckMessage('사용할 수 없는 이름입니다. (한글 6자 제한)');
       setConfirmSuccess(false);
@@ -83,10 +83,7 @@ const SetProfile = () => {
       onChangeCheckMessage('한글 6자까지 설정 가능합니다.');
       setConfirmSuccess(false);
     }
-    if (confirmOverlap) {
-      setConfirmOverlap(false);
-    }
-  }, [name, nameData]);
+  }, [name]);
 
   return (
     <View style={{flex: 1}}>
@@ -155,6 +152,7 @@ const SetProfile = () => {
             }
           />
         </View>
+
         {/* Body: NameCheck */}
         <View style={{left: 45, top: 107}}>
           <Text style={styles.checkMessage}>{checkMessage}</Text>
