@@ -32,6 +32,12 @@ const SetProfile = () => {
     onChangeName('');
   };
   const onCheckName = () => {
+    if (!name) {
+      Alert.alert('닉네임을 입력하세요.', {
+        text: '확인',
+        style: 'cancel',
+      });
+    }
     if (name.length > 6) {
       Alert.alert('사용할 수 없는 이름입니다.', {
         text: '확인',
@@ -45,9 +51,9 @@ const SetProfile = () => {
       });
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
       setConfirmSuccess(false);
-      console.log(confirmSuccess);
+      setConfirmOverlap(true);
     }
-    if (name.length <= 6 && name !== nameData) {
+    if (name.length <= 6 && name !== nameData && name) {
       Alert.alert('사용할 수 있는 이름입니다.', {
         text: '확인',
         style: 'cancel',
@@ -57,7 +63,7 @@ const SetProfile = () => {
     }
   };
   const goAlertName = () => {
-    Alert.alert('이름을 입력하세요.', {
+    Alert.alert('닉네임을 입력하세요.', {
       text: '확인',
       style: 'cancel',
     });
@@ -76,6 +82,9 @@ const SetProfile = () => {
     if (name === '') {
       onChangeCheckMessage('한글 6자까지 설정 가능합니다.');
       setConfirmSuccess(false);
+    }
+    if (confirmOverlap) {
+      setConfirmOverlap(false);
     }
   }, [name, nameData]);
 
@@ -136,15 +145,16 @@ const SetProfile = () => {
               중복 확인
             </Text>
           </TouchableOpacity>
+
+          {/* Body: NameBorder */}
           <View
             style={
-              name.length > 6 && !confirmSuccess
+              (name.length > 6 || confirmOverlap) && name !== ''
                 ? styles.bodyNameBorderChange
                 : styles.bodyNameBorder
             }
           />
         </View>
-
         {/* Body: NameCheck */}
         <View style={{left: 45, top: 107}}>
           <Text style={styles.checkMessage}>{checkMessage}</Text>
@@ -153,7 +163,7 @@ const SetProfile = () => {
         {/* footer: Button */}
         <View style={{left: 22, bottom: -245 + 99}}>
           <TouchableOpacity
-            onPress={confirmSuccess ? goNextScreen : null}
+            onPress={confirmSuccess ? goNextScreen : !name ? goAlertName : null}
             style={
               confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
             }>
