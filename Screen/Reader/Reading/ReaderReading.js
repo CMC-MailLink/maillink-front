@@ -13,7 +13,6 @@ import {
 import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
-import {SelectableText} from '@alentoma/react-native-selectable-text';
 
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -92,33 +91,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        <View style={styles.bodyView}>
-          <SelectableText
-            menuItems={['공유']}
-            /* 
-    Called when the user taps in a item of the selection menu:
-    - eventType: (string) is the label
-    - content: (string) the selected text portion
-    - selectionStart: (int) is the start position of the selected text
-    - selectionEnd: (int) is the end position of the selected text
-   */
-            onSelection={({
-              eventType,
-              content,
-              selectionStart,
-              selectionEnd,
-            }) => {
-              onSelectionChange(
-                eventType,
-                content,
-                selectionStart,
-                selectionEnd,
-              );
-            }}
-            value={params.item.body}
-            style={styles.bodyText}
-          />
-        </View>
+        <View style={styles.bodyView}></View>
       </ScrollView>
     </View>
   );

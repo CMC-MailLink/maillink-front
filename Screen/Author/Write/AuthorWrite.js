@@ -8,7 +8,12 @@ import {
   TouchableOpacity,
   FlatList,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {FloatingAction} from 'react-native-floating-action';
+
+import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 
 const AuthorWrite = () => {
   const [recentSelect, setRecentSelect] = useState(true);
@@ -45,6 +50,13 @@ const AuthorWrite = () => {
   const onPressOld = () => {
     setRecentSelect(false);
   };
+  const navigation = useNavigation();
+  const onPressWritingPage = () => {
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorEditor',
+    });
+  };
+
   useEffect(() => {
     setStorage(data =>
       data.slice().sort(function (a, b) {
@@ -167,6 +179,37 @@ const AuthorWrite = () => {
           keyExtractor={item => item.id}
         />
       </View>
+      <FloatingAction
+        actions={[
+          {
+            icon: (
+              <Image
+                style={{
+                  width: 22,
+                  height: 22,
+                }}
+                source={PenceilWriting}
+              />
+            ),
+            name: 'bt_search',
+            position: 1,
+            buttonSize: 50,
+          },
+        ]}
+        color="#FFF"
+        distanceToEdge={{vertical: 110, horizontal: 17}}
+        buttonSize={50}
+        shadow={{
+          shadowOpacity: 0.12,
+          shadowColor: '#000000',
+          shadowRadius: 23,
+        }}
+        overrideWithAction={true}
+        animated={false}
+        onPressItem={name => {
+          onPressWritingPage();
+        }}
+      />
     </View>
   );
 };

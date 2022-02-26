@@ -9,16 +9,15 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   TextInput,
+  Platform,
 } from 'react-native';
 import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
-import {SelectableText} from '@alentoma/react-native-selectable-text';
+import {WebView} from 'react-native-webview';
 
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
-import SendMail2 from '../../../assets/images/SendMail2.png';
-import StarMail2 from '../../../assets/images/StarMail2.png';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -44,6 +43,10 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
       params: content,
     });
   };
+  const url = Platform.select({
+    ios: 'http://localhost:3000/readingeditor',
+    android: 'http://10.0.2.2:3000/readingeditor',
+  });
 
   return (
     <View style={{flex: 1}}>
@@ -67,35 +70,16 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
           source={AuthorProfileImage}></Image>
         <Text style={styles.authorText}>{params.item.author}</Text>
       </View>
-      <ScrollView>
-        <View style={styles.bodyView}>
-          <SelectableText
-            menuItems={['공유']}
-            /* 
-    Called when the user taps in a item of the selection menu:
-    - eventType: (string) is the label
-    - content: (string) the selected text portion
-    - selectionStart: (int) is the start position of the selected text
-    - selectionEnd: (int) is the end position of the selected text
-   */
-            onSelection={({
-              eventType,
-              content,
-              selectionStart,
-              selectionEnd,
-            }) => {
-              onSelectionChange(
-                eventType,
-                content,
-                selectionStart,
-                selectionEnd,
-              );
-            }}
-            value={params.item.body}
-            style={styles.bodyText}
-          />
-        </View>
-      </ScrollView>
+      <WebView
+        source={{uri: url}}
+        menuItems={[{label: '공유', key: 'share'}]}
+        onCustomMenuSelection={webViewEvent => {
+          const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
+          const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
+          const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
+        }}
+        scrollEnabled={false}
+      />
     </View>
   );
 };
