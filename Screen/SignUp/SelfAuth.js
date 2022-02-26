@@ -35,7 +35,6 @@ const SelfAuth = () => {
   };
   const onPressConfirm = () => {
     setConfirmRequest(true);
-    console.log(typeof number);
     if (parseInt(number) === realNumber) {
       Alert.alert('인증 되었습니다.', {
         text: '확인',
@@ -88,7 +87,7 @@ const SelfAuth = () => {
   };
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SuccessModal',
+      screen: 'SetProfile',
     });
   };
   return (
@@ -220,8 +219,9 @@ const SelfAuth = () => {
         </Text>
         <Text style={styles.example}>보기</Text>
       </View>
+
       {/* footer: Button */}
-      <View style={{left: 22, top: 160 + 25}}>
+      <View style={{left: 22, bottom: -284 + 99}}>
         <TouchableOpacity
           onPress={
             !name ? goAlertName : !confirmSuccess ? goAlertPhone : goNextScreen

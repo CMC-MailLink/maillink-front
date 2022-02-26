@@ -20,22 +20,41 @@ import {useNavigation} from '@react-navigation/native';
 const SetProfile = () => {
   const navigation = useNavigation();
   const [name, onChangeName] = useState('');
-  const [checkMessage, onChangeCheckMessage] =
-    useState('한글 6자까지 설정 가능합니다.');
+  const [checkMessage, onChangeCheckMessage] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [nameData, onChangeNameData] = useState('영이입니당당당');
+  const [confirmOverlap, setConfirmOverlap] = useState(false);
+  const [nameData, onChangeNameData] = useState('영이당당당당');
 
   const onPressBack = () => {
     navigation.goBack();
-  };
-  const onPressNameConfirm = () => {
-    onChangeName(name);
   };
   const onPressErase = () => {
     onChangeName('');
   };
   const onCheckName = () => {
-    onChangeName(name);
+    if (name.length > 6) {
+      Alert.alert('사용할 수 없는 이름입니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+    }
+    if (name === nameData) {
+      Alert.alert('중복되는 이름입니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+      onChangeCheckMessage('이미 존재하는 닉네임입니다.');
+      setConfirmSuccess(false);
+      console.log(confirmSuccess);
+    }
+    if (name.length <= 6 && name !== nameData) {
+      Alert.alert('사용할 수 있는 이름입니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+      onChangeCheckMessage('사용할 수 있는 이름이에요.');
+      setConfirmSuccess(true);
+    }
   };
   const goAlertName = () => {
     Alert.alert('이름을 입력하세요.', {
@@ -45,22 +64,18 @@ const SetProfile = () => {
   };
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SetProfile',
+      screen: 'SuccessModal',
     });
   };
 
   useEffect(() => {
     if (name.length > 6) {
-      onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
+      onChangeCheckMessage('사용할 수 없는 이름입니다. (한글 6자 제한)');
       setConfirmSuccess(false);
     }
-    if (name === nameData) {
-      onChangeCheckMessage('이미 존재하는 닉네임입니다.');
+    if (name === '') {
+      onChangeCheckMessage('한글 6자까지 설정 가능합니다.');
       setConfirmSuccess(false);
-    }
-    if (name.length <= 6 && name !== nameData) {
-      onChangeCheckMessage('사용할 수 있는 이름이에요');
-      setConfirmSuccess(true);
     }
   }, [name, nameData]);
 
@@ -112,18 +127,18 @@ const SetProfile = () => {
             <Image style={styles.eraseButton} source={EraseNickname} />
           </TouchableWithoutFeedback>
           <TouchableOpacity
-            onPress={onPressNameConfirm}
+            onPress={onCheckName}
             style={!name ? styles.confirmBasic : styles.confirmChange}>
             <Text
               style={
                 !name ? styles.confirmBasicText : styles.confirmChangeText
               }>
-              확인
+              중복 확인
             </Text>
           </TouchableOpacity>
           <View
             style={
-              name.length > 6
+              name.length > 6 && !confirmSuccess
                 ? styles.bodyNameBorderChange
                 : styles.bodyNameBorder
             }
@@ -136,9 +151,9 @@ const SetProfile = () => {
         </View>
 
         {/* footer: Button */}
-        <View style={{left: 22, top: 160 + 25}}>
+        <View style={{left: 22, bottom: -245 + 99}}>
           <TouchableOpacity
-            //onPress={}
+            onPress={confirmSuccess ? goNextScreen : null}
             style={
               confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
             }>
@@ -149,7 +164,7 @@ const SetProfile = () => {
                     ? styles.buttonAbleText
                     : styles.buttonDisableText
                 }>
-                다음
+                완료
               </Text>
             </View>
           </TouchableOpacity>
