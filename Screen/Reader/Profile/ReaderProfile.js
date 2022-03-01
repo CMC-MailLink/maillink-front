@@ -138,7 +138,8 @@ const ReaderProfile = () => {
           setEditName={setEditName}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}></ReaderProfileModal>
+          onPressModalConfirm={onPressModalConfirm}
+        />
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
@@ -154,7 +155,8 @@ const ReaderProfile = () => {
               width: 18.68,
               height: 19.2,
             }}
-            source={SettingProfile}></Image>
+            source={SettingProfile}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.profileView}>
@@ -167,12 +169,14 @@ const ReaderProfile = () => {
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 78, height: 78, borderRadius: 90}}
-              source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+              source={imageUri == '' ? DefaultProfile : imageUri}
+            />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 42, height: 42, top: -31, left: 25}}
-              source={ImageEditProfile}></Image>
+              source={ImageEditProfile}
+            />
           </TouchableWithoutFeedback>
           <View style={{alignItems: 'center', top: -37}}>
             <Text style={styles.profileName}>{name}</Text>
@@ -190,9 +194,7 @@ const ReaderProfile = () => {
           <TouchableWithoutFeedback onPress={() => setCategory(!category)}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.accordionText}>구독작가</Text>
-              <Image
-                style={{width: 10, height: 5}}
-                source={AccordionProfile}></Image>
+              <Image style={{width: 10, height: 5}} source={AccordionProfile} />
             </View>
           </TouchableWithoutFeedback>
         ) : (
@@ -201,7 +203,8 @@ const ReaderProfile = () => {
               <Text style={styles.accordionText}>구독작가</Text>
               <Image
                 style={{width: 10, height: 5}}
-                source={AccordionProfile2}></Image>
+                source={AccordionProfile2}
+              />
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -212,7 +215,7 @@ const ReaderProfile = () => {
               screen: 'ReaderProfileSearch',
             })
           }>
-          <Image style={{width: 16, height: 16}} source={SearchProfile}></Image>
+          <Image style={{width: 16, height: 16}} source={SearchProfile} />
         </TouchableOpacity>
       </View>
       {category ? (
@@ -256,8 +259,9 @@ const ReaderProfile = () => {
               <View style={{flexDirection: 'row'}}>
                 {vive.length
                   ? vive.map((data, index) => {
-                      if (index > 4) return null;
-                      else
+                      if (index > 4) {
+                        return null;
+                      } else {
                         return (
                           <TouchableOpacity
                             onPress={e => onPressVive(index)}
@@ -279,14 +283,16 @@ const ReaderProfile = () => {
                             </View>
                           </TouchableOpacity>
                         );
+                      }
                     })
                   : null}
               </View>
               <View style={{flexDirection: 'row'}}>
                 {vive.length
                   ? vive.map((data, index) => {
-                      if (index < 5) return null;
-                      else
+                      if (index < 5) {
+                        return null;
+                      } else {
                         return (
                           <TouchableOpacity
                             onPress={e => onPressVive(index)}
@@ -308,6 +314,7 @@ const ReaderProfile = () => {
                             </View>
                           </TouchableOpacity>
                         );
+                      }
                     })
                   : null}
               </View>
@@ -364,7 +371,8 @@ const ReaderProfile = () => {
         <View key={index} style={styles.bodyItem}>
           <Image
             style={{width: 42, height: 42, marginRight: 10}}
-            source={AuthorProfileImage}></Image>
+            source={AuthorProfileImage}
+          />
           <View>
             <Text style={styles.bodyItemName}>{data.name}</Text>
             <Text style={styles.bodyItemIntro}>{data.intro}</Text>

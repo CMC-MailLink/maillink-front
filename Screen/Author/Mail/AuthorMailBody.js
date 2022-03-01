@@ -169,7 +169,8 @@ const AuthorMailBody = () => {
           width: '100%',
           backgroundColor: '#4562F1',
           position: 'absolute',
-        }}></View>
+        }}
+      />
       <ScrollView
         stickyHeaderIndices={[2]}
         refreshControl={

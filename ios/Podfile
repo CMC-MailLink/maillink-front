@@ -17,6 +17,8 @@ target 'MailLinkApp' do
 
 
 
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'MailLinkAppTests' do
     inherit! :complete
     # Pods for testing

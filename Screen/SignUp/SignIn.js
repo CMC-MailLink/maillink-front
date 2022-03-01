@@ -11,7 +11,7 @@ const SignIn = () => {
   const navigation = useNavigation();
   const onPressNaverLogin = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SelfAuth',
+      screen: 'SetProfile',
     });
   };
 
@@ -23,7 +23,8 @@ const SignIn = () => {
       }}>
       <Image
         style={{width: 62.86, height: 49, top: 157, left: 42}}
-        source={LogoSignIn}></Image>
+        source={LogoSignIn}
+      />
       <View style={{top: 236 - 48, left: 38}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.NameTitle}>메일링크</Text>
@@ -43,15 +44,13 @@ const SignIn = () => {
             alignItems: 'center',
           }}>
           <TouchableOpacity onPress={onPressNaverLogin}>
-            <Image style={{width: 312, height: 52}} source={NaverLogin}></Image>
+            <Image style={{width: 312, height: 52}} source={NaverLogin} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Image style={{width: 312, height: 52}} source={KakaoLogin}></Image>
+            <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Image
-              style={{width: 312, height: 52}}
-              source={GoogleLogin}></Image>
+            <Image style={{width: 312, height: 52}} source={GoogleLogin} />
           </TouchableOpacity>
         </View>
         <View style={{marginTop: 18}}>

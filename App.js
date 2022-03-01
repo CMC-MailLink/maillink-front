@@ -39,7 +39,7 @@ const App = () => {
       <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
         {/* <StatusBar barStyle="light-content" /> */}
         {!isLogged ? (
-          <SignUpRoot></SignUpRoot>
+          <SignUpRoot />
         ) : isReader ? (
           <ReaderRoot />
         ) : (
