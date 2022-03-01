@@ -1,10 +1,9 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import ReaderSearch from '../../Screen/Reader/Search/ReaderSearch';
+import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
-
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
@@ -31,8 +30,8 @@ const ReaderTabs = () => {
         tabBarStyle: styles.navigator,
       }}>
       <ReaderTab.Screen
-        name="Search"
-        component={ReaderSearch}
+        name="recommend"
+        component={ReaderRecommend}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
