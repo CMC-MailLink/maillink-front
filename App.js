@@ -5,6 +5,7 @@ import {StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
+import {MenuProvider} from 'react-native-popup-menu';
 
 import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
@@ -38,14 +39,16 @@ const App = () => {
         {/* <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
         {/* <StatusBar barStyle="light-content" /> */}
-        {!isLogged ? (
-          <SignUpRoot />
-        ) : isReader ? (
-          <ReaderRoot />
-        ) : (
-          <AuthorRoot />
-        )}
-        {/* </SafeAreaView> */}
+        <MenuProvider>
+          {!isLogged ? (
+            <SignUpRoot />
+          ) : isReader ? (
+            <ReaderRoot />
+          ) : (
+            <AuthorRoot />
+          )}
+          {/* </SafeAreaView> */}
+        </MenuProvider>
       </NavigationContainer>
     </SafeAreaProvider>
   );
