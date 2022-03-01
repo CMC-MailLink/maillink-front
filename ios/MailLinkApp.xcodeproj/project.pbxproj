@@ -19,8 +19,8 @@
 		610833BC28C04B729754DF64 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		933CCD052E6A48D4863AEBA7 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */; };
-		952E0E68202E20EF9FBE25DF /* libPods-MailLinkApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD3D8E93A781C63BC1DBEE1 /* libPods-MailLinkApp.a */; };
-		BE87839C727B7F75DBD2ECCB /* libPods-MailLinkApp-MailLinkAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 120BAFF601DD03A6ACA3685D /* libPods-MailLinkApp-MailLinkAppTests.a */; };
+		CD0811B421A5257A87F1FE30 /* libPods-MailLinkApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 518DF389C7069C66151A4E41 /* libPods-MailLinkApp.a */; };
+		D3EC9621AF4880561F653F02 /* libPods-MailLinkApp-MailLinkAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 642770FAB4675082897D58CA /* libPods-MailLinkApp-MailLinkAppTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,27 +37,27 @@
 		00E356EE1AD99517003FC87E /* MailLinkAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MailLinkAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* MailLinkAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MailLinkAppTests.m; sourceTree = "<group>"; };
-		09A5B870C818006EC00CF65C /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp-MailLinkAppTests.release.xcconfig"; path = "Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		120BAFF601DD03A6ACA3685D /* libPods-MailLinkApp-MailLinkAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp-MailLinkAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0810344BD9C00A10354B04DC /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig"; path = "Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MailLinkApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MailLinkApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MailLinkApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MailLinkApp/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MailLinkApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MailLinkApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MailLinkApp/main.m; sourceTree = "<group>"; };
-		22ABF41B49CE22B224ED582E /* Pods-MailLinkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.release.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.release.xcconfig"; sourceTree = "<group>"; };
 		2604717327C2AF8300569794 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Regular.otf"; path = "../assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
 		43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Bold.otf"; path = "../assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
+		518DF389C7069C66151A4E41 /* libPods-MailLinkApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		642770FAB4675082897D58CA /* libPods-MailLinkApp-MailLinkAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp-MailLinkAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Thin.otf"; path = "../assets/fonts/NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MailLinkApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8CD3D8E93A781C63BC1DBEE1 /* libPods-MailLinkApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		90B9D4069AD49793745077C0 /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig"; path = "Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ACC705EC07B243AA7F26A33F /* Pods-MailLinkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.release.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.release.xcconfig"; sourceTree = "<group>"; };
 		AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Medium.otf"; path = "../assets/fonts/NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
-		B476E2472D1E23F7331688B9 /* Pods-MailLinkApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.debug.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.debug.xcconfig"; sourceTree = "<group>"; };
 		CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Light.otf"; path = "../assets/fonts/NotoSansKR-Light.otf"; sourceTree = "<group>"; };
 		CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Black.otf"; path = "../assets/fonts/NotoSansKR-Black.otf"; sourceTree = "<group>"; };
+		EB77382175868FCE4108268D /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp-MailLinkAppTests.release.xcconfig"; path = "Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EDCB9C4E44DE3C78EE552DA6 /* Pods-MailLinkApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.debug.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE87839C727B7F75DBD2ECCB /* libPods-MailLinkApp-MailLinkAppTests.a in Frameworks */,
+				D3EC9621AF4880561F653F02 /* libPods-MailLinkApp-MailLinkAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				952E0E68202E20EF9FBE25DF /* libPods-MailLinkApp.a in Frameworks */,
+				CD0811B421A5257A87F1FE30 /* libPods-MailLinkApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,8 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				8CD3D8E93A781C63BC1DBEE1 /* libPods-MailLinkApp.a */,
-				120BAFF601DD03A6ACA3685D /* libPods-MailLinkApp-MailLinkAppTests.a */,
+				518DF389C7069C66151A4E41 /* libPods-MailLinkApp.a */,
+				642770FAB4675082897D58CA /* libPods-MailLinkApp-MailLinkAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -169,10 +169,10 @@
 		EBA3D4B41A3AD4BF857E7188 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B476E2472D1E23F7331688B9 /* Pods-MailLinkApp.debug.xcconfig */,
-				22ABF41B49CE22B224ED582E /* Pods-MailLinkApp.release.xcconfig */,
-				90B9D4069AD49793745077C0 /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */,
-				09A5B870C818006EC00CF65C /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */,
+				EDCB9C4E44DE3C78EE552DA6 /* Pods-MailLinkApp.debug.xcconfig */,
+				ACC705EC07B243AA7F26A33F /* Pods-MailLinkApp.release.xcconfig */,
+				0810344BD9C00A10354B04DC /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */,
+				EB77382175868FCE4108268D /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -184,12 +184,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MailLinkAppTests" */;
 			buildPhases = (
-				F4B16EE68A210DACBB5BE650 /* [CP] Check Pods Manifest.lock */,
+				4E076B0B324A65CA8CBE6D14 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				677529C7B8441F295855CB83 /* [CP] Embed Pods Frameworks */,
-				7B9162B88AE10BB19748E4AF /* [CP] Copy Pods Resources */,
+				5A162D91607EE8F15C8F8AD6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -205,14 +204,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MailLinkApp" */;
 			buildPhases = (
-				E9AFF9AFE8CEBAAB91195082 /* [CP] Check Pods Manifest.lock */,
+				0704C71BD8C1C04A21CFBC48 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				18F573BF3BA60CEE9104BF5E /* [CP] Embed Pods Frameworks */,
-				B7DE997ACD2A2898CA53BFDE /* [CP] Copy Pods Resources */,
+				A503E5F994B76756FB509B32 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -300,75 +298,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		18F573BF3BA60CEE9104BF5E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		677529C7B8441F295855CB83 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7B9162B88AE10BB19748E4AF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B7DE997ACD2A2898CA53BFDE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E9AFF9AFE8CEBAAB91195082 /* [CP] Check Pods Manifest.lock */ = {
+		0704C71BD8C1C04A21CFBC48 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -390,7 +320,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F4B16EE68A210DACBB5BE650 /* [CP] Check Pods Manifest.lock */ = {
+		4E076B0B324A65CA8CBE6D14 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -410,6 +340,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5A162D91607EE8F15C8F8AD6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp-MailLinkAppTests/Pods-MailLinkApp-MailLinkAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A503E5F994B76756FB509B32 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -464,7 +428,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90B9D4069AD49793745077C0 /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */;
+			baseConfigurationReference = 0810344BD9C00A10354B04DC /* Pods-MailLinkApp-MailLinkAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -491,7 +455,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 09A5B870C818006EC00CF65C /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */;
+			baseConfigurationReference = EB77382175868FCE4108268D /* Pods-MailLinkApp-MailLinkAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -515,7 +479,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B476E2472D1E23F7331688B9 /* Pods-MailLinkApp.debug.xcconfig */;
+			baseConfigurationReference = EDCB9C4E44DE3C78EE552DA6 /* Pods-MailLinkApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -528,7 +492,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
@@ -541,7 +504,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22ABF41B49CE22B224ED582E /* Pods-MailLinkApp.release.xcconfig */;
+			baseConfigurationReference = ACC705EC07B243AA7F26A33F /* Pods-MailLinkApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -553,7 +516,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";

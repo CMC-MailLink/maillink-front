@@ -6,6 +6,7 @@ import AuthorReading from '../../Screen/Author/Reading/AuthorReading';
 import InstaShare from '../../Screen/InstaShare';
 import Setting from '../../Screen/Setting';
 import Message from '../../Screen/Message';
+import AuthorEditor from '../../Screen/Author/Write/AuthorEditor';
 
 const AuthorStack = createNativeStackNavigator();
 
@@ -48,6 +49,11 @@ const AuthorStacks = () => (
     <AuthorStack.Screen
       name="Message"
       component={Message}
+      options={{headerTitle: ''}}
+    />
+    <AuthorStack.Screen
+      name="AuthorEditor"
+      component={AuthorEditor}
       options={{headerTitle: ''}}
     />
   </AuthorStack.Navigator>
