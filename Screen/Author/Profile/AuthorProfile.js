@@ -10,6 +10,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Modal,
+  ScrollView,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -17,16 +18,17 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
-import CopyProfile from '../../../assets/images/CopyProfile.png';
 
 import AuthorProfileModal from './AuthorProfileModal';
+import AuthorProfileIntro from './AuthorProfileIntro';
+import AuthorProfileMail from './AuthorProfileMail';
 
 const AuthorProfile = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState('영이');
-  const [editName, setEditName] = useState('영이');
+  const [name, setName] = useState('덩이');
+  const [editName, setEditName] = useState('덩이');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
 
@@ -95,179 +97,90 @@ const AuthorProfile = () => {
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
-        <TouchableOpacity
-          style={{position: 'absolute', right: 20, bottom: 18}}
-          onPress={() => {
-            navigation.navigate('AuthorStacks', {
-              screen: 'Setting',
-            });
-          }}>
-          <Image
+      </View>
+      <ScrollView stickyHeaderIndices={[2]} bounces={false}>
+        <View style={{height: 43, backgroundColor: '#4562F1'}}>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 20, bottom: 18}}
+            onPress={() => {
+              navigation.navigate('AuthorStacks', {
+                screen: 'Setting',
+              });
+            }}>
+            <Image
+              style={{
+                width: 18.68,
+                height: 19.2,
+              }}
+              source={SettingProfile}></Image>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.profileView}>
+          <View
             style={{
-              width: 18.68,
-              height: 19.2,
-            }}
-            source={SettingProfile}></Image>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.profileView}>
-        <View
-          style={{
-            alignItems: 'center',
-            top: -39,
-            width: 160,
-          }}>
-          <TouchableWithoutFeedback onPress={onPressEditImage}>
-            <Image
-              style={{width: 78, height: 78, borderRadius: 90}}
-              source={imageUri == '' ? DefaultProfile : imageUri}></Image>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={onPressEditImage}>
-            <Image
-              style={{width: 42, height: 42, top: -31, left: 25}}
-              source={ImageEditProfile}></Image>
-          </TouchableWithoutFeedback>
-          <View style={{alignItems: 'center', top: -37}}>
-            <Text style={styles.profileName}>{name}</Text>
-            <Text style={styles.profileCategory}>작가님</Text>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <View style={styles.profileEditView}>
-                <Text style={styles.profileEditText}>프로필 수정</Text>
-              </View>
-            </TouchableOpacity>
+              alignItems: 'center',
+              top: -39,
+              width: 160,
+            }}>
+            <TouchableWithoutFeedback onPress={onPressEditImage}>
+              <Image
+                style={{width: 78, height: 78, borderRadius: 90}}
+                source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={onPressEditImage}>
+              <Image
+                style={{width: 42, height: 42, top: -31, left: 25}}
+                source={ImageEditProfile}></Image>
+            </TouchableWithoutFeedback>
+            <View style={{alignItems: 'center', top: -37}}>
+              <Text style={styles.profileName}>{name}</Text>
+              <Text style={styles.profileCategory}>작가님</Text>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <View style={styles.profileEditView}>
+                  <Text style={styles.profileEditText}>프로필 수정</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.bodyHeader}>
-        <View
-          style={{
-            width: 128,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View style={introSelect ? styles.bodyHeaderBorder : null}>
-            <TouchableOpacity onPress={onPressIntro}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: introSelect ? '#3C3C3C' : '#BEBEBE',
-                }}>
-                작가소개
-              </Text>
-            </TouchableOpacity>
+        <View style={styles.bodyHeader}>
+          <View
+            style={{
+              width: 128,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View style={introSelect ? styles.bodyHeaderBorder : null}>
+              <TouchableOpacity onPress={onPressIntro}>
+                <Text
+                  style={{
+                    ...styles.bodyHeaderText,
+                    color: introSelect ? '#3C3C3C' : '#BEBEBE',
+                  }}>
+                  작가소개
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={introSelect ? null : styles.bodyHeaderBorder}>
+              <TouchableOpacity onPress={onPressMail}>
+                <Text
+                  style={{
+                    ...styles.bodyHeaderText,
+                    color: introSelect ? '#BEBEBE' : '#000000',
+                  }}>
+                  작성메일
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={introSelect ? null : styles.bodyHeaderBorder}>
-            <TouchableOpacity onPress={onPressMail}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: introSelect ? '#BEBEBE' : '#000000',
-                }}>
-                작성메일
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </View>
-      <View style={styles.bodyIntroView}>
-        <Text style={styles.bodyIntroHeadText}>소개</Text>
-        <Text style={styles.bodyIntroText}>
-          안녕하세요, 신진작가 ‘덩이’입니다 :) 재미있는 글을 쓰고 싶습니다.
-        </Text>
-      </View>
-      <View style={styles.bodyInterestView}>
-        <Text style={styles.bodyIntroHeadText}>관심사</Text>
-        <Text style={styles.bodyInterestHeadText}>갈래</Text>
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <TouchableOpacity>
-            <View style={styles.bodyInterestItemView1}>
-              <Text style={styles.bodyInterestItemText1}>시</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.bodyInterestItemView2}>
-              <Text style={styles.bodyInterestItemText2}>소설</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.bodyInterestItemView3}>
-              <Text style={styles.bodyInterestItemText3}>에세이</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.bodyInterestHeadText}>분위기</Text>
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <TouchableOpacity>
-            <View
-              style={{
-                ...styles.bodyInterestItemView2,
-                backgroundColor: '#E6DDFF',
-              }}>
-              <Text style={{...styles.bodyInterestItemText2, color: '#1E0072'}}>
-                서정
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View
-              style={{
-                ...styles.bodyInterestItemView2,
-                backgroundColor: '#C5F0E3',
-              }}>
-              <Text style={{...styles.bodyInterestItemText2, color: '#00402D'}}>
-                잔잔
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View
-              style={{
-                ...styles.bodyInterestItemView2,
-                backgroundColor: '#FFF2AD',
-              }}>
-              <Text style={{...styles.bodyInterestItemText2, color: '#3D3300'}}>
-                명랑
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View
-              style={{
-                ...styles.bodyInterestItemView2,
-                backgroundColor: '#FFDDDD',
-              }}>
-              <Text style={{...styles.bodyInterestItemText2, color: '#370000'}}>
-                유쾌
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View
-              style={{
-                ...styles.bodyInterestItemView2,
-                backgroundColor: '#FFE8FB',
-              }}>
-              <Text style={{...styles.bodyInterestItemText2, color: '#3E0035'}}>
-                달달
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View
-        style={{
-          ...styles.bodyInterestView,
-          borderBottomWidth: 0,
-        }}>
-        <Text style={styles.bodyIntroHeadText}>관심사</Text>
-        <Text style={styles.bodyIntroText}>facebook.com/덩이</Text>
-        <TouchableOpacity
-          style={{position: 'absolute', top: 50, right: 20}}
-          onPress={() => copyToClipboard('facebook.com/덩이')}>
-          <Image style={{width: 13, height: 16}} source={CopyProfile}></Image>
-        </TouchableOpacity>
-      </View>
+        {introSelect ? (
+          <AuthorProfileIntro></AuthorProfileIntro>
+        ) : (
+          <AuthorProfileMail></AuthorProfileMail>
+        )}
+      </ScrollView>
     </View>
   );
 };
@@ -275,7 +188,7 @@ const AuthorProfile = () => {
 const styles = StyleSheet.create({
   headerView: {
     width: '100%',
-    height: 121 - 48,
+    height: 78 - 48,
     backgroundColor: '#4562F1',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
@@ -299,6 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 20,
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   bodyHeaderBorder: {
     height: 40,
@@ -336,80 +250,6 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#3C3C3C',
-  },
-  bodyIntroView: {
-    height: 114,
-    paddingTop: 19,
-    paddingBottom: 19,
-    paddingLeft: 21,
-    paddingRight: 21,
-    borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
-  },
-  bodyIntroHeadText: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 14,
-    color: '#3C3C3C',
-    height: 30,
-  },
-  bodyIntroText: {
-    fontFamily: 'NotoSansKR-Light',
-    fontSize: 14,
-    color: '#828282',
-  },
-  bodyInterestView: {
-    paddingVertical: 19,
-    paddingHorizontal: 21,
-    borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
-  },
-  bodyInterestHeadText: {
-    fontFamily: 'NotoSansKR-Light',
-    fontSize: 12,
-    color: '#828282',
-    marginBottom: 5,
-  },
-  bodyInterestItemView1: {
-    width: 43,
-    height: 24,
-    borderRadius: 26,
-    backgroundColor: '#E8EBFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 7,
-  },
-  bodyInterestItemText1: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#0021C6',
-  },
-  bodyInterestItemView2: {
-    width: 53,
-    height: 24,
-    borderRadius: 26,
-    backgroundColor: '#E8EBFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 7,
-  },
-  bodyInterestItemText2: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#0021C6',
-  },
-  bodyInterestItemView3: {
-    width: 63,
-    height: 24,
-    borderRadius: 26,
-    backgroundColor: '#E8EBFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 7,
-  },
-  bodyInterestItemText3: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#0021C6',
   },
 });
 

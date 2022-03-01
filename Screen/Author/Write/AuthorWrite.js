@@ -155,11 +155,11 @@ const AuthorWrite = () => {
                 ...styles.bodyHeaderTextOrder,
                 color: recentSelect ? '#000000' : '#BEBEBE',
               }}>
-              최신순&nbsp;
+              최신순
             </Text>
           </TouchableOpacity>
           <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
-            •
+            ・
           </Text>
           <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
             <Text
@@ -167,7 +167,7 @@ const AuthorWrite = () => {
                 ...styles.bodyHeaderTextOrder,
                 color: recentSelect ? '#BEBEBE' : '#000000',
               }}>
-              &nbsp;오래된순
+              오래된순
             </Text>
           </TouchableOpacity>
         </View>
@@ -237,6 +237,11 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingBottom: 103 - 23.78,
     paddingBottom: 84.5,
+  },
+  bodyHeaderTextOrder: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 12,
+    paddingHorizontal: 3,
   },
 });
 export default AuthorWrite;

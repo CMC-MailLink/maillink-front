@@ -55,7 +55,7 @@ const AuthorEditor = () => {
               임시저장
             </Text>
           </TouchableWithoutFeedback>
-          <Text style={{marginHorizontal: 16, color: '#CECECE'}}>•</Text>
+          <Text style={{marginHorizontal: 16, color: '#CECECE'}}>・</Text>
           <TouchableWithoutFeedback>
             <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
           </TouchableWithoutFeedback>

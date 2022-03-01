@@ -345,7 +345,7 @@ const ReaderProfile = () => {
             </Text>
           </TouchableOpacity>
           <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
-            •
+            ・
           </Text>
           <TouchableOpacity
             onPress={() => setRecentSelect(false)}
