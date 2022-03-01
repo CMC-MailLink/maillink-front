@@ -9,8 +9,11 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
+
+import ReaderRecommendList from './ReaderRecommendList';
 
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
@@ -70,44 +73,50 @@ const ReaderRecommend = () => {
       <View style={styles.headerView}>
         <Text style={styles.headerText}>작가찾기</Text>
       </View>
-      <View style={styles.titleView}>
-        <Text style={styles.titleText}>
-          <Text
-            style={{
-              fontFamily: 'NotoSansKR-Bold',
-              fontSize: 20,
-              color: '#3C3C3C',
-            }}>
-            영이
+      <ScrollView style={{flex: 1}}>
+        <View style={styles.titleView}>
+          <Text style={styles.titleText}>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Bold',
+                fontSize: 20,
+                color: '#3C3C3C',
+              }}>
+              영이
+            </Text>
+            님,
           </Text>
-          님,
-        </Text>
-        <Text style={styles.titleText}>오늘의 추천작가입니다.</Text>
-        <TouchableOpacity style={{position: 'absolute', right: 20, bottom: 5}}>
-          <Image
-            style={{
-              width: 19,
-              height: 20,
-            }}
-            source={SearchRecommend}></Image>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.recView}>
-        <FlatList
-          data={recommend}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{paddingHorizontal: 30}}
-          renderItem={renderItem}></FlatList>
-      </View>
-      <TouchableOpacity>
-        <Image
-          style={{
-            width: Dimensions.get('window').width,
-            height: (Dimensions.get('window').width * 131) / 390,
-          }}
-          source={TestPageRecommend}></Image>
-      </TouchableOpacity>
+          <Text style={styles.titleText}>오늘의 추천작가입니다.</Text>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 20, bottom: 5}}>
+            <Image
+              style={{
+                width: 19,
+                height: 20,
+              }}
+              source={SearchRecommend}></Image>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.recView}>
+          <FlatList
+            data={recommend}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{paddingHorizontal: 30}}
+            renderItem={renderItem}></FlatList>
+        </View>
+        <View style={styles.testPageView}>
+          <TouchableOpacity>
+            <Image
+              style={{
+                width: Dimensions.get('window').width,
+                height: (Dimensions.get('window').width * 131) / 390,
+              }}
+              source={TestPageRecommend}></Image>
+          </TouchableOpacity>
+        </View>
+        <ReaderRecommendList></ReaderRecommendList>
+      </ScrollView>
     </View>
   );
 };
@@ -165,6 +174,11 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 11,
     color: '#828282',
+  },
+  testPageView: {
+    paddingBottom: 24,
+    borderBottomColor: '#F8F8F8',
+    borderBottomWidth: 6,
   },
 });
 
