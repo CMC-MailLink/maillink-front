@@ -7,6 +7,7 @@ import InstaShare from '../../Screen/InstaShare';
 import ReaderProfileSearch from '../../Screen/Reader/Profile/ReaderProfileSearch';
 import Setting from '../../Screen/Setting';
 import Message from '../../Screen/Message';
+import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
 
 const ReaderStack = createNativeStackNavigator();
 
@@ -55,6 +56,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="Message"
       component={Message}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAuthorProfile"
+      component={ReaderAuthorProfile}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

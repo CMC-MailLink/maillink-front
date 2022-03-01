@@ -18,8 +18,10 @@ import ReaderRecommendList from './ReaderRecommendList';
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
 import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
+import {useNavigation} from '@react-navigation/native';
 
 const ReaderRecommend = () => {
+  const navigation = useNavigation();
   const [recommend, setRecommend] = useState([
     {
       key: 0,
@@ -51,18 +53,47 @@ const ReaderRecommend = () => {
     },
   ]);
 
+  const onPressAuthor = () => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAuthorProfile',
+    });
+  };
+
   const renderItem = ({item}) => {
     return (
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <View style={styles.itemView}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemAuthor}>작가님</Text>
-          <Text style={styles.itemIntro}>{item.intro}</Text>
+      <TouchableOpacity onPress={onPressAuthor}>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.itemView}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemAuthor}>작가님</Text>
+            <Text style={styles.itemIntro}>{item.intro}</Text>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              <View style={{...styles.itemCategoryView, marginRight: 10}}>
+                <Text
+                  style={{
+                    ...styles.itemCategoryText,
+                    color: '#0021C6',
+                  }}>
+                  <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>
+                  소설
+                </Text>
+              </View>
+              <View
+                style={{
+                  ...styles.itemCategoryView,
+                  backgroundColor: '#FFF2AD',
+                }}>
+                <Text style={{...styles.itemCategoryText, color: '#5E4300'}}>
+                  <Text style={{color: '#FFC839'}}>♥&nbsp;</Text>명랑
+                </Text>
+              </View>
+            </View>
+          </View>
+          <Image
+            style={{width: 56, height: 56, position: 'absolute', top: 10}}
+            source={AuthorRecommend}></Image>
         </View>
-        <Image
-          style={{width: 56, height: 56, position: 'absolute', top: 10}}
-          source={AuthorRecommend}></Image>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -179,6 +210,18 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     borderBottomColor: '#F8F8F8',
     borderBottomWidth: 6,
+  },
+  itemCategoryView: {
+    width: 53,
+    height: 24,
+    borderRadius: 26,
+    backgroundColor: '#E8EBFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemCategoryText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 12,
   },
 });
 

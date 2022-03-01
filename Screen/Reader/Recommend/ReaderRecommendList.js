@@ -13,7 +13,11 @@ import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 import AuthorProfileRecommend from '../../../assets/images/AuthorProfileRecommend.png';
 import ReaderRecommendModal from './ReaderRecommendModal';
 
+import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
+import {useNavigation} from '@react-navigation/native';
+
 const ReaderRecommendList = () => {
+  const navigation = useNavigation();
   const [allSelect, setAllSelect] = useState(true);
   const [branch, setBranch] = useState([
     {category: '시', select: true},
@@ -80,6 +84,11 @@ const ReaderRecommendList = () => {
     temp[index].subscribe = false;
     setAuthor([...temp]);
   };
+  const onPressAuthor = () => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAuthorProfile',
+    });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -143,32 +152,34 @@ const ReaderRecommendList = () => {
       </View>
       <View style={{marginBottom: 150}}>
         {author.map((data, index) => (
-          <View style={styles.itemView} key={index}>
-            <Image
-              style={{width: 42, height: 42, marginRight: 15}}
-              source={AuthorProfileRecommend}></Image>
-            <View>
-              <Text style={styles.itemName}>{data.name}</Text>
-              <Text style={styles.itemIntro}>{data.intro}</Text>
+          <TouchableOpacity onPress={onPressAuthor} key={index}>
+            <View style={styles.itemView}>
+              <Image
+                style={{width: 42, height: 42, marginRight: 15}}
+                source={AuthorProfileRecommend}></Image>
+              <View>
+                <Text style={styles.itemName}>{data.name}</Text>
+                <Text style={styles.itemIntro}>{data.intro}</Text>
+              </View>
+              {data.subscribe ? (
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 20}}
+                  onPress={() => cancelSubscribe(index)}>
+                  <View style={styles.subscribeView}>
+                    <Text style={styles.subscribeText}>구독중</Text>
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 20}}
+                  onPress={() => setSubscribe(index)}>
+                  <View style={styles.notSubscribeView}>
+                    <Text style={styles.notSubscribeText}>구독하기</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
-            {data.subscribe ? (
-              <TouchableOpacity
-                style={{position: 'absolute', right: 20}}
-                onPress={() => cancelSubscribe(index)}>
-                <View style={styles.subscribeView}>
-                  <Text style={styles.subscribeText}>구독중</Text>
-                </View>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={{position: 'absolute', right: 20}}
-                onPress={() => setSubscribe(index)}>
-                <View style={styles.notSubscribeView}>
-                  <Text style={styles.notSubscribeText}>구독하기</Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
