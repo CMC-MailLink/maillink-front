@@ -21,7 +21,8 @@ const ReaderProfileModal = ({
         <TextInput
           style={styles.editNameText}
           value={editName}
-          onChangeText={setEditName}></TextInput>
+          onChangeText={setEditName}
+        />
         <Text
           style={{
             marginTop: 10,

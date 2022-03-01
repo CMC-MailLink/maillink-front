@@ -10,12 +10,14 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  Modal,
 } from 'react-native';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
 import ProfileBasicImage from '../../assets/images/ProfileBasicImage.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
 import {useNavigation} from '@react-navigation/native';
+import SuccessModal from './SuccessModal';
 
 const SetProfile = () => {
   const navigation = useNavigation();
@@ -24,6 +26,7 @@ const SetProfile = () => {
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmOverlap, setConfirmOverlap] = useState(false);
   const [nameData, onChangeNameData] = useState('영이당당당당');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -73,6 +76,10 @@ const SetProfile = () => {
       screen: 'SuccessModal',
     });
   };
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
+  };
+
   useEffect(() => {
     setConfirmOverlap(false);
     if (name.length > 6) {
@@ -88,7 +95,19 @@ const SetProfile = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
-
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <SuccessModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          onPressModalConfirm={onPressModalConfirm}
+        />
+      </Modal>
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>

@@ -5,38 +5,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image,
 } from 'react-native';
-
-const SuccessModal = ({
-  editName,
-  setEditName,
-  modalVisible,
-  setModalVisible,
-  onPressModalConfirm,
-}) => {
+import ModalCheck from '../../assets/images/ModalCheck.png';
+const SuccessModal = ({ onPressModalConfirm }) => {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Text style={styles.modalHeader}>이름 수정</Text>
-        <TextInput
-          style={styles.editNameText}
-          value={editName}
-          onChangeText={setEditName}
+        <Image
+          style={{ width: 70, height: 70, top: -78 + 53 }}
+          source={ModalCheck}
         />
-        <Text
-          style={{
-            marginTop: 10,
-            ...styles.modalText,
-          }}>
-          사용할 수 있는 이름이에요.
-        </Text>
-        <Text style={styles.modalText}>(최대 한글 6자)</Text>
+        <Text style={styles.modalText}>프로필 설정</Text>
+        <Text style={styles.modalText2}>이</Text>
+        <Text style={{}}>완료되었습니다.</Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            <View style={{marginRight: 27}}>
-              <Text style={styles.modalCancel}>취소</Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity onPress={onPressModalConfirm}>
             <View>
               <Text style={styles.modalConfirm}>확인</Text>
@@ -49,6 +32,20 @@ const SuccessModal = ({
 };
 
 const styles = StyleSheet.create({
+  modalText: {
+    top: -33 + 17,
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 24,
+    color: '#3C3C3C',
+  },
+  modalText2: {
+    top: -10 + 1,
+    right: 87,
+    position: 'absolute',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 24,
+    color: '#3C3C3C',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -89,11 +86,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomColor: '#4562F1',
     borderBottomWidth: 1,
-  },
-  modalText: {
-    fontFamily: 'NotoSansKR-Light',
-    fontSize: 14,
-    color: '#BEBEBE',
   },
   modalButtonView: {
     flexDirection: 'row',
