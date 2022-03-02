@@ -3,9 +3,9 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
-import NaverLogin from '../../assets/images/NaverLogin.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
-import GoogleLogin from '../../assets/images/GoogleLogin.png';
+import AppleLogin from '../../assets/images/AppleLogin.png';
+import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -39,25 +39,31 @@ const SignIn = () => {
         }}>
         <View
           style={{
-            height: 192,
+            height: 122,
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={onPressNaverLogin}>
-            <Image style={{width: 312, height: 52}} source={NaverLogin} />
-          </TouchableOpacity>
           <TouchableOpacity>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Image style={{width: 312, height: 52}} source={GoogleLogin} />
+            <Image style={{width: 312, height: 52}} source={AppleLogin} />
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: 18}}>
-          <Text style={styles.DescText}>
-            서비스 이용을 위해 회원가입이 필요합니다.
-          </Text>
+        <View
+          style={{
+            marginTop: 68,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image style={{width: 43, height: 1}} source={LineSignIn}></Image>
+          <Text style={styles.DescText}>이미 회원이신가요?</Text>
+          <Image style={{width: 43, height: 1}} source={LineSignIn}></Image>
         </View>
+        <Text style={styles.DescText2}>
+          기존 가입 경로를 통해 로그인해주세요
+        </Text>
       </View>
     </View>
   );
@@ -76,8 +82,15 @@ const styles = StyleSheet.create({
   },
   DescText: {
     fontFamily: 'NotoSansKR-Light',
-    fontSize: 14,
+    fontSize: 12,
+    color: '#8B8B8B',
+    marginHorizontal: 20,
+  },
+  DescText2: {
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 12,
     color: '#BCBCBC',
+    marginTop: 20,
   },
 });
 
