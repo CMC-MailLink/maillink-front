@@ -8,6 +8,8 @@ import ReaderProfileSearch from '../../Screen/Reader/Profile/ReaderProfileSearch
 import Setting from '../../Screen/Setting';
 import Message from '../../Screen/Message';
 import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
+import OnBoarding from '../../Screen/OnBoarding';
+import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
 
 const ReaderStack = createNativeStackNavigator();
 
@@ -62,6 +64,16 @@ const ReaderStacks = () => (
       name="ReaderAuthorProfile"
       component={ReaderAuthorProfile}
       options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="OnBoarding"
+      component={OnBoarding}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAnalyze"
+      component={ReaderAnalyze}
+      options={{headerTitle: '', swipeEnabled: false}}
     />
   </ReaderStack.Navigator>
 );

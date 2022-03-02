@@ -69,6 +69,11 @@ const ReaderRecommend = () => {
       screen: 'ReaderAuthorProfile',
     });
   };
+  const onPressAnalyze = () => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'OnBoarding',
+    });
+  };
 
   const renderItem = ({item}) => {
     return (
@@ -155,7 +160,7 @@ const ReaderRecommend = () => {
             renderItem={renderItem}></FlatList>
         </View>
         <View style={styles.testPageView}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onPressAnalyze}>
             <Image
               style={{
                 width: Dimensions.get('window').width,
