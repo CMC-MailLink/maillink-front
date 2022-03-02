@@ -1,6 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {
+  KakaoOAuthToken,
+  KakaoProfile,
+  getProfile as getKakaoProfile,
+  login,
+  logout,
+  unlink,
+} from '@react-native-seoul/kakao-login';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
@@ -13,6 +21,21 @@ const SignIn = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfileSelfAuth',
     });
+  };
+
+  const [result, setResult] = useState('');
+  const [result2, setResult2] = useState('');
+  const signInWithKakao = async () => {
+    const token = await login();
+    console.log(token);
+    setResult(JSON.stringify(token));
+    console.log(result);
+  };
+  const getProfile = async () => {
+    const profile = await getKakaoProfile();
+    console.log(profile);
+    setResult2(JSON.stringify(profile));
+    console.log(result2);
   };
 
   return (
@@ -43,8 +66,11 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={signInWithKakao}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={getProfile}>
+            <Text>프로필조회</Text>
           </TouchableOpacity>
           <TouchableOpacity>
             <Image style={{width: 312, height: 52}} source={AppleLogin} />
@@ -74,11 +100,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   IntroTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   DescText: {
     fontFamily: 'NotoSansKR-Light',
