@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import AnalyzeOne from '../../../assets/images/AnalyzeOne.png';
+import AnalyzeStart from '../../../assets/images/AnalyzeStart.png';
 
 const ReaderAnalyze = () => {
   const navigation = useNavigation();
@@ -46,7 +46,7 @@ const ReaderAnalyze = () => {
           alignItems: 'center',
           marginTop: 30,
         }}>
-        <Image style={{width: 390, height: 367}} source={AnalyzeOne}></Image>
+        <Image style={{width: 390, height: 367}} source={AnalyzeStart}></Image>
       </View>
       <View style={styles.bottomView}>
         <TouchableOpacity onPress={onPressStart}>
