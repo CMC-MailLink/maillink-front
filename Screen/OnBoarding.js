@@ -20,7 +20,7 @@ const OnBoarding = () => {
     navigation.goBack();
   };
   const onPressSkip = () => {
-    navigation.navigate('ReaderTabs', {
+    navigation.navigate('ReaderStacks', {
       screen: 'ReaderAnalyze',
     });
   };
@@ -28,7 +28,7 @@ const OnBoarding = () => {
     if (swiperIndex !== 2) {
       setSwiperIndex(swiperIndex + 1);
     } else
-      navigation.navigate('ReaderTabs', {
+      navigation.navigate('ReaderStacks', {
         screen: 'ReaderAnalyze',
       });
   };
