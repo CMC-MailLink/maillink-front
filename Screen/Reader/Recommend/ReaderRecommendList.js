@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -40,32 +40,43 @@ const ReaderRecommendList = () => {
       name: '이작가',
       intro: '안녕하세요. 이작가입니다.',
       subscribe: true,
+      repBranch: '시',
+      repVive: '편안',
     },
     {
       key: 1,
       name: '김작가',
       intro: '안녕하세요. 김작가입니다.',
       subscribe: false,
+      repBranch: '시',
+      repVive: '서정',
     },
     {
       key: 2,
       name: '모모',
       intro: '안녕하세요. 모모입니다.',
       subscribe: false,
+      repBranch: '시',
+      repVive: '달달',
     },
     {
       key: 3,
       name: '덩이',
       intro: '안녕하세요. 덩이입니다.',
       subscribe: false,
+      repBranch: '시',
+      repVive: '잔잔',
     },
     {
       key: 4,
       name: '훈',
       intro: '안녕하세요. 훈입니다.',
       subscribe: false,
+      repBranch: '에세이',
+      repVive: '맑은',
     },
   ]);
+  const [filterAuthor, setFilterAuthor] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   const onPressAll = () => {
@@ -90,6 +101,10 @@ const ReaderRecommendList = () => {
     });
   };
 
+  useEffect(() => {
+    setFilterAuthor([...author]);
+  }, [author]);
+
   return (
     <View style={{flex: 1}}>
       <Modal
@@ -103,7 +118,10 @@ const ReaderRecommendList = () => {
           branch={branch}
           setBranch={setBranch}
           vive={vive}
-          setVive={setVive}></ReaderRecommendModal>
+          setVive={setVive}
+          filterAuthor={filterAuthor}
+          setFilterAuthor={setFilterAuthor}
+          author={author}></ReaderRecommendModal>
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>전체 메일링크 작가</Text>
@@ -150,8 +168,8 @@ const ReaderRecommendList = () => {
           </View>
         </View>
       </View>
-      <View style={{marginBottom: 150}}>
-        {author.map((data, index) => (
+      <View style={{marginBottom: 150, minHeight: 400}}>
+        {filterAuthor.map((data, index) => (
           <TouchableOpacity onPress={onPressAuthor} key={index}>
             <View style={styles.itemView}>
               <Image

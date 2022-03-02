@@ -11,6 +11,9 @@ const ReaderRecommendModal = ({
   setBranch,
   vive,
   setVive,
+  filterAuthor,
+  setFilterAuthor,
+  author,
 }) => {
   const onPressBranch = index => {
     var temp = branch;
@@ -40,6 +43,20 @@ const ReaderRecommendModal = ({
     ]);
   };
   const submit = () => {
+    var temp = author.filter(data => {
+      for (var i = 0; i < 3; i++) {
+        if (branch[i].select)
+          if (data.repBranch === branch[i].category) return true;
+      }
+      return false;
+    });
+    temp = temp.filter(data => {
+      for (var i = 0; i < 8; i++) {
+        if (vive[i].select) if (data.repVive === vive[i].category) return true;
+      }
+      return false;
+    });
+    setFilterAuthor([...temp]);
     setModalVisible(false);
   };
 

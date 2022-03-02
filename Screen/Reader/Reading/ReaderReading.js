@@ -9,10 +9,12 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   TextInput,
+  Platform,
 } from 'react-native';
 import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
+import {WebView} from 'react-native-webview';
 
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -25,6 +27,10 @@ LogBox.ignoreLogs([
 
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const [subscribe, setSubscribe] = useState(false);
+  const url = Platform.select({
+    ios: 'http://localhost:3000/readingeditor',
+    android: 'http://10.0.2.2:3000/readingeditor',
+  });
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };
@@ -90,9 +96,16 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
           </View>
         </TouchableOpacity>
       </View>
-      <ScrollView>
-        <View style={styles.bodyView}></View>
-      </ScrollView>
+      <WebView
+        source={{uri: url}}
+        menuItems={[{label: '공유', key: 'share'}]}
+        onCustomMenuSelection={webViewEvent => {
+          const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
+          const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
+          const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
+        }}
+        scrollEnabled={false}
+      />
     </View>
   );
 };

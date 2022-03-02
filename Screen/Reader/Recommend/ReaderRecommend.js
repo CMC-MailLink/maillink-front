@@ -20,6 +20,17 @@ import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
 import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
 import {useNavigation} from '@react-navigation/native';
 
+const colorCategory = {
+  편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
+  맑은: {back: '#DDF9FF', font: '#002C36', heart: '#6BD0E6'},
+  서정: {back: '#E6DDFF', font: '#1E0072', heart: '#AE92FF'},
+  잔잔: {back: '#C5F0E3', font: '#00573D', heart: '#5ECEAC'},
+  명랑: {back: '#FFF2AD', font: '#5D4300', heart: '#FFC839'},
+  유쾌: {back: '#FFDDDD', font: '#370000', heart: '#FF8E8E'},
+  달달: {back: '#FFE8FB', font: '#3E0035', heart: '#FFACDE'},
+  키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
+};
+
 const ReaderRecommend = () => {
   const navigation = useNavigation();
   const [recommend, setRecommend] = useState([
@@ -27,29 +38,29 @@ const ReaderRecommend = () => {
       key: 0,
       name: '희희낙락',
       intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      branch: '소설',
-      vive: '명랑',
+      repBranch: '소설',
+      repVive: '명랑',
     },
     {
       key: 1,
       name: '주주',
       intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      branch: '에세이',
-      vive: '키치',
+      repBranch: '에세이',
+      repVive: '키치',
     },
     {
       key: 2,
       name: '주주1',
       intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      branch: '에세이',
-      vive: '키치',
+      repBranch: '소설',
+      repVive: '잔잔',
     },
     {
       key: 3,
       name: '주주2',
       intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      branch: '에세이',
-      vive: '키치',
+      repBranch: '시',
+      repVive: '달달',
     },
   ]);
 
@@ -75,16 +86,23 @@ const ReaderRecommend = () => {
                     color: '#0021C6',
                   }}>
                   <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>
-                  소설
+                  {item.repBranch}
                 </Text>
               </View>
               <View
                 style={{
                   ...styles.itemCategoryView,
-                  backgroundColor: '#FFF2AD',
+                  backgroundColor: colorCategory[item.repVive].back,
                 }}>
-                <Text style={{...styles.itemCategoryText, color: '#5E4300'}}>
-                  <Text style={{color: '#FFC839'}}>♥&nbsp;</Text>명랑
+                <Text
+                  style={{
+                    ...styles.itemCategoryText,
+                    color: colorCategory[item.repVive].font,
+                  }}>
+                  <Text style={{color: colorCategory[item.repVive].heart}}>
+                    ♥&nbsp;
+                  </Text>
+                  {item.repVive}
                 </Text>
               </View>
             </View>
