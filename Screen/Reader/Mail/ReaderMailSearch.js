@@ -9,21 +9,22 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BackMail from '../../../assets/images/BackMail.png';
-import SearchMail from '../../../assets/images/SearchMail.png';
+import SearchMail2 from '../../../assets/images/SearchMail2.png';
 import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
 import NoDataMail from '../../../assets/images/NoDataMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
+const STORAGE_KEY = '@recentDataReaderMailSearch';
+
 const ReaderMailSearch = () => {
-  const [recentSearch, setRecentSearch] = useState([
-    '이작가',
-    '별 헤는 밤',
-    '파란 하늘',
-  ]);
+  const [recentSearch, setRecentSearch] = useState([]);
   const [mail, setMail] = useState([
     {
       key: '0',
@@ -54,21 +55,25 @@ const ReaderMailSearch = () => {
       date: '21. 02. 10',
     },
   ]);
-  const [delIndex, setDelIndex] = useState(null);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(null);
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressRecentSearch = data => {
+  const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
     var res = mail.filter(
       item => item.author.includes(data) || item.title.includes(data),
     );
     setResult([...res]);
+
+    var temp = recentSearch;
+    temp.splice(index, 1);
+    temp.unshift(data);
+    setRecentSearch([...temp]);
   };
   const onPressDelete = (data, index) => {
     var temp = recentSearch;
@@ -85,20 +90,57 @@ const ReaderMailSearch = () => {
       item => item.author.includes(query) || item.title.includes(query),
     );
     setResult([...res]);
+
+    var temp = recentSearch;
+    if (temp.length) {
+      if (temp.length > 9) temp.pop();
+      temp.unshift(query);
+    } else temp = [query];
+    setRecentSearch([query]);
+    setRecentSearch([...temp]);
   };
+
   const onPressMailItem = data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
       params: {item: {...data}},
     });
   };
+  useEffect(() => {
+    getRecentSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (query === '') setSubmit(false);
   }, [query]);
 
+  useEffect(() => {
+    async function addRecentSearch() {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    addRecentSearch();
+  }, [recentSearch]);
+
+  const getRecentSearch = async () => {
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEY);
+      console.log('getRecentSearch : ', JSON.parse(value));
+      JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
+    } catch (e) {
+      //error
+    }
+  };
+
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+      {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
         <Text style={styles.headerText}>메일 검색</Text>
         <View style={styles.headerSearchContainer}>
@@ -121,10 +163,10 @@ const ReaderMailSearch = () => {
                 <View style={styles.searchView}>
                   <Image
                     style={{
-                      width: 22,
-                      height: 22,
+                      width: 19,
+                      height: 20,
                     }}
-                    source={SearchMail}
+                    source={SearchMail2}
                   />
                 </View>
               </TouchableWithoutFeedback>
@@ -215,29 +257,31 @@ const ReaderMailSearch = () => {
             <View style={styles.titleView}>
               <Text style={styles.titleText}>최근 검색</Text>
             </View>
-            {recentSearch.map((data, index) => (
-              <TouchableOpacity
-                onPress={e => onPressRecentSearch(data)}
-                key={index}>
-                <View style={styles.recentSearch}>
-                  <Image
-                    style={{width: 35, height: 35, left: 23}}
-                    source={RecentSearchMail}></Image>
-                  <Text style={styles.recentSearchText}>{data}</Text>
-                  <TouchableWithoutFeedback
-                    onPress={e => onPressDelete(data, index)}>
-                    <Image
-                      style={{
-                        position: 'absolute',
-                        width: 12,
-                        height: 12,
-                        right: 28,
-                      }}
-                      source={DeleteMail}></Image>
-                  </TouchableWithoutFeedback>
-                </View>
-              </TouchableOpacity>
-            ))}
+            {recentSearch.length
+              ? recentSearch.map((data, index) => (
+                  <TouchableOpacity
+                    onPress={e => onPressRecentSearch(data, index)}
+                    key={index}>
+                    <View style={styles.recentSearch}>
+                      <Image
+                        style={{width: 35, height: 35}}
+                        source={RecentSearchMail}></Image>
+                      <Text style={styles.recentSearchText}>{data}</Text>
+                      <TouchableWithoutFeedback
+                        onPress={e => onPressDelete(data, index)}>
+                        <Image
+                          style={{
+                            position: 'absolute',
+                            width: 12,
+                            height: 12,
+                            right: 28,
+                          }}
+                          source={DeleteMail}></Image>
+                      </TouchableWithoutFeedback>
+                    </View>
+                  </TouchableOpacity>
+                ))
+              : null}
           </View>
         )}
       </ScrollView>
@@ -257,6 +301,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#fff',
+    includeFontPadding: false,
   },
   headerBack: {
     height: 150 - 48,
@@ -282,7 +327,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     width: 44,
-    height: 44,
+    height: 43,
     borderRadius: 90,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
@@ -291,6 +336,7 @@ const styles = StyleSheet.create({
   searchTextInput: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 15,
+    includeFontPadding: false,
   },
   titleView: {
     height: 44,
@@ -302,18 +348,21 @@ const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 14,
-    color: '#000',
+    color: '#3C3C3C',
+    includeFontPadding: false,
   },
   recentSearch: {
-    height: 50,
+    paddingVertical: 8,
+    paddingHorizontal: 23,
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
   },
   recentSearchText: {
-    marginLeft: 40,
+    marginLeft: 16,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
+    color: '#3C3C3C',
   },
 });
 
