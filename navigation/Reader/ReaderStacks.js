@@ -11,6 +11,7 @@ import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile
 import OnBoarding from '../../Screen/OnBoarding';
 import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
 import ReaderAnalyzeOne from '../../Screen/Reader/Analyze/ReaderAnalyzeOne';
+import MessageWrite from '../../Screen/MessageWrite';
 
 const ReaderStack = createNativeStackNavigator();
 
@@ -59,6 +60,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="Message"
       component={Message}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="MessageWrite"
+      component={MessageWrite}
       options={{headerTitle: ''}}
     />
     <ReaderStack.Screen

@@ -10,12 +10,15 @@ import {
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
+  SafeAreaView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {FloatingAction} from 'react-native-floating-action';
+
 import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
-import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 import Report from '../assets/images/Report.png';
+import PenceilWriting from '../assets/images/PenceilWriting.png';
 // import MessageData from '../assets/data/Message';
 
 const STATUSBAR_HEIGHT = 48;
@@ -109,6 +112,12 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const renderMessageItem = a => {
     console.log(a);
   };
+  const onPressWritingPage = () => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'MessageWrite',
+    });
+  };
+
   useEffect(() => {}, [message]);
 
   const renderItem = data => (
@@ -166,7 +175,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       {/* upperHeader */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
@@ -227,6 +236,37 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           }}
         />
       )}
+      <FloatingAction
+        actions={[
+          {
+            icon: (
+              <Image
+                style={{
+                  width: 22,
+                  height: 22,
+                }}
+                source={PenceilWriting}
+              />
+            ),
+            name: 'bt_search',
+            position: 1,
+            buttonSize: 50,
+          },
+        ]}
+        color="#FFF"
+        distanceToEdge={{vertical: 100 - 44, horizontal: 17}}
+        buttonSize={50}
+        shadow={{
+          shadowOpacity: 0.12,
+          shadowColor: '#000000',
+          shadowRadius: 23,
+        }}
+        overrideWithAction={true}
+        animated={false}
+        onPressItem={name => {
+          onPressWritingPage();
+        }}
+      />
     </View>
   );
 };
