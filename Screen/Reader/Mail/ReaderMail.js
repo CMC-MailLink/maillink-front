@@ -85,10 +85,10 @@ const ReaderMail = () => {
         <Image
           style={{
             position: 'absolute',
-            top: 56.25 - STATUSBAR_HEIGHT,
+            top: 50 - STATUSBAR_HEIGHT,
             left: 20,
-            width: 101.94,
-            height: 22.5,
+            width: 105,
+            height: 20,
           }}
           source={LogoMail}
         />
@@ -96,13 +96,22 @@ const ReaderMail = () => {
           <Image
             style={{
               position: 'absolute',
-              top: 56.24 - STATUSBAR_HEIGHT,
-              left: 349,
-              width: 19,
-              height: 22.51,
+              top: 50 - STATUSBAR_HEIGHT,
+              right: 21,
+              width: 20,
+              height: 22.75,
             }}
             source={AlarmMail}
           />
+          <View
+            style={{
+              position: 'absolute',
+              right: 21,
+              backgroundColor: '#FF9B9B',
+              width: 4,
+              height: 4,
+              borderRadius: 90,
+            }}></View>
         </TouchableOpacity>
       </View>
       {/* <View style={{height: 100, backgroundColor: 'pink'}}></View> */}
@@ -164,8 +173,8 @@ const ReaderMail = () => {
             icon: (
               <Image
                 style={{
-                  width: 22,
-                  height: 22,
+                  width: 21,
+                  height: 22.11,
                 }}
                 source={SearchMail}
               />
@@ -176,7 +185,9 @@ const ReaderMail = () => {
           },
         ]}
         color="#FFF"
-        distanceToEdge={{vertical: 110, horizontal: 17}}
+        overlayColor="rgba(255,255,255, 0.9)"
+        tintColor={null}
+        distanceToEdge={{vertical: 95, horizontal: 17}}
         buttonSize={50}
         shadow={{
           shadowOpacity: 0.12,

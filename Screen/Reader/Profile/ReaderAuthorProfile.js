@@ -9,110 +9,68 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableWithoutFeedback,
-  Modal,
   ScrollView,
 } from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-import SettingProfile from '../../../assets/images/SettingProfile.png';
+import EmptyHeartProfile from '../../../assets/images/EmptyHeartProfile.png';
+import HeartProfile from '../../../assets/images/HeartProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
-import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
+import BackMail from '../../../assets/images/BackMail.png';
 
-import AuthorProfileModal from './AuthorProfileModal';
-import AuthorProfileIntro from './AuthorProfileIntro';
-import AuthorProfileMail from './AuthorProfileMail';
+import ReaderAuthorProfileIntro from './ReaderAuthorProfileIntro';
+import ReaderAuthorProfileMail from './ReaderAuthorProfileMail';
 
-const AuthorProfile = () => {
-  const navigation = useNavigation();
-
-  const [modalVisible, setModalVisible] = useState(false);
+const ReaderAuthorProfile = () => {
   const [name, setName] = useState('덩이');
-  const [editName, setEditName] = useState('덩이');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
+  const [heart, setHeart] = useState(false);
+  const [subscribe, setSubscribe] = useState(false);
 
-  const onPressModalConfirm = () => {
-    setName(editName);
-    setModalVisible(!modalVisible);
+  const navigation = useNavigation();
+  const onPressBack = () => {
+    navigation.goBack();
   };
+
   const onPressIntro = () => {
     setIntroSelect(true);
   };
   const onPressMail = () => {
     setIntroSelect(false);
   };
-  const [filePath, setFilePath] = useState(null);
-  const [fileData, setFileData] = useState(null);
-  const [fileUri, setFileUri] = useState(null);
-
-  const copyToClipboard = data => {
-    Clipboard.setString(data);
-  };
-
-  const onPressEditImage = async () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-        mediaType: 'photo',
-        maxWidth: 78,
-        maxHeight: 78,
-      },
-      includeBase64: true,
-    };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
-    });
-  };
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <StatusBar barStyle="light-content" />
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <AuthorProfileModal
-          editName={editName}
-          setEditName={setEditName}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}></AuthorProfileModal>
-      </Modal>
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>프로필</Text>
+        <TouchableWithoutFeedback onPress={onPressBack}>
+          <View style={{position: 'absolute', left: 24}}>
+            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+          </View>
+        </TouchableWithoutFeedback>
+        <Text style={styles.headerText}>작가 프로필</Text>
       </View>
       <ScrollView stickyHeaderIndices={[2]} bounces={false}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
             style={{position: 'absolute', right: 20, bottom: 18}}
-            onPress={() => {
-              navigation.navigate('AuthorStacks', {
-                screen: 'Setting',
-              });
-            }}>
-            <Image
-              style={{
-                width: 18.68,
-                height: 19.2,
-              }}
-              source={SettingProfile}></Image>
+            onPress={() => setHeart(!heart)}>
+            {heart ? (
+              <Image
+                style={{
+                  width: 22,
+                  height: 20.17,
+                }}
+                source={HeartProfile}></Image>
+            ) : (
+              <Image
+                style={{
+                  width: 22,
+                  height: 20.17,
+                }}
+                source={EmptyHeartProfile}></Image>
+            )}
           </TouchableOpacity>
         </View>
         <View style={styles.profileView}>
@@ -122,24 +80,35 @@ const AuthorProfile = () => {
               top: -39,
               width: 160,
             }}>
-            <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <View>
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={imageUri == '' ? DefaultProfile : imageUri}></Image>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={onPressEditImage}>
-              <Image
-                style={{width: 42, height: 42, top: -31, left: 25}}
-                source={ImageEditProfile}></Image>
-            </TouchableWithoutFeedback>
-            <View style={{alignItems: 'center', top: -37}}>
+            </View>
+            <View style={{alignItems: 'center', marginTop: 8}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>작가님</Text>
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <View style={styles.profileEditView}>
-                  <Text style={styles.profileEditText}>프로필 수정</Text>
-                </View>
-              </TouchableOpacity>
+              {subscribe ? (
+                <TouchableOpacity onPress={() => setSubscribe(false)}>
+                  <View
+                    style={{
+                      ...styles.profileEditView,
+                      backgroundColor: '#fff',
+                      borderWidth: 1,
+                      borderColor: '#BEBEBE',
+                    }}>
+                    <Text style={{...styles.profileEditText, color: '#828282'}}>
+                      구독중
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => setSubscribe(true)}>
+                  <View style={styles.profileEditView}>
+                    <Text style={styles.profileEditText}>구독하기</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>
@@ -176,9 +145,9 @@ const AuthorProfile = () => {
           </View>
         </View>
         {introSelect ? (
-          <AuthorProfileIntro></AuthorProfileIntro>
+          <ReaderAuthorProfileIntro></ReaderAuthorProfileIntro>
         ) : (
-          <AuthorProfileMail></AuthorProfileMail>
+          <ReaderAuthorProfileMail></ReaderAuthorProfileMail>
         )}
       </ScrollView>
     </View>
@@ -190,7 +159,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 78 - 48,
     backgroundColor: '#4562F1',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
   },
   headerText: {
@@ -242,15 +212,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    borderColor: '#BEBEBE',
-    borderWidth: 1,
+    backgroundColor: '#4562F1',
     marginTop: 7,
   },
   profileEditText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
-    color: '#3C3C3C',
+    color: '#FFFFFF',
   },
 });
 
-export default AuthorProfile;
+export default ReaderAuthorProfile;

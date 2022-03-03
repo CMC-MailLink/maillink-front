@@ -7,6 +7,10 @@ import InstaShare from '../../Screen/InstaShare';
 import ReaderProfileSearch from '../../Screen/Reader/Profile/ReaderProfileSearch';
 import Setting from '../../Screen/Setting';
 import Message from '../../Screen/Message';
+import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
+import OnBoarding from '../../Screen/OnBoarding';
+import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
+import ReaderAnalyzeOne from '../../Screen/Reader/Analyze/ReaderAnalyzeOne';
 
 const ReaderStack = createNativeStackNavigator();
 
@@ -55,6 +59,26 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="Message"
       component={Message}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAuthorProfile"
+      component={ReaderAuthorProfile}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="OnBoarding"
+      component={OnBoarding}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAnalyze"
+      component={ReaderAnalyze}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAnalyzeOne"
+      component={ReaderAnalyzeOne}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

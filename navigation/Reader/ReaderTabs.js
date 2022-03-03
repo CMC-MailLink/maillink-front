@@ -1,7 +1,14 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import ReaderSearch from '../../Screen/Reader/Search/ReaderSearch';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
+import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
 
@@ -12,12 +19,9 @@ import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
 const ReaderTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
-  <View style={{}}>
-    <TouchableOpacity
-      onPress={onPress}
-      style={styles.customButton}
-      activeOpacity={1}>
-      <View style={styles.customView}>{children}</View>
+  <View style={{top: -15.96}}>
+    <TouchableOpacity onPress={onPress} activeOpacity={1}>
+      <View>{children}</View>
     </TouchableOpacity>
   </View>
 );
@@ -25,20 +29,20 @@ const CustomTabBarButton = ({children, onPress}) => (
 const ReaderTabs = () => {
   return (
     <ReaderTab.Navigator
-      initialRouteName="Mail"
+      initialRouteName="ReaderMail"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: styles.navigator,
       }}>
       <ReaderTab.Screen
-        name="Search"
-        component={ReaderSearch}
+        name="recommend"
+        component={ReaderRecommend}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
               <Image style={{width: 20, height: 18}} source={HeartTabs} />
-              <Text style={{top: 4, ...styles.iconText}}>작가찾기</Text>
+              <Text style={styles.iconText}>작가찾기</Text>
             </View>
           ),
         }}
@@ -50,14 +54,14 @@ const ReaderTabs = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View>
-              <Image style={{width: 33.6, height: 26.4}} source={LogoTabs} />
+              <Image style={{width: 68.58, height: 68.58}} source={LogoTabs} />
             </View>
           ),
           tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
       <ReaderTab.Screen
-        style={{justifyContent: 'center'}}
+        style={{justifyContent: 'center', alignItems: 'center'}}
         name="ReaderProfile"
         component={ReaderProfile}
         options={{
@@ -68,7 +72,7 @@ const ReaderTabs = () => {
                 style={{width: 18, height: 21.27}}
                 source={ReaderProfileTabs}
               />
-              <Text style={{top: 5, ...styles.iconText}}>프로필</Text>
+              <Text style={styles.iconText}>프로필</Text>
             </View>
           ),
         }}
@@ -84,26 +88,40 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     // height: 103 - 23.78,
-    height: 84.5,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowOpacity: 0.12,
-    shadowRadius: 23,
+    height: 76,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOffset: {
+          width: 0,
+          height: -2,
+        },
+        shadowOpacity: 0.13,
+        shadowRadius: 29,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
   },
   customButton: {
     top: -21,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#4562F1',
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.314,
-    shadowRadius: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#4562F1',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.314,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
   },
   customView: {
     width: 64,
@@ -111,11 +129,17 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     backgroundColor: '#4562F1',
   },
-  iconView: {alignItems: 'center', position: 'absolute', bottom: 3},
+  iconView: {
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
+  },
   iconText: {
     color: '#BEBEBE',
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 10,
+    marginTop: 5,
+    includeFontPadding: false,
   },
 });
 

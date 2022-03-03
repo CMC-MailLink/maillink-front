@@ -263,7 +263,7 @@ const AuthorMailBody = () => {
               </Text>
             </TouchableOpacity>
             <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
-              •
+              ・
             </Text>
             <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
               <Text
