@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from 'react-native';
 import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
@@ -19,11 +20,11 @@ import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
 const ReaderTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
-  <View style={{top: -15.96}}>
-    <TouchableOpacity onPress={onPress} activeOpacity={1}>
+  <TouchableOpacity onPress={onPress} activeOpacity={1}>
+    <View style={{top: -15.96, left: -Dimensions.get('window').width / 2}}>
       <View>{children}</View>
-    </TouchableOpacity>
-  </View>
+    </View>
+  </TouchableOpacity>
 );
 
 const ReaderTabs = () => {
@@ -48,19 +49,6 @@ const ReaderTabs = () => {
         }}
       />
       <ReaderTab.Screen
-        name="ReaderMail"
-        component={ReaderMail}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View>
-              <Image style={{width: 68.58, height: 68.58}} source={LogoTabs} />
-            </View>
-          ),
-          tabBarButton: props => <CustomTabBarButton {...props} />,
-        }}
-      />
-      <ReaderTab.Screen
         style={{justifyContent: 'center', alignItems: 'center'}}
         name="ReaderProfile"
         component={ReaderProfile}
@@ -75,6 +63,19 @@ const ReaderTabs = () => {
               <Text style={styles.iconText}>프로필</Text>
             </View>
           ),
+        }}
+      />
+      <ReaderTab.Screen
+        name="ReaderMail"
+        component={ReaderMail}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View>
+              <Image style={{width: 68.58, height: 68.58}} source={LogoTabs} />
+            </View>
+          ),
+          tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
     </ReaderTab.Navigator>

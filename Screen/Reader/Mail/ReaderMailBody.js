@@ -312,6 +312,7 @@ const ReaderMailBody = () => {
           position: 'absolute',
         }}></View>
       <FlatList
+        showsVerticalScrollIndicator={false}
         refreshing={refreshing}
         onRefresh={onRefresh}
         stickyHeaderIndices={[1]}

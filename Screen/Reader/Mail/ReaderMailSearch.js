@@ -203,7 +203,7 @@ const ReaderMailSearch = () => {
           </View>
         </View>
       </View>
-      <ScrollView style={{height: '100%'}}>
+      <ScrollView style={{height: '100%'}} showsVerticalScrollIndicator={false}>
         {submit ? (
           <View
             style={{
