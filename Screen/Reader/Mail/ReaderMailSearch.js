@@ -126,8 +126,10 @@ const ReaderMailSearch = () => {
     if (temp.length) {
       if (temp.length > 9) temp.pop();
       temp.unshift(query);
-    } else temp = [query];
-    setRecentSearch([query]);
+    } else {
+      temp = [query];
+      setRecentSearch([query]);
+    }
     setRecentSearch([...temp]);
   };
 
@@ -356,7 +358,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     width: 44,
-    height: 43,
+    height: 44,
     borderRadius: 90,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
@@ -392,6 +394,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   itemView: {
     width: '100%',

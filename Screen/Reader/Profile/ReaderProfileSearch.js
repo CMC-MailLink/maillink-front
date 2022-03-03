@@ -9,52 +9,39 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  Dimensions,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BackMail from '../../../assets/images/BackMail.png';
-import SearchMail from '../../../assets/images/SearchMail.png';
+import SearchMail2 from '../../../assets/images/SearchMail2.png';
 import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
+import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
-const ReaderMailSearch = () => {
-  const [recentSearch, setRecentSearch] = useState([
-    '이작가',
-    '별 헤는 밤',
-    '파란 하늘',
+const STORAGE_KEY = '@recentDataReaderProfileSearch';
+
+const ReaderProfileSearch = () => {
+  const [recentSearch, setRecentSearch] = useState([]);
+  const [author, setAuthor] = useState([
+    {name: '이작가', intro: '안녕하세요. 이작가입니다.', subscribe: false},
+    {name: '김작가', intro: '안녕하세요. 김작가입니다.', subscribe: false},
+    {name: '덩이', intro: '안녕하세요. 덩이입니다.', subscribe: false},
+    {name: '모모', intro: '안녕하세요. 이작가입니다.', subscribe: false},
+    {name: '훈', intro: '안녕하세요. 김작가입니다.', subscribe: false},
+    {name: '하나', intro: '안녕하세요. 덩이입니다.', subscribe: false},
+    {name: '둘', intro: '안녕하세요. 이작가입니다.', subscribe: false},
+    {name: '셋', intro: '안녕하세요. 김작가입니다.', subscribe: false},
+    {name: '넷', intro: '안녕하세요. 덩이입니다.', subscribe: false},
+    {name: '다섯', intro: '안녕하세요. 이작가입니다.', subscribe: false},
+    {name: '여섯', intro: '안녕하세요. 김작가입니다.', subscribe: false},
+    {name: '일곱', intro: '안녕하세요. 덩이입니다.', subscribe: false},
   ]);
-  const [mail, setMail] = useState([
-    {
-      key: '0',
-      author: '이작가',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      author: '김작가',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '3',
-      author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-  ]);
-  const [delIndex, setDelIndex] = useState(null);
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
@@ -62,13 +49,16 @@ const ReaderMailSearch = () => {
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressRecentSearch = data => {
+  const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = mail.filter(
-      item => item.author.includes(data) || item.title.includes(data),
-    );
+    var res = author.filter(item => item.name.includes(data));
     setResult([...res]);
+
+    var temp = recentSearch;
+    temp.splice(index, 1);
+    temp.unshift(data);
+    setRecentSearch([...temp]);
   };
   const onPressDelete = (data, index) => {
     var temp = recentSearch;
@@ -81,26 +71,62 @@ const ReaderMailSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = mail.filter(
-      item => item.author.includes(query) || item.title.includes(query),
-    );
+    var res = author.filter(item => item.name.includes(query));
     setResult([...res]);
+
+    var temp = recentSearch;
+    if (temp.length) {
+      if (temp.length > 9) temp.pop();
+      temp.unshift(query);
+    } else {
+      temp = [query];
+      setRecentSearch([query]);
+    }
+    setRecentSearch([...temp]);
   };
-  const onPressMailItem = data => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'Reading',
-      params: {item: {...data}},
-    });
+
+  const onPressAuthorItem = data => {};
+  const setSubscribe = index => {
+    var temp = result;
+    temp[index].subscribe = !temp[index].subscribe;
+    setResult([...temp]);
   };
+
+  useEffect(() => {
+    getRecentSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (query === '') setSubmit(false);
   }, [query]);
 
+  useEffect(() => {
+    async function addRecentSearch() {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
+      } catch (e) {}
+    }
+    addRecentSearch();
+  }, [recentSearch]);
+
+  const getRecentSearch = async () => {
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEY);
+      console.log('getRecentSearch : ', JSON.parse(value));
+      JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
+    } catch (e) {
+      //error
+    }
+  };
+
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+      {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>메일 검색</Text>
+        <Text style={styles.headerText}>작가 검색</Text>
         <View style={styles.headerSearchContainer}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View>
@@ -112,7 +138,7 @@ const ReaderMailSearch = () => {
               <TextInput
                 style={styles.searchTextInput}
                 value={query}
-                placeholder="작가 또는 제목을 검색해보세요."
+                placeholder="작가를 검색해보세요."
                 placeholderTextColor="#D2D2D2"
                 returnKeyType="search"
                 onChangeText={onChangeText}
@@ -121,10 +147,10 @@ const ReaderMailSearch = () => {
                 <View style={styles.searchView}>
                   <Image
                     style={{
-                      width: 22,
-                      height: 22,
+                      width: 19,
+                      height: 20,
                     }}
-                    source={SearchMail}
+                    source={SearchMail2}
                   />
                 </View>
               </TouchableWithoutFeedback>
@@ -132,112 +158,120 @@ const ReaderMailSearch = () => {
           </View>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView style={{height: '100%'}} showsVerticalScrollIndicator={false}>
         {submit ? (
-          <View>
+          <View
+            style={{
+              paddingBottom: 50,
+              minHeight:
+                Platform.OS == 'ios'
+                  ? Dimensions.get('window').height - 335
+                  : Dimensions.get('window').height - 235,
+            }}>
             <View style={styles.titleView}>
-              <Text style={styles.titleText}>메일에서 찾은 결과</Text>
+              <Text style={styles.titleText}>작가 검색 결과</Text>
             </View>
             {result.length ? (
               result.map((data, index) => (
                 <TouchableWithoutFeedback
-                  onPress={e => onPressMailItem(data)}
+                  onPress={e => onPressAuthorItem(data)}
                   key={index}>
-                  <View
-                    style={{
-                      height: 114,
-                      backgroundColor: '#FFF',
-                      paddingTop: 14,
-                      borderBottomColor: '#EBEBEB',
-                      borderBottomWidth: 1,
-                    }}>
+                  <View key={index} style={styles.bodyItem}>
                     <Image
-                      style={{
-                        position: 'absolute',
-                        width: 42,
-                        height: 42,
-                        left: 36,
-                        top: 14,
-                      }}
+                      style={{width: 42, height: 42, marginRight: 10}}
                       source={AuthorProfileImage}
                     />
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          color: '#4562F1',
-                          fontFamily: 'NotoSansKR-Bold',
-                          fontSize: 16,
-                          left: 93,
-                        }}>
-                        {data.author}
-                      </Text>
-                      <Text
-                        style={{
-                          position: 'absolute',
-                          color: '#BEBEBE',
-                          fontFamily: 'NotoSansKR-Thin',
-                          fontSize: 12,
-                          right: 20,
-                        }}>
-                        {data.date}
-                      </Text>
+                    <View>
+                      <Text style={styles.bodyItemName}>{data.name}</Text>
+                      <Text style={styles.bodyItemIntro}>{data.intro}</Text>
                     </View>
-                    <Text
-                      style={{
-                        color: '#000',
-                        fontFamily: 'NotoSansKR-Bold',
-                        fontSize: 14,
-                        left: 93,
-                      }}>
-                      {data.title}
-                    </Text>
-                    <Text
-                      style={{
-                        color: '#828282',
-                        fontFamily: 'NotoSansKR-Thin',
-                        fontSize: 14,
-                        left: 93,
-                        width: 230,
-                      }}>
-                      {data.body}
-                    </Text>
+                    <TouchableOpacity
+                      onPress={() => setSubscribe(index)}
+                      style={
+                        data.subscribe
+                          ? styles.subscribeView
+                          : styles.subscribeNotView
+                      }>
+                      <View>
+                        <Text
+                          style={
+                            data.subscribe
+                              ? styles.subscribeText
+                              : styles.subscribeNotText
+                          }>
+                          {data.subscribe ? '구독중' : '구독하기'}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   </View>
                 </TouchableWithoutFeedback>
               ))
             ) : (
-              <Image
-                style={{width: 390, height: 78, top: 244}}
-                source={NoSearchDataMail}></Image>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{
+                    width: 390,
+                    height: 78,
+                  }}
+                  source={NoSearchDataMail}></Image>
+              </View>
             )}
           </View>
         ) : (
-          <View>
+          <View
+            style={{
+              minHeight:
+                Platform.OS == 'ios'
+                  ? Dimensions.get('window').height - 335
+                  : Dimensions.get('window').height - 235,
+            }}>
             <View style={styles.titleView}>
               <Text style={styles.titleText}>최근 검색</Text>
             </View>
-            {recentSearch.map((data, index) => (
-              <TouchableOpacity
-                onPress={e => onPressRecentSearch(data)}
-                key={index}>
-                <View style={styles.recentSearch}>
-                  <Image
-                    style={{width: 35, height: 35, left: 23}}
-                    source={RecentSearchMail}></Image>
-                  <Text style={styles.recentSearchText}>{data}</Text>
-                  <TouchableWithoutFeedback
-                    onPress={e => onPressDelete(data, index)}>
+            {recentSearch.length ? (
+              recentSearch.map((data, index) => (
+                <TouchableOpacity
+                  onPress={e => onPressRecentSearch(data, index)}
+                  key={index}>
+                  <View style={styles.recentSearch}>
                     <Image
-                      style={{
-                        position: 'absolute',
-                        width: 12,
-                        height: 12,
-                        right: 28,
-                      }}
-                      source={DeleteMail}></Image>
-                  </TouchableWithoutFeedback>
-                </View>
-              </TouchableOpacity>
-            ))}
+                      style={{width: 35, height: 35}}
+                      source={RecentSearchMail}></Image>
+                    <Text style={styles.recentSearchText}>{data}</Text>
+                    <TouchableWithoutFeedback
+                      onPress={e => onPressDelete(data, index)}>
+                      <Image
+                        style={{
+                          position: 'absolute',
+                          width: 12,
+                          height: 12,
+                          right: 28,
+                        }}
+                        source={DeleteMail}></Image>
+                    </TouchableWithoutFeedback>
+                  </View>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{
+                    width: 390,
+                    height: 78,
+                  }}
+                  source={NoRecentDataMail}></Image>
+              </View>
+            )}
           </View>
         )}
       </ScrollView>
@@ -257,6 +291,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#fff',
+    includeFontPadding: false,
   },
   headerBack: {
     height: 150 - 48,
@@ -291,6 +326,7 @@ const styles = StyleSheet.create({
   searchTextInput: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 15,
+    includeFontPadding: false,
   },
   titleView: {
     height: 44,
@@ -303,18 +339,75 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 14,
     color: '#000',
+    includeFontPadding: false,
   },
   recentSearch: {
-    height: 50,
+    paddingVertical: 8,
+    paddingHorizontal: 23,
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
   },
   recentSearchText: {
-    marginLeft: 40,
+    marginLeft: 16,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
+  bodyItem: {
+    height: 68,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 20,
+  },
+  bodyItemName: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 14,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
+  bodyItemIntro: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#828282',
+    includeFontPadding: false,
+  },
+  subscribeView: {
+    position: 'absolute',
+    right: 20,
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    borderColor: '#BEBEBE',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subscribeNotView: {
+    position: 'absolute',
+    right: 20,
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#4562F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subscribeText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 12,
+    color: '#828282',
+    includeFontPadding: false,
+  },
+  subscribeNotText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 12,
+    color: '#FFF',
+    includeFontPadding: false,
   },
 });
 
-export default ReaderMailSearch;
+export default ReaderProfileSearch;
