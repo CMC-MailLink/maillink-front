@@ -32,11 +32,6 @@ const ReaderStacks = () => (
       component={SetProfile}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
-      name="SuccessModal"
-      component={SuccessModal}
-      options={{headerTitle: ''}}
-    />
   </ReaderStack.Navigator>
 );
 

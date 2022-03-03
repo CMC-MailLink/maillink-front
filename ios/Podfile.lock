@@ -327,8 +327,6 @@ PODS:
     - React-jsi (= 0.67.2)
     - React-logger (= 0.67.2)
     - React-perflogger (= 0.67.2)
-  - RNCCheckbox (0.5.11):
-    - React-Core
   - RNCClipboard (1.8.5):
     - React-Core
   - RNScreens (3.11.1):
@@ -376,7 +374,6 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
@@ -467,8 +464,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  RNCCheckbox:
-    :path: "../node_modules/@react-native-community/checkbox"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNScreens:
@@ -525,16 +520,11 @@ SPEC CHECKSUMS:
   React-RCTVibration: 99c7f67fba7a5ade46e98e870c6ff2444484f995
   React-runtimeexecutor: 2450b43df7ffe8e805a0b3dcb2abd4282f1f1836
   ReactCommon: d98c6c96b567f9b3a15f9fd4cc302c1eda8e3cf2
-  RNCCheckbox: ebf3ecc7a766d8a28d4b0504ea6084757bb59bc5
   RNCClipboard: cc054ad1e8a33d2a74cd13e565588b4ca928d8fd
   RNScreens: 4d83613b50b74ed277026375dc0810893b0c347f
   RNShare: b955e66f1af2849711f13c193debda72b94f8aa0
   Yoga: 9b6696970c3289e8dea34b3eda93f23e61fb8121
 
-<<<<<<< HEAD
-PODFILE CHECKSUM: 68849166efe8225e3122814285076e3ee64ee2f7
-=======
 PODFILE CHECKSUM: 30eb9d331476300075f369a4eb386f427adce508
->>>>>>> bibi
 
 COCOAPODS: 1.11.2

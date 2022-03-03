@@ -180,7 +180,13 @@ const SetProfile = () => {
         {/* footer: Button */}
         <View style={{left: 22, bottom: -245 + 99}}>
           <TouchableOpacity
-            onPress={confirmSuccess ? goNextScreen : !name ? goAlertName : null}
+            onPress={
+              confirmSuccess
+                ? () => setModalVisible(true)
+                : !name
+                ? goAlertName
+                : null
+            }
             style={
               confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
             }>
