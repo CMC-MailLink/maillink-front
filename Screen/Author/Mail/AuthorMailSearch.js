@@ -16,7 +16,7 @@ import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail from '../../../assets/images/SearchMail.png';
 import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
-import NoDataMail from '../../../assets/images/NoDataMail.png';
+import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
 const AuthorMailSearch = () => {
@@ -209,7 +209,7 @@ const AuthorMailSearch = () => {
             ) : (
               <Image
                 style={{width: 390, height: 78, top: 244}}
-                source={NoDataMail}></Image>
+                source={NoSearchDataMail}></Image>
             )}
           </View>
         ) : (
