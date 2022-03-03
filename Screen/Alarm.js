@@ -160,73 +160,47 @@ const Alarm = () => {
     <TouchableOpacity
       disabled={alarmSelect}
       onPress={e => onPressMessageItem(data)}>
-      <View
-        style={{
-          height: 71,
-          backgroundColor: '#FFF',
-          paddingTop: 14,
-          borderBottomColor: '#EBEBEB',
-          borderBottomWidth: 1,
-        }}>
-        <Image
-          style={{
-            position: 'absolute',
-            width: 42,
-            height: 42,
-            left: 36,
-            top: 14,
-          }}
-          source={AuthorProfileImage}
-        />
-        <Text
-          style={{
-            color: '#3C3C3C',
-            fontSize: 14,
-            left: 93,
-          }}>
-          <Text
+      <View style={styles.itemView}>
+        <View style={styles.itemTextView}>
+          <View style={styles.itemNewView}></View>
+          <Image
             style={{
-              fontFamily: 'NotoSansKR-Bold',
-            }}>
-            {data.item.author ? data.item.author : data.item.sender}&nbsp;
-          </Text>
-          <Text
+              position: 'absolute',
+              width: 42,
+              height: 42,
+            }}
+            source={AuthorProfileImage}
+          />
+          <View
             style={{
-              fontFamily: 'NotoSansKR-Regular',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}>
-            {data.item.newpost ? data.item.newpost : data.item.subscribe}
+            <Text style={styles.itemAuthorText}>
+              <Text
+                style={{
+                  fontFamily: 'NotoSansKR-Bold',
+                }}>
+                {data.item.author ? data.item.author : data.item.sender}&nbsp;
+              </Text>
+              <Text>
+                {data.item.newpost ? data.item.newpost : data.item.subscribe}
+              </Text>
+            </Text>
+            <Text style={styles.itemDateText}>{data.item.date}</Text>
+          </View>
+          <Text style={styles.itemBodyText}>
+            {data.item.messageContext}
+            {data.item.newpost ? data.item.title : data.item.context}
           </Text>
-        </Text>
-        <Text
-          style={{
-            paddingTop: 3,
-            color: '#828282',
-            fontFamily: 'NotoSansKR-Regular',
-            fontSize: 14,
-            left: 93,
-          }}>
-          {data.item.messageContext}
-          {data.item.newpost ? data.item.title : data.item.context}
-        </Text>
-        <Text
-          style={{
-            position: 'absolute',
-            color: '#BEBEBE',
-            fontFamily: 'NotoSansKR-Light',
-            fontSize: 12,
-            right: 20,
-          }}>
-          {data.item.date}
-        </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0}} />
-
-      {/* upperHeader */}
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -301,12 +275,9 @@ const Alarm = () => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    height: 261 - STATUSBAR_HEIGHT,
-    backgroundColor: '#4562F1',
-  },
   headerView: {
     width: '100%',
+    height: 91 - 48,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -316,7 +287,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyHeaderBorder: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     borderBottomColor: '#4562F1',
   },
   bodyContainer: {
@@ -337,6 +308,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BEBEBE',
     paddingBottom: 8,
+    includeFontPadding: false,
+  },
+  itemView: {
+    width: '100%',
+    backgroundColor: '#FFF',
+    paddingVertical: 15,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    paddingLeft: 36,
+    paddingRight: 20,
+  },
+  itemNewView: {
+    position: 'absolute',
+    top: 0,
+    left: -16,
+    width: 10,
+    height: 10,
+    backgroundColor: '#FF9B9B',
+    borderRadius: 90,
+  },
+  itemTextView: {
+    width: '100%',
+    paddingLeft: 57,
+  },
+  itemAuthorText: {
+    fontFamily: 'NotoSansKR-Regular',
+    color: '#3C3C3C',
+    fontSize: 14,
+    includeFontPadding: false,
+  },
+  itemDateText: {
+    color: '#BEBEBE',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 12,
+    includeFontPadding: false,
+  },
+  itemBodyText: {
+    color: '#828282',
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    marginTop: 3,
+    includeFontPadding: false,
   },
 });
 
