@@ -12,9 +12,11 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
-import ProfileBasicImage from '../../assets/images/ProfileBasicImage.png';
+import DefaultProfile from '../../assets/images/DefaultProfile.png';
+import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
 import {useNavigation} from '@react-navigation/native';
 import SuccessModal from './SuccessModal';
@@ -25,8 +27,9 @@ const SetProfile = () => {
   const [checkMessage, onChangeCheckMessage] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmOverlap, setConfirmOverlap] = useState(false);
-  const [nameData, onChangeNameData] = useState('영이당당당당');
   const [modalVisible, setModalVisible] = useState(false);
+  const [imageUri, setImageUri] = useState('');
+  const [nameData, onChangeNameData] = useState('영이당당당당');
 
   const onPressBack = () => {
     navigation.goBack();
@@ -78,6 +81,33 @@ const SetProfile = () => {
   };
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const onPressEditImage = async () => {
+    const options = {
+      storageOptions: {
+        path: 'images',
+        mediaType: 'photo',
+        maxWidth: 115.47,
+        maxHeight: 112.24,
+      },
+      includeBase64: true,
+    };
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+        };
+        setImageUri(source);
+      }
+    });
   };
 
   useEffect(() => {
@@ -133,11 +163,19 @@ const SetProfile = () => {
         </View>
 
         {/* Body: ProfileImage */}
-        <View style={{top: 111.76, left: 137.27}}>
-          <Image
-            style={{width: 115.47, height: 112.24}}
-            source={ProfileBasicImage}
-          />
+        <View style={{top: 32.76 + 75.76, left: 137.27}}>
+          <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <Image
+              style={{width: 115.47, height: 112.24, borderRadius: 90}}
+              source={imageUri == '' ? DefaultProfile : imageUri}
+            />
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <Image
+              style={{width: 61.07, height: 61.07, top: -45, left: 69}}
+              source={ImageEditProfile}
+            />
+          </TouchableWithoutFeedback>
         </View>
 
         {/* Body: ProfileName */}

@@ -23,7 +23,7 @@ const SignIn = () => {
     });
   };
 
-  const getSelfAuth = () => {
+  const getSetProfile = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfile',
     });
@@ -31,6 +31,7 @@ const SignIn = () => {
 
   const [result, setResult] = useState('');
   const [result2, setResult2] = useState('');
+
   const signInWithKakao = async () => {
     const token = await login();
     console.log(token);
@@ -72,7 +73,7 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={getSelfAuth}>
+          <TouchableOpacity onPress={signInWithKakao}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
           <TouchableOpacity onPress={getProfile}>
