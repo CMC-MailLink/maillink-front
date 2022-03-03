@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Light',
     fontSize: 15,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
 });
 
