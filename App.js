@@ -26,7 +26,7 @@ const MyTheme = {
 };
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [isReader, setIsReader] = useState(true);
   setCustomText(customTextProps);
   useEffect(() => {

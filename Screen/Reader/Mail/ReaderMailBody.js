@@ -8,7 +8,8 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   RefreshControl,
-  LogBox,
+  Dimensions,
+  FlatList,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
@@ -150,10 +151,6 @@ const ReaderMailBody = () => {
   };
 
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
-  useEffect(() => {
     if (mailSelect) {
       setMail(data =>
         data.slice().sort(function (a, b) {
@@ -179,65 +176,28 @@ const ReaderMailBody = () => {
 
   const renderItem = (data, rowMap, rowKey) => (
     <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
-      <View
-        style={{
-          height: 114,
-          backgroundColor: '#FFF',
-          paddingTop: 14,
-          borderBottomColor: '#EBEBEB',
-          borderBottomWidth: 1,
-        }}>
-        <Image
-          style={{
-            position: 'absolute',
-            width: 42,
-            height: 42,
-            left: 36,
-            top: 14,
-          }}
-          source={AuthorProfileImage}
-        />
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              color: '#4562F1',
-              fontFamily: 'NotoSansKR-Bold',
-              fontSize: 16,
-              left: 93,
-            }}>
-            {data.item.author}
-          </Text>
-          <Text
+      <View style={styles.itemView}>
+        <View style={styles.itemTextView}>
+          <View style={styles.itemNewView}></View>
+          <Image
             style={{
               position: 'absolute',
-              color: '#BEBEBE',
-              fontFamily: 'NotoSansKR-Thin',
-              fontSize: 12,
-              right: 20,
+              width: 42,
+              height: 42,
+            }}
+            source={AuthorProfileImage}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}>
-            {data.item.date}
-          </Text>
+            <Text style={styles.itemAuthorText}>{data.item.author}</Text>
+            <Text style={styles.itemDateText}>{data.item.date}</Text>
+          </View>
+          <Text style={styles.itemTitleText}>{data.item.title}</Text>
+          <Text style={styles.itemBodyText}>{data.item.body}</Text>
         </View>
-        <Text
-          style={{
-            color: '#000',
-            fontFamily: 'NotoSansKR-Bold',
-            fontSize: 14,
-            left: 93,
-            marginBottom: 5,
-          }}>
-          {data.item.title}
-        </Text>
-        <Text
-          style={{
-            color: '#828282',
-            fontFamily: 'NotoSansKR-Thin',
-            fontSize: 14,
-            left: 93,
-            width: 230,
-          }}>
-          {data.item.body}
-        </Text>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -265,6 +225,83 @@ const ReaderMailBody = () => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const renderCategory = ({item}) => {
+    return (
+      <View style={styles.bodyHeader}>
+        <View
+          style={{
+            width: 111.5,
+            height: 41.63,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View
+            style={
+              mailSelect ? styles.bodyHeaderBorder : styles.bodyHeaderBorderNone
+            }>
+            <TouchableOpacity onPress={onPressMail}>
+              <Text
+                style={{
+                  ...styles.bodyHeaderText,
+                  color: mailSelect ? '#3C3C3C' : '#BEBEBE',
+                }}>
+                메일함
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={
+              mailSelect ? styles.bodyHeaderBorderNone : styles.bodyHeaderBorder
+            }>
+            <TouchableOpacity onPress={onPressSave}>
+              <Text
+                style={{
+                  ...styles.bodyHeaderText,
+                  color: mailSelect ? '#BEBEBE' : '#000000',
+                }}>
+                저장함
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View
+          style={{
+            width: 92,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
+            <Text
+              style={{
+                ...styles.bodyHeaderTextOrder,
+                color: recentSelect ? '#000000' : '#BEBEBE',
+              }}>
+              최신순
+            </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              ...styles.bodyHeaderTextOrder,
+              color: '#BEBEBE',
+            }}>
+            ・
+          </Text>
+          <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
+            <Text
+              style={{
+                ...styles.bodyHeaderTextOrder,
+                color: recentSelect ? '#BEBEBE' : '#000000',
+              }}>
+              오래된순
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={{flex: 1}}>
       <View
@@ -274,161 +311,95 @@ const ReaderMailBody = () => {
           backgroundColor: '#4562F1',
           position: 'absolute',
         }}></View>
-      <ScrollView
-        stickyHeaderIndices={[2]}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <View
-          style={{
-            backgroundColor: 'red',
-            height: -300,
-            position: 'absolute',
-            top: 300,
-            left: 0,
-            right: 0,
-          }}
-        />
-        <View style={styles.header}>
-          <Image
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 30,
-              width: 166,
-              height: 178,
-            }}
-            source={ReaderMail}
-          />
-
-          <View
-            style={{
-              position: 'absolute',
-              top: 113 - STATUSBAR_HEIGHT - 35,
-              left: 20,
-            }}>
-            <View style={{flexDirection: 'row'}}>
-              <Text
+      <FlatList
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        stickyHeaderIndices={[1]}
+        ListHeaderComponent={
+          <View>
+            <View style={styles.header}>
+              <Image
                 style={{
-                  fontFamily: 'NotoSansKR-Bold',
-                  ...styles.headerText,
+                  position: 'absolute',
+                  top: 0,
+                  right: 32,
+                  width: 164,
+                  height: 179,
+                }}
+                source={ReaderMail}
+              />
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 113 - STATUSBAR_HEIGHT - 35,
+                  left: 20,
                 }}>
-                영이&nbsp;
-              </Text>
-              <Text
-                style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
-                님,{' '}
-              </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.headerText}>
+                    <Text
+                      style={{
+                        ...styles.headerText,
+                        fontFamily: 'NotoSansKR-Bold',
+                      }}>
+                      영이&nbsp;
+                    </Text>
+                    님,
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.headerText}>
+                    <Text
+                      style={{
+                        ...styles.headerText,
+                        fontFamily: 'NotoSansKR-Bold',
+                      }}>
+                      0&nbsp;
+                    </Text>
+                    개의 메일이
+                  </Text>
+                </View>
+                <Text style={styles.headerText}>도착했습니다.</Text>
+              </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text
-                style={{fontFamily: 'NotoSansKR-Bold', ...styles.headerText}}>
-                0&nbsp;
-              </Text>
-              <Text
-                style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
-                개의 메일이
-              </Text>
-            </View>
-            <Text
-              style={{fontFamily: 'NotoSansKR-Light', ...styles.headerText}}>
-              도착했습니다.
-            </Text>
           </View>
-        </View>
-        <View style={styles.bodyHeader}>
-          <View
-            style={{
-              width: 111.5,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              left: 20.5,
-            }}>
-            <View style={mailSelect ? styles.bodyHeaderBorder : null}>
-              <TouchableOpacity onPress={onPressMail}>
-                <Text
+        }
+        data={[{id: '1'}]}
+        renderItem={renderCategory}
+        ListFooterComponent={
+          <View>
+            {mailDataExist ? (
+              <View style={styles.bodyContainer}>
+                <SwipeListView
+                  data={mailSelect ? mail : bookmark}
+                  renderItem={renderItem}
+                  renderHiddenItem={renderHiddenItem}
+                  rightOpenValue={-150}
+                  stopRightSwipe={-150}
+                  disableRightSwipe={true}
+                  onRowOpen={onRowOpen}
+                  onRowClose={onRowClose}
+                />
+              </View>
+            ) : (
+              <View
+                style={{
+                  width: '100%',
+                  height: Dimensions.get('window').height - 301,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#FFFFFF',
+                }}>
+                <Image
                   style={{
-                    ...styles.bodyHeaderText,
-                    color: mailSelect ? '#3C3C3C' : '#BEBEBE',
-                  }}>
-                  메일함
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={mailSelect ? null : styles.bodyHeaderBorder}>
-              <TouchableOpacity onPress={onPressSave}>
-                <Text
-                  style={{
-                    ...styles.bodyHeaderText,
-                    color: mailSelect ? '#BEBEBE' : '#000000',
-                  }}>
-                  저장함
-                </Text>
-              </TouchableOpacity>
-            </View>
+                    width: 261,
+                    height: 211,
+                  }}
+                  source={SubscribeMail}
+                />
+              </View>
+            )}
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              width: 92,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              right: 19,
-            }}>
-            <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderTextOrder,
-                  color: recentSelect ? '#000000' : '#BEBEBE',
-                }}>
-                최신순
-              </Text>
-            </TouchableOpacity>
-            <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
-              ・
-            </Text>
-            <TouchableOpacity onPress={onPressOld} activeOpacity={1}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderTextOrder,
-                  color: recentSelect ? '#BEBEBE' : '#000000',
-                }}>
-                오래된순
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {mailDataExist ? (
-          <View style={styles.bodyContainer}>
-            <SwipeListView
-              data={mailSelect ? mail : bookmark}
-              renderItem={renderItem}
-              renderHiddenItem={renderHiddenItem}
-              rightOpenValue={-150}
-              stopRightSwipe={-150}
-              disableRightSwipe={true}
-              onRowOpen={onRowOpen}
-              onRowClose={onRowClose}
-            />
-          </View>
-        ) : (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFFFFF',
-              flex: 1,
-            }}>
-            <Image
-              style={{
-                width: 261,
-                height: 211,
-              }}
-              source={SubscribeMail}
-            />
-          </View>
-        )}
-      </ScrollView>
+        }></FlatList>
     </View>
   );
 };
@@ -439,38 +410,45 @@ const styles = StyleSheet.create({
     backgroundColor: '#4562F1',
   },
   headerText: {
+    fontFamily: 'NotoSansKR-Light',
     fontSize: 25,
     color: '#FFFFFF',
     includeFontPadding: false,
   },
   bodyContainer: {
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    // paddingBottom: 103 - 23.78,
-    paddingBottom: 84.5,
+    height: '100%',
+    paddingBottom: 150,
   },
   bodyHeader: {
     height: 41.63,
+    width: '100%',
     backgroundColor: '#FFFFFF',
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
   },
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#BEBEBE',
-    paddingBottom: 8,
+    includeFontPadding: false,
   },
   bodyHeaderBorder: {
     borderBottomWidth: 2,
     borderBottomColor: '#4562F1',
+    height: 41.63,
+    justifyContent: 'center',
+  },
+  bodyHeaderBorderNone: {
+    height: 41.63,
+    justifyContent: 'center',
   },
   bodyHeaderTextOrder: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 12,
-    paddingBottom: 8,
+    includeFontPadding: false,
   },
   rowBack: {
     alignItems: 'center',
@@ -498,6 +476,57 @@ const styles = StyleSheet.create({
   },
   backTextWhite: {
     color: '#FFF',
+  },
+  itemView: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: 12,
+    paddingBottom: 10,
+    paddingLeft: 36,
+    paddingRight: 20,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    backgroundColor: '#FFF',
+  },
+  itemTextView: {
+    width: '100%',
+    paddingLeft: 57,
+  },
+  itemAuthorText: {
+    color: '#4562F1',
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    includeFontPadding: false,
+    marginBottom: 2,
+  },
+  itemDateText: {
+    color: '#BEBEBE',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 12,
+    includeFontPadding: false,
+  },
+  itemTitleText: {
+    color: '#3C3C3C',
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 14,
+    marginBottom: 4,
+    includeFontPadding: false,
+  },
+  itemBodyText: {
+    color: '#828282',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 14,
+    width: 230,
+    includeFontPadding: false,
+  },
+  itemNewView: {
+    position: 'absolute',
+    top: 0,
+    left: -16,
+    width: 10,
+    height: 10,
+    backgroundColor: '#FF9B9B',
+    borderRadius: 90,
   },
 });
 
