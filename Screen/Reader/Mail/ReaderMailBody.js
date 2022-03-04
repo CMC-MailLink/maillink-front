@@ -379,6 +379,7 @@ const ReaderMailBody = () => {
                   disableRightSwipe={true}
                   onRowOpen={onRowOpen}
                   onRowClose={onRowClose}
+                  closeOnScroll={false}
                 />
               </View>
             ) : (
