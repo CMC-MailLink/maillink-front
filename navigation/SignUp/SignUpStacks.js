@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignIn from '../../Screen/SignUp/SignIn';
 import SelfAuth from '../../Screen/SignUp/SelfAuth';
 import SetProfile from '../../Screen/SignUp/SetProfile';
-import SuccessModal from '../../Screen/SignUp/SuccessModal';
+import SelectUserType from '../../Screen/SignUp/SelectUserType';
 
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
@@ -30,6 +30,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="SetProfile"
       component={SetProfile}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="SelectUserType"
+      component={SelectUserType}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

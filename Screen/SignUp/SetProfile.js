@@ -148,99 +148,95 @@ const SetProfile = () => {
       </View>
 
       {/* mainHeader */}
-      <ScrollView>
-        <Image
-          style={{width: 39.05, height: 30.44, top: 25, left: 25}}
-          source={SignUpStep2}
-        />
-        <View style={{top: 20 + 15.22, left: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.NameTitle}>프로필</Text>
-            <Text style={styles.IntroTitle}>을</Text>
-          </View>
-          <Text style={styles.IntroTitle}>설정해주세요.</Text>
-          <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
+      <Image
+        style={{width: 39.05, height: 30.44, top: 25, left: 25}}
+        source={SignUpStep2}
+      />
+      <View style={{top: 20 + 15.22, left: 20}}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.NameTitle}>프로필</Text>
+          <Text style={styles.IntroTitle}>을</Text>
         </View>
+        <Text style={styles.IntroTitle}>설정해주세요.</Text>
+        <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
+      </View>
 
-        {/* Body: ProfileImage */}
-        <View style={{top: 32.76 + 75.76, left: 137.27}}>
-          <TouchableWithoutFeedback onPress={onPressEditImage}>
-            <Image
-              style={{width: 115.47, height: 112.24, borderRadius: 90}}
-              source={imageUri == '' ? DefaultProfile : imageUri}
-            />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={onPressEditImage}>
-            <Image
-              style={{width: 61.07, height: 61.07, top: -45, left: 69}}
-              source={ImageEditProfile}
-            />
-          </TouchableWithoutFeedback>
-        </View>
-
-        {/* Body: ProfileName */}
-        <View style={{top: 38 + 59, left: 137.27}}>
-          <TextInput
-            style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
-            onChangeText={onChangeName}
-            value={name}
-            placeholder="닉네임을 입력해주세요."
+      {/* Body: ProfileImage */}
+      <View style={{top: 32.76 + 75.76, left: 137.27}}>
+        <TouchableWithoutFeedback onPress={onPressEditImage}>
+          <Image
+            style={{width: 115.47, height: 112.24, borderRadius: 90}}
+            source={imageUri == '' ? DefaultProfile : imageUri}
           />
-          <TouchableWithoutFeedback onPress={onPressErase}>
-            <Image style={styles.eraseButton} source={EraseNickname} />
-          </TouchableWithoutFeedback>
-          <TouchableOpacity
-            onPress={onCheckName}
-            style={!name ? styles.confirmBasic : styles.confirmChange}>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={onPressEditImage}>
+          <Image
+            style={{width: 61.07, height: 61.07, top: -45, left: 69}}
+            source={ImageEditProfile}
+          />
+        </TouchableWithoutFeedback>
+      </View>
+
+      {/* Body: ProfileName */}
+      <View style={{top: 38 + 59, left: 137.27}}>
+        <TextInput
+          style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
+          onChangeText={onChangeName}
+          value={name}
+          placeholder="닉네임을 입력해주세요."
+        />
+        <TouchableWithoutFeedback onPress={onPressErase}>
+          <Image style={styles.eraseButton} source={EraseNickname} />
+        </TouchableWithoutFeedback>
+        <TouchableOpacity
+          onPress={onCheckName}
+          style={!name ? styles.confirmBasic : styles.confirmChange}>
+          <Text
+            style={!name ? styles.confirmBasicText : styles.confirmChangeText}>
+            중복 확인
+          </Text>
+        </TouchableOpacity>
+
+        {/* Body: NameBorder */}
+        <View
+          style={
+            (name.length > 6 || confirmOverlap) && name !== ''
+              ? styles.bodyNameBorderChange
+              : styles.bodyNameBorder
+          }
+        />
+      </View>
+
+      {/* Body: NameCheck */}
+      <View style={{left: 45, top: 107}}>
+        <Text style={styles.checkMessage}>{checkMessage}</Text>
+      </View>
+
+      {/* footer: Button */}
+      <View style={{left: 22, bottom: -245 + 99}}>
+        <TouchableOpacity
+          onPress={
+            confirmSuccess
+              ? () => setModalVisible(true)
+              : !name
+              ? goAlertName
+              : null
+          }
+          style={
+            confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
+          }>
+          <View>
             <Text
               style={
-                !name ? styles.confirmBasicText : styles.confirmChangeText
+                confirmSuccess && name
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
               }>
-              중복 확인
+              완료
             </Text>
-          </TouchableOpacity>
-
-          {/* Body: NameBorder */}
-          <View
-            style={
-              (name.length > 6 || confirmOverlap) && name !== ''
-                ? styles.bodyNameBorderChange
-                : styles.bodyNameBorder
-            }
-          />
-        </View>
-
-        {/* Body: NameCheck */}
-        <View style={{left: 45, top: 107}}>
-          <Text style={styles.checkMessage}>{checkMessage}</Text>
-        </View>
-
-        {/* footer: Button */}
-        <View style={{left: 22, bottom: -245 + 99}}>
-          <TouchableOpacity
-            onPress={
-              confirmSuccess
-                ? () => setModalVisible(true)
-                : !name
-                ? goAlertName
-                : null
-            }
-            style={
-              confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
-            }>
-            <View>
-              <Text
-                style={
-                  confirmSuccess && name
-                    ? styles.buttonAbleText
-                    : styles.buttonDisableText
-                }>
-                완료
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

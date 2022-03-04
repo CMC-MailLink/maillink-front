@@ -7,8 +7,17 @@ import {
   TextInput,
   Image,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import ModalCheck from '../../assets/images/ModalCheck.png';
+
 const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
+  const navigation = useNavigation();
+  const goNextScreen = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'SelectUserType',
+    });
+    setModalVisible(!modalVisible);
+  };
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -23,7 +32,7 @@ const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
           <Text style={styles.modalText3}>완료되었습니다.</Text>
         </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={onPressModalConfirm}>
+          <TouchableOpacity onPress={goNextScreen}>
             <View>
               <Text style={styles.modalConfirm}>확인</Text>
             </View>
