@@ -17,6 +17,7 @@ import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = () => {
   const navigation = useNavigation();
+
   const onPressNaverLogin = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfileSelfAuth',
@@ -25,7 +26,7 @@ const SignIn = () => {
 
   const getSetProfile = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SelectUserType',
+      screen: 'SetProfile',
     });
   };
 
@@ -73,7 +74,7 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={getSetProfile}>
+          <TouchableOpacity onPress={signInWithKakao}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
           <TouchableOpacity onPress={getProfile}>
