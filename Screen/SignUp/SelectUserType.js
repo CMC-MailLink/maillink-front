@@ -110,7 +110,7 @@ const SelectUserType = () => {
                   ? styles.buttonAbleText
                   : styles.buttonDisableText
               }>
-              완료
+              다음
             </Text>
           </View>
         </TouchableOpacity>

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
-
+import SignUpAuthorProfile from '../../../assets/images/SignUpAuthorProfile.png';
 const AuthorProfile = () => {
   const navigation = useNavigation();
   const [name, onChangeName] = useState('');
@@ -54,20 +54,23 @@ const AuthorProfile = () => {
       <SafeAreaView style={{flex: 0}} />
 
       {/* mainHeader */}
-      <Text style={styles.IntroSub}>메일링크에 오신걸 환영합니다!</Text>
+      <Text style={styles.IntroSub}>
+        독자들과 연결되도록 나를 소개해보세요.
+      </Text>
       <View style={{top: 20 + 15.22, left: 20}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.NameTitle}>메일링크</Text>
-          <Text style={styles.IntroTitle}>에서</Text>
+          <Text style={styles.NameTitle}>작가 프로필</Text>
+          <Text style={styles.IntroTitle}>을</Text>
         </View>
-        <Text style={styles.IntroTitle}>저는</Text>
+        <Text style={styles.IntroTitle}>생성해보세요!</Text>
       </View>
 
       {/* Body: ProfileName */}
-      <View style={{top: 150, left: 20, flexDirection: 'row'}} />
-
+      <View style={{top: 100}}>
+        <Image style={{width: 392, height: 369}} source={SignUpAuthorProfile} />
+      </View>
       {/* footer: Button */}
-      <View style={{left: 22, bottom: -293 + 111}}>
+      <View style={{left: 22, bottom: -293 + 226}}>
         <TouchableOpacity
           onPress={
             readerSelect || authorSelect
@@ -88,9 +91,19 @@ const AuthorProfile = () => {
                   ? styles.buttonAbleText
                   : styles.buttonDisableText
               }>
-              완료
+              시작
             </Text>
           </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text
+            style={
+              readerSelect || authorSelect
+                ? styles.buttonAbleText
+                : styles.buttonDisableText
+            }>
+            시작
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
