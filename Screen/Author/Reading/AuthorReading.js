@@ -1,17 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
-  ScrollView,
   TouchableWithoutFeedback,
   StatusBar,
-  TextInput,
   Platform,
 } from 'react-native';
-import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
@@ -19,30 +15,25 @@ import {WebView} from 'react-native-webview';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
-
 const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
-  const [subscribe, setSubscribe] = useState(false);
-  const onPressSubscribe = () => {
-    setSubscribe(!subscribe);
-  };
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onSelectionChange = (
-    eventType,
-    content,
-    selectionStart,
-    selectionEnd,
-  ) => {
-    navigation.navigate('AuthorStacks', {
-      screen: 'InstaShare',
-      params: content,
-    });
-  };
+
+  //instashare
+  // const onSelectionChange = (
+  //   eventType,
+  //   content,
+  //   selectionStart,
+  //   selectionEnd,
+  // ) => {
+  //   navigation.navigate('AuthorStacks', {
+  //     screen: 'InstaShare',
+  //     params: content,
+  //   });
+  // };
+
   const url = Platform.select({
     ios: 'http://localhost:3000/readingeditor',
     android: 'http://10.0.2.2:3000/readingeditor',
@@ -61,16 +52,17 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableWithoutFeedback>
       </View>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>{params.item.title}</Text>
-        <Text style={styles.dateText}>{params.item.date}</Text>
+        <Text style={styles.titleText}>{params.title}</Text>
+        <Text style={styles.dateText}>{params.date}</Text>
       </View>
       <View style={styles.authorView}>
         <Image
           style={{width: 30, height: 30, marginRight: 12}}
           source={AuthorProfileImage}></Image>
-        <Text style={styles.authorText}>{params.item.author}</Text>
+        <Text style={styles.authorText}>{params.author}</Text>
       </View>
       <WebView
+        automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         menuItems={[{label: '공유', key: 'share'}]}
         onCustomMenuSelection={webViewEvent => {
@@ -78,7 +70,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
         }}
-        scrollEnabled={false}
+        scrollEnabled={true}
       />
     </View>
   );
@@ -90,11 +82,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     alignItems: 'center',
     flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
   },
   titleView: {
     height: 75,
-    borderTopColor: '#EBEBEB',
-    borderTopWidth: 1,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     justifyContent: 'center',
@@ -105,11 +97,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#3C3C3C',
     marginBottom: 4,
+    includeFontPadding: false,
   },
   dateText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   authorView: {
     height: 46,
@@ -123,6 +117,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 15,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   subscribeView: {
     position: 'absolute',
@@ -149,11 +144,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#828282',
+    includeFontPadding: false,
   },
   subscribeNotText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',
+    includeFontPadding: false,
   },
   bodyView: {
     width: '100%',

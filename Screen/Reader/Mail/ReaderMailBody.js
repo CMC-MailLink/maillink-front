@@ -6,8 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ScrollView,
-  RefreshControl,
   Dimensions,
   FlatList,
 } from 'react-native';
@@ -27,6 +25,9 @@ const ReaderMailBody = () => {
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
+  const [rowList, setRowList] = useState(null);
+  const [rowOpen, setRowOpen] = useState(null);
+  const [refreshing, setRefreshing] = React.useState(false);
   const [mail, setMail] = useState([
     {
       key: '0',
@@ -101,54 +102,6 @@ const ReaderMailBody = () => {
       date: '21. 02. 11',
     },
   ]);
-  const [rowList, setRowList] = useState(null);
-  const [rowOpen, setRowOpen] = useState(null);
-  const bookmarkRow = (rowMap, key) => {
-    if (rowMap[key]) {
-      rowMap[key].closeRow();
-    }
-  };
-  const sendRow = (rowMap, key) => {
-    if (rowMap[key]) {
-      rowMap[key].closeRow();
-    }
-  };
-  const onPressMail = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
-    setMailSelect(true);
-  };
-  const onPressSave = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
-    setMailSelect(false);
-  };
-  const onPressRecent = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
-    setRecentSelect(true);
-  };
-  const onPressOld = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
-    setRecentSelect(false);
-  };
-  const onRowOpen = (rowKey, rowMap, toValue) => {
-    setRowList(rowMap);
-    setRowOpen(rowKey);
-  };
-  const onRowClose = (rowKey, rowMap, toValue) => {
-    setRowOpen(null);
-  };
-  const onPressMailItem = (rowMap, data) => {
-    rowList
-      ? rowList[rowOpen]
-        ? null
-        : navigation.navigate('ReaderStacks', {
-            screen: 'ReaderReading',
-            params: {...data},
-          })
-      : navigation.navigate('ReaderStacks', {
-          screen: 'ReaderReading',
-          params: {...data},
-        });
-  };
 
   useEffect(() => {
     if (mailSelect) {
@@ -173,6 +126,69 @@ const ReaderMailBody = () => {
       );
     }
   }, [recentSelect, mailSelect]);
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  const bookmarkRow = (rowMap, key) => {
+    if (rowMap[key]) {
+      rowMap[key].closeRow();
+    }
+  };
+
+  const sendRow = (rowMap, key) => {
+    if (rowMap[key]) {
+      rowMap[key].closeRow();
+    }
+  };
+
+  const onPressMail = () => {
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    setMailSelect(true);
+  };
+
+  const onPressSave = () => {
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    setMailSelect(false);
+  };
+
+  const onPressRecent = () => {
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    setRecentSelect(true);
+  };
+
+  const onPressOld = () => {
+    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    setRecentSelect(false);
+  };
+
+  const onRowOpen = (rowKey, rowMap, toValue) => {
+    setRowList(rowMap);
+    setRowOpen(rowKey);
+  };
+
+  const onRowClose = (rowKey, rowMap, toValue) => {
+    setRowOpen(null);
+  };
+
+  const onPressMailItem = (rowMap, data) => {
+    rowList
+      ? rowList[rowOpen]
+        ? null
+        : navigation.navigate('ReaderStacks', {
+            screen: 'ReaderReading',
+            params: {...data},
+          })
+      : navigation.navigate('ReaderStacks', {
+          screen: 'ReaderReading',
+          params: {...data},
+        });
+  };
 
   const renderItem = (data, rowMap, rowKey) => (
     <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
@@ -215,15 +231,6 @@ const ReaderMailBody = () => {
       </TouchableOpacity>
     </View>
   );
-
-  const [refreshing, setRefreshing] = React.useState(false);
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
 
   const renderCategory = ({item}) => {
     return (

@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   View,
@@ -90,9 +90,29 @@ const ReaderMailSearch = () => {
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getRecentSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (query === '') setSubmit(false);
+  }, [query]);
+
+  useEffect(() => {
+    async function addRecentSearch() {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
+      } catch (e) {}
+    }
+    addRecentSearch();
+  }, [recentSearch]);
+
   const onPressBack = () => {
     navigation.goBack();
   };
+
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
@@ -111,7 +131,9 @@ const ReaderMailSearch = () => {
     temp.splice(index, 1);
     setRecentSearch([...temp]);
   };
+
   const onChangeText = text => setQuery(text);
+
   const onSubmit = () => {
     if (query === '') {
       return;
@@ -139,23 +161,6 @@ const ReaderMailSearch = () => {
       params: {item: {...data}},
     });
   };
-  useEffect(() => {
-    getRecentSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (query === '') setSubmit(false);
-  }, [query]);
-
-  useEffect(() => {
-    async function addRecentSearch() {
-      try {
-        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
-      } catch (e) {}
-    }
-    addRecentSearch();
-  }, [recentSearch]);
 
   const getRecentSearch = async () => {
     try {

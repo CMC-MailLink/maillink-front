@@ -9,6 +9,10 @@ import {
   logout,
   unlink,
 } from '@react-native-seoul/kakao-login';
+import {
+  AppleButton,
+  appleAuth,
+} from '@invertase/react-native-apple-authentication';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
@@ -37,6 +41,26 @@ const SignIn = () => {
     setResult2(JSON.stringify(profile));
     console.log(result2);
   };
+
+  async function onAppleButtonPress() {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      // user is authenticated
+      console.log(appleAuthRequestResponse);
+    }
+  }
 
   return (
     <View
@@ -72,9 +96,18 @@ const SignIn = () => {
           <TouchableOpacity onPress={getProfile}>
             <Text>프로필조회</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <AppleButton
+            buttonStyle={AppleButton.Style.DARK}
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={{
+              width: 160, // You must specify a width
+              height: 45, // You must specify a height
+            }}
+            onPress={() => onAppleButtonPress()}
+          />
+          {/* <TouchableOpacity>
             <Image style={{width: 312, height: 52}} source={AppleLogin} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View
           style={{

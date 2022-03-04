@@ -10,10 +10,12 @@ import {
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
+  SafeAreaView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import PushNotification from 'react-native-push-notification';
+
 import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
-import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 const STATUSBAR_HEIGHT = 48;
 
@@ -156,6 +158,14 @@ const Alarm = () => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const handleNotification = () => {
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: 'You clicked Alarm Test!',
+      message: 'This is Test!',
+    });
+  };
+
   const renderItem = (data, rowMap) => (
     <TouchableOpacity
       disabled={alarmSelect}
@@ -209,7 +219,11 @@ const Alarm = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-
+      <TouchableOpacity onPress={handleNotification}>
+        <View>
+          <Text>Alarm Test</Text>
+        </View>
+      </TouchableOpacity>
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
         <View

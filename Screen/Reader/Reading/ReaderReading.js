@@ -1,18 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,
   TouchableWithoutFeedback,
   StatusBar,
-  TextInput,
   Platform,
-  Dimensions,
 } from 'react-native';
-import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
@@ -22,34 +18,33 @@ import BackMail2 from '../../../assets/images/BackMail2.png';
 import SendMail2 from '../../../assets/images/SendMail2.png';
 import StarMail2 from '../../../assets/images/StarMail2.png';
 
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
-
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
+  const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
   const url = Platform.select({
     ios: 'http://localhost:3000/readingeditor',
     android: 'http://10.0.2.2:3000/readingeditor',
   });
+
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };
-  const navigation = useNavigation();
+
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onSelectionChange = (
-    eventType,
-    content,
-    selectionStart,
-    selectionEnd,
-  ) => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'InstaShare',
-      params: content,
-    });
-  };
+  //instashare
+  // const onSelectionChange = (
+  //   eventType,
+  //   content,
+  //   selectionStart,
+  //   selectionEnd,
+  // ) => {
+  //   navigation.navigate('ReaderStacks', {
+  //     screen: 'InstaShare',
+  //     params: content,
+  //   });
+  // };
 
   return (
     <View style={{flex: 1}}>
@@ -139,7 +134,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     justifyContent: 'center',
     paddingLeft: 20,
-    includeFontPadding: false,
   },
   titleText: {
     fontFamily: 'NotoSansKR-Bold',
