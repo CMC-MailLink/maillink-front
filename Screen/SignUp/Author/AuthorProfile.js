@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,14 +8,14 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import AuthorHover from '../../assets/images/AuthorHover.png';
-import AuthorHoverSelected from '../../assets/images/AuthorHoverSelected.png';
-import ReaderHover from '../../assets/images/ReaderHover.png';
-import ReaderHoverSelected from '../../assets/images/ReaderHoverSelected.png';
+
 import {useNavigation} from '@react-navigation/native';
 
-const SelectUserType = () => {
+const AuthorProfile = () => {
   const navigation = useNavigation();
+  const [name, onChangeName] = useState('');
+  const [selected, setSelected] = useState(false);
+  const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [authorSelect, setAuthorSelect] = useState(false);
   const [readerSelect, setReaderSelect] = useState(false);
   const onCheckSelect = () => {};
@@ -48,17 +48,12 @@ const SelectUserType = () => {
       screen: 'OnBoarding',
     });
   };
-  const goAuthorProfile = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'AuthorProfile',
-    });
-  };
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
 
-      {/* Header: main */}
+      {/* mainHeader */}
       <Text style={styles.IntroSub}>메일링크에 오신걸 환영합니다!</Text>
       <View style={{top: 20 + 15.22, left: 20}}>
         <View style={{flexDirection: 'row'}}>
@@ -69,33 +64,16 @@ const SelectUserType = () => {
       </View>
 
       {/* Body: ProfileName */}
-      <View style={{top: 150, left: 20, flexDirection: 'row'}}>
-        <TouchableOpacity
-          onPress={onPressReaderSelect}
-          style={readerSelect ? styles.select : null}>
-          <Image
-            style={{width: 175, height: 253}}
-            source={readerSelect ? ReaderHoverSelected : ReaderHover}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onPressAuthorSelect}
-          style={authorSelect ? styles.select : null}>
-          <Image
-            style={{width: 175, height: 253}}
-            source={authorSelect ? AuthorHoverSelected : AuthorHover}
-          />
-        </TouchableOpacity>
-      </View>
+      <View style={{top: 150, left: 20, flexDirection: 'row'}} />
 
-      {/* Footer: Button */}
+      {/* footer: Button */}
       <View style={{left: 22, bottom: -293 + 111}}>
         <TouchableOpacity
           onPress={
             readerSelect || authorSelect
               ? readerSelect
                 ? goOnBoarding
-                : goAuthorProfile
+                : null
               : goAlertSelect
           }
           style={
@@ -151,6 +129,43 @@ const styles = StyleSheet.create({
     color: '#BEBEBE',
     marginTop: 6,
   },
+  NameSet: {
+    top: 59,
+    left: -135 + 44,
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 20,
+    color: '#3C3C3C',
+  },
+  bodyNameBorder: {
+    width: 301,
+    left: -135 + 44,
+    borderBottomWidth: 1,
+    borderBottomColor: '#BEBEBE',
+    paddingTop: 15,
+  },
+  confirmBasic: {
+    position: 'absolute',
+    bottom: 10,
+    left: 183 - 49,
+    width: 69,
+    height: 28,
+    borderRadius: 15,
+    borderColor: '#BEBEBE',
+    backgroundColor: '#EBEBEB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirmChange: {
+    position: 'absolute',
+    bottom: 10,
+    left: 183 - 49,
+    width: 69,
+    height: 28,
+    borderRadius: 15,
+    backgroundColor: '#4562F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonDisable: {
     position: 'absolute',
     top: 90,
@@ -167,6 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
+
   buttonAble: {
     position: 'absolute',
     top: 90,
@@ -184,6 +200,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
+  checkMessage: {
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 14,
+    color: '#BEBEBE',
+  },
 });
 
-export default SelectUserType;
+export default AuthorProfile;

@@ -4,6 +4,8 @@ import SignIn from '../../Screen/SignUp/SignIn';
 import SelfAuth from '../../Screen/SignUp/SelfAuth';
 import SetProfile from '../../Screen/SignUp/SetProfile';
 import SelectUserType from '../../Screen/SignUp/SelectUserType';
+import OnBoarding from '../../Screen/OnBoarding';
+import AuthorProfile from '../../Screen/SignUp/Author/AuthorProfile';
 
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
@@ -35,6 +37,16 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="SelectUserType"
       component={SelectUserType}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="OnBoarding"
+      component={OnBoarding}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="AuthorProfile"
+      component={AuthorProfile}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

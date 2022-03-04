@@ -26,7 +26,7 @@ const SignIn = () => {
 
   const getSetProfile = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SetProfile',
+      screen: 'SelectUserType',
     });
   };
 
@@ -74,7 +74,7 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={signInWithKakao}>
+          <TouchableOpacity onPress={getSetProfile}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
           <TouchableOpacity onPress={getProfile}>
