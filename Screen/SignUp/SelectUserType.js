@@ -70,14 +70,14 @@ const SelectUserType = () => {
 
       {/* Body: ProfileName */}
       <View style={{top: 150, left: 20, flexDirection: 'row'}}>
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           onPress={onPressReaderSelect}
           style={readerSelect ? styles.select : null}>
           <Image
             style={{width: 175, height: 253}}
             source={readerSelect ? ReaderHoverSelected : ReaderHover}
           />
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           onPress={onPressAuthorSelect}
           style={authorSelect ? styles.select : null}>
