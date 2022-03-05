@@ -49,9 +49,6 @@ const Profile = () => {
             <Text style={styles.buttonAbleText}>시작</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.buttonAbleText}>시작</Text>
-        </TouchableOpacity>
         {/* footer: Pass*/}
         <TouchableWithoutFeedback>
           <View>
@@ -114,13 +111,13 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   footer: {
-    bottom: -293 + 226,
+    marginTop: 44,
     justifyContent: 'center',
     alignItems: 'center',
     left: 20,
   },
   footerPassText: {
-    top: 100 + 44,
+    top: 137 + 21,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',

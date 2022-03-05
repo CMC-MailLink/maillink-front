@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import CheckBox from 'react-native-check-box';
 import SignUpStep1 from '../../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import {useNavigation} from '@react-navigation/native';
@@ -20,8 +19,8 @@ const ProfileIntro = () => {
   const [introText, onChangeIntroText] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [authRequest, setAuthRequest] = useState(false);
-  const [confirmRequest, setConfirmRequest] = useState(false);
   const [textCount, setTextCount] = useState(0);
+  const [enterCount, setenterCount] = useState(0);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -47,7 +46,10 @@ const ProfileIntro = () => {
       setConfirmSuccess(false);
     }
     setTextCount(introText.length);
-  }, [introText, confirmSuccess]);
+    if (this.keyCode === 13) {
+      setenterCount(enterCount + 1);
+    }
+  }, [introText, confirmSuccess, enterCount]);
 
   return (
     <View style={{flex: 1}}>
@@ -69,11 +71,11 @@ const ProfileIntro = () => {
       />
       <View style={{top: 20 + 15.22, left: 20}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.NameTitle}>자신</Text>
-          <Text style={styles.IntroTitle}>을</Text>
+          <Text style={styles.nameTitle}>자신</Text>
+          <Text style={styles.introTitle}>을</Text>
         </View>
-        <Text style={styles.IntroTitle}>소개해주세요.</Text>
-        <Text style={styles.IntroSub}>작가인 나는 어떤 사람인가요?</Text>
+        <Text style={styles.introTitle}>소개해주세요.</Text>
+        <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
       </View>
 
       {/* Body: Input */}
@@ -83,13 +85,17 @@ const ProfileIntro = () => {
           onChangeText={onChangeIntroText}
           value={introText}
           placeholder="소개를 입력해주세요."
+          maxLength={160}
+          //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
+          maxHeight={200}
+          multiline={introText > 160 && enterCount > 5 ? false : true}
         />
         <View style={styles.bodyNameBorder} />
-        <Text style={styles.IntroTitle}> {}/ 160자</Text>
+        <Text style={styles.textCount}> {textCount}/ 160자</Text>
       </View>
 
       {/* footer: Button pass */}
-      <View style={{left: 22, bottom: -284 + 99}}>
+      <View style={styles.footer}>
         <TouchableOpacity
           onPress={!introText ? goAlertIntroText : goNextScreen}
           style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
@@ -104,6 +110,7 @@ const ProfileIntro = () => {
             </Text>
           </View>
         </TouchableOpacity>
+
         {/* footer: Pass*/}
         <TouchableWithoutFeedback>
           <View>
@@ -122,32 +129,35 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 22,
   },
-  NameTitle: {
+  nameTitle: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
   },
-  IntroTitle: {
+  textCount: {
+    marginTop: 4,
+    left: 291,
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#3C3C3C',
+  },
+  introTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
   },
-  IntroSub: {
+  introSub: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
   },
-  BodyTitle: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 14,
-    color: '#3C3C3C',
-  },
   input: {
-    fontFamily: 'NotoSansKR-Light',
+    fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
-    color: '#BEBEBE',
+    color: '#3C3C3C',
     paddingTop: 14,
+    paddingRight: 40,
   },
   bodyNameBorder: {
     width: 350,
@@ -155,114 +165,15 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BEBEBE',
     paddingTop: 14,
   },
-  bodyRequestBoarder: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: '#BEBEBE',
-    bottom: 16 - 10,
-    paddingTop: -23,
-  },
-  timer: {
-    left: 239,
-    bottom: 17,
-  },
-  basicAuthRequest: {
+  footer: {
     position: 'absolute',
-    bottom: 10,
-    right: 21 + 20,
-    width: 69,
-    height: 24,
-    borderRadius: 15,
-    borderColor: '#BEBEBE',
-    borderWidth: 1,
-    backgroundColor: '#FFFFFF',
+    top: 247,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  basicAuthRequestText: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#BEBEBE',
-  },
-  changeAuthRequest: {
-    position: 'absolute',
-    bottom: 10,
-    right: 21 + 20,
-    width: 69,
-    height: 24,
-    borderRadius: 15,
-    backgroundColor: '#4562F1',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  changeAuthRequestText: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#FFFFFF',
-  },
-  confirmCheck: {
-    position: 'absolute',
-    top: 19,
-    right: 21 + 20,
-    width: 69,
-    height: 24,
-    borderRadius: 15,
-    borderColor: '#BEBEBE',
-    backgroundColor: '#EBEBEB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  authRequest: {
-    position: 'absolute',
-    bottom: 10,
-    right: 21 + 20,
-    width: 69,
-    height: 24,
-    borderRadius: 15,
-    borderColor: '#BEBEBE',
-    backgroundColor: '#EBEBEB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  authRequestText: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#3C3C3C',
-  },
-  rulesText: {
-    position: 'absolute',
-    left: 37,
-    bottom: 1,
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 14,
-    color: '#828282',
-  },
-  example: {
-    position: 'absolute',
-    left: 296 + 23,
-    bottom: 0,
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 14,
-    color: '#3C3C3C',
-  },
-  buttonDisable: {
-    position: 'absolute',
-    top: 90,
-    width: 350,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: '#BEBEBE',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonDisableText: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 16,
-    color: '#FFFFFF',
   },
   buttonAble: {
-    position: 'absolute',
-    top: 90,
+    top: 410,
+    left: 20,
     right: 21 + 20,
     width: 350,
     height: 52,
@@ -276,13 +187,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
+  buttonDisable: {
+    top: 410,
+    left: 20,
+    width: 350,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: '#BEBEBE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonDisableText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
+  },
   footerPassText: {
-    top: 100 + 44,
+    position: 'absolute',
+    marginTop: 65 + 340 + 21,
+    left: -25,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
     textDecorationLine: 'underline',
-    left: -20,
   },
 });
 
