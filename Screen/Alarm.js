@@ -238,7 +238,7 @@ const Alarm = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderText,
-                  color: alarmSelect ? '#000000' : '#BEBEBE',
+                  color: alarmSelect ? '#3C3C3C' : '#BEBEBE',
                 }}>
                 알림함
               </Text>
@@ -249,7 +249,7 @@ const Alarm = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderText,
-                  color: alarmSelect ? '#BEBEBE' : '#000000',
+                  color: alarmSelect ? '#BEBEBE' : '#3C3C3C',
                 }}>
                 쪽지함
               </Text>

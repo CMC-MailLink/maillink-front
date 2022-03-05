@@ -9,13 +9,17 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Image,
+  Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FloatingAction} from 'react-native-floating-action';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
+import LinkAuthorWrite from '../../../assets/images/LinkAuthorWrite.png';
 
 const AuthorWrite = () => {
+  const navigation = useNavigation();
   const [recentSelect, setRecentSelect] = useState(true);
   const [storage, setStorage] = useState([
     {
@@ -44,19 +48,6 @@ const AuthorWrite = () => {
     },
   ]);
 
-  const onPressRecent = () => {
-    setRecentSelect(true);
-  };
-  const onPressOld = () => {
-    setRecentSelect(false);
-  };
-  const navigation = useNavigation();
-  const onPressWritingPage = () => {
-    navigation.navigate('AuthorStacks', {
-      screen: 'AuthorEditor',
-    });
-  };
-
   useEffect(() => {
     setStorage(data =>
       data.slice().sort(function (a, b) {
@@ -68,6 +59,21 @@ const AuthorWrite = () => {
       }),
     );
   }, [recentSelect]);
+
+  const onPressRecent = () => {
+    setRecentSelect(true);
+  };
+
+  const onPressOld = () => {
+    setRecentSelect(false);
+  };
+
+  const onPressWritingPage = () => {
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorEditor',
+    });
+  };
+
   const onPressStorageItem = () => {
     //pressStorage
   };
@@ -75,45 +81,10 @@ const AuthorWrite = () => {
   const renderItem = ({item}) => {
     return (
       <TouchableWithoutFeedback onPress={e => onPressStorageItem(item)}>
-        <View
-          style={{
-            height: 100,
-            backgroundColor: '#FFF',
-            paddingTop: 12,
-            borderBottomColor: '#EBEBEB',
-            borderBottomWidth: 1,
-          }}>
-          <Text
-            style={{
-              position: 'absolute',
-              color: '#BEBEBE',
-              fontFamily: 'NotoSansKR-Thin',
-              fontSize: 12,
-              right: 20,
-              top: 16,
-            }}>
-            {item.date}
-          </Text>
-          <Text
-            style={{
-              color: '#3C3C3C',
-              fontFamily: 'NotoSansKR-Bold',
-              fontSize: 16,
-              left: 20,
-              marginBottom: 8,
-            }}>
-            {item.title}
-          </Text>
-          <Text
-            style={{
-              color: '#828282',
-              fontFamily: 'NotoSansKR-Thin',
-              fontSize: 14,
-              left: 20,
-              width: 301,
-            }}>
-            {item.body}
-          </Text>
+        <View style={styles.itemView}>
+          <Text style={styles.itemDateText}>{item.date}</Text>
+          <Text style={styles.itemTitleText}>{item.title}</Text>
+          <Text style={styles.itemBodyText}>{item.body}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -127,33 +98,26 @@ const AuthorWrite = () => {
         <Text style={styles.headerText}>메일쓰기</Text>
       </View>
       <View style={styles.bodyHeader}>
-        <View
+        <Text
           style={{
-            justifyContent: 'center',
-            left: 20,
+            fontFamily: 'NotoSansKR-Medium',
+            fontSize: 14,
+            color: '#3C3C3C',
           }}>
-          <Text
-            style={{
-              fontFamily: 'NotoSansKR-Medium',
-              fontSize: 14,
-              color: '#3C3C3C',
-            }}>
-            임시저장함
-          </Text>
-        </View>
+          임시저장함
+        </Text>
         <View
           style={{
-            position: 'absolute',
             width: 92,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            right: 19,
+            alignItems: 'center',
           }}>
           <TouchableOpacity onPress={onPressRecent} activeOpacity={1}>
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#000000' : '#BEBEBE',
+                color: recentSelect ? '#3C3C3C' : '#BEBEBE',
               }}>
               최신순
             </Text>
@@ -165,7 +129,7 @@ const AuthorWrite = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#BEBEBE' : '#000000',
+                color: recentSelect ? '#BEBEBE' : '#3C3C3C',
               }}>
               오래된순
             </Text>
@@ -177,6 +141,30 @@ const AuthorWrite = () => {
           data={storage}
           renderItem={renderItem}
           keyExtractor={item => item.id}
+          ListHeaderComponent={
+            <TouchableOpacity
+              onPress={() => Clipboard.setString('maillink address')}>
+              <View style={styles.LinkView}>
+                <View>
+                  <View style={{marginBottom: 5}}>
+                    <Text style={styles.LinkText}>
+                      <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
+                        웹사이트
+                      </Text>
+                      에서도 편하게
+                    </Text>
+                    <Text style={styles.LinkText}>
+                      글을 작성하고 발행해보세요!
+                    </Text>
+                  </View>
+                  <Text style={styles.LinkCopyText}>클릭하여 링크복사하기</Text>
+                </View>
+                <Image
+                  style={{width: 134, height: 92}}
+                  source={LinkAuthorWrite}></Image>
+              </View>
+            </TouchableOpacity>
+          }
         />
       </View>
       <FloatingAction
@@ -219,18 +207,22 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 94 - 48,
     alignItems: 'center',
-    marginBottom: 14,
   },
   headerText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   bodyHeader: {
     width: '100%',
     height: 32.6,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   bodyContainer: {
     backgroundColor: '#FFFFFF',
@@ -241,7 +233,61 @@ const styles = StyleSheet.create({
   bodyHeaderTextOrder: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 12,
-    paddingHorizontal: 3,
+    includeFontPadding: false,
+  },
+  LinkView: {
+    backgroundColor: '#F4F6FF',
+    height: 92,
+    paddingHorizontal: 35,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  LinkText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
+  LinkCopyText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 11,
+    color: '#4562F1',
+    textDecorationLine: 'underline',
+    includeFontPadding: false,
+  },
+  itemView: {
+    height: 100,
+    backgroundColor: '#FFF',
+    paddingTop: 12,
+    paddingBottom: 17,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    paddingHorizontal: 20,
+  },
+  itemDateText: {
+    position: 'absolute',
+    color: '#BEBEBE',
+    fontFamily: 'NotoSansKR-Thin',
+    fontSize: 12,
+    right: 20,
+    top: 12,
+    includeFontPadding: false,
+  },
+  itemTitleText: {
+    color: '#3C3C3C',
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    marginBottom: 8,
+    includeFontPadding: false,
+  },
+  itemBodyText: {
+    color: '#828282',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 14,
+    width: 301,
+    includeFontPadding: false,
   },
 });
 export default AuthorWrite;

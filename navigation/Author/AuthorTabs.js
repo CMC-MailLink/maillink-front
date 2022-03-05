@@ -15,7 +15,9 @@ import AuthorProfile from '../../Screen/Author/Profile/AuthorProfile';
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
+import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocused.png';
 import WriteTabs from '../../assets/images/WriteTabs.png';
+import WriteTabsFocused from '../../assets/images/WriteTabsFocused.png';
 
 const AuthorTab = createBottomTabNavigator();
 
@@ -42,8 +44,17 @@ const AuthorTabs = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image style={{width: 21, height: 21}} source={WriteTabs} />
-              <Text style={styles.iconText}>메일쓰기</Text>
+              <Image
+                style={{width: 21, height: 21}}
+                source={focused ? WriteTabsFocused : WriteTabs}
+              />
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                메일쓰기
+              </Text>
             </View>
           ),
         }}
@@ -58,12 +69,19 @@ const AuthorTabs = () => {
             <View style={styles.iconView}>
               <Image
                 style={{width: 18, height: 21.27}}
-                source={ReaderProfileTabs}
+                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
               />
-              <Text style={styles.iconText}>프로필</Text>
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                프로필
+              </Text>
             </View>
           ),
         }}
+        tabBarActiveTintColor="#4562F1"
       />
       <AuthorTab.Screen
         name="AuthorMail"
@@ -136,7 +154,6 @@ const styles = StyleSheet.create({
     bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
   },
   iconText: {
-    color: '#BEBEBE',
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 10,
     marginTop: 5,

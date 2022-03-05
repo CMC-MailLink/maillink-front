@@ -160,7 +160,7 @@ const ReaderRecommendList = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderText,
-                  color: allSelect ? '#BEBEBE' : '#000000',
+                  color: allSelect ? '#BEBEBE' : '#3C3C3C',
                 }}>
                 관심작가
               </Text>

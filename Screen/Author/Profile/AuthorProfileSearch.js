@@ -184,7 +184,7 @@ const AuthorMailSearch = () => {
                     </View>
                     <Text
                       style={{
-                        color: '#000',
+                        color: '#3C3C3C',
                         fontFamily: 'NotoSansKR-Bold',
                         fontSize: 14,
                         left: 93,
@@ -194,7 +194,7 @@ const AuthorMailSearch = () => {
                     <Text
                       style={{
                         color: '#828282',
-                        fontFamily: 'NotoSansKR-Thin',
+                        fontFamily: 'NotoSansKR-Light',
                         fontSize: 14,
                         left: 93,
                         width: 230,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 14,
-    color: '#000',
+    color: '#3C3C3C',
   },
   recentSearch: {
     height: 50,

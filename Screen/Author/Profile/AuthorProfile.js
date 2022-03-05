@@ -167,7 +167,7 @@ const AuthorProfile = () => {
                 <Text
                   style={{
                     ...styles.bodyHeaderText,
-                    color: introSelect ? '#BEBEBE' : '#000000',
+                    color: introSelect ? '#BEBEBE' : '#3C3C3C',
                   }}>
                   작성메일
                 </Text>

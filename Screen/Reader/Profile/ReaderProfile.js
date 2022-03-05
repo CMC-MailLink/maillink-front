@@ -398,7 +398,7 @@ const ReaderProfile = () => {
                 <Text
                   style={{
                     ...styles.bodyHeaderTextOrder,
-                    color: recentSelect ? '#000000' : '#BEBEBE',
+                    color: recentSelect ? '#3C3C3C' : '#BEBEBE',
                   }}>
                   최신구독순
                 </Text>
@@ -412,7 +412,7 @@ const ReaderProfile = () => {
                 <Text
                   style={{
                     ...styles.bodyHeaderTextOrder,
-                    color: recentSelect ? '#BEBEBE' : '#000000',
+                    color: recentSelect ? '#BEBEBE' : '#3C3C3C',
                   }}>
                   업데이트순
                 </Text>

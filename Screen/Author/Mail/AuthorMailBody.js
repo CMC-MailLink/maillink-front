@@ -143,7 +143,7 @@ const AuthorMailBody = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#000000' : '#BEBEBE',
+                color: recentSelect ? '#3C3C3C' : '#BEBEBE',
               }}>
               최신순
             </Text>
@@ -155,7 +155,7 @@ const AuthorMailBody = () => {
             <Text
               style={{
                 ...styles.bodyHeaderTextOrder,
-                color: recentSelect ? '#BEBEBE' : '#000000',
+                color: recentSelect ? '#BEBEBE' : '#3C3C3C',
               }}>
               오래된순
             </Text>
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   },
   itemBodyText: {
     color: '#828282',
-    fontFamily: 'NotoSansKR-Thin',
+    fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     width: 301,
     includeFontPadding: false,

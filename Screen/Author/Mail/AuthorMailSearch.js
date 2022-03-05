@@ -22,7 +22,6 @@ import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
 import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
 const STORAGE_KEY = '@recentDataAuthorMailSearch';
 
@@ -212,7 +211,9 @@ const AuthorMailSearch = () => {
             </View>
             {result.length ? (
               result.map((data, index) => (
-                <TouchableWithoutFeedback onPress={e => onPressMailItem(data)}>
+                <TouchableWithoutFeedback
+                  onPress={e => onPressMailItem(data)}
+                  key={index}>
                   <View style={styles.itemView}>
                     <Text style={styles.itemDateText}>{data.date}</Text>
                     <Text style={styles.itemTitleText}>{data.title}</Text>
@@ -396,7 +397,7 @@ const styles = StyleSheet.create({
   },
   itemBodyText: {
     color: '#828282',
-    fontFamily: 'NotoSansKR-Thin',
+    fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     width: 301,
     includeFontPadding: false,

@@ -281,7 +281,7 @@ const AuthorProfileMail = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderTextOrder,
-                  color: recentSelect ? '#000000' : '#BEBEBE',
+                  color: recentSelect ? '#3C3C3C' : '#BEBEBE',
                 }}>
                 최신순
               </Text>
@@ -293,7 +293,7 @@ const AuthorProfileMail = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderTextOrder,
-                  color: recentSelect ? '#BEBEBE' : '#000000',
+                  color: recentSelect ? '#BEBEBE' : '#3C3C3C',
                 }}>
                 오래된순
               </Text>
