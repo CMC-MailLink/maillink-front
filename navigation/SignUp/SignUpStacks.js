@@ -5,8 +5,8 @@ import SelfAuth from '../../Screen/SignUp/SelfAuth';
 import SetProfile from '../../Screen/SignUp/SetProfile';
 import SelectUserType from '../../Screen/SignUp/SelectUserType';
 import OnBoarding from '../../Screen/OnBoarding';
-import AuthorProfile from '../../Screen/SignUp/Author/AuthorProfile';
-
+import Profile from '../../Screen/SignUp/Author/Profile';
+import ProfileIntro from '../../Screen/SignUp/Author/ProfileIntro';
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
   <ReaderStack.Navigator
@@ -45,8 +45,13 @@ const ReaderStacks = () => (
       options={{headerTitle: ''}}
     />
     <ReaderStack.Screen
-      name="AuthorProfile"
-      component={AuthorProfile}
+      name="Profile"
+      component={Profile}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ProfileIntro"
+      component={ProfileIntro}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

@@ -6,6 +6,7 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
 import AuthorHover from '../../assets/images/AuthorHover.png';
@@ -18,7 +19,6 @@ const SelectUserType = () => {
   const navigation = useNavigation();
   const [authorSelect, setAuthorSelect] = useState(false);
   const [readerSelect, setReaderSelect] = useState(false);
-  const onCheckSelect = () => {};
   const onPressAuthorSelect = () => {
     if (!readerSelect) {
       setAuthorSelect(!authorSelect);
@@ -50,7 +50,7 @@ const SelectUserType = () => {
   };
   const goAuthorProfile = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'AuthorProfile',
+      screen: 'Profile',
     });
   };
 
@@ -78,14 +78,14 @@ const SelectUserType = () => {
             source={readerSelect ? ReaderHoverSelected : ReaderHover}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           onPress={onPressAuthorSelect}
           style={authorSelect ? styles.select : null}>
           <Image
             style={{width: 175, height: 253}}
             source={authorSelect ? AuthorHoverSelected : AuthorHover}
           />
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </View>
 
       {/* Footer: Button */}
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: -2,
     },
-    shadowOpacity: 0.73,
+    shadowOpacity: 0.23,
     shadowRadius: 29,
   },
   NameTitle: {
