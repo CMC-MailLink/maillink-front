@@ -9,7 +9,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  ScrollView,
   Modal,
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -149,7 +148,7 @@ const SetProfile = () => {
 
       {/* mainHeader */}
       <Image
-        style={{width: 39.05, height: 30.44, top: 25, left: 25}}
+        style={{width: 48.18, height: 32.4, top: 25, left: 25}}
         source={SignUpStep2}
       />
       <View style={{top: 20 + 15.22, left: 20}}>

@@ -40,6 +40,7 @@ const Profile = () => {
       <View style={{top: 100}}>
         <Image style={{width: 392, height: 369}} source={SignUpAuthorProfile} />
       </View>
+
       {/* footer: Button, Pass*/}
       <View style={styles.footer}>
         {/* footer: Button*/}

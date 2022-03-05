@@ -17,82 +17,42 @@ import {useNavigation} from '@react-navigation/native';
 
 const ProfileIntro = () => {
   const navigation = useNavigation();
-  const [name, onChangeName] = useState('');
-  const [phone, onChangePhone] = useState();
-  const [number, onChangeNumber] = useState();
+  const [introText, onChangeIntroText] = useState('');
+  const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [authRequest, setAuthRequest] = useState(false);
   const [confirmRequest, setConfirmRequest] = useState(false);
-  const [realNumber, setrealNumber] = useState(1234);
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [checkbox, setcheckbox] = useState(false);
+  const [textCount, setTextCount] = useState(0);
 
-  const onPressRequest = () => {
-    setAuthRequest(true);
-    Alert.alert('인증 번호가 전송되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
-  const onPressConfirm = () => {
-    setConfirmRequest(true);
-    if (parseInt(number) === realNumber) {
-      Alert.alert('인증 되었습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
-      setConfirmSuccess(true);
-    } else {
-      Alert.alert('잘못된 인증 번호 입니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
-    }
-  };
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressCheckBox = () => {
-    setcheckbox(!checkbox);
-  };
-  const goAlertName = () => {
-    Alert.alert('이름을 입력하세요.', {
+
+  const goAlertIntroText = () => {
+    Alert.alert('소개를 입력하세요.', {
       text: '확인',
       style: 'cancel',
     });
   };
-  const goAlertPhone = () => {
-    if (!authRequest) {
-      Alert.alert('인증 요청을 하세요.', {
-        text: '확인',
-        style: 'cancel',
-      });
-      return 0;
-    }
-    Alert.alert('휴대전화 번호를 입력하세요.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
-  const goAlertPhoneAdd = () => {
-    Alert.alert('재발송 되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
-  const goAlertConfirm = () => {
-    Alert.alert('인증 번호를 입력하세요.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
+
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfile',
     });
   };
+
+  useEffect(() => {
+    if (introText !== '') {
+      setConfirmSuccess(true);
+    } else {
+      setConfirmSuccess(false);
+    }
+    setTextCount(introText.length);
+  }, [introText, confirmSuccess]);
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
+
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -101,140 +61,42 @@ const ProfileIntro = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
+
       {/* mainHeader */}
       <Image
-        style={{width: 39.05, height: 30.44, top: 25, left: 25}}
+        style={{width: 48, height: 32.28, top: 25, left: 25}}
         source={SignUpStep1}
       />
       <View style={{top: 20 + 15.22, left: 20}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.NameTitle}>본인인증</Text>
+          <Text style={styles.NameTitle}>자신</Text>
           <Text style={styles.IntroTitle}>을</Text>
         </View>
-        <Text style={styles.IntroTitle}>진행해주세요.</Text>
-      </View>
-      {/* Body: Name */}
-      <View style={{top: 25 + 58, left: 21.11}}>
-        <Text style={styles.BodyTitle}>이름</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeName}
-          value={name}
-          placeholder="이름을 입력해주세요."
-        />
-        <View style={styles.bodyNameBorder} />
-      </View>
-      {/* Body: Phone */}
-      <View style={{top: 10 + 148, left: 21.11}}>
-        <Text style={styles.BodyTitle}>휴대전화 인증</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangePhone}
-          value={phone}
-          placeholder="휴대전화 번호 입력"
-        />
-        {/* Body: AuthRequest */}
-        {authRequest ? (
-          <TouchableOpacity
-            onPress={goAlertPhoneAdd}
-            style={styles.authRequest}>
-            <View>
-              <Text style={styles.authRequestText}>재발송</Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={!phone ? goAlertPhone : onPressRequest}
-            style={!phone ? styles.basicAuthRequest : styles.changeAuthRequest}>
-            <View>
-              <Text
-                style={
-                  !phone
-                    ? styles.basicAuthRequestText
-                    : styles.changeAuthRequestText
-                }>
-                인증요청
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        <View style={styles.bodyNameBorder} />
-      </View>
-      {/* Body: number */}
-      <View style={{top: 15 + 148, left: 21.11}}>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="인증 번호 입력"
-        />
-        {/* Body: confirmRequest */}
-        {confirmRequest && authRequest ? (
-          <TouchableOpacity
-            onPress={!confirmSuccess ? onPressConfirm : null}
-            style={styles.confirmCheck}>
-            <View>
-              <Text style={styles.authRequestText}>확인</Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={
-              !number
-                ? goAlertConfirm
-                : !authRequest
-                ? goAlertPhone
-                : onPressConfirm
-            }
-            style={
-              !number ? styles.basicAuthRequest : styles.changeAuthRequest
-            }>
-            <View>
-              <Text
-                style={
-                  !number
-                    ? styles.basicAuthRequestText
-                    : styles.changeAuthRequestText
-                }>
-                확인
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        <View style={styles.bodyNameBorder} />
-      </View>
-      {/* Body: number */}
-      <View style={{left: 22, top: 160 + 25}}>
-        <CheckBox
-          disabled={false}
-          onClick={onPressCheckBox}
-          style={styles.checkbox}
-          isChecked={checkbox}
-          checkedCheckBoxColor="#4562F1"
-          uncheckedCheckBoxColor="#EBEBEB"
-          checkBoxColor="#EBEBEB"
-        />
-        <Text style={styles.rulesText}>
-          메일링크 가입 약관에 모두 동의합니다
-        </Text>
-        <Text style={styles.example}>보기</Text>
+        <Text style={styles.IntroTitle}>소개해주세요.</Text>
+        <Text style={styles.IntroSub}>작가인 나는 어떤 사람인가요?</Text>
       </View>
 
-      {/* footer: Button */}
+      {/* Body: Input */}
+      <View style={{top: 10 + 93, left: 21.11}}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeIntroText}
+          value={introText}
+          placeholder="소개를 입력해주세요."
+        />
+        <View style={styles.bodyNameBorder} />
+        <Text style={styles.IntroTitle}> {}/ 160자</Text>
+      </View>
+
+      {/* footer: Button pass */}
       <View style={{left: 22, bottom: -284 + 99}}>
         <TouchableOpacity
-          onPress={
-            !name ? goAlertName : !confirmSuccess ? goAlertPhone : goNextScreen
-          }
-          style={
-            confirmSuccess && checkbox && name
-              ? styles.buttonAble
-              : styles.buttonDisable
-          }>
+          onPress={!introText ? goAlertIntroText : goNextScreen}
+          style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
           <View>
             <Text
               style={
-                confirmSuccess && checkbox && name
+                confirmSuccess
                   ? styles.buttonAbleText
                   : styles.buttonDisableText
               }>
@@ -242,6 +104,12 @@ const ProfileIntro = () => {
             </Text>
           </View>
         </TouchableOpacity>
+        {/* footer: Pass*/}
+        <TouchableWithoutFeedback>
+          <View>
+            <Text style={styles.footerPassText}>다음에 할께요</Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -264,15 +132,21 @@ const styles = StyleSheet.create({
     fontSize: 27,
     color: '#3C3C3C',
   },
+  IntroSub: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 16,
+    color: '#BEBEBE',
+    marginTop: 6,
+  },
   BodyTitle: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',
   },
   input: {
-    fontFamily: 'NotoSansKR-Regular',
+    fontFamily: 'NotoSansKR-Light',
     fontSize: 16,
-    color: '#3C3C3C',
+    color: '#BEBEBE',
     paddingTop: 14,
   },
   bodyNameBorder: {
@@ -401,6 +275,14 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+  },
+  footerPassText: {
+    top: 100 + 44,
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#3C3C3C',
+    textDecorationLine: 'underline',
+    left: -20,
   },
 });
 
