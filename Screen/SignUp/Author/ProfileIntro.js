@@ -18,7 +18,6 @@ const ProfileIntro = () => {
   const navigation = useNavigation();
   const [introText, onChangeIntroText] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [authRequest, setAuthRequest] = useState(false);
   const [textCount, setTextCount] = useState(0);
   const [enterCount, setenterCount] = useState(0);
 
@@ -35,7 +34,7 @@ const ProfileIntro = () => {
 
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SetProfile',
+      screen: 'ProfileInterest',
     });
   };
 

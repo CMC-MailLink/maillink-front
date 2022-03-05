@@ -7,6 +7,8 @@ import SelectUserType from '../../Screen/SignUp/SelectUserType';
 import OnBoarding from '../../Screen/OnBoarding';
 import Profile from '../../Screen/SignUp/Author/Profile';
 import ProfileIntro from '../../Screen/SignUp/Author/ProfileIntro';
+import ProfileInterest from '../../Screen/SignUp/Author/ProfileInterest';
+
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
   <ReaderStack.Navigator
@@ -52,6 +54,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="ProfileIntro"
       component={ProfileIntro}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ProfileInterest"
+      component={ProfileInterest}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>
