@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Alert,
+  Modal,
+  SuccessModal,
 } from 'react-native';
 import SignUpStep1 from '../../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -24,6 +25,7 @@ const AddWebsite = () => {
   const [instaText, onChangeInstaText] = useState('');
   const [urlText, onChangeUrlText] = useState('');
   const [facebookText, onChangeFacebookText] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [textCount, setTextCount] = useState(0);
   const [enterCount, setenterCount] = useState(0);
@@ -34,14 +36,29 @@ const AddWebsite = () => {
 
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'ProfileInterest',
+      screen: 'AuthorSuccessModal',
     });
+  };
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
   };
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
-
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <SuccessModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          onPressModalConfirm={onPressModalConfirm}
+        />
+      </Modal>
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>

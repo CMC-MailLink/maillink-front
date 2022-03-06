@@ -9,6 +9,7 @@ import Profile from '../../Screen/SignUp/Author/Profile';
 import ProfileIntro from '../../Screen/SignUp/Author/ProfileIntro';
 import ProfileInterest from '../../Screen/SignUp/Author/ProfileInterest';
 import AddWebsite from '../../Screen/SignUp/Author/AddWebsite';
+import AuthorSuccessModal from '../../Screen/SignUp/Author/AuthorSuccessModal';
 
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
@@ -65,6 +66,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="AddWebsite"
       component={AddWebsite}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="AuthorSuccessModal"
+      component={AuthorSuccessModal}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>
