@@ -164,6 +164,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
+
       {/* upperHeader */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
@@ -173,6 +174,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           </View>
         </TouchableWithoutFeedback>
       </View>
+
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
         <View style={{left: 364, marginBottom: 30}}>
@@ -200,6 +202,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         </View>
         {renderMessageItem(message.sender)}
       </View>
+
       {/* body */}
       {messageData ? (
         <FlatList

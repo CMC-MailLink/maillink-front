@@ -67,7 +67,7 @@ const ProfileInterest = () => {
 
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'ProfileInterest',
+      screen: 'AddWebsite',
     });
   };
 
@@ -119,6 +119,7 @@ const ProfileInterest = () => {
           <View
             style={{
               flexDirection: 'row',
+              justifyContent: 'space-between',
               position: 'absolute',
               left: 1,
               top: -35 + 18,
@@ -221,7 +222,7 @@ const ProfileInterest = () => {
       {/* footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity
-          onPress={!introText ? goAlertIntroText : goNextScreen}
+          onPress={goNextScreen}
           style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
           <View>
             <Text
