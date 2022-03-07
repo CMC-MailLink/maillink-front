@@ -27,10 +27,11 @@ const OnBoarding = () => {
   const onPressNext = () => {
     if (swiperIndex !== 2) {
       setSwiperIndex(swiperIndex + 1);
-    } else
-      navigation.navigate('ReaderStacks', {
-        screen: 'ReaderAnalyze',
+    } else {
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelectUserType',
       });
+    }
   };
 
   return (
@@ -40,7 +41,7 @@ const OnBoarding = () => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -51,7 +52,7 @@ const OnBoarding = () => {
         scrollEnabled={false}
         loop={false}
         dot={<View style={styles.swiperDot} />}
-        activeDot={<View style={styles.swiperActiveDot}></View>}
+        activeDot={<View style={styles.swiperActiveDot} />}
         showsButtons={false}>
         <View style={{flex: 1}}>
           <View

@@ -14,7 +14,7 @@ const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
   const navigation = useNavigation();
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SelectUserType',
+      screen: 'OnBoarding',
     });
     setModalVisible(!modalVisible);
   };

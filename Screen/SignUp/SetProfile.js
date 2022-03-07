@@ -212,7 +212,7 @@ const SetProfile = () => {
       </View>
 
       {/* footer: Button */}
-      <View style={{left: 22, bottom: -245 + 99}}>
+      <View style={{left: 22, bottom: -245 + 64 + 95}}>
         <TouchableOpacity
           onPress={
             confirmSuccess
