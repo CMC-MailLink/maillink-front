@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   bodyHeader: {
     paddingHorizontal: 20,
@@ -233,6 +234,7 @@ const styles = StyleSheet.create({
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 14,
+    includeFontPadding: false,
   },
   itemView: {
     borderBottomColor: '#EBEBEB',
@@ -247,11 +249,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     marginBottom: 3,
+    includeFontPadding: false,
   },
   itemIntro: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
+    includeFontPadding: false,
   },
   subscribeView: {
     width: 75,
@@ -266,6 +270,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   notSubscribeView: {
     width: 75,
@@ -279,6 +284,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',
+    includeFontPadding: false,
   },
 });
 

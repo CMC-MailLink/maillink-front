@@ -183,6 +183,7 @@ const ReaderRecommendModal = ({
                   fontFamily: 'NotoSansKR-Medium',
                   fontSize: 16,
                   color: '#FFF',
+                  includeFontPadding: false,
                 }}>
                 적용
               </Text>
@@ -216,6 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#3C3C3C',
     marginLeft: 20,
+    includeFontPadding: false,
   },
   branchView: {
     borderBottomWidth: 1,
@@ -234,10 +236,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     marginRight: 32,
+    includeFontPadding: false,
   },
   itemText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
+    includeFontPadding: false,
   },
   itemViewTwo: {
     width: 52,

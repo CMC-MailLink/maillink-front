@@ -90,7 +90,9 @@ const ReaderRecommend = () => {
                     ...styles.itemCategoryText,
                     color: '#0021C6',
                   }}>
-                  <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>
+                  <Text style={{...styles.itemCategoryText, color: '#4562F1'}}>
+                    ♥&nbsp;
+                  </Text>
                   {item.repBranch}
                 </Text>
               </View>
@@ -104,7 +106,11 @@ const ReaderRecommend = () => {
                     ...styles.itemCategoryText,
                     color: colorCategory[item.repVive].font,
                   }}>
-                  <Text style={{color: colorCategory[item.repVive].heart}}>
+                  <Text
+                    style={{
+                      ...styles.itemCategoryText,
+                      color: colorCategory[item.repVive].heart,
+                    }}>
                     ♥&nbsp;
                   </Text>
                   {item.repVive}
@@ -135,6 +141,7 @@ const ReaderRecommend = () => {
                 fontFamily: 'NotoSansKR-Bold',
                 fontSize: 20,
                 color: '#3C3C3C',
+                includeFontPadding: false,
               }}>
               영이
             </Text>
@@ -186,6 +193,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   titleView: {
     paddingHorizontal: 20,
@@ -194,6 +202,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Light',
     fontSize: 20,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   recView: {
     paddingTop: 5,
@@ -217,17 +226,20 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   itemAuthor: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 10,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   itemIntro: {
     marginTop: 5,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 11,
     color: '#828282',
+    includeFontPadding: false,
   },
   testPageView: {
     paddingBottom: 24,
@@ -245,6 +257,7 @@ const styles = StyleSheet.create({
   itemCategoryText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
+    includeFontPadding: false,
   },
 });
 
