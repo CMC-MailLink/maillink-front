@@ -6,10 +6,8 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
-  FlatList,
   TouchableWithoutFeedback,
   Image,
-  Dimensions,
   Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -213,35 +211,6 @@ const AuthorWrite = () => {
         </View>
       </View>
       <View style={styles.bodyContainer}>
-        {/* <FlatList
-          data={storage}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          ListHeaderComponent={
-            <TouchableOpacity
-              onPress={() => Clipboard.setString('maillink address')}>
-              <View style={styles.LinkView}>
-                <View>
-                  <View style={{marginBottom: 5}}>
-                    <Text style={styles.LinkText}>
-                      <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
-                        웹사이트
-                      </Text>
-                      에서도 편하게
-                    </Text>
-                    <Text style={styles.LinkText}>
-                      글을 작성하고 발행해보세요!
-                    </Text>
-                  </View>
-                  <Text style={styles.LinkCopyText}>클릭하여 링크복사하기</Text>
-                </View>
-                <Image
-                  style={{width: 134, height: 92}}
-                  source={LinkAuthorWrite}></Image>
-              </View>
-            </TouchableOpacity>
-          }
-        /> */}
         <SwipeListView
           ListHeaderComponent={
             <TouchableOpacity

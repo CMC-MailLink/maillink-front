@@ -31,20 +31,22 @@ const AuthorProfile = () => {
   const [editName, setEditName] = useState('덩이');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
+  const [filePath, setFilePath] = useState(null);
+  const [fileData, setFileData] = useState(null);
+  const [fileUri, setFileUri] = useState(null);
 
   const onPressModalConfirm = () => {
     setName(editName);
     setModalVisible(!modalVisible);
   };
+
   const onPressIntro = () => {
     setIntroSelect(true);
   };
+
   const onPressMail = () => {
     setIntroSelect(false);
   };
-  const [filePath, setFilePath] = useState(null);
-  const [fileData, setFileData] = useState(null);
-  const [fileUri, setFileUri] = useState(null);
 
   const copyToClipboard = data => {
     Clipboard.setString(data);
@@ -197,6 +199,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#fff',
+    includeFontPadding: false,
   },
   profileView: {
     height: 150,
@@ -223,6 +226,7 @@ const styles = StyleSheet.create({
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
+    includeFontPadding: false,
   },
   profileName: {
     fontFamily: 'NotoSansKR-Bold',
@@ -250,6 +254,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
 });
 

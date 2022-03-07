@@ -13,7 +13,6 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
 
-import BackMail2 from '../../../assets/images/BackMail2.png';
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 
@@ -28,12 +27,12 @@ const AuthorEditor = () => {
     android: 'http://10.0.2.2:3000/quileditor',
   });
 
-  const INJECTED_JAVASCRIPT = `(function() {
-    console.log(document.getElementsByClassName('ql-editor')[0]);
-    document.getElementsByClassName('ql-editor')[0].style.height='100px';
-    window.ReactNativeWebView.postMessage("Hello world!");
-    
-})();`;
+  //   const INJECTED_JAVASCRIPT = `(function() {
+  //     console.log(document.getElementsByClassName('ql-editor')[0]);
+  //     document.getElementsByClassName('ql-editor')[0].style.height='100px';
+  //     window.ReactNativeWebView.postMessage("Hello world!");
+
+  // })();`;
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
@@ -58,11 +57,19 @@ const AuthorEditor = () => {
                 fontFamily: 'NotoSansKR-Medium',
                 fontSize: 16,
                 color: '#3C3C3C',
+                includeFontPadding: false,
               }}>
               임시저장
             </Text>
           </TouchableWithoutFeedback>
-          <Text style={{marginHorizontal: 16, color: '#CECECE'}}>・</Text>
+          <Text
+            style={{
+              marginHorizontal: 11,
+              color: '#CECECE',
+              includeFontPadding: false,
+            }}>
+            ・
+          </Text>
           <TouchableWithoutFeedback>
             <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
           </TouchableWithoutFeedback>
@@ -92,7 +99,7 @@ const AuthorEditor = () => {
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
         }}
         scrollEnabled={true}
-        injectedJavaScript={INJECTED_JAVASCRIPT}
+        // injectedJavaScript={INJECTED_JAVASCRIPT}
       />
     </View>
   );
@@ -108,6 +115,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   bodyHeader: {
     width: '100%',
