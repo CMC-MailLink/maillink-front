@@ -15,7 +15,9 @@ import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
+import HeartTabsFocused from '../../assets/images/HeartTabsFocused.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
+import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocused.png';
 
 const ReaderTab = createBottomTabNavigator();
 
@@ -42,8 +44,17 @@ const ReaderTabs = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image style={{width: 20, height: 18}} source={HeartTabs} />
-              <Text style={styles.iconText}>작가찾기</Text>
+              <Image
+                style={{width: 20, height: 18}}
+                source={focused ? HeartTabsFocused : HeartTabs}
+              />
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                작가찾기
+              </Text>
             </View>
           ),
         }}
@@ -58,9 +69,15 @@ const ReaderTabs = () => {
             <View style={styles.iconView}>
               <Image
                 style={{width: 18, height: 21.27}}
-                source={ReaderProfileTabs}
+                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
               />
-              <Text style={styles.iconText}>프로필</Text>
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                프로필
+              </Text>
             </View>
           ),
         }}

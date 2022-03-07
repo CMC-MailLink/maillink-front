@@ -8,6 +8,7 @@ import Setting from '../../Screen/Setting';
 import Message from '../../Screen/Message';
 import AuthorEditor from '../../Screen/Author/Write/AuthorEditor';
 import AuthorProfileEdit from '../../Screen/Author/Profile/AuthorProfileEdit';
+import AuthorProfileSearch from '../../Screen/Author/Profile/AuthorProfileSearch';
 
 const AuthorStack = createNativeStackNavigator();
 
@@ -60,6 +61,11 @@ const AuthorStacks = () => (
     <AuthorStack.Screen
       name="AuthorProfileEdit"
       component={AuthorProfileEdit}
+      options={{headerTitle: ''}}
+    />
+    <AuthorStack.Screen
+      name="AuthorProfileSearch"
+      component={AuthorProfileSearch}
       options={{headerTitle: ''}}
     />
   </AuthorStack.Navigator>

@@ -6,6 +6,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import {useNavigation} from '@react-navigation/native';
 
 import MenuProfile from '../../../assets/images/MenuProfile.png';
 import MenuItemProfile1 from '../../../assets/images/MenuItemProfile1.png';
@@ -14,6 +15,7 @@ import MenuItemProfile3 from '../../../assets/images/MenuItemProfile3.png';
 import SearchAuthorProfile from '../../../assets/images/SearchAuthorProfile.png';
 
 const AuthorProfileMail = () => {
+  const navigation = useNavigation();
   const [recentSelect, setRecentSelect] = useState(true);
   const onPressRecent = () => {
     setRecentSelect(true);
@@ -141,6 +143,11 @@ const AuthorProfileMail = () => {
     });
     setMail([...temp]);
   };
+  const onPressSearch = () => {
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorProfileSearch',
+    });
+  };
 
   const RenderMenuItem = ({item}) => {
     return (
@@ -232,7 +239,9 @@ const AuthorProfileMail = () => {
       <View style={styles.publishView}>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.refText}>발행글</Text>
-          <TouchableOpacity style={{position: 'absolute', right: 0}}>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 0}}
+            onPress={onPressSearch}>
             <Image
               style={{width: 16, height: 16}}
               source={SearchAuthorProfile}></Image>

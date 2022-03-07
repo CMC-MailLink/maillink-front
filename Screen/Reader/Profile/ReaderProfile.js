@@ -205,7 +205,7 @@ const ReaderProfile = () => {
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressEditImage}>
               <Image
-                style={{width: 42, height: 42, top: -31, left: 25}}
+                style={{width: 27.76, height: 27.76, top: -31, left: 25}}
                 source={ImageEditProfile}
               />
             </TouchableWithoutFeedback>
