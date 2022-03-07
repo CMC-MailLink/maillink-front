@@ -9,7 +9,6 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  SuccessModal,
 } from 'react-native';
 import SignUpStep1 from '../../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -31,12 +30,6 @@ const AddWebsite = () => {
 
   const onPressBack = () => {
     navigation.goBack();
-  };
-
-  const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'AuthorSuccessModal',
-    });
   };
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);

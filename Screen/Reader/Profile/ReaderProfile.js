@@ -20,7 +20,6 @@ import SearchProfile from '../../../assets/images/SearchProfile.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
-
 import ReaderProfileModal from './ReaderProfileModal';
 
 const ReaderProfile = () => {
