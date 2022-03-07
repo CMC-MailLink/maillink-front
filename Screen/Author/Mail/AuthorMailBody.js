@@ -184,7 +184,7 @@ const AuthorMailBody = () => {
             <Image
               style={{
                 position: 'absolute',
-                top: 0,
+                top: -4,
                 right: 32,
                 width: 176,
                 height: 182,

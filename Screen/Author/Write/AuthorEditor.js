@@ -27,6 +27,13 @@ const AuthorEditor = () => {
     ios: 'http://localhost:3000/quileditor',
     android: 'http://10.0.2.2:3000/quileditor',
   });
+
+  const INJECTED_JAVASCRIPT = `(function() {
+    console.log(document.getElementsByClassName('ql-editor')[0]);
+    document.getElementsByClassName('ql-editor')[0].style.height='100px';
+    window.ReactNativeWebView.postMessage("Hello world!");
+    
+})();`;
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
@@ -63,19 +70,20 @@ const AuthorEditor = () => {
       </View>
       <TextInput
         style={{
-          height: 40,
           color: '#3C3C3C',
           fontFamily: 'NotoSansKR-Medium',
           fontSize: 20,
           paddingHorizontal: 20,
-          marginVertical: 10,
+          paddingVertical: 10,
           borderBottomColor: '#EBEBEB',
           borderBottomWidth: 1,
+          includeFontPadding: false,
         }}
         placeholder="제목을 입력해주세요."
         placeholderTextColor="#BFBFBF"></TextInput>
       <WebView
         hideKeyboardAccessoryView
+        automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         menuItems={[{label: '공유', key: 'share'}]}
         onCustomMenuSelection={webViewEvent => {
@@ -84,6 +92,7 @@ const AuthorEditor = () => {
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
         }}
         scrollEnabled={true}
+        injectedJavaScript={INJECTED_JAVASCRIPT}
       />
     </View>
   );

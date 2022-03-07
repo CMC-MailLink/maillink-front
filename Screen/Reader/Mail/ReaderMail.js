@@ -80,7 +80,7 @@ const ReaderMail = () => {
             icon: (
               <Image
                 style={{
-                  width: 21,
+                  width: 22,
                   height: 22.11,
                 }}
                 source={SearchMail}

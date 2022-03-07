@@ -29,12 +29,14 @@ const SignIn = () => {
 
   const [result, setResult] = useState('');
   const [result2, setResult2] = useState('');
+
   const signInWithKakao = async () => {
     const token = await login();
     console.log(token);
     setResult(JSON.stringify(token));
     console.log(result);
   };
+
   const getProfile = async () => {
     const profile = await getKakaoProfile();
     console.log(profile);
@@ -42,25 +44,32 @@ const SignIn = () => {
     console.log(result2);
   };
 
-  async function onAppleButtonPress() {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
+  const onAppleButtonPress = async () => {
+    try {
+      // performs login request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
 
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-    );
+      // get current authentication state for user
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
 
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      // user is authenticated
-      console.log(appleAuthRequestResponse);
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // user is authenticated
+        console.log(appleAuthRequestResponse);
+      }
+    } catch (error) {
+      if (error.code === appleAuth.Error.CANCELED) {
+        // login canceled
+      } else {
+        // login error
+      }
     }
-  }
+  };
 
   return (
     <View
@@ -97,11 +106,11 @@ const SignIn = () => {
             <Text>프로필조회</Text>
           </TouchableOpacity>
           <AppleButton
-            buttonStyle={AppleButton.Style.DARK}
+            buttonStyle={AppleButton.Style.WHITE_OUTLINE}
             buttonType={AppleButton.Type.SIGN_IN}
             style={{
-              width: 160, // You must specify a width
-              height: 45, // You must specify a height
+              width: 312, // You must specify a width
+              height: 52, // You must specify a height
             }}
             onPress={() => onAppleButtonPress()}
           />
