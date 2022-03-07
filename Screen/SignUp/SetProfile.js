@@ -73,11 +73,6 @@ const SetProfile = () => {
       style: 'cancel',
     });
   };
-  const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'SuccessModal',
-    });
-  };
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
   };
@@ -137,6 +132,7 @@ const SetProfile = () => {
           onPressModalConfirm={onPressModalConfirm}
         />
       </Modal>
+
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -211,7 +207,7 @@ const SetProfile = () => {
         <Text style={styles.checkMessage}>{checkMessage}</Text>
       </View>
 
-      {/* footer: Button */}
+      {/* Footer: Button */}
       <View style={{left: 22, bottom: -245 + 64 + 95}}>
         <TouchableOpacity
           onPress={

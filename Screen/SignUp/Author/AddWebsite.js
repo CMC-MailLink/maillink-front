@@ -18,6 +18,7 @@ import FacebookLogo from '../../../assets/images/FacebookLogo.png';
 import URLLogo from '../../../assets/images/URLLogo.png';
 import TwitterLogo from '../../../assets/images/TwitterLogo.png';
 import {useNavigation} from '@react-navigation/native';
+import AuthorSuccessModal from './AuthorSuccessModal';
 
 const AddWebsite = () => {
   const navigation = useNavigation();
@@ -26,9 +27,7 @@ const AddWebsite = () => {
   const [urlText, onChangeUrlText] = useState('');
   const [facebookText, onChangeFacebookText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [textCount, setTextCount] = useState(0);
-  const [enterCount, setenterCount] = useState(0);
+  const [confirmSuccess, setConfirmSuccess] = useState(true);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -53,12 +52,13 @@ const AddWebsite = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <SuccessModal
+        <AuthorSuccessModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           onPressModalConfirm={onPressModalConfirm}
         />
       </Modal>
+
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -92,7 +92,6 @@ const AddWebsite = () => {
           onChangeText={onChangeFacebookText}
           value={facebookText}
           placeholder="facebook.com/"
-          //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
         />
         <View style={styles.bodyinputBorder} />
       </View>
@@ -132,7 +131,9 @@ const AddWebsite = () => {
 
       {/* Footer: Button pass */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
+        <TouchableOpacity
+          onPress={onPressModalConfirm}
+          style={styles.buttonAble}>
           <View>
             <Text style={styles.buttonAbleText}>완료</Text>
           </View>
@@ -153,13 +154,6 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
-    color: '#3C3C3C',
-  },
-  textCount: {
-    marginTop: 4,
-    left: 291,
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 14,
     color: '#3C3C3C',
   },
   introTitle: {
