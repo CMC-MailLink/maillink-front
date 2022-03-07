@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -505,7 +506,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   inputView: {
-    paddingVertical: 9,
+    paddingVertical: Platform.OS === 'ios' ? 9 : 9,
     width: '100%',
     borderBottomWidth: 1,
     flexDirection: 'row',
@@ -514,7 +515,8 @@ const styles = StyleSheet.create({
   },
   inputText: {
     width: 250,
-    height: 26,
+    padding: 0,
+    height: 30,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 18,
     color: '#3C3C3C',
@@ -543,6 +545,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   introText: {
+    padding: 0,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#3C3C3C',
@@ -593,6 +596,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   websiteTextInput: {
+    padding: 0,
     width: '100%',
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,

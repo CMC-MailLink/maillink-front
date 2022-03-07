@@ -57,17 +57,38 @@ const AuthorProfileIntro = () => {
         <View style={{flexDirection: 'row', marginBottom: 10}}>
           <View style={styles.bodyInterestItemView1}>
             <Text style={styles.bodyInterestItemText1}>
-              <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>시
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText1,
+                  color: '#4562F1',
+                }}>
+                ♥&nbsp;
+              </Text>
+              시
             </Text>
           </View>
           <View style={styles.bodyInterestItemView2}>
             <Text style={styles.bodyInterestItemText2}>
-              <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>소설
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText1,
+                  color: '#4562F1',
+                }}>
+                ♥&nbsp;
+              </Text>
+              소설
             </Text>
           </View>
           <View style={styles.bodyInterestItemView3}>
             <Text style={styles.bodyInterestItemText3}>
-              <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>에세이
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText1,
+                  color: '#4562F1',
+                }}>
+                ♥&nbsp;
+              </Text>
+              에세이
             </Text>
           </View>
         </View>
