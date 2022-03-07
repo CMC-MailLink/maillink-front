@@ -10,7 +10,6 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Modal,
-  TextInput,
   ScrollView,
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
