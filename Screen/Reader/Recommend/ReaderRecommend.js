@@ -10,6 +10,7 @@ import {
   FlatList,
   Dimensions,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
 
@@ -77,7 +78,7 @@ const ReaderRecommend = () => {
 
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity onPress={onPressAuthor}>
+      <TouchableWithoutFeedback onPress={onPressAuthor}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View style={styles.itemView}>
             <Text style={styles.itemName}>{item.name}</Text>
@@ -122,7 +123,7 @@ const ReaderRecommend = () => {
             style={{width: 56, height: 56, position: 'absolute', top: 10}}
             source={AuthorRecommend}></Image>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -149,6 +150,11 @@ const ReaderRecommend = () => {
           </Text>
           <Text style={styles.titleText}>오늘의 추천작가입니다.</Text>
           <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ReaderStacks', {
+                screen: 'ReaderProfileSearch',
+              })
+            }
             style={{position: 'absolute', right: 20, bottom: 5}}>
             <Image
               style={{
@@ -213,6 +219,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000000',
     shadowOpacity: 0.08,
     shadowRadius: 9,
+    elevation: 4,
     borderRadius: 15,
     backgroundColor: '#fff',
     marginHorizontal: 5,

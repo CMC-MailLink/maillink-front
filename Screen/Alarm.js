@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../assets/images/BackMail2.png';
@@ -224,6 +225,7 @@ const Alarm = () => {
           <Text>Alarm Test</Text>
         </View>
       </TouchableOpacity>
+
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
         <View

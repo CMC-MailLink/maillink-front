@@ -1,15 +1,50 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import CopyProfile from '../../../assets/images/CopyProfile.png';
+
+import Facebook from '../../../assets/images/Facebook.png';
+import Twitter from '../../../assets/images/Twitter.png';
+import Instagram from '../../../assets/images/Instagram.png';
+import URL from '../../../assets/images/URL.png';
+import FacebookNone from '../../../assets/images/FacebookNone.png';
+import TwitterNone from '../../../assets/images/TwitterNone.png';
+import InstagramNone from '../../../assets/images/InstagramNone.png';
+import URLNone from '../../../assets/images/URLNone.png';
+
+const colorCategory = {
+  편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
+  맑은: {back: '#DDF9FF', font: '#002C36', heart: '#6BD0E6'},
+  서정: {back: '#E6DDFF', font: '#1E0072', heart: '#AE92FF'},
+  잔잔: {back: '#C5F0E3', font: '#00573D', heart: '#5ECEAC'},
+  명랑: {back: '#FFF2AD', font: '#5D4300', heart: '#FFC839'},
+  유쾌: {back: '#FFDDDD', font: '#370000', heart: '#FF8E8E'},
+  달달: {back: '#FFE8FB', font: '#3E0035', heart: '#FFACDE'},
+  키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
+};
 
 const ReaderAuthorProfileIntro = () => {
-  const copyToClipboard = data => {
+  const author = {
+    name: '덩이',
+    facebook: null,
+    twitter: 'twitter',
+    instagram: 'instagram',
+    url: 'url',
+  };
+  const onPressFacebook = data => {
+    Clipboard.setString(data);
+  };
+  const onPressTwitter = data => {
+    Clipboard.setString(data);
+  };
+  const onPressInstagram = data => {
+    Clipboard.setString(data);
+  };
+  const onPressURL = data => {
     Clipboard.setString(data);
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, paddingBottom: 150}}>
       <View style={styles.bodyIntroView}>
         <Text style={styles.bodyIntroHeadText}>소개</Text>
         <Text style={styles.bodyIntroText}>
@@ -21,13 +56,40 @@ const ReaderAuthorProfileIntro = () => {
         <Text style={styles.bodyInterestHeadText}>갈래</Text>
         <View style={{flexDirection: 'row', marginBottom: 10}}>
           <View style={styles.bodyInterestItemView1}>
-            <Text style={styles.bodyInterestItemText1}>시</Text>
+            <Text style={styles.bodyInterestItemText1}>
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText1,
+                  color: '#4562F1',
+                }}>
+                ♥&nbsp;
+              </Text>
+              시
+            </Text>
           </View>
           <View style={styles.bodyInterestItemView2}>
-            <Text style={styles.bodyInterestItemText2}>소설</Text>
+            <Text style={styles.bodyInterestItemText2}>
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText1,
+                  color: '#4562F1',
+                }}>
+                ♥&nbsp;
+              </Text>
+              소설
+            </Text>
           </View>
           <View style={styles.bodyInterestItemView3}>
-            <Text style={styles.bodyInterestItemText3}>에세이</Text>
+            <Text style={styles.bodyInterestItemText3}>
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText1,
+                  color: '#4562F1',
+                }}>
+                ♥&nbsp;
+              </Text>
+              에세이
+            </Text>
           </View>
         </View>
         <Text style={styles.bodyInterestHeadText}>분위기</Text>
@@ -84,13 +146,56 @@ const ReaderAuthorProfileIntro = () => {
           ...styles.bodyInterestView,
           borderBottomWidth: 0,
         }}>
-        <Text style={styles.bodyIntroHeadText}>관심사</Text>
-        <Text style={styles.bodyIntroText}>facebook.com/덩이</Text>
-        <TouchableOpacity
-          style={{position: 'absolute', top: 50, right: 20}}
-          onPress={() => copyToClipboard('facebook.com/덩이')}>
-          <Image style={{width: 13, height: 16}} source={CopyProfile}></Image>
-        </TouchableOpacity>
+        <Text style={styles.bodyIntroHeadText}>웹사이트</Text>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
+          {author.facebook ? (
+            <TouchableOpacity
+              onPress={() => onPressFacebook('facebook.com/덩이')}>
+              <Image
+                style={{width: 39.83, height: 38.24, marginRight: 21}}
+                source={Facebook}></Image>
+            </TouchableOpacity>
+          ) : (
+            <Image
+              style={{width: 39.83, height: 38.24, marginRight: 21}}
+              source={FacebookNone}></Image>
+          )}
+          {author.twitter ? (
+            <TouchableOpacity
+              onPress={() => onPressTwitter('facebook.com/덩이')}>
+              <Image
+                style={{width: 39.83, height: 38.24, marginRight: 21}}
+                source={Twitter}></Image>
+            </TouchableOpacity>
+          ) : (
+            <Image
+              style={{width: 39.83, height: 38.24, marginRight: 21}}
+              source={TwitterNone}></Image>
+          )}
+          {author.instagram ? (
+            <TouchableOpacity
+              onPress={() => onPressInstagram('facebook.com/덩이')}>
+              <Image
+                style={{width: 39.83, height: 38.24, marginRight: 21}}
+                source={Instagram}></Image>
+            </TouchableOpacity>
+          ) : (
+            <Image
+              style={{width: 39.83, height: 38.24, marginRight: 21}}
+              source={InstagramNone}></Image>
+          )}
+          {author.url ? (
+            <TouchableOpacity onPress={() => onPressURL('facebook.com/덩이')}>
+              <Image
+                style={{width: 39.83, height: 38.24, marginRight: 21}}
+                source={URL}></Image>
+            </TouchableOpacity>
+          ) : (
+            <Image
+              style={{width: 39.83, height: 38.24, marginRight: 21}}
+              source={URLNone}></Image>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -98,7 +203,6 @@ const ReaderAuthorProfileIntro = () => {
 
 const styles = StyleSheet.create({
   bodyIntroView: {
-    height: 114,
     paddingTop: 19,
     paddingBottom: 19,
     paddingLeft: 21,
@@ -111,11 +215,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     height: 30,
+    includeFontPadding: false,
   },
   bodyIntroText: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     color: '#828282',
+    includeFontPadding: false,
   },
   bodyInterestView: {
     paddingVertical: 19,
@@ -142,6 +248,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#0021C6',
+    includeFontPadding: false,
   },
   bodyInterestItemView2: {
     width: 53,
@@ -156,6 +263,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#0021C6',
+    includeFontPadding: false,
   },
   bodyInterestItemView3: {
     width: 63,
@@ -170,6 +278,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#0021C6',
+    includeFontPadding: false,
   },
 });
 

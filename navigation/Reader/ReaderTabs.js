@@ -45,7 +45,7 @@ const ReaderTabs = () => {
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
               <Image
-                style={{width: 20, height: 18}}
+                style={{width: 20.2, height: 18}}
                 source={focused ? HeartTabsFocused : HeartTabs}
               />
               <Text
