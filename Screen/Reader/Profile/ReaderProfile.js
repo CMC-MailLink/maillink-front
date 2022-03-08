@@ -209,7 +209,7 @@ const ReaderProfile = () => {
                 source={ImageEditProfile}
               />
             </TouchableWithoutFeedback>
-            <View style={{alignItems: 'center', top: -37}}>
+            <View style={{alignItems: 'center', top: -21}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>독자님</Text>
               <TouchableOpacity onPress={() => setModalVisible(true)}>

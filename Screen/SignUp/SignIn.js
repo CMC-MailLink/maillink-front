@@ -102,18 +102,12 @@ const SignIn = () => {
           <TouchableOpacity onPress={signInWithKakao}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={getProfile}>
+          {/* <TouchableOpacity onPress={getProfile}>
             <Text>프로필조회</Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity onPress={() => onAppleButtonPress()}>
+            <Image style={{width: 312, height: 52}} source={AppleLogin} />
           </TouchableOpacity>
-          <AppleButton
-            buttonStyle={AppleButton.Style.WHITE_OUTLINE}
-            buttonType={AppleButton.Type.SIGN_IN}
-            style={{
-              width: 312, // You must specify a width
-              height: 52, // You must specify a height
-            }}
-            onPress={() => onAppleButtonPress()}
-          />
           {/* <TouchableOpacity>
             <Image style={{width: 312, height: 52}} source={AppleLogin} />
           </TouchableOpacity> */}

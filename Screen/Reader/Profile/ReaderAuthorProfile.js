@@ -16,7 +16,9 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
-import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
+import BackMail from '../../../assets/images/BackMail.png';
+import HeartProfile from '../../../assets/images/HeartProfile.png';
+import NotHeartProfile from '../../../assets/images/NotHeartProfile.png';
 
 import AuthorProfileIntro from './ReaderAuthorProfileIntro';
 import AuthorProfileMail from './ReaderAuthorProfileMail';
@@ -28,9 +30,14 @@ const ReaderAuthorProfile = () => {
   const [subscribe, setSubscribe] = useState(false);
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
+  const [heart, setHeart] = useState(false);
   const [filePath, setFilePath] = useState(null);
   const [fileData, setFileData] = useState(null);
   const [fileUri, setFileUri] = useState(null);
+
+  const onPressBack = () => {
+    navigation.goBack();
+  };
 
   const onPressIntro = () => {
     setIntroSelect(true);
@@ -76,23 +83,33 @@ const ReaderAuthorProfile = () => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>프로필</Text>
+        <TouchableWithoutFeedback onPress={onPressBack}>
+          <View style={{position: 'absolute', left: 24}}>
+            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+          </View>
+        </TouchableWithoutFeedback>
+        <Text style={styles.headerText}>작가프로필</Text>
       </View>
       <ScrollView stickyHeaderIndices={[2]} bounces={false}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
             style={{position: 'absolute', right: 20, bottom: 18}}
-            onPress={() => {
-              navigation.navigate('ReaderStacks', {
-                screen: 'Setting',
-              });
-            }}>
-            <Image
-              style={{
-                width: 18.68,
-                height: 19.2,
-              }}
-              source={SettingProfile}></Image>
+            onPress={() => setHeart(!heart)}>
+            {heart ? (
+              <Image
+                style={{
+                  width: 22,
+                  height: 20.17,
+                }}
+                source={HeartProfile}></Image>
+            ) : (
+              <Image
+                style={{
+                  width: 22,
+                  height: 20.17,
+                }}
+                source={NotHeartProfile}></Image>
+            )}
           </TouchableOpacity>
         </View>
         <View style={styles.profileView}>
@@ -102,17 +119,12 @@ const ReaderAuthorProfile = () => {
               top: -39,
               width: 160,
             }}>
-            <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <View>
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={imageUri == '' ? DefaultProfile : imageUri}></Image>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={onPressEditImage}>
-              <Image
-                style={{width: 27.76, height: 27.76, top: -31, left: 25}}
-                source={ImageEditProfile}></Image>
-            </TouchableWithoutFeedback>
-            <View style={{alignItems: 'center', top: -21}}>
+            </View>
+            <View style={{alignItems: 'center', top: 5}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>작가님</Text>
               {subscribe ? (

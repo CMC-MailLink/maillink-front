@@ -5,7 +5,9 @@ import ReaderMailSearch from '../../Screen/Reader/Mail/ReaderMailSearch';
 import ReaderReading from '../../Screen/Reader/Reading/ReaderReading';
 import InstaShare from '../../Screen/InstaShare';
 import ReaderProfileSearch from '../../Screen/Reader/Profile/ReaderProfileSearch';
-import Setting from '../../Screen/Setting';
+import Setting from '../../Screen/Setting/Setting';
+import SettingAlarm from '../../Screen/Setting/SettingAlarm';
+import SettingAccount from '../../Screen/Setting/SettingAccount';
 import Message from '../../Screen/Message';
 import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
 import OnBoarding from '../../Screen/OnBoarding';
@@ -55,6 +57,16 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="Setting"
       component={Setting}
+      options={{headerShown: false}}
+    />
+    <ReaderStack.Screen
+      name="SettingAlarm"
+      component={SettingAlarm}
+      options={{headerShown: false}}
+    />
+    <ReaderStack.Screen
+      name="SettingAccount"
+      component={SettingAccount}
       options={{headerShown: false}}
     />
     <ReaderStack.Screen

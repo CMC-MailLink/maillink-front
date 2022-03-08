@@ -4,7 +4,9 @@ import Alarm from '../../Screen/Alarm';
 import AuthorMailSearch from '../../Screen/Author/Mail/AuthorMailSearch';
 import AuthorReading from '../../Screen/Author/Reading/AuthorReading';
 import InstaShare from '../../Screen/InstaShare';
-import Setting from '../../Screen/Setting';
+import Setting from '../../Screen/Setting/Setting';
+import SettingAlarm from '../../Screen/Setting/SettingAlarm';
+import SettingAccount from '../../Screen/Setting/SettingAccount';
 import Message from '../../Screen/Message';
 import AuthorEditor from '../../Screen/Author/Write/AuthorEditor';
 import AuthorProfileEdit from '../../Screen/Author/Profile/AuthorProfileEdit';
@@ -46,6 +48,16 @@ const AuthorStacks = () => (
     <AuthorStack.Screen
       name="Setting"
       component={Setting}
+      options={{headerShown: false}}
+    />
+    <AuthorStack.Screen
+      name="SettingAlarm"
+      component={SettingAlarm}
+      options={{headerShown: false}}
+    />
+    <AuthorStack.Screen
+      name="SettingAccount"
+      component={SettingAccount}
       options={{headerShown: false}}
     />
     <AuthorStack.Screen
