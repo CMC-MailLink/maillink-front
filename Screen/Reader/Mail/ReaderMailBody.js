@@ -13,8 +13,10 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 
 import SubscribeMail from '../../../assets/images/SubscribeMail.png';
+import NoBookMarkMail from '../../../assets/images/NoBookMarkMail.png';
 import SendMail from '../../../assets/images/SendMail.png';
 import StarMail from '../../../assets/images/StarMail.png';
+import NoStarMail from '../../../assets/images/NoStarMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import ReaderMail from '../../../assets/images/ReaderMail.png';
 
@@ -36,6 +38,8 @@ const ReaderMailBody = () => {
       title: '청춘예찬2',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 13',
+      read: false,
+      bookmark: false,
     },
     {
       key: '1',
@@ -43,6 +47,8 @@ const ReaderMailBody = () => {
       title: '별 헤는 밤',
       body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
       date: '21. 02. 12',
+      read: false,
+      bookmark: false,
     },
     {
       key: '2',
@@ -50,6 +56,8 @@ const ReaderMailBody = () => {
       title: '청춘예찬',
       body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
       date: '21. 02. 11',
+      read: false,
+      bookmark: false,
     },
     {
       key: '3',
@@ -57,6 +65,8 @@ const ReaderMailBody = () => {
       title: '파란 하늘',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 10',
+      read: false,
+      bookmark: false,
     },
     {
       key: '4',
@@ -64,6 +74,8 @@ const ReaderMailBody = () => {
       title: '파란 하늘',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 10',
+      read: false,
+      bookmark: false,
     },
     {
       key: '5',
@@ -71,6 +83,8 @@ const ReaderMailBody = () => {
       title: '파란 하늘',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 10',
+      read: false,
+      bookmark: false,
     },
     {
       key: '6',
@@ -78,32 +92,11 @@ const ReaderMailBody = () => {
       title: '파란 하늘',
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 10',
+      read: false,
+      bookmark: false,
     },
   ]);
-  const [bookmark, setBookmark] = useState([
-    {key: 'category'},
-    {
-      key: '0',
-      author: '이작가',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      author: '김작가',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-  ]);
+  const [bookmark, setBookmark] = useState([]);
 
   useEffect(() => {
     if (mailSelect) {
@@ -128,6 +121,13 @@ const ReaderMailBody = () => {
       );
     }
   }, [recentSelect, mailSelect]);
+  useEffect(() => {
+    var temp = mail.filter(item => {
+      if (item.key === 'category') return true;
+      if (item.bookmark) return true;
+    });
+    setBookmark([...temp]);
+  }, [mail]);
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -141,6 +141,13 @@ const ReaderMailBody = () => {
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
+    var temp = mail;
+    temp.map(item => {
+      if (item.key === key) {
+        item.bookmark = !item.bookmark;
+      }
+    });
+    setMail([...temp]);
   };
 
   const sendRow = (rowMap, key) => {
@@ -231,7 +238,11 @@ const ReaderMailBody = () => {
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => bookmarkRow(rowMap, data.item.key)}>
-        <Image style={{width: 21, height: 20.5}} source={StarMail} />
+        {data.item.bookmark ? (
+          <Image style={{width: 21, height: 20.5}} source={StarMail} />
+        ) : (
+          <Image style={{width: 21, height: 20.5}} source={NoStarMail} />
+        )}
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -324,93 +335,110 @@ const ReaderMailBody = () => {
           backgroundColor: '#4562F1',
           position: 'absolute',
         }}></View>
-
-      <View>
-        {mailDataExist ? (
-          <View style={styles.bodyContainer}>
-            <SwipeListView
-              stickyHeaderIndices={[1]}
-              showsVerticalScrollIndicator={false}
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              ListHeaderComponent={
-                <View>
-                  <View style={styles.header}>
-                    <Image
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 32,
-                        width: 164,
-                        height: 179,
-                      }}
-                      source={ReaderMail}
-                    />
-                    <View
-                      style={{
-                        position: 'absolute',
-                        top: 113 - STATUSBAR_HEIGHT - 35,
-                        left: 20,
-                      }}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.headerText}>
-                          <Text
-                            style={{
-                              ...styles.headerText,
-                              fontFamily: 'NotoSansKR-Medium',
-                            }}>
-                            영이&nbsp;
-                          </Text>
-                          님,
-                        </Text>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.headerText}>
-                          <Text
-                            style={{
-                              ...styles.headerText,
-                              fontFamily: 'NotoSansKR-Medium',
-                            }}>
-                            당신의 작가
-                          </Text>
-                          를
-                        </Text>
-                      </View>
-                      <Text style={styles.headerText}>기다려보세요.</Text>
-                    </View>
+      <View style={styles.bodyContainer}>
+        <SwipeListView
+          stickyHeaderIndices={[1]}
+          showsVerticalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          ListHeaderComponent={
+            <View>
+              <View style={styles.header}>
+                <Image
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 32,
+                    width: 164,
+                    height: 179,
+                  }}
+                  source={ReaderMail}
+                />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 113 - STATUSBAR_HEIGHT - 35,
+                    left: 20,
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.headerText}>
+                      <Text
+                        style={{
+                          ...styles.headerText,
+                          fontFamily: 'NotoSansKR-Medium',
+                        }}>
+                        영이&nbsp;
+                      </Text>
+                      님,
+                    </Text>
                   </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.headerText}>
+                      <Text
+                        style={{
+                          ...styles.headerText,
+                          fontFamily: 'NotoSansKR-Medium',
+                        }}>
+                        당신의 작가
+                      </Text>
+                      를
+                    </Text>
+                  </View>
+                  <Text style={styles.headerText}>기다려보세요.</Text>
                 </View>
-              }
-              data={mailSelect ? mail : bookmark}
-              renderItem={renderItem}
-              renderHiddenItem={renderHiddenItem}
-              rightOpenValue={-150}
-              stopRightSwipe={-150}
-              disableRightSwipe={true}
-              onRowOpen={onRowOpen}
-              onRowClose={onRowClose}
-              closeOnScroll={false}
-              ListFooterComponent={<View style={{height: 150}}></View>}
-            />
-          </View>
-        ) : (
-          <View
-            style={{
-              width: '100%',
-              height: Dimensions.get('window').height - 301,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFFFFF',
-            }}>
-            <Image
-              style={{
-                width: 261,
-                height: 211,
-              }}
-              source={SubscribeMail}
-            />
-          </View>
-        )}
+              </View>
+            </View>
+          }
+          data={mailSelect ? mail : bookmark}
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          rightOpenValue={-150}
+          stopRightSwipe={-150}
+          disableRightSwipe={true}
+          onRowOpen={onRowOpen}
+          onRowClose={onRowClose}
+          closeOnScroll={false}
+          ListFooterComponent={
+            mail.length === 1 ? (
+              <View
+                style={{
+                  width: '100%',
+                  height: Dimensions.get('window').height - 301,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#FFFFFF',
+                }}>
+                <Image
+                  style={{
+                    width: 261,
+                    height: 211,
+                  }}
+                  source={SubscribeMail}
+                />
+              </View>
+            ) : bookmark.length === 1 && !mailSelect ? (
+              <View
+                style={{
+                  width: '100%',
+                  height: Dimensions.get('window').height - 301,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#FFF',
+                }}>
+                <Image
+                  style={{
+                    width: 160,
+                    height: 16,
+                    bottom: 48,
+                  }}
+                  source={NoBookMarkMail}
+                />
+              </View>
+            ) : (
+              <View style={{height: 150, backgroundColor: 'white'}}></View>
+            )
+          }
+        />
       </View>
     </View>
   );
