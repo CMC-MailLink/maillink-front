@@ -189,14 +189,32 @@ const ReaderMailBody = () => {
     rowList
       ? rowList[rowOpen]
         ? null
-        : navigation.navigate('ReaderStacks', {
+        : () => {
+            var temp = mail;
+            temp.map(item => {
+              if (item.key === data.item.key) {
+                item.read = true;
+              }
+            });
+            setMail([...temp]);
+            navigation.navigate('ReaderStacks', {
+              screen: 'ReaderReading',
+              params: {...data},
+            });
+          }
+      : () => {
+          var temp = mail;
+          temp.map(item => {
+            if (item.key === data.item.key) {
+              item.read = true;
+            }
+          });
+          setMail([...temp]);
+          navigation.navigate('ReaderStacks', {
             screen: 'ReaderReading',
             params: {...data},
-          })
-      : navigation.navigate('ReaderStacks', {
-          screen: 'ReaderReading',
-          params: {...data},
-        });
+          });
+        };
   };
 
   const renderItem = (data, rowMap, rowKey) => {
@@ -207,16 +225,14 @@ const ReaderMailBody = () => {
       return (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
           <View style={styles.itemView}>
+            <Image
+              style={{
+                width: 42,
+                height: 42,
+              }}
+              source={AuthorProfileImage}
+            />
             <View style={styles.itemTextView}>
-              <View style={styles.itemNewView}></View>
-              <Image
-                style={{
-                  position: 'absolute',
-                  width: 42,
-                  height: 42,
-                }}
-                source={AuthorProfileImage}
-              />
               <View
                 style={{
                   flexDirection: 'row',
@@ -520,24 +536,24 @@ const styles = StyleSheet.create({
   itemView: {
     width: '100%',
     flexDirection: 'row',
-    paddingTop: 12,
-    paddingBottom: 10,
-    paddingLeft: 36,
-    paddingRight: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     backgroundColor: '#FFF',
   },
   itemTextView: {
+    paddingLeft: 15,
+    paddingRight: 42,
     width: '100%',
-    paddingLeft: 57,
+    top: -4,
   },
   itemAuthorText: {
     color: '#4562F1',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     includeFontPadding: false,
-    marginBottom: 2,
+    marginBottom: 3,
   },
   itemDateText: {
     color: '#BEBEBE',
@@ -556,7 +572,6 @@ const styles = StyleSheet.create({
     color: '#828282',
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
-    width: 230,
     includeFontPadding: false,
   },
   itemNewView: {
