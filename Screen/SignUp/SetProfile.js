@@ -37,41 +37,15 @@ const SetProfile = () => {
     onChangeName('');
   };
   const onCheckName = () => {
-    if (!name) {
-      Alert.alert('닉네임을 입력하세요.', {
-        text: '확인',
-        style: 'cancel',
-      });
-    }
-    if (name.length > 6) {
-      Alert.alert('사용할 수 없는 이름입니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
-    }
     if (name === nameData) {
-      Alert.alert('중복되는 이름입니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
       setConfirmSuccess(false);
       setConfirmOverlap(true);
     }
     if (name.length <= 6 && name !== nameData && name) {
-      Alert.alert('사용할 수 있는 이름입니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
       onChangeCheckMessage('사용할 수 있는 이름이에요.');
       setConfirmSuccess(true);
     }
-  };
-  const goAlertName = () => {
-    Alert.alert('닉네임을 입력하세요.', {
-      text: '확인',
-      style: 'cancel',
-    });
   };
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
@@ -183,7 +157,7 @@ const SetProfile = () => {
           style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
           onChangeText={onChangeName}
           value={name}
-          placeholder="닉네임을 입력해주세요."
+          placeholder="닉네임 입력 (한글 6자)"
         />
         <TouchableWithoutFeedback onPress={onPressErase}>
           <Image style={styles.eraseButton} source={EraseNickname} />
@@ -215,13 +189,8 @@ const SetProfile = () => {
       {/* Footer: Button */}
       <View style={{left: 22, bottom: -245 + 64 + 95}}>
         <TouchableOpacity
-          onPress={
-            confirmSuccess
-              ? () => setModalVisible(true)
-              : !name
-              ? goAlertName
-              : null
-          }
+          disabled={confirmSuccess ? false : true}
+          onPress={confirmSuccess ? () => setModalVisible(true) : !name}
           style={
             confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
           }>
@@ -268,14 +237,14 @@ const styles = StyleSheet.create({
     top: 59,
     left: -135 + 44,
     fontFamily: 'NotoSansKR-Bold',
-    fontSize: 20,
+    fontSize: 18,
     color: '#3C3C3C',
   },
   NameSetPlaceHolder: {
     top: 59,
     left: -135 + 44,
     fontFamily: 'NotoSansKR-Light',
-    fontSize: 20,
+    fontSize: 18,
     color: '#BEBEBE',
   },
   bodyNameBorder: {

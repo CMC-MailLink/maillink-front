@@ -17,8 +17,8 @@ const ReaderAnalyze = () => {
   const navigation = useNavigation();
 
   const onPressSkip = () => {
-    navigation.navigate('ReaderTabs', {
-      screen: 'Recommend',
+    navigation.navigate('SignUpStacks', {
+      screen: 'Profile',
     });
   };
   const onPressStart = () => {
@@ -46,7 +46,7 @@ const ReaderAnalyze = () => {
           alignItems: 'center',
           marginTop: 30,
         }}>
-        <Image style={{width: 390, height: 367}} source={AnalyzeStart}></Image>
+        <Image style={{width: 390, height: 367}} source={AnalyzeStart} />
       </View>
       <View style={styles.bottomView}>
         <TouchableOpacity onPress={onPressStart}>

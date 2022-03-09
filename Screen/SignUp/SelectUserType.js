@@ -53,6 +53,11 @@ const SelectUserType = () => {
       screen: 'Profile',
     });
   };
+  const goTasteAnalysisProfile = () => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAnalyze',
+    });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -94,7 +99,7 @@ const SelectUserType = () => {
           onPress={
             readerSelect || authorSelect
               ? readerSelect
-                ? goOnBoarding
+                ? goTasteAnalysisProfile
                 : goAuthorProfile
               : goAlertSelect
           }

@@ -10,10 +10,11 @@ import ProfileIntro from '../../Screen/SignUp/Author/ProfileIntro';
 import ProfileInterest from '../../Screen/SignUp/Author/ProfileInterest';
 import AddWebsite from '../../Screen/SignUp/Author/AddWebsite';
 import AuthorSuccessModal from '../../Screen/SignUp/Author/AuthorSuccessModal';
+import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
 
-const ReaderStack = createNativeStackNavigator();
-const ReaderStacks = () => (
-  <ReaderStack.Navigator
+const SignUpStack = createNativeStackNavigator();
+const SignUpStacks = () => (
+  <SignUpStack.Navigator
     sceneContainerStyle={{
       backgroundColor: '#fff',
     }}
@@ -23,57 +24,57 @@ const ReaderStacks = () => (
       presentation: 'card',
       headerShown: false,
     }}>
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="SignIn"
       component={SignIn}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="SelfAuth"
       component={SelfAuth}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="SetProfile"
       component={SetProfile}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="SelectUserType"
       component={SelectUserType}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="OnBoarding"
       component={OnBoarding}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="Profile"
       component={Profile}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="ProfileIntro"
       component={ProfileIntro}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="ProfileInterest"
       component={ProfileInterest}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="AddWebsite"
       component={AddWebsite}
       options={{headerTitle: ''}}
     />
-    <ReaderStack.Screen
+    <SignUpStack.Screen
       name="AuthorSuccessModal"
       component={AuthorSuccessModal}
       options={{headerTitle: ''}}
     />
-  </ReaderStack.Navigator>
+  </SignUpStack.Navigator>
 );
 
-export default ReaderStacks;
+export default SignUpStacks;
