@@ -1,8 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import InfoWeb from '../../../assets/images/InfoWeb.png';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import Clipboard from '@react-native-community/clipboard';
+import {TouchableWithoutFeedback} from '@gorhom/bottom-sheet';
 
 const NoticeModal = ({
   onPressModalConfirm2,
@@ -10,6 +19,13 @@ const NoticeModal = ({
   setModalVisible2,
 }) => {
   const navigation = useNavigation();
+  const onPressCopy = () => {
+    Clipboard.setString('www.maillink.com');
+    Alert.alert('링크가 복사 되었습니다.', {
+      text: '확인',
+      style: 'cancel',
+    });
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -26,11 +42,12 @@ const NoticeModal = ({
         </Text>
         <Text style={styles.modalText4}>www.malink.com </Text>
         <View style={styles.modalButtonView}>
-          <CopyToClipboard text={'www.malink.com'}>
+          <TouchableOpacity
+            onPress={() => Clipboard.setString('www.maillink.com')}>
             <View style={{marginRight: 26}}>
               <Text style={styles.modalConfirm}>링크복사</Text>
             </View>
-          </CopyToClipboard>
+          </TouchableOpacity>
           <TouchableOpacity onPress={onPressModalConfirm2}>
             <View>
               <Text style={styles.modalConfirm2}>확인</Text>
