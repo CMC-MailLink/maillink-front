@@ -112,8 +112,9 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
+          console.log(selectedText);
         }}
-        scrollEnabled={true}
+        textInteractionEnabled={false}
       />
     </View>
   );

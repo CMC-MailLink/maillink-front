@@ -29,6 +29,7 @@ const ReaderMailBody = () => {
   const [mailDataExist, setMailDataExist] = useState(true);
   const [rowList, setRowList] = useState(null);
   const [rowOpen, setRowOpen] = useState(null);
+  const [count, setCount] = useState(0);
   const [refreshing, setRefreshing] = React.useState(false);
   const [mail, setMail] = useState([
     {key: 'category'},
@@ -121,12 +122,19 @@ const ReaderMailBody = () => {
       );
     }
   }, [recentSelect, mailSelect]);
+
   useEffect(() => {
     var temp = mail.filter(item => {
       if (item.key === 'category') return true;
       if (item.bookmark) return true;
     });
     setBookmark([...temp]);
+
+    var tempCount = 0;
+    mail.map(item => {
+      if (item.read === false) tempCount++;
+    });
+    setCount(tempCount);
   }, [mail]);
 
   const wait = timeout => {
@@ -186,39 +194,24 @@ const ReaderMailBody = () => {
   };
 
   const onPressMailItem = (rowMap, data) => {
-    rowList
-      ? rowList[rowOpen]
-        ? null
-        : () => {
-            var temp = mail;
-            temp.map(item => {
-              if (item.key === data.item.key) {
-                item.read = true;
-              }
-            });
-            setMail([...temp]);
-            navigation.navigate('ReaderStacks', {
-              screen: 'ReaderReading',
-              params: {...data},
-            });
-          }
-      : () => {
-          var temp = mail;
-          temp.map(item => {
-            if (item.key === data.item.key) {
-              item.read = true;
-            }
-          });
-          setMail([...temp]);
-          navigation.navigate('ReaderStacks', {
-            screen: 'ReaderReading',
-            params: {...data},
-          });
-        };
+    rowList ? (rowList[rowOpen] ? null : setReadItem(data)) : setReadItem(data);
+  };
+
+  const setReadItem = data => {
+    var temp = mail;
+    temp.map(item => {
+      if (item.key === data.item.key) {
+        item.read = true;
+      }
+    });
+    setMail([...temp]);
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderReading',
+      params: {...data},
+    });
   };
 
   const renderItem = (data, rowMap, rowKey) => {
-    console.log(data.item.key);
     if (data.item.key === 'category') {
       return <RenderCategory></RenderCategory>;
     } else {
@@ -229,6 +222,7 @@ const ReaderMailBody = () => {
               style={{
                 width: 42,
                 height: 42,
+                // opacity: data.item.read ? 0.4 : null,
               }}
               source={AuthorProfileImage}
             />
@@ -238,11 +232,29 @@ const ReaderMailBody = () => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <Text style={styles.itemAuthorText}>{data.item.author}</Text>
+                <Text
+                  style={{
+                    ...styles.itemAuthorText,
+                    color: data.item.read ? '#BEBEBE' : '#4562F1',
+                  }}>
+                  {data.item.author}
+                </Text>
                 <Text style={styles.itemDateText}>{data.item.date}</Text>
               </View>
-              <Text style={styles.itemTitleText}>{data.item.title}</Text>
-              <Text style={styles.itemBodyText}>{data.item.body}</Text>
+              <Text
+                style={{
+                  ...styles.itemTitleText,
+                  color: data.item.read ? '#BEBEBE' : '#3C3C3C',
+                }}>
+                {data.item.title}
+              </Text>
+              <Text
+                style={{
+                  ...styles.itemBodyText,
+                  color: data.item.read ? '#BEBEBE' : '#828282',
+                }}>
+                {data.item.body}
+              </Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -397,10 +409,16 @@ const ReaderMailBody = () => {
                         }}>
                         당신의 작가
                       </Text>
-                      를
+                      {mail.length === 1 ? '를' : '가'}
                     </Text>
                   </View>
-                  <Text style={styles.headerText}>기다려보세요.</Text>
+                  <Text style={styles.headerText}>
+                    {mail.length === 1
+                      ? '기다려보세요.'
+                      : count
+                      ? '찾아왔어요.'
+                      : '글을 쓰고 있어요.'}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -549,7 +567,6 @@ const styles = StyleSheet.create({
     top: -4,
   },
   itemAuthorText: {
-    color: '#4562F1',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     includeFontPadding: false,
@@ -562,14 +579,12 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemTitleText: {
-    color: '#3C3C3C',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     marginBottom: 4,
     includeFontPadding: false,
   },
   itemBodyText: {
-    color: '#828282',
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     includeFontPadding: false,
