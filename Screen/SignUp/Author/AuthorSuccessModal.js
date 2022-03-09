@@ -1,31 +1,53 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Modal,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ModalCheck from '../../assets/images/ModalCheck.png';
+import ModalCheck from '../../../assets/images/ModalCheck.png';
+import NoticeModal from './NoticeModal';
 
-const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
-  const navigation = useNavigation();
-  const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
-    setModalVisible(!modalVisible);
+const AuthorSuccessModal = ({
+  onPressModalConfirm,
+  modalVisible,
+  setModalVisible,
+}) => {
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const onPressModalConfirm2 = () => {
+    setModalVisible2(!modalVisible2);
   };
   return (
     <View style={styles.centeredView}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible2}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible2);
+        }}>
+        <NoticeModal
+          modalVisible={modalVisible2}
+          setModalVisible={setModalVisible2}
+          onPressModalConfirm={onPressModalConfirm2}
+        />
+      </Modal>
       <View style={styles.modalView}>
         <Image
           style={{width: 70, height: 70, top: -78 + 53}}
           source={ModalCheck}
         />
         <Text style={styles.modalText}>
-          계정 생성<Text styles={styles.modalText2}>이</Text>
+          프로필 설정<Text styles={styles.modalText2}>이</Text>
         </Text>
         <Text style={styles.modalText}>
           <Text style={styles.modalText3}>완료되었습니다.</Text>
         </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={goNextScreen}>
+          <TouchableOpacity onPress={onPressModalConfirm2}>
             <View>
               <Text style={styles.modalConfirm}>확인</Text>
             </View>
@@ -92,4 +114,4 @@ const styles = StyleSheet.create({
     right: 27,
   },
 });
-export default SuccessModal;
+export default AuthorSuccessModal;

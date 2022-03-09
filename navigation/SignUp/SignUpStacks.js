@@ -3,7 +3,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignIn from '../../Screen/SignUp/SignIn';
 import SelfAuth from '../../Screen/SignUp/SelfAuth';
 import SetProfile from '../../Screen/SignUp/SetProfile';
-import SuccessModal from '../../Screen/SignUp/SuccessModal';
+import SelectUserType from '../../Screen/SignUp/SelectUserType';
+import OnBoarding from '../../Screen/OnBoarding';
+import Profile from '../../Screen/SignUp/Author/Profile';
+import ProfileIntro from '../../Screen/SignUp/Author/ProfileIntro';
+import ProfileInterest from '../../Screen/SignUp/Author/ProfileInterest';
+import AddWebsite from '../../Screen/SignUp/Author/AddWebsite';
+import AuthorSuccessModal from '../../Screen/SignUp/Author/AuthorSuccessModal';
 
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
@@ -33,8 +39,38 @@ const ReaderStacks = () => (
       options={{headerTitle: ''}}
     />
     <ReaderStack.Screen
-      name="SuccessModal"
-      component={SuccessModal}
+      name="SelectUserType"
+      component={SelectUserType}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="OnBoarding"
+      component={OnBoarding}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ProfileIntro"
+      component={ProfileIntro}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ProfileInterest"
+      component={ProfileInterest}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="AddWebsite"
+      component={AddWebsite}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="AuthorSuccessModal"
+      component={AuthorSuccessModal}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

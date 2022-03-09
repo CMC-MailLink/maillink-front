@@ -10,15 +10,12 @@ import {
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
-  SafeAreaView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {FloatingAction} from 'react-native-floating-action';
-
 import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
+import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 import Report from '../assets/images/Report.png';
-import PenceilWriting from '../assets/images/PenceilWriting.png';
 // import MessageData from '../assets/data/Message';
 
 const STATUSBAR_HEIGHT = 48;
@@ -112,12 +109,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const renderMessageItem = a => {
     console.log(a);
   };
-  const onPressWritingPage = () => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'MessageWrite',
-    });
-  };
-
   useEffect(() => {}, [message]);
 
   const renderItem = data => (
@@ -138,7 +129,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             fontFamily: 'NotoSansKR-Bold',
             fontSize: 14,
             left: 22,
-            includeFontPadding: false,
           }}>
           {data.item.type}
         </Text>
@@ -151,7 +141,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             left: 22,
             right: 10,
             bottom: 18,
-            includeFontPadding: false,
           }}>
           {data.item.context}
         </Text>
@@ -164,7 +153,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           fontFamily: 'NotoSansKR-Light',
           fontSize: 12,
           right: 20,
-          includeFontPadding: false,
         }}>
         {data.item.date}&nbsp;&nbsp;
         {data.item.daytime}&nbsp;
@@ -175,7 +163,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
+      <SafeAreaView style={{flex: 0}} />
       {/* upperHeader */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
@@ -187,28 +175,30 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       </View>
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
-        <Image
-          style={{
-            width: 42,
-            height: 42,
-            marginRight: 14,
-          }}
-          source={AuthorProfileImage}
-        />
-        <Text
-          style={{
-            fontFamily: 'NotoSansKR-Bold',
-            color: '#3C3C3C',
-            fontSize: 14,
-            includeFontPadding: false,
-          }}>
-          {params.item.sender}
-        </Text>
-        <Image
-          style={{width: 3, height: 17, position: 'absolute', right: 30}}
-          source={Report}
-        />
-        {/* {renderMessageItem(message.sender)} */}
+        <View style={{left: 364, marginBottom: 30}}>
+          <Image style={{width: 3, height: 17}} source={Report} />
+        </View>
+        <View style={{left: 22, marginBottom: 45}}>
+          <Image
+            style={{
+              position: 'absolute',
+              width: 42,
+              height: 42,
+            }}
+            source={AuthorProfileImage}
+          />
+          <Text
+            style={{
+              fontFamily: 'NotoSansKR-Bold',
+              color: '#3C3C3C',
+              fontSize: 14,
+              left: 56,
+              top: 11,
+            }}>
+            {params.item.sender}
+          </Text>
+        </View>
+        {renderMessageItem(message.sender)}
       </View>
       {/* body */}
       {messageData ? (
@@ -236,45 +226,17 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           }}
         />
       )}
-      <FloatingAction
-        actions={[
-          {
-            icon: (
-              <Image
-                style={{
-                  width: 22,
-                  height: 22,
-                }}
-                source={PenceilWriting}
-              />
-            ),
-            name: 'bt_search',
-            position: 1,
-            buttonSize: 50,
-          },
-        ]}
-        color="#FFF"
-        distanceToEdge={{vertical: 100 - 44, horizontal: 17}}
-        buttonSize={50}
-        shadow={{
-          shadowOpacity: 0.12,
-          shadowColor: '#000000',
-          shadowRadius: 23,
-        }}
-        overrideWithAction={true}
-        animated={false}
-        onPressItem={name => {
-          onPressWritingPage();
-        }}
-      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  header: {
+    height: 261 - STATUSBAR_HEIGHT,
+    backgroundColor: '#4562F1',
+  },
   headerView: {
     width: '100%',
-    height: 91 - 48,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -293,20 +255,18 @@ const styles = StyleSheet.create({
     paddingBottom: 103 - 23.78,
   },
   bodyHeader: {
-    height: 57,
-    paddingLeft: 22,
-    backgroundColor: '#fff',
+    height: 80,
+    backgroundColor: '#FFFFFF',
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#BEBEBE',
     paddingBottom: 8,
-    includeFontPadding: false,
   },
 });
 

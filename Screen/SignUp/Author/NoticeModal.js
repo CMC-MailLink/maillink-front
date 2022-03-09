@@ -1,33 +1,39 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ModalCheck from '../../assets/images/ModalCheck.png';
+import InfoWeb from '../../../assets/images/InfoWeb.png';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
+const NoticeModal = ({
+  onPressModalConfirm2,
+  modalVisible2,
+  setModalVisible2,
+}) => {
   const navigation = useNavigation();
-  const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
-    setModalVisible(!modalVisible);
-  };
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <Image
-          style={{width: 70, height: 70, top: -78 + 53}}
-          source={ModalCheck}
+          style={{width: 270, height: 266, top: -78 + 25}}
+          source={InfoWeb}
         />
         <Text style={styles.modalText}>
-          계정 생성<Text styles={styles.modalText2}>이</Text>
+          웹사이트<Text styles={styles.modalText2}>에서도 편하게</Text>
         </Text>
         <Text style={styles.modalText}>
-          <Text style={styles.modalText3}>완료되었습니다.</Text>
+          <Text style={styles.modalText3}>글을 작성하고 발행해보세요! </Text>
         </Text>
+        <Text style={styles.modalText4}>www.malink.com </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={goNextScreen}>
+          <CopyToClipboard text={'www.malink.com'}>
+            <View style={{marginRight: 26}}>
+              <Text style={styles.modalConfirm}>링크복사</Text>
+            </View>
+          </CopyToClipboard>
+          <TouchableOpacity>
             <View>
-              <Text style={styles.modalConfirm}>확인</Text>
+              <Text style={styles.modalConfirm2}>확인</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: 330,
-    height: 296,
+    height: 402,
     borderRadius: 15,
     backgroundColor: 'white',
     alignItems: 'center',
@@ -53,9 +59,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     includeFontPadding: false,
-    top: -33 + 17,
+    top: -70,
     fontFamily: 'NotoSansKR-Bold',
-    fontSize: 24,
+    fontSize: 20,
     color: '#3C3C3C',
   },
   modalText2: {
@@ -67,10 +73,21 @@ const styles = StyleSheet.create({
   modalText3: {
     includeFontPadding: false,
     fontFamily: 'NotoSansKR-Regular',
-    fontSize: 24,
+    fontSize: 20,
     color: '#3C3C3C',
   },
+  modalText4: {
+    top: -80 + 19,
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 16,
+    color: '#AFAFAF',
+  },
   modalConfirm: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    color: '#696969',
+  },
+  modalConfirm2: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#4562F1',
@@ -92,4 +109,4 @@ const styles = StyleSheet.create({
     right: 27,
   },
 });
-export default SuccessModal;
+export default NoticeModal;

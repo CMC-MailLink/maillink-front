@@ -21,9 +21,16 @@ import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = () => {
   const navigation = useNavigation();
+
   const onPressNaverLogin = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfileSelfAuth',
+    });
+  };
+
+  const getSetProfile = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'SetProfile',
     });
   };
 
@@ -99,7 +106,7 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={signInWithKakao}>
+          <TouchableOpacity onPress={getSetProfile}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={getProfile}>
@@ -119,9 +126,9 @@ const SignIn = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image style={{width: 43, height: 1}} source={LineSignIn}></Image>
+          <Image style={{width: 43, height: 1}} source={LineSignIn} />
           <Text style={styles.DescText}>이미 회원이신가요?</Text>
-          <Image style={{width: 43, height: 1}} source={LineSignIn}></Image>
+          <Image style={{width: 43, height: 1}} source={LineSignIn} />
         </View>
         <Text style={styles.DescText2}>
           기존 가입 경로를 통해 로그인해주세요
