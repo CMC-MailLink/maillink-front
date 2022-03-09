@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from 'react-native';
 import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
@@ -14,16 +15,18 @@ import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
+import HeartTabsFocused from '../../assets/images/HeartTabsFocused.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
+import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocused.png';
 
 const ReaderTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
-  <View style={{top: -15.96}}>
-    <TouchableOpacity onPress={onPress} activeOpacity={1}>
+  <TouchableOpacity onPress={onPress} activeOpacity={1}>
+    <View style={{top: -15.96, left: -Dimensions.get('window').width / 2}}>
       <View>{children}</View>
-    </TouchableOpacity>
-  </View>
+    </View>
+  </TouchableOpacity>
 );
 
 const ReaderTabs = () => {
@@ -41,8 +44,40 @@ const ReaderTabs = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={styles.iconView}>
-              <Image style={{width: 20, height: 18}} source={HeartTabs} />
-              <Text style={styles.iconText}>작가찾기</Text>
+              <Image
+                style={{width: 20.2, height: 18}}
+                source={focused ? HeartTabsFocused : HeartTabs}
+              />
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                작가찾기
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <ReaderTab.Screen
+        style={{justifyContent: 'center', alignItems: 'center'}}
+        name="ReaderProfile"
+        component={ReaderProfile}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={styles.iconView}>
+              <Image
+                style={{width: 18, height: 21.27}}
+                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
+              />
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                프로필
+              </Text>
             </View>
           ),
         }}
@@ -58,23 +93,6 @@ const ReaderTabs = () => {
             </View>
           ),
           tabBarButton: props => <CustomTabBarButton {...props} />,
-        }}
-      />
-      <ReaderTab.Screen
-        style={{justifyContent: 'center', alignItems: 'center'}}
-        name="ReaderProfile"
-        component={ReaderProfile}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View style={styles.iconView}>
-              <Image
-                style={{width: 18, height: 21.27}}
-                source={ReaderProfileTabs}
-              />
-              <Text style={styles.iconText}>프로필</Text>
-            </View>
-          ),
         }}
       />
     </ReaderTab.Navigator>

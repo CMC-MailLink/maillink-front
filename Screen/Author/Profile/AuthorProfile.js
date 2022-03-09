@@ -9,7 +9,6 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableWithoutFeedback,
-  Modal,
   ScrollView,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -19,35 +18,35 @@ import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 
-import AuthorProfileModal from './AuthorProfileModal';
 import AuthorProfileIntro from './AuthorProfileIntro';
 import AuthorProfileMail from './AuthorProfileMail';
 
 const AuthorProfile = () => {
   const navigation = useNavigation();
 
-  const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('덩이');
-  const [editName, setEditName] = useState('덩이');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
-
-  const onPressModalConfirm = () => {
-    setName(editName);
-    setModalVisible(!modalVisible);
-  };
-  const onPressIntro = () => {
-    setIntroSelect(true);
-  };
-  const onPressMail = () => {
-    setIntroSelect(false);
-  };
   const [filePath, setFilePath] = useState(null);
   const [fileData, setFileData] = useState(null);
   const [fileUri, setFileUri] = useState(null);
 
+  const onPressIntro = () => {
+    setIntroSelect(true);
+  };
+
+  const onPressMail = () => {
+    setIntroSelect(false);
+  };
+
   const copyToClipboard = data => {
     Clipboard.setString(data);
+  };
+
+  const onPressProfileEdit = () => {
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorProfileEdit',
+    });
   };
 
   const onPressEditImage = async () => {
@@ -81,20 +80,6 @@ const AuthorProfile = () => {
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <StatusBar barStyle="light-content" />
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <AuthorProfileModal
-          editName={editName}
-          setEditName={setEditName}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}></AuthorProfileModal>
-      </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
       </View>
@@ -129,13 +114,13 @@ const AuthorProfile = () => {
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressEditImage}>
               <Image
-                style={{width: 42, height: 42, top: -31, left: 25}}
+                style={{width: 27.76, height: 27.76, top: -31, left: 25}}
                 source={ImageEditProfile}></Image>
             </TouchableWithoutFeedback>
-            <View style={{alignItems: 'center', top: -37}}>
+            <View style={{alignItems: 'center', top: -21}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>작가님</Text>
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TouchableOpacity onPress={onPressProfileEdit}>
                 <View style={styles.profileEditView}>
                   <Text style={styles.profileEditText}>프로필 수정</Text>
                 </View>
@@ -167,7 +152,7 @@ const AuthorProfile = () => {
                 <Text
                   style={{
                     ...styles.bodyHeaderText,
-                    color: introSelect ? '#BEBEBE' : '#000000',
+                    color: introSelect ? '#BEBEBE' : '#3C3C3C',
                   }}>
                   작성메일
                 </Text>
@@ -197,6 +182,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#fff',
+    includeFontPadding: false,
   },
   profileView: {
     height: 150,
@@ -223,6 +209,7 @@ const styles = StyleSheet.create({
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
+    includeFontPadding: false,
   },
   profileName: {
     fontFamily: 'NotoSansKR-Bold',
@@ -250,6 +237,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
 });
 

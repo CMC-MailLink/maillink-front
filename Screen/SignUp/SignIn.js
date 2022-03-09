@@ -9,6 +9,10 @@ import {
   logout,
   unlink,
 } from '@react-native-seoul/kakao-login';
+import {
+  AppleButton,
+  appleAuth,
+} from '@invertase/react-native-apple-authentication';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
@@ -39,11 +43,39 @@ const SignIn = () => {
     setResult(JSON.stringify(token));
     console.log(result);
   };
+
   const getProfile = async () => {
     const profile = await getKakaoProfile();
     console.log(profile);
     setResult2(JSON.stringify(profile));
     console.log(result2);
+  };
+
+  const onAppleButtonPress = async () => {
+    try {
+      // performs login request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      // get current authentication state for user
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // user is authenticated
+        console.log(appleAuthRequestResponse);
+      }
+    } catch (error) {
+      if (error.code === appleAuth.Error.CANCELED) {
+        // login canceled
+      } else {
+        // login error
+      }
+    }
   };
 
   return (
@@ -77,12 +109,15 @@ const SignIn = () => {
           <TouchableOpacity onPress={getSetProfile}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={getProfile}>
+          {/* <TouchableOpacity onPress={getProfile}>
             <Text>프로필조회</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
+          </TouchableOpacity> */}
+          <TouchableOpacity onPress={() => onAppleButtonPress()}>
             <Image style={{width: 312, height: 52}} source={AppleLogin} />
           </TouchableOpacity>
+          {/* <TouchableOpacity>
+            <Image style={{width: 312, height: 52}} source={AppleLogin} />
+          </TouchableOpacity> */}
         </View>
         <View
           style={{

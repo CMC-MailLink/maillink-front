@@ -11,23 +11,30 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-import EmptyHeartProfile from '../../../assets/images/EmptyHeartProfile.png';
-import HeartProfile from '../../../assets/images/HeartProfile.png';
+import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail from '../../../assets/images/BackMail.png';
+import HeartProfile from '../../../assets/images/HeartProfile.png';
+import NotHeartProfile from '../../../assets/images/NotHeartProfile.png';
 
-import ReaderAuthorProfileIntro from './ReaderAuthorProfileIntro';
-import ReaderAuthorProfileMail from './ReaderAuthorProfileMail';
+import AuthorProfileIntro from './ReaderAuthorProfileIntro';
+import AuthorProfileMail from './ReaderAuthorProfileMail';
 
 const ReaderAuthorProfile = () => {
+  const navigation = useNavigation();
+
   const [name, setName] = useState('덩이');
+  const [subscribe, setSubscribe] = useState(false);
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
   const [heart, setHeart] = useState(false);
-  const [subscribe, setSubscribe] = useState(false);
+  const [filePath, setFilePath] = useState(null);
+  const [fileData, setFileData] = useState(null);
+  const [fileUri, setFileUri] = useState(null);
 
-  const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -35,8 +42,40 @@ const ReaderAuthorProfile = () => {
   const onPressIntro = () => {
     setIntroSelect(true);
   };
+
   const onPressMail = () => {
     setIntroSelect(false);
+  };
+
+  const copyToClipboard = data => {
+    Clipboard.setString(data);
+  };
+
+  const onPressEditImage = async () => {
+    const options = {
+      storageOptions: {
+        path: 'images',
+        mediaType: 'photo',
+        maxWidth: 78,
+        maxHeight: 78,
+      },
+      includeBase64: true,
+    };
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+        };
+        setImageUri(source);
+      }
+    });
   };
 
   return (
@@ -49,7 +88,7 @@ const ReaderAuthorProfile = () => {
             <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
           </View>
         </TouchableWithoutFeedback>
-        <Text style={styles.headerText}>작가 프로필</Text>
+        <Text style={styles.headerText}>작가프로필</Text>
       </View>
       <ScrollView stickyHeaderIndices={[2]} bounces={false}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
@@ -69,7 +108,7 @@ const ReaderAuthorProfile = () => {
                   width: 22,
                   height: 20.17,
                 }}
-                source={EmptyHeartProfile}></Image>
+                source={NotHeartProfile}></Image>
             )}
           </TouchableOpacity>
         </View>
@@ -85,27 +124,19 @@ const ReaderAuthorProfile = () => {
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={imageUri == '' ? DefaultProfile : imageUri}></Image>
             </View>
-            <View style={{alignItems: 'center', marginTop: 8}}>
+            <View style={{alignItems: 'center', top: 5}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>작가님</Text>
               {subscribe ? (
                 <TouchableOpacity onPress={() => setSubscribe(false)}>
-                  <View
-                    style={{
-                      ...styles.profileEditView,
-                      backgroundColor: '#fff',
-                      borderWidth: 1,
-                      borderColor: '#BEBEBE',
-                    }}>
-                    <Text style={{...styles.profileEditText, color: '#828282'}}>
-                      구독중
-                    </Text>
+                  <View style={styles.subscribeView}>
+                    <Text style={styles.subscribeText}>구독중</Text>
                   </View>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity onPress={() => setSubscribe(true)}>
-                  <View style={styles.profileEditView}>
-                    <Text style={styles.profileEditText}>구독하기</Text>
+                  <View style={styles.notSubscribeView}>
+                    <Text style={styles.notSubscribeText}>구독하기</Text>
                   </View>
                 </TouchableOpacity>
               )}
@@ -136,7 +167,7 @@ const ReaderAuthorProfile = () => {
                 <Text
                   style={{
                     ...styles.bodyHeaderText,
-                    color: introSelect ? '#BEBEBE' : '#000000',
+                    color: introSelect ? '#BEBEBE' : '#3C3C3C',
                   }}>
                   작성메일
                 </Text>
@@ -145,9 +176,9 @@ const ReaderAuthorProfile = () => {
           </View>
         </View>
         {introSelect ? (
-          <ReaderAuthorProfileIntro></ReaderAuthorProfileIntro>
+          <AuthorProfileIntro></AuthorProfileIntro>
         ) : (
-          <ReaderAuthorProfileMail></ReaderAuthorProfileMail>
+          <AuthorProfileMail></AuthorProfileMail>
         )}
       </ScrollView>
     </View>
@@ -159,14 +190,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 78 - 48,
     backgroundColor: '#4562F1',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
   },
   headerText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#fff',
+    includeFontPadding: false,
   },
   profileView: {
     height: 150,
@@ -193,6 +224,7 @@ const styles = StyleSheet.create({
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
+    includeFontPadding: false,
   },
   profileName: {
     fontFamily: 'NotoSansKR-Bold',
@@ -206,19 +238,36 @@ const styles = StyleSheet.create({
     color: '#BEBEBE',
     includeFontPadding: false,
   },
-  profileEditView: {
+  subscribeView: {
+    marginTop: 8,
     width: 75,
     height: 30,
+    borderColor: '#BEBEBE',
+    borderWidth: 1,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 15,
-    backgroundColor: '#4562F1',
-    marginTop: 7,
   },
-  profileEditText: {
+  subscribeText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
-    color: '#FFFFFF',
+    color: '#BEBEBE',
+    includeFontPadding: false,
+  },
+  notSubscribeView: {
+    marginTop: 8,
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4562F1',
+  },
+  notSubscribeText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 12,
+    color: '#FFF',
+    includeFontPadding: false,
   },
 });
 

@@ -22,6 +22,7 @@ const ReaderProfileModal = ({
           style={styles.editNameText}
           value={editName}
           onChangeText={setEditName}
+          maxLength={6}
         />
         <Text
           style={{
@@ -69,16 +70,19 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     position: 'absolute',
     top: 20,
+    includeFontPadding: false,
   },
   modalCancel: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   modalConfirm: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#4562F1',
+    includeFontPadding: false,
   },
   editNameText: {
     width: 208,
@@ -89,11 +93,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomColor: '#4562F1',
     borderBottomWidth: 1,
+    includeFontPadding: false,
   },
   modalText: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   modalButtonView: {
     flexDirection: 'row',

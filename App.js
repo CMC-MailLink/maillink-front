@@ -6,6 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 import {MenuProvider} from 'react-native-popup-menu';
+import PushNotification from 'react-native-push-notification';
 
 import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
@@ -31,7 +32,15 @@ const App = () => {
   setCustomText(customTextProps);
   useEffect(() => {
     SplashScreen.hide();
+    createChannels();
   }, []);
+
+  const createChannels = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test Channel',
+    });
+  };
 
   return (
     <SafeAreaProvider>

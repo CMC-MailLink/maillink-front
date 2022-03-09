@@ -1,17 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,
   TouchableWithoutFeedback,
   StatusBar,
-  TextInput,
   Platform,
 } from 'react-native';
-import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
@@ -21,38 +18,37 @@ import BackMail2 from '../../../assets/images/BackMail2.png';
 import SendMail2 from '../../../assets/images/SendMail2.png';
 import StarMail2 from '../../../assets/images/StarMail2.png';
 
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
-
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
+  const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
   const url = Platform.select({
     ios: 'http://localhost:3000/readingeditor',
     android: 'http://10.0.2.2:3000/readingeditor',
   });
+
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };
-  const navigation = useNavigation();
+
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onSelectionChange = (
-    eventType,
-    content,
-    selectionStart,
-    selectionEnd,
-  ) => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'InstaShare',
-      params: content,
-    });
-  };
+  //instashare
+  // const onSelectionChange = (
+  //   eventType,
+  //   content,
+  //   selectionStart,
+  //   selectionEnd,
+  // ) => {
+  //   navigation.navigate('ReaderStacks', {
+  //     screen: 'InstaShare',
+  //     params: content,
+  //   });
+  // };
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#F8F8F8'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
@@ -61,18 +57,24 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={{position: 'absolute', right: 61}}>
-            <Image style={{width: 21, height: 20.5}} source={StarMail2}></Image>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={{position: 'absolute', right: 22}}>
-            <Image
-              style={{width: 21.54, height: 23.82}}
-              source={SendMail2}></Image>
-          </View>
-        </TouchableWithoutFeedback>
+        {subscribe ? (
+          <>
+            <TouchableWithoutFeedback>
+              <View style={{position: 'absolute', right: 61}}>
+                <Image
+                  style={{width: 21, height: 20.5}}
+                  source={StarMail2}></Image>
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback>
+              <View style={{position: 'absolute', right: 22}}>
+                <Image
+                  style={{width: 21.54, height: 23.82}}
+                  source={SendMail2}></Image>
+              </View>
+            </TouchableWithoutFeedback>
+          </>
+        ) : null}
       </View>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>{params.item.title}</Text>
@@ -97,14 +99,22 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableOpacity>
       </View>
       <WebView
+        // style={{
+        //   height:
+        //     Platform.OS == 'ios'
+        //       ? Dimensions.get('window').height - 212
+        //       : Dimensions.get('window').height - 212 + 48,
+        // }}
+        automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         menuItems={[{label: '공유', key: 'share'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
+          console.log(selectedText);
         }}
-        scrollEnabled={false}
+        textInteractionEnabled={false}
       />
     </View>
   );
@@ -113,9 +123,11 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: 91 - 48,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
   },
   titleView: {
     height: 75,
@@ -128,11 +140,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 18,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   dateText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   authorView: {
     height: 46,
@@ -146,6 +160,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 15,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   subscribeView: {
     position: 'absolute',
@@ -172,11 +187,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#828282',
+    includeFontPadding: false,
   },
   subscribeNotText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',
+    includeFontPadding: false,
   },
   bodyView: {
     width: '100%',

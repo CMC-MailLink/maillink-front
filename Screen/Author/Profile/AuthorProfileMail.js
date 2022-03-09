@@ -1,20 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Platform,
-  FlatList,
-} from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import {useNavigation} from '@react-navigation/native';
 
 import MenuProfile from '../../../assets/images/MenuProfile.png';
 import MenuItemProfile1 from '../../../assets/images/MenuItemProfile1.png';
@@ -23,6 +15,7 @@ import MenuItemProfile3 from '../../../assets/images/MenuItemProfile3.png';
 import SearchAuthorProfile from '../../../assets/images/SearchAuthorProfile.png';
 
 const AuthorProfileMail = () => {
+  const navigation = useNavigation();
   const [recentSelect, setRecentSelect] = useState(true);
   const onPressRecent = () => {
     setRecentSelect(true);
@@ -30,6 +23,8 @@ const AuthorProfileMail = () => {
   const onPressOld = () => {
     setRecentSelect(false);
   };
+  const [repMailKey, setRepMailKey] = useState(null);
+  const [repMail, setRepMail] = useState(null);
   const [mail, setMail] = useState([
     {
       key: '0',
@@ -37,8 +32,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬2',
       body: '피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의',
       date: '21. 02. 13',
-      rep: true,
       show: true,
+      rep: true,
     },
     {
       key: '1',
@@ -46,8 +41,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬1',
       body: '그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의',
       date: '21. 02. 12',
-      rep: false,
       show: true,
+      rep: false,
     },
     {
       key: '2',
@@ -55,8 +50,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬0',
       body: '그들은 광야에서 얼마나 무엇을 때문이다. 인생을 것은 같으며, 것이다. 발휘하기 굳세게 인생의 설산에',
       date: '21. 02. 11',
-      rep: false,
       show: true,
+      rep: false,
     },
     {
       key: '3',
@@ -64,8 +59,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬',
       body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
-      rep: false,
       show: true,
+      rep: false,
     },
     {
       key: '4',
@@ -73,8 +68,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬',
       body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
-      rep: false,
       show: true,
+      rep: false,
     },
     {
       key: '5',
@@ -82,8 +77,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬',
       body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
-      rep: false,
       show: true,
+      rep: false,
     },
     {
       key: '6',
@@ -91,8 +86,8 @@ const AuthorProfileMail = () => {
       title: '청춘예찬',
       body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
       date: '21. 02. 10',
-      rep: false,
       show: true,
+      rep: false,
     },
   ]);
   useEffect(() => {
@@ -107,96 +102,82 @@ const AuthorProfileMail = () => {
     );
   }, [recentSelect]);
 
-  const cancelRep = index => {
-    var temp = mail;
-    temp[index].rep = false;
-    setMail([...temp]);
-  };
-  const setRep = index => {
-    var temp = mail;
-    temp[index].rep = true;
-    setMail([...temp]);
-  };
-  const cancelShow = index => {
-    var temp = mail;
-    temp[index].show = false;
-    setMail([...temp]);
-  };
-  const setShow = index => {
-    var temp = mail;
-    temp[index].show = true;
-    setMail([...temp]);
+  const cancelRep = key => {
+    if (key === repMailKey) {
+      var temp = mail;
+      temp.map(item => {
+        if (item.key === key) {
+          item.rep = false;
+          setRepMail(null);
+          setRepMailKey(null);
+        }
+      });
+      setMail([...temp]);
+    }
   };
 
-  const RenderMenuItem = ({item, index}) => {
+  const setRep = key => {
+    if (repMailKey === null) {
+      var temp = mail;
+      temp.map(item => {
+        if (item.key === key) {
+          item.rep = true;
+          setRepMail(item);
+          setRepMailKey(item.key);
+        }
+      });
+      setMail([...temp]);
+    }
+  };
+  const cancelShow = key => {
+    var temp = mail;
+    temp.map(item => {
+      if (item.key === key) item.show = false;
+    });
+    setMail([...temp]);
+  };
+  const setShow = key => {
+    var temp = mail;
+    temp.map(item => {
+      if (item.key === key) item.show = true;
+    });
+    setMail([...temp]);
+  };
+  const onPressSearch = () => {
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorProfileSearch',
+    });
+  };
+
+  const RenderMenuItem = ({item}) => {
     return (
-      <Menu
-        style={{
-          width: 20,
-          height: 20,
-          justifyContent: 'center',
-          position: 'absolute',
-          right: 0,
-        }}>
-        <MenuTrigger
-          style={{
-            width: 20,
-            height: 20,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+      <Menu style={styles.menuView}>
+        <MenuTrigger style={styles.menuTriggerView}>
           <Image style={{width: 13, height: 2.29}} source={MenuProfile}></Image>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
-          {item.rep === true ? (
-            <MenuOption onSelect={() => cancelRep(index)}>
-              <Text>대표글 취소하기</Text>
-              <Image
-                style={{
-                  width: 11,
-                  height: 17,
-                  position: 'absolute',
-                  right: 22.5,
-                }}
-                source={MenuItemProfile1}></Image>
-            </MenuOption>
-          ) : (
-            <MenuOption onSelect={() => setRep(index)}>
-              <Text>대표글로 설정하기</Text>
-              <Image
-                style={{
-                  width: 11,
-                  height: 17,
-                  position: 'absolute',
-                  right: 22.5,
-                }}
-                source={MenuItemProfile1}></Image>
-            </MenuOption>
-          )}
+          <MenuOption onSelect={() => cancelRep(item.key)}>
+            <Text>대표글 취소하기</Text>
+            <Image style={styles.menuImage} source={MenuItemProfile1}></Image>
+          </MenuOption>
+          <MenuOption onSelect={() => setRep(item.key)}>
+            <Text>대표글로 설정하기</Text>
+            <Image style={styles.menuImage} source={MenuItemProfile1}></Image>
+          </MenuOption>
           {item.show ? (
             <MenuOption
               style={{borderBottomWidth: 0}}
-              onSelect={() => cancelShow(index)}>
+              onSelect={() => cancelShow(item.key)}>
               <Text>비공개글로 전환하기</Text>
               <Image
-                style={{
-                  width: 16,
-                  height: 21,
-                  position: 'absolute',
-                  right: 22.5,
-                }}
+                style={styles.menuImage2}
                 source={MenuItemProfile3}></Image>
             </MenuOption>
           ) : (
-            <MenuOption onSelect={() => setShow(index)}>
+            <MenuOption onSelect={() => setShow(item.key)}>
               <Text>공개글로 전환하기</Text>
               <Image
-                style={{
-                  width: 16,
-                  height: 21,
-                  position: 'absolute',
-                  right: 22.5,
-                }}
+                style={styles.menuImage2}
                 source={MenuItemProfile2}></Image>
             </MenuOption>
           )}
@@ -205,7 +186,7 @@ const AuthorProfileMail = () => {
     );
   };
 
-  const renderItem = ({item, index}) => {
+  const RenderItem = ({data}) => {
     return (
       <View
         style={{
@@ -216,16 +197,16 @@ const AuthorProfileMail = () => {
           paddingVertical: 13,
           marginTop: 0,
         }}>
-        <Text style={styles.mailItemTitle}>{item.title}</Text>
-        <Text style={styles.mailItemBody}>{item.body}</Text>
+        <Text style={styles.mailItemTitle}>{data.title}</Text>
+        <Text style={styles.mailItemBody}>{data.body}</Text>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.mailItemDate}>{item.date}</Text>
-          {item.show ? (
+          <Text style={styles.mailItemDate}>{data.date}</Text>
+          {data.show ? (
             <Text style={styles.mailItemOpen}>공개</Text>
           ) : (
             <Text style={styles.mailItemClose}>비공개</Text>
           )}
-          <RenderMenuItem item={item} index={index}></RenderMenuItem>
+          <RenderMenuItem item={data}></RenderMenuItem>
         </View>
       </View>
     );
@@ -235,30 +216,32 @@ const AuthorProfileMail = () => {
     <View style={{flex: 1, marginBottom: 150}}>
       <View style={styles.refView}>
         <Text style={styles.refText}>대표글</Text>
-        {mail.map((data, index) => {
-          if (data.rep === true)
-            return (
-              <View style={styles.mailItemView} key={index}>
-                <Text style={styles.mailItemTitle}>{data.title}</Text>
-                <Text style={styles.mailItemBody}>{data.body}</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.mailItemDate}>{data.date}</Text>
-                  {data.show ? (
-                    <Text style={styles.mailItemOpen}>공개</Text>
-                  ) : (
-                    <Text style={styles.mailItemClose}>비공개</Text>
-                  )}
-                  <RenderMenuItem item={data} index={index}></RenderMenuItem>
-                </View>
-              </View>
-            );
-          else return;
-        })}
+        {repMail !== null ? (
+          <View style={styles.mailItemView}>
+            <Text style={styles.mailItemTitle}>{repMail.title}</Text>
+            <Text style={styles.mailItemBody}>{repMail.body}</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.mailItemDate}>{repMail.date}</Text>
+              {repMail.show ? (
+                <Text style={styles.mailItemOpen}>공개</Text>
+              ) : (
+                <Text style={styles.mailItemClose}>비공개</Text>
+              )}
+              <RenderMenuItem item={repMail}></RenderMenuItem>
+            </View>
+          </View>
+        ) : (
+          <View>
+            <Text>설정한 대표글이 없습니다.</Text>
+          </View>
+        )}
       </View>
       <View style={styles.publishView}>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.refText}>발행글</Text>
-          <TouchableOpacity style={{position: 'absolute', right: 0}}>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 0}}
+            onPress={onPressSearch}>
             <Image
               style={{width: 16, height: 16}}
               source={SearchAuthorProfile}></Image>
@@ -281,7 +264,7 @@ const AuthorProfileMail = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderTextOrder,
-                  color: recentSelect ? '#000000' : '#BEBEBE',
+                  color: recentSelect ? '#3C3C3C' : '#BEBEBE',
                 }}>
                 최신순
               </Text>
@@ -293,7 +276,7 @@ const AuthorProfileMail = () => {
               <Text
                 style={{
                   ...styles.bodyHeaderTextOrder,
-                  color: recentSelect ? '#BEBEBE' : '#000000',
+                  color: recentSelect ? '#BEBEBE' : '#3C3C3C',
                 }}>
                 오래된순
               </Text>
@@ -301,11 +284,9 @@ const AuthorProfileMail = () => {
           </View>
         </View>
       </View>
-
-      <FlatList
-        data={mail}
-        renderItem={renderItem}
-        keyExtractor={item => item.key}></FlatList>
+      {mail.map((data, index) => {
+        return <RenderItem data={data} key={data.key}></RenderItem>;
+      })}
     </View>
   );
 };
@@ -321,6 +302,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 14,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   mailItemView: {marginTop: 15},
   mailItemTitle: {
@@ -328,6 +310,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     marginBottom: 7,
+    includeFontPadding: false,
   },
   mailItemBody: {
     fontFamily: 'NotoSansKR-Regular',
@@ -335,11 +318,13 @@ const styles = StyleSheet.create({
     color: '#828282',
     paddingRight: 36,
     marginBottom: 7,
+    includeFontPadding: false,
   },
   mailItemDate: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   mailItemOpen: {
     fontFamily: 'NotoSansKR-Regular',
@@ -347,6 +332,7 @@ const styles = StyleSheet.create({
     color: '#4562F1',
     position: 'absolute',
     right: 36,
+    includeFontPadding: false,
   },
   mailItemClose: {
     fontFamily: 'NotoSansKR-Regular',
@@ -354,6 +340,7 @@ const styles = StyleSheet.create({
     color: '#BEBEBE',
     position: 'absolute',
     right: 36,
+    includeFontPadding: false,
   },
   publishView: {
     paddingVertical: 13,
@@ -366,15 +353,43 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
+    includeFontPadding: false,
   },
   bodyHeaderTextOrder: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 12,
+    includeFontPadding: false,
   },
   menuItemText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 15,
     color: '#5F5F5F',
+    includeFontPadding: false,
+  },
+  menuView: {
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+  },
+  menuTriggerView: {
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuImage: {
+    width: 11,
+    height: 17,
+    position: 'absolute',
+    right: 22.5,
+  },
+  menuImage2: {
+    width: 16,
+    height: 21,
+    position: 'absolute',
+    right: 22.5,
   },
 });
 

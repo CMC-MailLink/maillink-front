@@ -45,6 +45,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MailLinkApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MailLinkApp/main.m; sourceTree = "<group>"; };
 		2604717327C2AF8300569794 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		2644C05D27D3282600FA3ACE /* MailLinkApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MailLinkApp.entitlements; path = MailLinkApp/MailLinkApp.entitlements; sourceTree = "<group>"; };
 		3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Regular.otf"; path = "../assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
 		43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Bold.otf"; path = "../assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
 		518DF389C7069C66151A4E41 /* libPods-MailLinkApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +101,7 @@
 		13B07FAE1A68108700A75B9A /* MailLinkApp */ = {
 			isa = PBXGroup;
 			children = (
+				2644C05D27D3282600FA3ACE /* MailLinkApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -483,8 +485,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MailLinkApp/MailLinkApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+<<<<<<< HEAD
 				DEVELOPMENT_TEAM = 5KFV798J3S;
+=======
+				DEVELOPMENT_TEAM = 69F5355JYF;
+>>>>>>> bibi
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MailLinkApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -495,7 +502,7 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mail--link.cmc";
 				PRODUCT_NAME = MailLinkApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -509,6 +516,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MailLinkApp/MailLinkApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5KFV798J3S;
 				INFOPLIST_FILE = MailLinkApp/Info.plist;
@@ -520,7 +528,7 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mail--link.cmc";
 				PRODUCT_NAME = MailLinkApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

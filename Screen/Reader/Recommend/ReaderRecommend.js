@@ -10,6 +10,7 @@ import {
   FlatList,
   Dimensions,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
 
@@ -77,7 +78,7 @@ const ReaderRecommend = () => {
 
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity onPress={onPressAuthor}>
+      <TouchableWithoutFeedback onPress={onPressAuthor}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View style={styles.itemView}>
             <Text style={styles.itemName}>{item.name}</Text>
@@ -90,7 +91,9 @@ const ReaderRecommend = () => {
                     ...styles.itemCategoryText,
                     color: '#0021C6',
                   }}>
-                  <Text style={{color: '#4562F1'}}>♥&nbsp;</Text>
+                  <Text style={{...styles.itemCategoryText, color: '#4562F1'}}>
+                    ♥&nbsp;
+                  </Text>
                   {item.repBranch}
                 </Text>
               </View>
@@ -104,7 +107,11 @@ const ReaderRecommend = () => {
                     ...styles.itemCategoryText,
                     color: colorCategory[item.repVive].font,
                   }}>
-                  <Text style={{color: colorCategory[item.repVive].heart}}>
+                  <Text
+                    style={{
+                      ...styles.itemCategoryText,
+                      color: colorCategory[item.repVive].heart,
+                    }}>
                     ♥&nbsp;
                   </Text>
                   {item.repVive}
@@ -116,7 +123,7 @@ const ReaderRecommend = () => {
             style={{width: 56, height: 56, position: 'absolute', top: 10}}
             source={AuthorRecommend}></Image>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -135,6 +142,7 @@ const ReaderRecommend = () => {
                 fontFamily: 'NotoSansKR-Bold',
                 fontSize: 20,
                 color: '#3C3C3C',
+                includeFontPadding: false,
               }}>
               영이
             </Text>
@@ -142,6 +150,11 @@ const ReaderRecommend = () => {
           </Text>
           <Text style={styles.titleText}>오늘의 추천작가입니다.</Text>
           <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ReaderStacks', {
+                screen: 'ReaderProfileSearch',
+              })
+            }
             style={{position: 'absolute', right: 20, bottom: 5}}>
             <Image
               style={{
@@ -186,6 +199,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   titleView: {
     paddingHorizontal: 20,
@@ -194,6 +208,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Light',
     fontSize: 20,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   recView: {
     paddingTop: 5,
@@ -204,6 +219,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000000',
     shadowOpacity: 0.08,
     shadowRadius: 9,
+    elevation: 4,
     borderRadius: 15,
     backgroundColor: '#fff',
     marginHorizontal: 5,
@@ -217,17 +233,20 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   itemAuthor: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 10,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   itemIntro: {
     marginTop: 5,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 11,
     color: '#828282',
+    includeFontPadding: false,
   },
   testPageView: {
     paddingBottom: 24,
@@ -245,6 +264,7 @@ const styles = StyleSheet.create({
   itemCategoryText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
+    includeFontPadding: false,
   },
 });
 
