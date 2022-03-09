@@ -21,11 +21,8 @@ import SearchProfile from '../../../assets/images/SearchProfile.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
-<<<<<<< HEAD
-=======
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
 
->>>>>>> bibi
 import ReaderProfileModal from './ReaderProfileModal';
 
 const ReaderProfile = () => {

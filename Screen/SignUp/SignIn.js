@@ -109,6 +109,9 @@ const SignIn = () => {
           <TouchableOpacity onPress={getSetProfile}>
             <Image style={{width: 312, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
+          <TouchableOpacity onPress={signInWithKakao}>
+            <Image style={{width: 200, height: 52}} source={KakaoLogin} />
+          </TouchableOpacity>
           {/* <TouchableOpacity onPress={getProfile}>
             <Text>프로필조회</Text>
           </TouchableOpacity> */}
