@@ -166,7 +166,12 @@ const SetProfile = () => {
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={onPressEditImage}>
           <Image
-            style={{width: 61.07, height: 61.07, top: -45, left: 69}}
+            style={{
+              width: 40.07,
+              height: 40.07,
+              marginTop: -110 + 72.17,
+              left: 72,
+            }}
             source={ImageEditProfile}
           />
         </TouchableWithoutFeedback>
