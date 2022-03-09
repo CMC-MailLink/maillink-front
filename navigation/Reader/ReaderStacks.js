@@ -5,8 +5,15 @@ import ReaderMailSearch from '../../Screen/Reader/Mail/ReaderMailSearch';
 import ReaderReading from '../../Screen/Reader/Reading/ReaderReading';
 import InstaShare from '../../Screen/InstaShare';
 import ReaderProfileSearch from '../../Screen/Reader/Profile/ReaderProfileSearch';
-import Setting from '../../Screen/Setting';
+import Setting from '../../Screen/Setting/Setting';
+import SettingAlarm from '../../Screen/Setting/SettingAlarm';
+import SettingAccount from '../../Screen/Setting/SettingAccount';
 import Message from '../../Screen/Message';
+import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
+import OnBoarding from '../../Screen/OnBoarding';
+import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
+import ReaderAnalyzeOne from '../../Screen/Reader/Analyze/ReaderAnalyzeOne';
+import MessageWrite from '../../Screen/MessageWrite';
 
 const ReaderStack = createNativeStackNavigator();
 
@@ -53,8 +60,43 @@ const ReaderStacks = () => (
       options={{headerShown: false}}
     />
     <ReaderStack.Screen
+      name="SettingAlarm"
+      component={SettingAlarm}
+      options={{headerShown: false}}
+    />
+    <ReaderStack.Screen
+      name="SettingAccount"
+      component={SettingAccount}
+      options={{headerShown: false}}
+    />
+    <ReaderStack.Screen
       name="Message"
       component={Message}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="MessageWrite"
+      component={MessageWrite}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAuthorProfile"
+      component={ReaderAuthorProfile}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="OnBoarding"
+      component={OnBoarding}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAnalyze"
+      component={ReaderAnalyze}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAnalyzeOne"
+      component={ReaderAnalyzeOne}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

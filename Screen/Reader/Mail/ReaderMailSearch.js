@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   View,
@@ -9,21 +9,25 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+  Dimensions,
+  Platform,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BackMail from '../../../assets/images/BackMail.png';
-import SearchMail from '../../../assets/images/SearchMail.png';
+import SearchMail2 from '../../../assets/images/SearchMail2.png';
 import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
-import NoDataMail from '../../../assets/images/NoDataMail.png';
+import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
+import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 
+const STORAGE_KEY = '@recentDataReaderMailSearch';
+
 const ReaderMailSearch = () => {
-  const [recentSearch, setRecentSearch] = useState([
-    '이작가',
-    '별 헤는 밤',
-    '파란 하늘',
-  ]);
+  const [recentSearch, setRecentSearch] = useState([]);
   const [mail, setMail] = useState([
     {
       key: '0',
@@ -53,29 +57,83 @@ const ReaderMailSearch = () => {
       body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
       date: '21. 02. 10',
     },
+    {
+      key: '4',
+      author: '이작가',
+      title: '청춘예찬',
+      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
+      date: '21. 02. 11',
+    },
+    {
+      key: '5',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+    },
+    {
+      key: '6',
+      author: '이작가',
+      title: '청춘예찬',
+      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
+      date: '21. 02. 11',
+    },
+    {
+      key: '7',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+    },
   ]);
-  const [delIndex, setDelIndex] = useState(null);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(null);
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getRecentSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (query === '') setSubmit(false);
+  }, [query]);
+
+  useEffect(() => {
+    async function addRecentSearch() {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
+      } catch (e) {}
+    }
+    addRecentSearch();
+  }, [recentSearch]);
+
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressRecentSearch = data => {
+
+  const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
     var res = mail.filter(
       item => item.author.includes(data) || item.title.includes(data),
     );
     setResult([...res]);
+
+    var temp = recentSearch;
+    temp.splice(index, 1);
+    temp.unshift(data);
+    setRecentSearch([...temp]);
   };
   const onPressDelete = (data, index) => {
     var temp = recentSearch;
     temp.splice(index, 1);
     setRecentSearch([...temp]);
   };
+
   const onChangeText = text => setQuery(text);
+
   const onSubmit = () => {
     if (query === '') {
       return;
@@ -85,7 +143,18 @@ const ReaderMailSearch = () => {
       item => item.author.includes(query) || item.title.includes(query),
     );
     setResult([...res]);
+
+    var temp = recentSearch;
+    if (temp.length) {
+      if (temp.length > 9) temp.pop();
+      temp.unshift(query);
+    } else {
+      temp = [query];
+      setRecentSearch([query]);
+    }
+    setRecentSearch([...temp]);
   };
+
   const onPressMailItem = data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
@@ -93,12 +162,21 @@ const ReaderMailSearch = () => {
     });
   };
 
-  useEffect(() => {
-    if (query === '') setSubmit(false);
-  }, [query]);
+  const getRecentSearch = async () => {
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEY);
+      console.log('getRecentSearch : ', JSON.parse(value));
+      JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
+    } catch (e) {
+      //error
+    }
+  };
 
   return (
     <View style={{flex: 1}}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+      {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
         <Text style={styles.headerText}>메일 검색</Text>
         <View style={styles.headerSearchContainer}>
@@ -121,10 +199,10 @@ const ReaderMailSearch = () => {
                 <View style={styles.searchView}>
                   <Image
                     style={{
-                      width: 22,
-                      height: 22,
+                      width: 19,
+                      height: 20,
                     }}
-                    source={SearchMail}
+                    source={SearchMail2}
                   />
                 </View>
               </TouchableWithoutFeedback>
@@ -132,112 +210,114 @@ const ReaderMailSearch = () => {
           </View>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView style={{height: '100%'}} showsVerticalScrollIndicator={false}>
         {submit ? (
-          <View>
+          <View
+            style={{
+              paddingBottom: 50,
+              minHeight:
+                Platform.OS == 'ios'
+                  ? Dimensions.get('window').height - 335
+                  : Dimensions.get('window').height - 235,
+            }}>
             <View style={styles.titleView}>
               <Text style={styles.titleText}>메일에서 찾은 결과</Text>
             </View>
             {result.length ? (
               result.map((data, index) => (
                 <TouchableWithoutFeedback
-                  onPress={e => onPressMailItem(data)}
-                  key={index}>
-                  <View
-                    style={{
-                      height: 114,
-                      backgroundColor: '#FFF',
-                      paddingTop: 14,
-                      borderBottomColor: '#EBEBEB',
-                      borderBottomWidth: 1,
-                    }}>
-                    <Image
-                      style={{
-                        position: 'absolute',
-                        width: 42,
-                        height: 42,
-                        left: 36,
-                        top: 14,
-                      }}
-                      source={AuthorProfileImage}
-                    />
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          color: '#4562F1',
-                          fontFamily: 'NotoSansKR-Bold',
-                          fontSize: 16,
-                          left: 93,
-                        }}>
-                        {data.author}
-                      </Text>
-                      <Text
+                  key={index}
+                  onPress={e => onPressMailItem(data)}>
+                  <View style={styles.itemView}>
+                    <View style={styles.itemTextView}>
+                      <Image
                         style={{
                           position: 'absolute',
-                          color: '#BEBEBE',
-                          fontFamily: 'NotoSansKR-Thin',
-                          fontSize: 12,
-                          right: 20,
+                          width: 42,
+                          height: 42,
+                        }}
+                        source={AuthorProfileImage}
+                      />
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
                         }}>
-                        {data.date}
-                      </Text>
+                        <Text style={styles.itemAuthorText}>{data.author}</Text>
+                        <Text style={styles.itemDateText}>{data.date}</Text>
+                      </View>
+                      <Text style={styles.itemTitleText}>{data.title}</Text>
+                      <Text style={styles.itemBodyText}>{data.body}</Text>
                     </View>
-                    <Text
-                      style={{
-                        color: '#000',
-                        fontFamily: 'NotoSansKR-Bold',
-                        fontSize: 14,
-                        left: 93,
-                      }}>
-                      {data.title}
-                    </Text>
-                    <Text
-                      style={{
-                        color: '#828282',
-                        fontFamily: 'NotoSansKR-Thin',
-                        fontSize: 14,
-                        left: 93,
-                        width: 230,
-                      }}>
-                      {data.body}
-                    </Text>
                   </View>
                 </TouchableWithoutFeedback>
               ))
             ) : (
-              <Image
-                style={{width: 390, height: 78, top: 244}}
-                source={NoDataMail}></Image>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{
+                    width: 390,
+                    height: 78,
+                  }}
+                  source={NoSearchDataMail}></Image>
+              </View>
             )}
           </View>
         ) : (
-          <View>
+          <View
+            style={{
+              minHeight:
+                Platform.OS == 'ios'
+                  ? Dimensions.get('window').height - 335
+                  : Dimensions.get('window').height - 235,
+            }}>
             <View style={styles.titleView}>
               <Text style={styles.titleText}>최근 검색</Text>
             </View>
-            {recentSearch.map((data, index) => (
-              <TouchableOpacity
-                onPress={e => onPressRecentSearch(data)}
-                key={index}>
-                <View style={styles.recentSearch}>
-                  <Image
-                    style={{width: 35, height: 35, left: 23}}
-                    source={RecentSearchMail}></Image>
-                  <Text style={styles.recentSearchText}>{data}</Text>
-                  <TouchableWithoutFeedback
-                    onPress={e => onPressDelete(data, index)}>
+            {recentSearch.length ? (
+              recentSearch.map((data, index) => (
+                <TouchableOpacity
+                  onPress={e => onPressRecentSearch(data, index)}
+                  key={index}>
+                  <View style={styles.recentSearch}>
                     <Image
-                      style={{
-                        position: 'absolute',
-                        width: 12,
-                        height: 12,
-                        right: 28,
-                      }}
-                      source={DeleteMail}></Image>
-                  </TouchableWithoutFeedback>
-                </View>
-              </TouchableOpacity>
-            ))}
+                      style={{width: 35, height: 35}}
+                      source={RecentSearchMail}></Image>
+                    <Text style={styles.recentSearchText}>{data}</Text>
+                    <TouchableWithoutFeedback
+                      onPress={e => onPressDelete(data, index)}>
+                      <Image
+                        style={{
+                          position: 'absolute',
+                          width: 12,
+                          height: 12,
+                          right: 28,
+                        }}
+                        source={DeleteMail}></Image>
+                    </TouchableWithoutFeedback>
+                  </View>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{
+                    width: 390,
+                    height: 78,
+                  }}
+                  source={NoRecentDataMail}></Image>
+              </View>
+            )}
           </View>
         )}
       </ScrollView>
@@ -257,6 +337,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#fff',
+    includeFontPadding: false,
   },
   headerBack: {
     height: 150 - 48,
@@ -291,6 +372,7 @@ const styles = StyleSheet.create({
   searchTextInput: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 15,
+    includeFontPadding: false,
   },
   titleView: {
     height: 44,
@@ -302,18 +384,64 @@ const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 14,
-    color: '#000',
+    color: '#3C3C3C',
+    includeFontPadding: false,
   },
   recentSearch: {
-    height: 50,
+    paddingVertical: 8,
+    paddingHorizontal: 23,
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
   },
   recentSearchText: {
-    marginLeft: 40,
+    marginLeft: 16,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
+  itemView: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: 12,
+    paddingBottom: 10,
+    paddingLeft: 36,
+    paddingRight: 20,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    backgroundColor: '#FFF',
+  },
+  itemTextView: {
+    width: '100%',
+    paddingLeft: 57,
+  },
+  itemAuthorText: {
+    color: '#4562F1',
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    includeFontPadding: false,
+    marginBottom: 2,
+  },
+  itemDateText: {
+    color: '#BEBEBE',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 12,
+    includeFontPadding: false,
+  },
+  itemTitleText: {
+    color: '#3C3C3C',
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 14,
+    marginBottom: 4,
+    includeFontPadding: false,
+  },
+  itemBodyText: {
+    color: '#828282',
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 14,
+    width: 230,
+    includeFontPadding: false,
   },
 });
 

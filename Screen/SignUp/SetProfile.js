@@ -9,12 +9,13 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  ScrollView,
   Modal,
 } from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
-import ProfileBasicImage from '../../assets/images/ProfileBasicImage.png';
+import DefaultProfile from '../../assets/images/DefaultProfile.png';
+import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
 import {useNavigation} from '@react-navigation/native';
 import SuccessModal from './SuccessModal';
@@ -25,8 +26,9 @@ const SetProfile = () => {
   const [checkMessage, onChangeCheckMessage] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmOverlap, setConfirmOverlap] = useState(false);
-  const [nameData, onChangeNameData] = useState('영이당당당당');
   const [modalVisible, setModalVisible] = useState(false);
+  const [imageUri, setImageUri] = useState('');
+  const [nameData, onChangeNameData] = useState('영이당당당당');
 
   const onPressBack = () => {
     navigation.goBack();
@@ -71,13 +73,35 @@ const SetProfile = () => {
       style: 'cancel',
     });
   };
-  const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'SuccessModal',
-    });
-  };
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const onPressEditImage = async () => {
+    const options = {
+      storageOptions: {
+        path: 'images',
+        mediaType: 'photo',
+        maxWidth: 115.47,
+        maxHeight: 112.24,
+      },
+      includeBase64: true,
+    };
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+        };
+        setImageUri(source);
+      }
+    });
   };
 
   useEffect(() => {
@@ -108,6 +132,7 @@ const SetProfile = () => {
           onPressModalConfirm={onPressModalConfirm}
         />
       </Modal>
+
       {/* upperHeader */}
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -118,85 +143,95 @@ const SetProfile = () => {
       </View>
 
       {/* mainHeader */}
-      <ScrollView>
-        <Image
-          style={{width: 39.05, height: 30.44, top: 25, left: 25}}
-          source={SignUpStep2}
-        />
-        <View style={{top: 20 + 15.22, left: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.NameTitle}>프로필</Text>
-            <Text style={styles.IntroTitle}>을</Text>
-          </View>
-          <Text style={styles.IntroTitle}>설정해주세요.</Text>
-          <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
+      <Image
+        style={{width: 48.18, height: 32.4, top: 25, left: 25}}
+        source={SignUpStep2}
+      />
+      <View style={{top: 20 + 15.22, left: 20}}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.NameTitle}>프로필</Text>
+          <Text style={styles.IntroTitle}>을</Text>
         </View>
+        <Text style={styles.IntroTitle}>설정해주세요.</Text>
+        <Text style={styles.IntroSub}>추후에 변경 가능합니다.</Text>
+      </View>
 
-        {/* Body: ProfileImage */}
-        <View style={{top: 111.76, left: 137.27}}>
+      {/* Body: ProfileImage */}
+      <View style={{top: 32.76 + 75.76, left: 137.27}}>
+        <TouchableWithoutFeedback onPress={onPressEditImage}>
           <Image
-            style={{width: 115.47, height: 112.24}}
-            source={ProfileBasicImage}
+            style={{width: 115.47, height: 112.24, borderRadius: 90}}
+            source={imageUri == '' ? DefaultProfile : imageUri}
           />
-        </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={onPressEditImage}>
+          <Image
+            style={{width: 61.07, height: 61.07, top: -45, left: 69}}
+            source={ImageEditProfile}
+          />
+        </TouchableWithoutFeedback>
+      </View>
 
-        {/* Body: ProfileName */}
-        <View style={{top: 38 + 59, left: 137.27}}>
-          <TextInput
-            style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
-            onChangeText={onChangeName}
-            value={name}
-            placeholder="닉네임을 입력해주세요."
-          />
-          <TouchableWithoutFeedback onPress={onPressErase}>
-            <Image style={styles.eraseButton} source={EraseNickname} />
-          </TouchableWithoutFeedback>
-          <TouchableOpacity
-            onPress={onCheckName}
-            style={!name ? styles.confirmBasic : styles.confirmChange}>
+      {/* Body: ProfileName */}
+      <View style={{top: 38 + 59, left: 137.27}}>
+        <TextInput
+          style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
+          onChangeText={onChangeName}
+          value={name}
+          placeholder="닉네임을 입력해주세요."
+        />
+        <TouchableWithoutFeedback onPress={onPressErase}>
+          <Image style={styles.eraseButton} source={EraseNickname} />
+        </TouchableWithoutFeedback>
+        <TouchableOpacity
+          onPress={onCheckName}
+          style={!name ? styles.confirmBasic : styles.confirmChange}>
+          <Text
+            style={!name ? styles.confirmBasicText : styles.confirmChangeText}>
+            중복 확인
+          </Text>
+        </TouchableOpacity>
+
+        {/* Body: NameBorder */}
+        <View
+          style={
+            (name.length > 6 || confirmOverlap) && name !== ''
+              ? styles.bodyNameBorderChange
+              : styles.bodyNameBorder
+          }
+        />
+      </View>
+
+      {/* Body: NameCheck */}
+      <View style={{left: 45, top: 107}}>
+        <Text style={styles.checkMessage}>{checkMessage}</Text>
+      </View>
+
+      {/* Footer: Button */}
+      <View style={{left: 22, bottom: -245 + 64 + 95}}>
+        <TouchableOpacity
+          onPress={
+            confirmSuccess
+              ? () => setModalVisible(true)
+              : !name
+              ? goAlertName
+              : null
+          }
+          style={
+            confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
+          }>
+          <View>
             <Text
               style={
-                !name ? styles.confirmBasicText : styles.confirmChangeText
+                confirmSuccess && name
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
               }>
-              중복 확인
+              완료
             </Text>
-          </TouchableOpacity>
-
-          {/* Body: NameBorder */}
-          <View
-            style={
-              (name.length > 6 || confirmOverlap) && name !== ''
-                ? styles.bodyNameBorderChange
-                : styles.bodyNameBorder
-            }
-          />
-        </View>
-
-        {/* Body: NameCheck */}
-        <View style={{left: 45, top: 107}}>
-          <Text style={styles.checkMessage}>{checkMessage}</Text>
-        </View>
-
-        {/* footer: Button */}
-        <View style={{left: 22, bottom: -245 + 99}}>
-          <TouchableOpacity
-            onPress={confirmSuccess ? goNextScreen : !name ? goAlertName : null}
-            style={
-              confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
-            }>
-            <View>
-              <Text
-                style={
-                  confirmSuccess && name
-                    ? styles.buttonAbleText
-                    : styles.buttonDisableText
-                }>
-                완료
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
