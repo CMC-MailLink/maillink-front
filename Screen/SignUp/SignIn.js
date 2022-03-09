@@ -26,7 +26,7 @@ const SignIn = () => {
 
   const getSetProfile = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'AddWebsite',
+      screen: 'SetProfile',
     });
   };
 
