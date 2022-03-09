@@ -144,7 +144,9 @@ const AuthorProfileEdit = () => {
         temp[index].rep = false;
       } else {
         temp.map(data => {
-          if (data.rep) data.rep = false;
+          if (data.rep) {
+            data.rep = false;
+          }
         });
         temp[index].rep = true;
       }
@@ -158,9 +160,7 @@ const AuthorProfileEdit = () => {
     return (
       <Menu style={styles.menuView}>
         <MenuTrigger style={styles.menuTriggerView}>
-          <Image
-            style={{width: 16, height: 16}}
-            source={InfoAuthorProfile}></Image>
+          <Image style={{width: 16, height: 16}} source={InfoAuthorProfile} />
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           <MenuOption>
@@ -222,12 +222,14 @@ const AuthorProfileEdit = () => {
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 58.17, height: 58.17, borderRadius: 90}}
-              source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+              source={imageUri == '' ? DefaultProfile : imageUri}
+            />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 20.82, height: 20.82, top: -20.5, left: 20.18}}
-              source={ImageEditProfile}></Image>
+              source={ImageEditProfile}
+            />
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.titleView}>
@@ -254,11 +256,10 @@ const AuthorProfileEdit = () => {
                 setConfirm(0);
               }}
               onBlur={() => setOnFocus(0)}
-              blurOnSubmit={true}></TextInput>
+              blurOnSubmit={true}
+            />
             <TouchableOpacity>
-              <Image
-                style={{width: 12, height: 12}}
-                source={ClearTextInput}></Image>
+              <Image style={{width: 12, height: 12}} source={ClearTextInput} />
             </TouchableOpacity>
             <TouchableOpacity onPress={confirmName}>
               <View style={styles.confirmView}>
@@ -280,7 +281,8 @@ const AuthorProfileEdit = () => {
               multiline={true}
               maxLength={160}
               value={editIntro}
-              onChangeText={setEditIntro}></TextInput>
+              onChangeText={setEditIntro}
+            />
           </View>
           <Text style={styles.introCountText}>
             <Text style={{color: '#4562F1'}}>{editIntro.length}</Text> / 160자
@@ -294,7 +296,7 @@ const AuthorProfileEdit = () => {
             }}>
             <Text style={styles.titleText}>갈래</Text>
             <TouchableOpacity>
-              <RenderInfoItem></RenderInfoItem>
+              <RenderInfoItem />
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', marginTop: 12, marginBottom: 32}}>
@@ -334,7 +336,7 @@ const AuthorProfileEdit = () => {
           <Text style={styles.titleText}>분위기</Text>
           <View style={{flexDirection: 'row', marginTop: 12, marginBottom: 10}}>
             {vive.map((item, index) => {
-              if (index < 4)
+              if (index < 4) {
                 return (
                   <TouchableOpacity
                     key={index}
@@ -371,11 +373,12 @@ const AuthorProfileEdit = () => {
                     </View>
                   </TouchableOpacity>
                 );
+              }
             })}
           </View>
           <View style={{flexDirection: 'row'}}>
             {vive.map((item, index) => {
-              if (index >= 4)
+              if (index >= 4) {
                 return (
                   <TouchableOpacity
                     key={index}
@@ -412,6 +415,7 @@ const AuthorProfileEdit = () => {
                     </View>
                   </TouchableOpacity>
                 );
+              }
             })}
           </View>
         </View>
@@ -426,41 +430,49 @@ const AuthorProfileEdit = () => {
             <View style={styles.websiteView}>
               <Image
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
-                source={FacebookNone}></Image>
+                source={FacebookNone}
+              />
               <Text style={styles.websiteText}>facebook.com/</Text>
               <TextInput
                 style={styles.websiteTextInput}
                 value={editFacebook}
-                onChangeText={setEditFacebook}></TextInput>
+                onChangeText={setEditFacebook}
+              />
             </View>
             <View style={styles.websiteView}>
               <Image
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
-                source={TwitterNone}></Image>
+                source={TwitterNone}
+              />
               <Text style={styles.websiteText}>twitter.com/</Text>
               <TextInput
                 style={styles.websiteTextInput}
                 value={editTwitter}
-                onChangeText={setEditTwitter}></TextInput>
+                onChangeText={setEditTwitter}
+              />
             </View>
             <View style={styles.websiteView}>
               <Image
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
-                source={InstagramNone}></Image>
+                source={InstagramNone}
+              />
               <Text style={styles.websiteText}>instagram.com/</Text>
               <TextInput
                 style={styles.websiteTextInput}
                 value={editInstagram}
-                onChangeText={setEditInstagram}></TextInput>
+                onChangeText={setEditInstagram}
+              />
             </View>
             <View style={styles.websiteView}>
               <Image
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
-                source={URLNone}></Image>
+                source={URLNone}
+              />
               <TextInput
                 style={styles.websiteTextInput}
                 value={editURL}
-                onChangeText={setEditURL}></TextInput>
+                onChangeText={setEditURL}
+              />
             </View>
           </View>
         </View>

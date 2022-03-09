@@ -9,10 +9,12 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Modal,
 } from 'react-native';
 import SignUpStep1 from '../../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import {useNavigation} from '@react-navigation/native';
+import AuthorSuccessModal from './AuthorSuccessModal';
 
 const ProfileIntro = () => {
   const navigation = useNavigation();
@@ -20,16 +22,13 @@ const ProfileIntro = () => {
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [textCount, setTextCount] = useState(0);
   const [enterCount, setenterCount] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
+  };
   const onPressBack = () => {
     navigation.goBack();
-  };
-
-  const goAlertIntroText = () => {
-    Alert.alert('소개를 입력하세요.', {
-      text: '확인',
-      style: 'cancel',
-    });
   };
 
   const goNextScreen = () => {
@@ -53,6 +52,19 @@ const ProfileIntro = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <AuthorSuccessModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          onPressModalConfirm={onPressModalConfirm}
+        />
+      </Modal>
 
       {/* upperHeader */}
       <View style={styles.headerView}>
@@ -96,7 +108,8 @@ const ProfileIntro = () => {
       {/* footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity
-          onPress={!introText ? goAlertIntroText : goNextScreen}
+          onPress={goNextScreen}
+          disabled={confirmSuccess ? false : true}
           style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
           <View>
             <Text
@@ -111,7 +124,7 @@ const ProfileIntro = () => {
         </TouchableOpacity>
 
         {/* footer: Pass*/}
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={onPressModalConfirm}>
           <View>
             <Text style={styles.footerPassText}>다음에 할께요</Text>
           </View>

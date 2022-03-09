@@ -31,7 +31,7 @@ const NoticeModal = ({
               <Text style={styles.modalConfirm}>링크복사</Text>
             </View>
           </CopyToClipboard>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onPressModalConfirm2}>
             <View>
               <Text style={styles.modalConfirm2}>확인</Text>
             </View>

@@ -7,13 +7,18 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Modal,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import SignUpAuthorProfile from '../../../assets/images/SignUpAuthorProfile.png';
-
+import AuthorSuccessModal from './AuthorSuccessModal';
 const Profile = () => {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
+  };
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'ProfileIntro',
@@ -23,6 +28,19 @@ const Profile = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <AuthorSuccessModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          onPressModalConfirm={onPressModalConfirm}
+        />
+      </Modal>
 
       {/* mainHeader */}
       <Text style={styles.IntroSub}>
@@ -50,7 +68,7 @@ const Profile = () => {
           </View>
         </TouchableOpacity>
         {/* footer: Pass*/}
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={onPressModalConfirm}>
           <View>
             <Text style={styles.footerPassText}>다음에 할께요</Text>
           </View>
