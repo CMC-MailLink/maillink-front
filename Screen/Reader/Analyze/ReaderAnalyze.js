@@ -72,11 +72,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BEBEBE',
     marginBottom: 5,
+    includeFontPadding: false,
   },
   headerText: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   bottomView: {
     width: '100%',
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFF',
+    includeFontPadding: false,
   },
   nextText: {
     fontFamily: 'NotoSansKR-Medium',
@@ -103,6 +106,7 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     textAlign: 'center',
     textDecorationLine: 'underline',
+    includeFontPadding: false,
   },
 });
 export default ReaderAnalyze;

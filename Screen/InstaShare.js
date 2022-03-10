@@ -1,19 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  Linking,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {captureRef} from 'react-native-view-shot';
 import Share from 'react-native-share';
 
 const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
   console.log(params);
   const viewRef = useRef();
-  const [showInstagramStory, setShowInstagramStory] = useState(false);
   const shareDummyImage = async () => {
     try {
       const uri = await captureRef(viewRef, {
@@ -38,8 +30,8 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
         stickerImage: uri,
         // method: Share.InstagramStories.SHARE_STICKER_IMAGE,
         social: Share.Social.INSTAGRAM_STORIES,
-        backgroundBottomColor: 'fff',
-        backgroundTopColor: 'fff',
+        backgroundBottomColor: '#FF9B9B',
+        backgroundTopColor: '#4562F1',
       });
     } catch (err) {
       console.error(err);
