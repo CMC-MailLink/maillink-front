@@ -21,11 +21,7 @@ import StarMail2 from '../../../assets/images/StarMail2.png';
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
-  const url = Platform.select({
-    ios: 'http://localhost:3000/readingeditor',
-    android: 'http://10.0.2.2:3000/readingeditor',
-  });
-
+  const url = 'http://www.mail-link.co.kr/readingEditor';
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };
@@ -33,18 +29,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
-  //instashare
-  // const onSelectionChange = (
-  //   eventType,
-  //   content,
-  //   selectionStart,
-  //   selectionEnd,
-  // ) => {
-  //   navigation.navigate('ReaderStacks', {
-  //     screen: 'InstaShare',
-  //     params: content,
-  //   });
-  // };
 
   return (
     <View style={{flex: 1}}>
@@ -107,14 +91,17 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         // }}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
-        menuItems={[{label: '공유', key: 'share'}]}
+        menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
           console.log(selectedText);
+          navigation.navigate('ReaderStacks', {
+            screen: 'InstaShare',
+            params: selectedText,
+          });
         }}
-        textInteractionEnabled={false}
       />
     </View>
   );

@@ -20,6 +20,7 @@ import AppleLogin from '../../assets/images/AppleLogin.png';
 import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
   const onPressNaverLogin = () => {

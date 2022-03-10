@@ -22,10 +22,7 @@ const AuthorEditor = () => {
     navigation.goBack();
   };
 
-  const url = Platform.select({
-    ios: 'http://localhost:3000/quileditor',
-    android: 'http://10.0.2.2:3000/quileditor',
-  });
+  const url = 'http://www.mail-link.co.kr/quilEditor';
 
   //   const INJECTED_JAVASCRIPT = `(function() {
   //     console.log(document.getElementsByClassName('ql-editor')[0]);
@@ -89,15 +86,8 @@ const AuthorEditor = () => {
         placeholder="제목을 입력해주세요."
         placeholderTextColor="#BFBFBF"></TextInput>
       <WebView
-        hideKeyboardAccessoryView
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
-        menuItems={[{label: '공유', key: 'share'}]}
-        onCustomMenuSelection={webViewEvent => {
-          const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
-          const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
-          const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
-        }}
         scrollEnabled={true}
         // injectedJavaScript={INJECTED_JAVASCRIPT}
       />
