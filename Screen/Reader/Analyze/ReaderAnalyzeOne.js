@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -23,9 +24,9 @@ const ReaderAnalyzeOne = () => {
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="dark-content" />
-      <Image
+      <FastImage
         style={{position: 'absolute', width: '100%', height: '100%'}}
-        source={AnalyzeOne}></Image>
+        source={AnalyzeOne}></FastImage>
       {Platform.OS === 'ios' ? (
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View

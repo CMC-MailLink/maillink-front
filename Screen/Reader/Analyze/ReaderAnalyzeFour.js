@@ -9,6 +9,7 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
 import BackMail from '../../../assets/images/BackMail.png';
@@ -22,13 +23,13 @@ const ReaderAnalyzeFour = () => {
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="light-content" />
-      <Image
+      <FastImage
         style={{
           width: '100%',
           height: '100%',
           position: 'absolute',
         }}
-        source={AnalyzeFour}></Image>
+        source={AnalyzeFour}></FastImage>
       {Platform.OS === 'ios' ? (
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View

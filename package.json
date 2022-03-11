@@ -25,6 +25,7 @@
     "react-copy-to-clipboard": "^5.0.4",
     "react-native": "0.67.2",
     "react-native-check-box": "^2.1.7",
+    "react-native-fast-image": "^8.5.11",
     "react-native-floating-action": "^1.22.0",
     "react-native-global-props": "^1.1.5",
     "react-native-image-modal": "^2.0.4",

@@ -9,6 +9,7 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
 import BackMail from '../../../assets/images/BackMail.png';
@@ -25,13 +26,13 @@ const ReaderAnalyzeSeven = () => {
     <View style={{flex: 1}}>
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#00092B'}}> */}
       <StatusBar barStyle="light-content" />
-      <Image
+      <FastImage
         style={{
           width: '100%',
           height: '100%',
           position: 'absolute',
         }}
-        source={AnalyzeSix}></Image>
+        source={AnalyzeSix}></FastImage>
       {Platform.OS === 'ios' ? (
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View
@@ -61,7 +62,7 @@ const ReaderAnalyzeSeven = () => {
             params: '서정',
           })
         }>
-        <Image
+        <FastImage
           style={{
             width: 222.87,
             height: 354.47,
@@ -69,7 +70,7 @@ const ReaderAnalyzeSeven = () => {
             right: 0,
             top: 290,
           }}
-          source={AnalyzeSeven_1}></Image>
+          source={AnalyzeSeven_1}></FastImage>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
         onPress={() =>
@@ -78,7 +79,7 @@ const ReaderAnalyzeSeven = () => {
             params: '잔잔',
           })
         }>
-        <Image
+        <FastImage
           style={{
             width: 363.93,
             height: 293.8,
@@ -86,7 +87,7 @@ const ReaderAnalyzeSeven = () => {
             left: 26,
             bottom: 20,
           }}
-          source={AnalyzeSeven_2}></Image>
+          source={AnalyzeSeven_2}></FastImage>
       </TouchableWithoutFeedback>
     </View>
   );

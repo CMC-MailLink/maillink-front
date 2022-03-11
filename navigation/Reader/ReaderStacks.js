@@ -26,11 +26,6 @@ import ReaderAnalyzeResult from '../../Screen/Reader/Analyze/ReaderAnalyzeResult
 import MessageWrite from '../../Screen/MessageWrite';
 
 const ReaderStack = createNativeStackNavigator();
-const forFade = ({current}) => ({
-  cardStyle: {
-    opacity: current.progress,
-  },
-});
 const ReaderStacks = () => (
   <ReaderStack.Navigator
     sceneContainerStyle={{
@@ -39,7 +34,6 @@ const ReaderStacks = () => (
     screenOptions={{
       headerBackTitleVisible: false,
       headerShadowVisible: false,
-      presentation: 'card',
       headerShown: false,
     }}>
     {/* <Stack.Screen name="Home" component={Home} options={{headerShown: false}} /> */}
@@ -106,7 +100,7 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="ReaderAnalyze"
       component={ReaderAnalyze}
-      options={{headerTitle: ''}}
+      options={{headerTitle: '', presentation: 'fullScreenModal'}}
     />
     <ReaderStack.Screen
       name="ReaderAnalyzeOne"

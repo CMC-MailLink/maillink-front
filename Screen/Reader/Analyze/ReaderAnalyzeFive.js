@@ -9,6 +9,7 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
 import BackMail from '../../../assets/images/BackMail.png';
@@ -23,13 +24,13 @@ const ReaderAnalyzeFive = () => {
     <View style={{flex: 1}}>
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#00092B'}}> */}
       <StatusBar barStyle="light-content" />
-      <Image
+      <FastImage
         style={{
           width: '100%',
           height: '100%',
           position: 'absolute',
         }}
-        source={AnalyzeFive}></Image>
+        source={AnalyzeFive}></FastImage>
       <TouchableWithoutFeedback onPress={onPressBack}>
         <View
           style={{
