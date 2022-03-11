@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   KakaoOAuthToken,
@@ -12,7 +19,9 @@ import {
 import {
   AppleButton,
   appleAuth,
+  appleAuthAndroid,
 } from '@invertase/react-native-apple-authentication';
+import {v4 as uuid} from 'uuid';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
@@ -52,7 +61,15 @@ const SignIn = () => {
     console.log(result2);
   };
 
-  const onAppleButtonPress = async () => {
+  const onAppleButtonPress = () => {
+    if (Platform.OS === 'ios') {
+      onAppleButtonPressIos();
+    } else {
+      onAppleButtonPressAndroid();
+    }
+  };
+
+  const onAppleButtonPressIos = async () => {
     try {
       // performs login request
       const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -78,6 +95,40 @@ const SignIn = () => {
       }
     }
   };
+
+  async function onAppleButtonPressAndroid() {
+    // Generate secure, random values for state and nonce
+    const rawNonce = uuid();
+    const state = uuid();
+
+    // Configure the request
+    appleAuthAndroid.configure({
+      // The Service ID you registered with Apple
+      clientId: 'com.example.client-android',
+
+      // Return URL added to your Apple dev console. We intercept this redirect, but it must still match
+      // the URL you provided to Apple. It can be an empty route on your backend as it's never called.
+      redirectUri: 'https://example.com/auth/callback',
+
+      // The type of response requested - code, id_token, or both.
+      responseType: appleAuthAndroid.ResponseType.ALL,
+
+      // The amount of user information requested from Apple.
+      scope: appleAuthAndroid.Scope.ALL,
+
+      // Random nonce value that will be SHA256 hashed before sending to Apple.
+      nonce: rawNonce,
+
+      // Unique state value used to prevent CSRF attacks. A UUID will be generated if nothing is provided.
+      state,
+    });
+
+    // Open the browser window for user sign in
+    const response = await appleAuthAndroid.signIn();
+    console.log(response);
+
+    // Send the authorization code to your backend for verification
+  }
 
   return (
     <View
@@ -113,9 +164,9 @@ const SignIn = () => {
           <TouchableOpacity onPress={signInWithKakao}>
             <Image style={{width: 200, height: 52}} source={KakaoLogin} />
           </TouchableOpacity>
-          {/* <TouchableOpacity onPress={getProfile}>
+          <TouchableOpacity onPress={getProfile}>
             <Text>프로필조회</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => onAppleButtonPress()}>
             <Image style={{width: 312, height: 52}} source={AppleLogin} />
           </TouchableOpacity>
