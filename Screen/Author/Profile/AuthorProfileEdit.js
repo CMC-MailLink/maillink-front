@@ -30,6 +30,7 @@ import FacebookNone from '../../../assets/images/FacebookNone.png';
 import TwitterNone from '../../../assets/images/TwitterNone.png';
 import InstagramNone from '../../../assets/images/InstagramNone.png';
 import URLNone from '../../../assets/images/URLNone.png';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const colorCategory = {
   편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
@@ -217,7 +218,7 @@ const AuthorProfileEdit = () => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>프로필 수정</Text>
       </View>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View style={{alignItems: 'center', height: 60}}>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
@@ -476,7 +477,7 @@ const AuthorProfileEdit = () => {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <TouchableOpacity>
         <View style={styles.buttonView}>
           <Text style={styles.buttonText}>확인</Text>

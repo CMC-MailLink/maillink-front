@@ -8,11 +8,8 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Alert,
   Modal,
-  ScrollView,
   Platform,
-  ReactNative,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
