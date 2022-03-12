@@ -89,7 +89,6 @@ const SetProfile = () => {
       setConfirmSuccess(false);
     }
     if (name === '') {
-      onChangeCheckMessage('한글 6자까지 설정 가능합니다.');
       setConfirmSuccess(false);
     }
   }, [name]);
