@@ -30,7 +30,7 @@ const SignIn = () => {
 
   const getSetProfile = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'ProfileInterest',
+      screen: 'SetProfile',
     });
   };
 
