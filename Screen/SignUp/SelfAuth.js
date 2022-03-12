@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -15,6 +15,29 @@ import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
 import Checked from '../../assets/images/Checked.png';
 import {useNavigation} from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Timer from './Timer';
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
 const SelfAuth = () => {
   const navigation = useNavigation();
   const [name, onChangeName] = useState('');
@@ -25,6 +48,15 @@ const SelfAuth = () => {
   const [realNumber, setrealNumber] = useState(1234);
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [checkbox, setcheckbox] = useState(false);
+  const [second, setSecond] = useState(180);
+  const [delay, setDelay] = useState(1000);
+  const [timerRunning, setIsRunning] = useState(true);
+  useInterval(
+    () => {
+      setSecond(second - 1);
+    },
+    second >= 1 ? delay : null,
+  );
 
   const onPressRequest = () => {
     setAuthRequest(true);
@@ -78,6 +110,7 @@ const SelfAuth = () => {
       text: '확인',
       style: 'cancel',
     });
+    setSecond(179);
   };
   const goAlertConfirm = () => {
     Alert.alert('인증 번호를 입력하세요.', {
@@ -90,159 +123,176 @@ const SelfAuth = () => {
       screen: 'SetProfile',
     });
   };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
       {/* upperHeader */}
-      <View style={styles.headerView}>
-        <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-      {/* mainHeader */}
-      <Image
-        style={{width: 48, height: 32.28, top: 25, left: 25}}
-        source={SignUpStep1}
-      />
-      <View style={{top: 20 + 15.22, left: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.NameTitle}>본인인증</Text>
-          <Text style={styles.IntroTitle}>을</Text>
+      <KeyboardAwareScrollView>
+        <View style={styles.headerView}>
+          <TouchableWithoutFeedback onPress={onPressBack}>
+            <View style={{left: 24}}>
+              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-        <Text style={styles.IntroTitle}>진행해주세요.</Text>
-      </View>
-      {/* Body: Name */}
-      <View style={{top: 25 + 58, left: 21.11}}>
-        <Text style={styles.BodyTitle}>이름</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeName}
-          value={name}
-          placeholder="이름을 입력해주세요."
+
+        {/* mainHeader */}
+        <Image
+          style={{width: 48, height: 32.28, top: 25, left: 25}}
+          source={SignUpStep1}
         />
-        <View style={styles.bodyNameBorder} />
-      </View>
-      {/* Body: Phone */}
-      <View style={{top: 10 + 148, left: 21.11}}>
-        <Text style={styles.BodyTitle}>휴대전화 인증</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangePhone}
-          value={phone}
-          placeholder="휴대전화 번호 입력"
-        />
-        {/* Body: AuthRequest */}
-        {authRequest ? (
-          <TouchableOpacity
-            onPress={goAlertPhoneAdd}
-            style={styles.authRequest}>
+        <View style={{top: 20 + 15.22, left: 20}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.NameTitle}>본인인증</Text>
+            <Text style={styles.IntroTitle}>을</Text>
+          </View>
+          <Text style={styles.IntroTitle}>진행해주세요.</Text>
+        </View>
+        {/* Body: Name */}
+        <View style={{top: 25 + 58, left: 21.11}}>
+          <Text style={styles.BodyTitle}>이름</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeName}
+            value={name}
+            placeholder="이름을 입력해주세요."
+          />
+          <View style={styles.bodyNameBorder} />
+        </View>
+        {/* Body: Phone */}
+        <View style={{top: 10 + 148, left: 21.11}}>
+          <Text style={styles.BodyTitle}>휴대전화 인증</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangePhone}
+            value={phone}
+            placeholder="휴대전화 번호 입력"
+          />
+          {/* Body: AuthRequest */}
+          {authRequest ? (
             <View>
-              <Text style={styles.authRequestText}>재발송</Text>
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: -13 + 10,
+                  left: 250 - 15,
+                }}>
+                <Text style={styles.timerText}>
+                  {' '}
+                  {Math.floor(second / 60)} : {second % 60}{' '}
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={goAlertPhoneAdd}
+                style={styles.authRequest}>
+                <Text style={styles.authRequestText}>재발송</Text>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={!phone ? goAlertPhone : onPressRequest}
-            style={!phone ? styles.basicAuthRequest : styles.changeAuthRequest}>
-            <View>
-              <Text
-                style={
-                  !phone
-                    ? styles.basicAuthRequestText
-                    : styles.changeAuthRequestText
-                }>
-                인증요청
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        <View style={styles.bodyNameBorder} />
-      </View>
-      {/* Body: number */}
-      <View style={{top: 15 + 148, left: 21.11}}>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="인증 번호 입력"
-        />
-        {/* Body: confirmRequest */}
-        {confirmRequest && authRequest ? (
-          <TouchableOpacity
-            onPress={!confirmSuccess ? onPressConfirm : null}
-            style={styles.confirmCheck}>
-            <View>
-              <Text style={styles.authRequestText}>확인</Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
+          ) : (
+            <TouchableOpacity
+              disabled={!phone}
+              onPress={!phone ? null : onPressRequest}
+              style={
+                !phone ? styles.basicAuthRequest : styles.changeAuthRequest
+              }>
+              <View>
+                <Text
+                  style={
+                    !phone
+                      ? styles.basicAuthRequestText
+                      : styles.changeAuthRequestText
+                  }>
+                  인증요청
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          <View style={styles.bodyNameBorder} />
+        </View>
+        {/* Body: number */}
+        <View style={{top: 15 + 148, left: 21.11}}>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeNumber}
+            value={number}
+            placeholder="인증 번호 입력"
+          />
+          {/* Body: confirmRequest */}
+          {confirmRequest && authRequest ? (
+            <TouchableOpacity
+              onPress={!confirmSuccess ? onPressConfirm : null}
+              style={styles.confirmCheck}>
+              <View>
+                <Text style={styles.authRequestText}>확인</Text>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              disabled={!number}
+              onPress={!number ? null : !authRequest ? null : onPressConfirm}
+              style={
+                !number ? styles.basicAuthRequest : styles.changeAuthRequest
+              }>
+              <View>
+                <Text
+                  style={
+                    !number
+                      ? styles.basicAuthRequestText
+                      : styles.changeAuthRequestText
+                  }>
+                  확인
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          <View style={styles.bodyNameBorder} />
+        </View>
+        {/* Body: number */}
+        <View style={{left: 22, top: 160 + 25}}>
+          <CheckBox
+            disabled={false}
+            onClick={onPressCheckBox}
+            style={styles.checkbox}
+            isChecked={checkbox}
+            checkedCheckBoxColor="#4562F1"
+            uncheckedCheckBoxColor="#EBEBEB"
+            checkBoxColor="#EBEBEB"
+          />
+          <Text style={styles.rulesText}>
+            메일링크 가입 약관에 모두 동의합니다
+          </Text>
+          <Text style={styles.example}>보기</Text>
+        </View>
+
+        {/* footer: Button */}
+        <View style={{left: 22, bottom: -284 + 99}}>
           <TouchableOpacity
             onPress={
-              !number
-                ? goAlertConfirm
-                : !authRequest
+              !name
+                ? goAlertName
+                : !confirmSuccess
                 ? goAlertPhone
-                : onPressConfirm
+                : goNextScreen
             }
             style={
-              !number ? styles.basicAuthRequest : styles.changeAuthRequest
+              confirmSuccess && checkbox && name
+                ? styles.buttonAble
+                : styles.buttonDisable
             }>
             <View>
               <Text
                 style={
-                  !number
-                    ? styles.basicAuthRequestText
-                    : styles.changeAuthRequestText
+                  confirmSuccess && checkbox && name
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
                 }>
-                확인
+                다음
               </Text>
             </View>
           </TouchableOpacity>
-        )}
-        <View style={styles.bodyNameBorder} />
-      </View>
-      {/* Body: number */}
-      <View style={{left: 22, top: 160 + 25}}>
-        <CheckBox
-          disabled={false}
-          onClick={onPressCheckBox}
-          style={styles.checkbox}
-          isChecked={checkbox}
-          checkedCheckBoxColor="#4562F1"
-          uncheckedCheckBoxColor="#EBEBEB"
-          checkBoxColor="#EBEBEB"
-        />
-        <Text style={styles.rulesText}>
-          메일링크 가입 약관에 모두 동의합니다
-        </Text>
-        <Text style={styles.example}>보기</Text>
-      </View>
-
-      {/* footer: Button */}
-      <View style={{left: 22, bottom: -284 + 99}}>
-        <TouchableOpacity
-          onPress={
-            !name ? goAlertName : !confirmSuccess ? goAlertPhone : goNextScreen
-          }
-          style={
-            confirmSuccess && checkbox && name
-              ? styles.buttonAble
-              : styles.buttonDisable
-          }>
-          <View>
-            <Text
-              style={
-                confirmSuccess && checkbox && name
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              다음
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -340,7 +390,7 @@ const styles = StyleSheet.create({
   },
   authRequest: {
     position: 'absolute',
-    bottom: 10,
+    bottom: -13 + 10,
     right: 21 + 20,
     width: 69,
     height: 24,
@@ -396,11 +446,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
+    includeFontPadding: false,
   },
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+  },
+  timerText: {
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#4562F1',
   },
 });
 

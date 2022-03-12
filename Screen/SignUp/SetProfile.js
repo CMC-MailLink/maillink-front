@@ -20,6 +20,7 @@ import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
 import {useNavigation} from '@react-navigation/native';
 import SuccessModal from './SuccessModal';
+import Timer from './Timer';
 
 const SetProfile = () => {
   const navigation = useNavigation();
@@ -198,7 +199,7 @@ const SetProfile = () => {
           style={{
             left: 22,
             marginTop: Platform.OS === 'ios' ? null : 500,
-            bottom: Platform.OS === 'ios' ? -245 + 64 + 95 : null,
+            bottom: Platform.OS === 'ios' ? -155 : null,
             position: Platform.OS === 'ios' ? null : 'absolute',
             marginBottom: 600,
           }}>
