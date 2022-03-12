@@ -18,7 +18,8 @@ const Timer = ({sec}) => {
   return (
     <Text style={{...styles.text}}>
       {' '}
-      {Math.floor(second / 60)} : {second % 60}{' '}
+      {Math.floor(second / 60)} :{' '}
+      {second < 10 ? '0' + (second % 60) : second % 60}{' '}
     </Text>
   );
 };

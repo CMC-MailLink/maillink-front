@@ -48,9 +48,10 @@ const SelfAuth = () => {
   const [realNumber, setrealNumber] = useState(1234);
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [checkbox, setcheckbox] = useState(false);
-  const [second, setSecond] = useState(180);
+  const [second, setSecond] = useState(0);
   const [delay, setDelay] = useState(1000);
   const [timerRunning, setIsRunning] = useState(true);
+
   useInterval(
     () => {
       setSecond(second - 1);
@@ -60,6 +61,7 @@ const SelfAuth = () => {
 
   const onPressRequest = () => {
     setAuthRequest(true);
+    setSecond(180);
     Alert.alert('인증 번호가 전송되었습니다.', {
       text: '확인',
       style: 'cancel',
@@ -110,7 +112,7 @@ const SelfAuth = () => {
       text: '확인',
       style: 'cancel',
     });
-    setSecond(179);
+    setSecond(180);
   };
   const goAlertConfirm = () => {
     Alert.alert('인증 번호를 입력하세요.', {
@@ -180,7 +182,8 @@ const SelfAuth = () => {
                 }}>
                 <Text style={styles.timerText}>
                   {' '}
-                  {Math.floor(second / 60)} : {second % 60}{' '}
+                  {Math.floor(second / 60)} :{' '}
+                  {second % 60 < 10 ? '0' + (second % 60) : second % 60}{' '}
                 </Text>
               </View>
               <TouchableOpacity
