@@ -226,9 +226,9 @@ const SignIn = () => {
               source={KakaoLogin}
             />
           </TouchableOpacity>
-          {/* <TouchableOpacity onPress={getProfile}>
+          <TouchableOpacity onPress={getProfile}>
             <Text>프로필조회</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => onAppleButtonPress()}>
             <Image
               style={{width: 312, height: 52, marginBottom: 18}}

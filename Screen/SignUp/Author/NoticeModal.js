@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import InfoWeb from '../../../assets/images/InfoWeb.png';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {TouchableWithoutFeedback} from '@gorhom/bottom-sheet';
 
 const NoticeModal = ({

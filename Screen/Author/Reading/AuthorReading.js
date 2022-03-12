@@ -59,7 +59,6 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         <Text style={styles.authorText}>{params.author}</Text>
       </View>
       <WebView
-        textInteractionEnabled={false}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}

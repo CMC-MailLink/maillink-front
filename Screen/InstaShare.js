@@ -1,9 +1,25 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  Image,
+} from 'react-native';
 import {captureRef} from 'react-native-view-shot';
+import {useNavigation} from '@react-navigation/native';
 import Share from 'react-native-share';
 
+import ExitWriting from '../assets/images/ExitWriting.png';
+
 const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
+  const navigation = useNavigation();
+  const onPressBack = () => {
+    navigation.goBack();
+  };
   console.log(params);
   const viewRef = useRef();
   const shareDummyImage = async () => {
@@ -38,33 +54,21 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (Platform.OS === 'ios') {
-  //     Linking.canOpenURL('instagram://')
-  //       .then(val => setShowInstagramStory(val))
-  //       .catch(err => console.log(err));
-  //   } else if (Platform === 'android') {
-  //     Share.isPackageInstalled('com.instagram.android')
-  //       .then(({isInstalled}) => setShowInstagramStory(isInstalled))
-  //       .catch(err => console.log(err));
-  //   }
-  // }, []);
-
   return (
-    <View style={{padding: 20}}>
-      <Text style={{fontSize: 20, fontWeight: '600', textAlign: 'center'}}>
-        인스타그램 공유 테스트
-      </Text>
-      <View
-        ref={viewRef}
-        style={{width: 200, height: 200, backgroundColor: 'black'}}>
-        <Text style={{color: 'white'}}>{params}</Text>
+    <View>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
+      {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.headerView}>
+        <TouchableWithoutFeedback onPress={onPressBack}>
+          <View style={{position: 'absolute', left: 22.5}}>
+            <Image
+              style={{width: 14.5, height: 14.5}}
+              source={ExitWriting}></Image>
+          </View>
+        </TouchableWithoutFeedback>
+        <Text style={styles.headerText}>공유 텍스트 꾸미기 </Text>
       </View>
-      <TouchableOpacity style={{marginTop: 30}} onPress={shareDummyImage}>
-        <Text style={{fontSize: 20, fontWeight: '700', textAlign: 'center'}}>
-          Share1
-        </Text>
-      </TouchableOpacity>
       <TouchableOpacity style={{marginTop: 30}} onPress={shareDummyImage2}>
         <Text style={{fontSize: 20, fontWeight: '700', textAlign: 'center'}}>
           Share2
@@ -73,5 +77,24 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  headerView: {
+    width: '100%',
+    height: 91 - 48,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
+  },
+  headerText: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 16,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
+});
 
 export default InstaShare;
