@@ -72,7 +72,7 @@ const ReaderRecommend = () => {
   };
   const onPressAnalyze = () => {
     navigation.navigate('ReaderStacks', {
-      screen: 'OnBoarding',
+      screen: 'ReaderAnalyze',
     });
   };
 

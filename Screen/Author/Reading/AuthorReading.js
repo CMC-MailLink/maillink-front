@@ -34,10 +34,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   //   });
   // };
 
-  const url = Platform.select({
-    ios: 'http://localhost:3000/readingeditor',
-    android: 'http://10.0.2.2:3000/readingeditor',
-  });
+  const url = 'https://www.mail-link.co.kr/readingEditor';
 
   return (
     <View style={{flex: 1}}>
@@ -62,14 +59,9 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         <Text style={styles.authorText}>{params.author}</Text>
       </View>
       <WebView
+        textInteractionEnabled={false}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
-        menuItems={[{label: '공유', key: 'share'}]}
-        onCustomMenuSelection={webViewEvent => {
-          const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
-          const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
-          const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
-        }}
         scrollEnabled={true}
       />
     </View>

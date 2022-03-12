@@ -7,26 +7,30 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Image,
-  TouchableOpacity,
   Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
-import BackMail2 from '../../../assets/images/BackMail2.png';
-import AnalyzeOne from '../../../assets/images/AnalyzeOne.png';
+import BackMail from '../../../assets/images/BackMail.png';
+import AnalyzeThree from '../../../assets/images/AnalyzeThree.png';
 
-const ReaderAnalyzeOne = () => {
+const ReaderAnalyzeThree = () => {
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
   };
   return (
     <View style={{flex: 1}}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <FastImage
-        style={{position: 'absolute', width: '100%', height: '100%'}}
-        source={AnalyzeOne}></FastImage>
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+        }}
+        source={AnalyzeThree}></FastImage>
       {Platform.OS === 'ios' ? (
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View
@@ -34,7 +38,7 @@ const ReaderAnalyzeOne = () => {
               marginLeft: 24,
               marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
           </View>
         </TouchableWithoutFeedback>
       ) : null}
@@ -44,13 +48,16 @@ const ReaderAnalyzeOne = () => {
         </View>
       </View>
       <View style={styles.quizView}>
-        <Text style={styles.numText}>Q1</Text>
+        <Text style={styles.numText}>Q3</Text>
         <Text style={styles.quizText}>
-          긴&nbsp;
-          <Text style={{fontFamily: 'NotoSansKR-Medium'}}>기차여행</Text>을
-          준비하는 당신,{'\n'}열차에서&nbsp;
+          당신이 읽고 있는&nbsp;
+          <Text style={{fontFamily: 'NotoSansKR-Medium'}}>소설</Text>
+          속,{' \n'}주인공은&nbsp;
+          <Text style={{fontFamily: 'NotoSansKR-Medium'}}>비행기</Text>를 타고
+          있다.
+          {'\n'}
           <Text style={{fontFamily: 'NotoSansKR-Medium'}}>
-            읽기 위해 챙겨든 책
+            다음에 일어날 사건
           </Text>
           은?
         </Text>
@@ -59,7 +66,7 @@ const ReaderAnalyzeOne = () => {
         <TouchableWithoutFeedback
           onPress={() =>
             navigation.navigate('ReaderStacks', {
-              screen: 'ReaderAnalyzeTwo',
+              screen: 'ReaderAnalyzeFour',
             })
           }>
           <View
@@ -69,15 +76,17 @@ const ReaderAnalyzeOne = () => {
               borderBottomWidth: 1,
             }}>
             <Text style={styles.bottomText}>
-              통통 튀는 이야기가 가득한&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>생활 에세이집</Text>
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
+                옆자리에 앉은 남자
+              </Text>
+              가 은밀하게 말을 걸어온다.
             </Text>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           onPress={() =>
             navigation.navigate('ReaderStacks', {
-              screen: 'ReaderAnalyzeTwo',
+              screen: 'ReaderAnalyzeFive',
             })
           }>
           <View
@@ -86,8 +95,10 @@ const ReaderAnalyzeOne = () => {
               paddingBottom: Platform.OS === 'ios' ? 17 : 0,
             }}>
             <Text style={styles.bottomText}>
-              한번 펼치면 쉽게 헤어나올 수 없는&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>장편소설</Text>
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
+                도망치던 테러범들
+              </Text>
+              이 비행기 안에서{'\n'}소란을 피우기 시작한다.
             </Text>
           </View>
         </TouchableWithoutFeedback>
@@ -106,14 +117,12 @@ const styles = StyleSheet.create({
   },
   bottomViewOne: {
     width: '100%',
-    backgroundColor: '#4562F1',
     height: 92,
     alignItems: 'center',
     justifyContent: 'center',
   },
   bottomViewTwo: {
     width: '100%',
-    backgroundColor: '#4562F1',
     height: Platform.OS === 'ios' ? 106 : 92,
     alignItems: 'center',
     justifyContent: 'center',
@@ -122,7 +131,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#FFF',
-    includeFontPadding: false,
+    textAlign: 'center',
   },
   progressContainer: {
     marginVertical: 22,
@@ -136,7 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   progressBar: {
-    width: '20%',
+    width: '60%',
     height: 8,
     borderRadius: 5.5,
     backgroundColor: '#4562F1',
@@ -147,17 +156,17 @@ const styles = StyleSheet.create({
   numText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 20,
-    color: '#3C3C3C',
+    color: '#fff',
     includeFontPadding: false,
     marginBottom: 17,
   },
   quizText: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 18,
-    color: '#3C3C3C',
+    color: '#fff',
     textAlign: 'center',
     includeFontPadding: false,
   },
 });
 
-export default ReaderAnalyzeOne;
+export default ReaderAnalyzeThree;
