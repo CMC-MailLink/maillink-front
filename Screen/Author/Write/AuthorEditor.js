@@ -22,7 +22,7 @@ const AuthorEditor = () => {
     navigation.goBack();
   };
 
-  const url = 'http://www.mail-link.co.kr/quilEditor';
+  const url = 'https://www.mail-link.co.kr/quilEditor';
 
   //   const INJECTED_JAVASCRIPT = `(function() {
   //     console.log(document.getElementsByClassName('ql-editor')[0]);

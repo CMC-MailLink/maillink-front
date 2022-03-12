@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {setCustomText} from 'react-native-global-props';
-import {StatusBar} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Alert} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 import {MenuProvider} from 'react-native-popup-menu';
 import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
 
 import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
@@ -26,6 +26,17 @@ const MyTheme = {
   },
 };
 
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+  }
+}
+
 const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [isReader, setIsReader] = useState(true);
@@ -33,6 +44,13 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
     createChannels();
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    requestUserPermission();
+    return unsubscribe;
   }, []);
 
   const createChannels = () => {

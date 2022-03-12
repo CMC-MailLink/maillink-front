@@ -21,7 +21,7 @@ import StarMail2 from '../../../assets/images/StarMail2.png';
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
-  const url = 'http://www.mail-link.co.kr/readingEditor';
+  const url = 'https://www.mail-link.co.kr/readingEditor';
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };

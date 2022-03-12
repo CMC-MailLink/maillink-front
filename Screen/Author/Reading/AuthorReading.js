@@ -34,7 +34,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   //   });
   // };
 
-  const url = 'http://www.mail-link.co.kr/readingEditor';
+  const url = 'https://www.mail-link.co.kr/readingEditor';
 
   return (
     <View style={{flex: 1}}>
