@@ -46,10 +46,10 @@ const SelfAuth = () => {
   const [phone, onChangePhone] = useState(''); //전화번호
   const [number, onChangeNumber] = useState(''); //인증번호
   const [authRequest, setAuthRequest] = useState(false); //인증요청버튼 클릭
-  const [realNumber, setrealNumber] = useState(1234);
+  const [realNumber, setrealNumber] = useState(1234); //인증번호 키
   const [confirmSuccess, setConfirmSuccess] = useState(false); //인증 성공 유무
-  const [checkbox, setcheckbox] = useState(false);
-  const [second, setSecond] = useState(0);
+  const [checkbox, setcheckbox] = useState(false); //체크박스 유무
+  const [second, setSecond] = useState(0); //타이머 시간
   const [delay, setDelay] = useState(1000);
   const [timerRunning, setIsRunning] = useState(true);
 
@@ -60,6 +60,7 @@ const SelfAuth = () => {
     second >= 1 ? delay : null,
   );
 
+  //인증요청 버튼 클릭
   const onPressRequest = () => {
     setAuthRequest(true);
     setSecond(180);
@@ -68,6 +69,8 @@ const SelfAuth = () => {
       style: 'cancel',
     });
   };
+
+  //확인 버튼 클릭
   const onPressConfirm = () => {
     if (parseInt(number) === realNumber) {
       Alert.alert('인증 되었습니다.', {
@@ -82,16 +85,22 @@ const SelfAuth = () => {
       });
     }
   };
+
+  //뒤로가기
   const onPressBack = () => {
     navigation.goBack();
   };
 
+  //재발송 버튼 클릭
   const goAlertPhoneAdd = () => {
     Alert.alert('재발송 되었습니다.', {
       text: '확인',
       style: 'cancel',
     });
+    setSecond(180);
   };
+
+  //다음 버튼 클릭
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfile',
@@ -169,11 +178,12 @@ const SelfAuth = () => {
             />
             {authRequest ? (
               <>
-                {/* <Text style={styles.timerText}>
-                  {' '}
-                  {Math.floor(second / 60)} :{' '}
-                  {second % 60 < 10 ? '0' + (second % 60) : second % 60}{' '}
-                </Text> */}
+                <View style={{position: 'absolute', right: 80}}>
+                  <Text style={styles.timerText}>
+                    {Math.floor(second / 60)}:
+                    {second % 60 < 10 ? '0' + (second % 60) : second % 60}
+                  </Text>
+                </View>
                 <TouchableOpacity
                   disabled={confirmSuccess}
                   onPress={goAlertPhoneAdd}
@@ -265,7 +275,6 @@ const SelfAuth = () => {
             uncheckedCheckBoxColor="#EBEBEB"
             checkBoxColor="#EBEBEB"
           /> */}
-
           {checkbox ? (
             <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
               <Image
@@ -289,6 +298,7 @@ const SelfAuth = () => {
       {/* footer: Button */}
       <View
         style={{
+          position: 'static',
           width: '100%',
           paddingHorizontal: 20,
           marginBottom: 40,
@@ -460,7 +470,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
-    includeFontPadding: false,
   },
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',
