@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   Platform,
+  AccessibilityInfo,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
@@ -17,11 +18,13 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import SendMail2 from '../../../assets/images/SendMail2.png';
 import StarMail2 from '../../../assets/images/StarMail2.png';
+import {useEffect} from 'react/cjs/react.development';
 
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
   const url = 'https://www.mail-link.co.kr/readingEditor';
+  const WebViewReading = useRef();
   const onPressSubscribe = () => {
     setSubscribe(!subscribe);
   };
@@ -29,6 +32,15 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    const preventCopy = AccessibilityInfo.addEventListener(
+      'screenReaderChanged',
+      screenReaderEnabled => {
+        console.log('aaa');
+      },
+    );
+  }, []);
 
   return (
     <View style={{flex: 1}}>
@@ -83,14 +95,14 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableOpacity>
       </View>
       <WebView
-        // style={{
-        //   height:
-        //     Platform.OS == 'ios'
-        //       ? Dimensions.get('window').height - 212
-        //       : Dimensions.get('window').height - 212 + 48,
-        // }}
+        onPress={e => {
+          console.log('event');
+          e.preventDefault();
+        }}
+        ref={WebViewReading}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
+        hideKeyboardAccessoryView={true}
         menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'

@@ -52,15 +52,15 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>mail-link.co.kr</key>
-			<string></string>
-			<key>www.mail-link.co.kr</key>
-			<string></string>
 			<key>localhost</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>mail-link.co.kr</key>
+			<string></string>
+			<key>www.mail-link.co.kr</key>
+			<string></string>
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>

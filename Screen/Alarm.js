@@ -162,7 +162,7 @@ const Alarm = () => {
   const handleNotification = () => {
     PushNotification.localNotification({
       channelId: 'test-channel',
-      title: 'You clicked Alarm Test!',
+      title: 'You clicked Alarm Test!!!!',
       message: 'This is Test!',
     });
   };
