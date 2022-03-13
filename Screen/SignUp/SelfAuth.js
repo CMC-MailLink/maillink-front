@@ -10,13 +10,15 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import CheckBox from 'react-native-check-box';
-import BackMail2 from '../../assets/images/BackMail2.png';
-import SignUpStep1 from '../../assets/images/SignUpStep1.png';
-import Checked from '../../assets/images/Checked.png';
+// import CheckBox from 'react-native-check-box';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Timer from './Timer';
+
+import BackMail2 from '../../assets/images/BackMail2.png';
+import SignUpStep1 from '../../assets/images/SignUpStep1.png';
+import CheckDisabledSelfAuth from '../../assets/images/CheckDisabledSelfAuth.png';
+import CheckSelfAuth from '../../assets/images/CheckSelfAuth.png';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -40,13 +42,12 @@ function useInterval(callback, delay) {
 
 const SelfAuth = () => {
   const navigation = useNavigation();
-  const [name, onChangeName] = useState('');
-  const [phone, onChangePhone] = useState();
-  const [number, onChangeNumber] = useState();
-  const [authRequest, setAuthRequest] = useState(false);
-  const [confirmRequest, setConfirmRequest] = useState(false);
+  const [name, onChangeName] = useState(''); //이름
+  const [phone, onChangePhone] = useState(''); //전화번호
+  const [number, onChangeNumber] = useState(''); //인증번호
+  const [authRequest, setAuthRequest] = useState(false); //인증요청버튼 클릭
   const [realNumber, setrealNumber] = useState(1234);
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
+  const [confirmSuccess, setConfirmSuccess] = useState(false); //인증 성공 유무
   const [checkbox, setcheckbox] = useState(false);
   const [second, setSecond] = useState(0);
   const [delay, setDelay] = useState(1000);
@@ -68,7 +69,6 @@ const SelfAuth = () => {
     });
   };
   const onPressConfirm = () => {
-    setConfirmRequest(true);
     if (parseInt(number) === realNumber) {
       Alert.alert('인증 되었습니다.', {
         text: '확인',
@@ -85,37 +85,9 @@ const SelfAuth = () => {
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressCheckBox = () => {
-    setcheckbox(!checkbox);
-  };
-  const goAlertName = () => {
-    Alert.alert('이름을 입력하세요.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
-  const goAlertPhone = () => {
-    if (!authRequest) {
-      Alert.alert('인증 요청을 하세요.', {
-        text: '확인',
-        style: 'cancel',
-      });
-      return 0;
-    }
-    Alert.alert('휴대전화 번호를 입력하세요.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
+
   const goAlertPhoneAdd = () => {
     Alert.alert('재발송 되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
-    setSecond(180);
-  };
-  const goAlertConfirm = () => {
-    Alert.alert('인증 번호를 입력하세요.', {
       text: '확인',
       style: 'cancel',
     });
@@ -130,7 +102,7 @@ const SelfAuth = () => {
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
       {/* upperHeader */}
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
@@ -141,10 +113,10 @@ const SelfAuth = () => {
 
         {/* mainHeader */}
         <Image
-          style={{width: 48, height: 32.28, top: 25, left: 25}}
+          style={{width: 48, height: 32.28, marginTop: 24, marginLeft: 25}}
           source={SignUpStep1}
         />
-        <View style={{top: 20 + 15.22, left: 20}}>
+        <View style={{marginTop: 10, paddingHorizontal: 20}}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.NameTitle}>본인인증</Text>
             <Text style={styles.IntroTitle}>을</Text>
@@ -152,95 +124,127 @@ const SelfAuth = () => {
           <Text style={styles.IntroTitle}>진행해주세요.</Text>
         </View>
         {/* Body: Name */}
-        <View style={{top: 25 + 58, left: 21.11}}>
+        <View
+          style={{
+            marginTop: 39,
+            marginHorizontal: 20,
+            borderBottomWidth: 1,
+            borderBottomColor: '#BEBEBE',
+            paddingBottom: 10,
+            height: 67,
+            justifyContent: 'space-between',
+          }}>
           <Text style={styles.BodyTitle}>이름</Text>
           <TextInput
+            editable={!confirmSuccess ? true : false}
             style={styles.input}
             onChangeText={onChangeName}
             value={name}
             placeholder="이름을 입력해주세요."
           />
-          <View style={styles.bodyNameBorder} />
         </View>
         {/* Body: Phone */}
-        <View style={{top: 10 + 148, left: 21.11}}>
+        <View
+          style={{
+            marginTop: 81,
+            paddingHorizontal: 20,
+            height: 113,
+            justifyContent: 'space-between',
+          }}>
           <Text style={styles.BodyTitle}>휴대전화 인증</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangePhone}
-            value={phone}
-            placeholder="휴대전화 번호 입력"
-          />
-          {/* Body: AuthRequest */}
-          {authRequest ? (
-            <View>
-              <View
-                style={{
-                  position: 'absolute',
-                  bottom: -13 + 10,
-                  left: 250 - 15,
-                }}>
-                <Text style={styles.timerText}>
+          <View
+            style={{
+              flexDirection: 'row',
+              borderBottomWidth: 1,
+              borderBottomColor: '#BEBEBE',
+              paddingBottom: 10,
+            }}>
+            <TextInput
+              editable={name.length && !confirmSuccess ? true : false}
+              keyboardType="number-pad"
+              style={styles.input}
+              onChangeText={onChangePhone}
+              value={phone}
+              placeholder="휴대전화 번호 입력"
+            />
+            {authRequest ? (
+              <>
+                {/* <Text style={styles.timerText}>
                   {' '}
                   {Math.floor(second / 60)} :{' '}
                   {second % 60 < 10 ? '0' + (second % 60) : second % 60}{' '}
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={goAlertPhoneAdd}
-                style={styles.authRequest}>
-                <Text style={styles.authRequestText}>재발송</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <TouchableOpacity
-              disabled={!phone}
-              onPress={!phone ? null : onPressRequest}
-              style={
-                !phone ? styles.basicAuthRequest : styles.changeAuthRequest
-              }>
-              <View>
-                <Text
+                </Text> */}
+                <TouchableOpacity
+                  disabled={confirmSuccess}
+                  onPress={goAlertPhoneAdd}
                   style={
-                    !phone
-                      ? styles.basicAuthRequestText
-                      : styles.changeAuthRequestText
+                    confirmSuccess
+                      ? styles.basicAuthRequest
+                      : styles.authRequest
                   }>
-                  인증요청
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          <View style={styles.bodyNameBorder} />
-        </View>
-        {/* Body: number */}
-        <View style={{top: 15 + 148, left: 21.11}}>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
-            placeholder="인증 번호 입력"
-          />
-          {/* Body: confirmRequest */}
-          {confirmRequest && authRequest ? (
+                  <View>
+                    <Text
+                      style={
+                        confirmSuccess
+                          ? styles.basicAuthRequestText
+                          : styles.authRequestText
+                      }>
+                      재발송
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <TouchableOpacity
+                disabled={phone.length ? false : true}
+                onPress={onPressRequest}
+                style={
+                  phone.length
+                    ? styles.changeAuthRequest
+                    : styles.basicAuthRequest
+                }>
+                <View>
+                  <Text
+                    style={
+                      phone.length
+                        ? styles.changeAuthRequestText
+                        : styles.basicAuthRequestText
+                    }>
+                    인증요청
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
+          {/* Body: AuthRequest */}
+          <View
+            style={{
+              flexDirection: 'row',
+              borderBottomWidth: 1,
+              borderBottomColor: '#BEBEBE',
+              paddingBottom: 10,
+            }}>
+            <TextInput
+              editable={authRequest && !confirmSuccess ? true : false}
+              keyboardType="number-pad"
+              style={styles.input}
+              onChangeText={onChangeNumber}
+              value={number}
+              placeholder="인증 번호 입력"
+            />
+            {/* Body: confirmRequest */}
             <TouchableOpacity
-              onPress={!confirmSuccess ? onPressConfirm : null}
-              style={styles.confirmCheck}>
-              <View>
-                <Text style={styles.authRequestText}>확인</Text>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              disabled={!number}
-              onPress={!number ? null : !authRequest ? null : onPressConfirm}
+              disabled={!number.length || confirmSuccess ? true : false}
+              onPress={onPressConfirm}
               style={
-                !number ? styles.basicAuthRequest : styles.changeAuthRequest
+                !number.length || confirmSuccess
+                  ? styles.basicAuthRequest
+                  : styles.changeAuthRequest
               }>
               <View>
                 <Text
                   style={
-                    !number
+                    !number.length || confirmSuccess
                       ? styles.basicAuthRequestText
                       : styles.changeAuthRequestText
                   }>
@@ -248,12 +252,11 @@ const SelfAuth = () => {
                 </Text>
               </View>
             </TouchableOpacity>
-          )}
-          <View style={styles.bodyNameBorder} />
+          </View>
         </View>
         {/* Body: number */}
-        <View style={{left: 22, top: 160 + 25}}>
-          <CheckBox
+        <View style={{marginTop: 25, marginLeft: 22}}>
+          {/* <CheckBox
             disabled={false}
             onClick={onPressCheckBox}
             style={styles.checkbox}
@@ -261,41 +264,56 @@ const SelfAuth = () => {
             checkedCheckBoxColor="#4562F1"
             uncheckedCheckBoxColor="#EBEBEB"
             checkBoxColor="#EBEBEB"
-          />
+          /> */}
+
+          {checkbox ? (
+            <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
+              <Image
+                style={{width: 23, height: 23}}
+                source={CheckSelfAuth}></Image>
+            </TouchableWithoutFeedback>
+          ) : (
+            <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
+              <Image
+                style={{width: 23, height: 23}}
+                source={CheckDisabledSelfAuth}></Image>
+            </TouchableWithoutFeedback>
+          )}
+
           <Text style={styles.rulesText}>
             메일링크 가입 약관에 모두 동의합니다
           </Text>
           <Text style={styles.example}>보기</Text>
         </View>
-
-        {/* footer: Button */}
-        <View style={{left: 22, bottom: -284 + 99}}>
-          <TouchableOpacity
-            onPress={
-              !name
-                ? goAlertName
-                : !confirmSuccess
-                ? goAlertPhone
-                : goNextScreen
-            }
-            style={
-              confirmSuccess && checkbox && name
-                ? styles.buttonAble
-                : styles.buttonDisable
-            }>
-            <View>
-              <Text
-                style={
-                  confirmSuccess && checkbox && name
-                    ? styles.buttonAbleText
-                    : styles.buttonDisableText
-                }>
-                다음
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
       </KeyboardAwareScrollView>
+      {/* footer: Button */}
+      <View
+        style={{
+          width: '100%',
+          paddingHorizontal: 20,
+          marginBottom: 40,
+          paddingTop: 5,
+        }}>
+        <TouchableOpacity
+          disabled={!confirmSuccess && !checkbox}
+          onPress={goNextScreen}
+          style={
+            confirmSuccess && checkbox
+              ? styles.buttonAble
+              : styles.buttonDisable
+          }>
+          <View>
+            <Text
+              style={
+                confirmSuccess
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
+              }>
+              다음
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -311,28 +329,26 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   IntroTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   BodyTitle: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   input: {
+    width: 200,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#3C3C3C',
-    paddingTop: 14,
-  },
-  bodyNameBorder: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: '#BEBEBE',
-    paddingTop: 14,
+    includeFontPadding: false,
   },
   bodyRequestBoarder: {
     width: 350,
@@ -346,15 +362,14 @@ const styles = StyleSheet.create({
     bottom: 17,
   },
   basicAuthRequest: {
-    position: 'absolute',
-    bottom: 10,
-    right: 21 + 20,
     width: 69,
     height: 24,
     borderRadius: 15,
+    position: 'absolute',
+    right: 0,
+    backgroundColor: '#fff',
     borderColor: '#BEBEBE',
     borderWidth: 1,
-    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -362,14 +377,14 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   changeAuthRequest: {
-    position: 'absolute',
-    bottom: 10,
-    right: 21 + 20,
     width: 69,
     height: 24,
     borderRadius: 15,
+    position: 'absolute',
+    right: 0,
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
@@ -378,27 +393,24 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#FFFFFF',
+    includeFontPadding: false,
   },
   confirmCheck: {
-    position: 'absolute',
-    top: 19,
-    right: 21 + 20,
     width: 69,
     height: 24,
     borderRadius: 15,
     borderColor: '#BEBEBE',
-    backgroundColor: '#EBEBEB',
+    borderWidth: 1,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
   authRequest: {
-    position: 'absolute',
-    bottom: -13 + 10,
-    right: 21 + 20,
     width: 69,
     height: 24,
     borderRadius: 15,
-    borderColor: '#BEBEBE',
+    position: 'absolute',
+    right: 0,
     backgroundColor: '#EBEBEB',
     justifyContent: 'center',
     alignItems: 'center',
@@ -407,6 +419,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   rulesText: {
     position: 'absolute',
@@ -415,6 +428,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
+    includeFontPadding: false,
   },
   example: {
     position: 'absolute',
@@ -423,11 +437,10 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   buttonDisable: {
-    position: 'absolute',
-    top: 90,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#BEBEBE',
@@ -438,12 +451,10 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+    includeFontPadding: false,
   },
   buttonAble: {
-    position: 'absolute',
-    top: 90,
-    right: 21 + 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#4562F1',
@@ -455,11 +466,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+    includeFontPadding: false,
   },
   timerText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#4562F1',
+    includeFontPadding: false,
   },
 });
 

@@ -31,35 +31,21 @@ import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [registerUser, setRegisterUser] = useState(null);
   const navigation = useNavigation();
-
-  const onPressNaverLogin = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'SetProfileSelfAuth',
-    });
-  };
-
-  const getSetProfile = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'SelfAuth',
-    });
-  };
-
-  const [result, setResult] = useState('');
-  const [result2, setResult2] = useState('');
 
   const signInWithKakao = async () => {
     const token = await login();
-    console.log(token);
-    setResult(JSON.stringify(token));
-    console.log(result);
+    getProfile();
   };
 
   const getProfile = async () => {
     const profile = await getKakaoProfile();
-    console.log(profile);
-    setResult2(JSON.stringify(profile));
-    console.log(result2);
+    setRegisterUser({socialType: 'KAKAO', socialId: profile.id});
+    navigation.navigate('SignUpStacks', {
+      screen: 'SelfAuth',
+      params: registerUser,
+    });
   };
 
   const onAppleButtonPress = () => {
@@ -214,20 +200,17 @@ const SignIn = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={getSetProfile}>
+          {/* <TouchableOpacity onPress={getSetProfile}>
             <Image
               style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={signInWithKakao}>
             <Image
-              style={{width: 200, height: 52, marginBottom: 18}}
+              style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={getProfile}>
-            <Text>프로필조회</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => onAppleButtonPress()}>
             <Image
