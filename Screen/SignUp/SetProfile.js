@@ -13,14 +13,14 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useNavigation} from '@react-navigation/native';
+import SuccessModal from './SuccessModal';
+
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
-import {useNavigation} from '@react-navigation/native';
-import SuccessModal from './SuccessModal';
-import Timer from './Timer';
 
 const SetProfile = () => {
   const navigation = useNavigation();
@@ -110,9 +110,8 @@ const SetProfile = () => {
           onPressModalConfirm={onPressModalConfirm}
         />
       </Modal>
-
       {/* upperHeader */}
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
@@ -123,10 +122,10 @@ const SetProfile = () => {
 
         {/* mainHeader */}
         <Image
-          style={{width: 48.18, height: 32.4, top: 25, left: 25}}
+          style={{width: 48.18, height: 32.4, marginTop: 24, marginLeft: 25}}
           source={SignUpStep2}
         />
-        <View style={{top: 20 + 15.22, left: 20}}>
+        <View style={{marginTop: 10, paddingHorizontal: 20}}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.NameTitle}>프로필</Text>
             <Text style={styles.IntroTitle}>을</Text>
@@ -136,7 +135,13 @@ const SetProfile = () => {
         </View>
 
         {/* Body: ProfileImage */}
-        <View style={{top: 32.76 + 75.76, left: 137.27}}>
+        <View
+          style={{
+            marginTop: 66,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View style={{alignItems: 'center', width: 115.47}}></View>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
@@ -148,80 +153,87 @@ const SetProfile = () => {
               style={{
                 width: 40.07,
                 height: 40.07,
-                marginTop: -110 + 72.17,
-                left: 72,
+                top: -40,
+                left: 37,
               }}
               source={ImageEditProfile}
+              resizeMode="stretch"
             />
           </TouchableWithoutFeedback>
         </View>
 
         {/* Body: ProfileName */}
-        <View style={{top: 38 + 59, left: 137.27}}>
-          <TextInput
-            style={!name ? styles.NameSetPlaceHolder : styles.NameSet}
-            onChangeText={onChangeName}
-            value={name}
-            placeholder="닉네임 입력 (한글 6자)"
-            autoCorrect={false}
-          />
-          <TouchableWithoutFeedback onPress={onPressErase}>
-            <Image style={styles.eraseButton} source={EraseNickname} />
-          </TouchableWithoutFeedback>
-          <TouchableOpacity
-            onPress={onCheckName}
-            style={!name ? styles.confirmBasic : styles.confirmChange}>
-            <Text
-              style={
-                !name ? styles.confirmBasicText : styles.confirmChangeText
-              }>
-              중복 확인
-            </Text>
-          </TouchableOpacity>
-
-          {/* Body: NameBorder */}
+        <View
+          style={{
+            marginTop: 54,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderBottomWidth: 1,
+            borderBottomColor: '#BEBEBE',
+            marginHorizontal: 43,
+            paddingBottom: 10,
+          }}>
           <View
-            style={
-              (name.length > 6 || confirmOverlap) && name !== ''
-                ? styles.bodyNameBorderChange
-                : styles.bodyNameBorder
-            }
-          />
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <TextInput
+              style={!name.length ? styles.NameSetPlaceHolder : styles.NameSet}
+              onChangeText={onChangeName}
+              value={name}
+              placeholder="닉네임 입력 (한글 6자)"
+              autoCorrect={false}
+            />
+            <TouchableWithoutFeedback onPress={onPressErase}>
+              <Image style={styles.eraseButton} source={EraseNickname} />
+            </TouchableWithoutFeedback>
+            <TouchableOpacity
+              onPress={onCheckName}
+              style={!name ? styles.confirmBasic : styles.confirmChange}>
+              <Text
+                style={
+                  !name ? styles.confirmBasicText : styles.confirmChangeText
+                }>
+                확인
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Body: NameCheck */}
-        <View style={{left: 45, top: 107}}>
+        <View style={{marginTop: 9, marginLeft: 42}}>
           <Text style={styles.checkMessage}>{checkMessage}</Text>
         </View>
-
-        {/* Footer: Button */}
-        <View
-          style={{
-            left: 22,
-            marginTop: Platform.OS === 'ios' ? null : 500,
-            bottom: Platform.OS === 'ios' ? -155 : null,
-            position: Platform.OS === 'ios' ? null : 'absolute',
-            marginBottom: 600,
-          }}>
-          <TouchableOpacity
-            disabled={confirmSuccess ? false : true}
-            onPress={confirmSuccess ? () => setModalVisible(true) : !name}
-            style={
-              confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
-            }>
-            <View>
-              <Text
-                style={
-                  confirmSuccess && name
-                    ? styles.buttonAbleText
-                    : styles.buttonDisableText
-                }>
-                완료
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
       </KeyboardAwareScrollView>
+      {/* Footer: Button */}
+      <View
+        style={{
+          position: 'static',
+          width: '100%',
+          paddingHorizontal: 20,
+          paddingTop: 5,
+          marginBottom: 40,
+        }}>
+        <TouchableOpacity
+          disabled={confirmSuccess ? false : true}
+          onPress={confirmSuccess ? () => setModalVisible(true) : !name}
+          style={
+            confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
+          }>
+          <View>
+            <Text
+              style={
+                confirmSuccess && name
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
+              }>
+              완료
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -232,7 +244,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingTop: 22,
-    includeFontPadding: false,
   },
   NameTitle: {
     fontFamily: 'NotoSansKR-Bold',
@@ -254,41 +265,32 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   NameSet: {
-    top: 59,
-    left: -135 + 44,
+    width: 190,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 18,
     color: '#3C3C3C',
     includeFontPadding: false,
   },
   NameSetPlaceHolder: {
-    top: 59,
-    left: -135 + 44,
+    width: 190,
     fontFamily: 'NotoSansKR-Light',
     fontSize: 18,
     color: '#BEBEBE',
     includeFontPadding: false,
   },
   bodyNameBorder: {
-    width: 301,
-    left: -135 + 44,
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
     paddingTop: 15,
-    includeFontPadding: false,
   },
   bodyNameBorderChange: {
-    width: 301,
-    left: -135 + 44,
     borderBottomWidth: 1,
     borderBottomColor: '#FF9B9B',
     paddingTop: 15,
-    includeFontPadding: false,
   },
   confirmBasic: {
     position: 'absolute',
-    bottom: 10,
-    left: 183 - 49,
+    right: 0,
     width: 69,
     height: 28,
     borderRadius: 15,
@@ -296,7 +298,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBEBEB',
     justifyContent: 'center',
     alignItems: 'center',
-    includeFontPadding: false,
   },
   confirmBasicText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -306,15 +307,13 @@ const styles = StyleSheet.create({
   },
   confirmChange: {
     position: 'absolute',
-    bottom: 10,
-    left: 183 - 49,
+    right: 0,
     width: 69,
     height: 28,
     borderRadius: 15,
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
-    includeFontPadding: false,
   },
   confirmChangeText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -323,15 +322,12 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   buttonDisable: {
-    position: 'absolute',
-    top: 90,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#BEBEBE',
     justifyContent: 'center',
     alignItems: 'center',
-    includeFontPadding: false,
   },
   buttonDisableText: {
     fontFamily: 'NotoSansKR-Medium',
@@ -339,18 +335,13 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     includeFontPadding: false,
   },
-
   buttonAble: {
-    position: 'absolute',
-    top: 90,
-    right: 21 + 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
-    includeFontPadding: false,
   },
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',
@@ -361,9 +352,8 @@ const styles = StyleSheet.create({
   eraseButton: {
     width: 12,
     height: 12,
-    marginTop: 41,
-    left: 240 - 129,
-    includeFontPadding: false,
+    position: 'absolute',
+    right: 80,
   },
   checkMessage: {
     fontFamily: 'NotoSansKR-Light',
