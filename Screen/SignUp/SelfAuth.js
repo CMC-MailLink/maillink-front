@@ -10,10 +10,11 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-// import CheckBox from 'react-native-check-box';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import Timer from './Timer';
+import {signUpAPI} from '../../api';
+// import Timer from './Timer';
+// import CheckBox from 'react-native-check-box';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
@@ -40,7 +41,8 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const SelfAuth = () => {
+const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
+  // console.log('SelfAuth params: ', params);
   const navigation = useNavigation();
   const [name, onChangeName] = useState(''); //이름
   const [phone, onChangePhone] = useState(''); //전화번호
@@ -61,18 +63,31 @@ const SelfAuth = () => {
   );
 
   //인증요청 버튼 클릭
-  const onPressRequest = () => {
-    setAuthRequest(true);
+  const onPressRequest = async () => {
     setSecond(180);
-    Alert.alert('인증 번호가 전송되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
+    const result = await signUpAPI.codeSending({target: phone});
+    if (result) {
+      Alert.alert('인증 번호가 전송되었습니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+      setAuthRequest(true);
+    } else {
+      Alert.alert('인증 번호가 전송에 실패했습니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+    }
   };
 
   //확인 버튼 클릭
-  const onPressConfirm = () => {
-    if (parseInt(number) === realNumber) {
+  const onPressConfirm = async () => {
+    const result = await signUpAPI.codeChecking({
+      target: phone,
+      code: number,
+    });
+    console.log(result);
+    if (result) {
       Alert.alert('인증 되었습니다.', {
         text: '확인',
         style: 'cancel',
@@ -92,18 +107,28 @@ const SelfAuth = () => {
   };
 
   //재발송 버튼 클릭
-  const goAlertPhoneAdd = () => {
-    Alert.alert('재발송 되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
+  const goAlertPhoneAdd = async () => {
     setSecond(180);
+    const result = await signUpAPI.codeSending({target: phone});
+    if (result) {
+      Alert.alert('재발송 되었습니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+      setAuthRequest(true);
+    } else {
+      Alert.alert('재발송 되었습니다.', {
+        text: '확인',
+        style: 'cancel',
+      });
+    }
   };
 
   //다음 버튼 클릭
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfile',
+      params: {...params, phoneNumber: phone},
     });
   };
 
@@ -244,7 +269,7 @@ const SelfAuth = () => {
             />
             {/* Body: confirmRequest */}
             <TouchableOpacity
-              disabled={!number.length || confirmSuccess ? true : false}
+              // disabled={!number.length || confirmSuccess ? true : false}
               onPress={onPressConfirm}
               style={
                 !number.length || confirmSuccess

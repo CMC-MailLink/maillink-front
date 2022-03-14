@@ -22,37 +22,67 @@ import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
 
-const SetProfile = () => {
+const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
+  // console.log('SetProfile params: ', params);
   const navigation = useNavigation();
-  const [name, onChangeName] = useState('');
-  const [checkMessage, onChangeCheckMessage] = useState('');
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [confirmOverlap, setConfirmOverlap] = useState(false);
+  const [name, onChangeName] = useState(''); //이름
+  const [checkMessage, onChangeCheckMessage] = useState(''); //textinput아래 안내 메세지
+  const [messageVisible, setMessageVisible] = useState(false); //안내메세지 보이기
+  const [confirmSuccess, setConfirmSuccess] = useState(false); //닉네임 확인 성공 유무
+  const [nameValid, setNameValid] = useState(false); //닉네임 유효성 검증 유무
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('');
+  const [photo, setPhoto] = useState(null);
   const [nameData, onChangeNameData] = useState('영이당당당당');
 
+  //뒤로가기
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  //닉네임 전체 지우기 버튼
   const onPressErase = () => {
     onChangeName('');
   };
+
+  //확인 버튼 클릭
   const onCheckName = () => {
     if (name === nameData) {
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
-      setConfirmSuccess(false);
-      setConfirmOverlap(true);
-    }
-    if (name.length <= 6 && name !== nameData && name) {
+      setMessageVisible(true);
+      setNameValid(false);
+    } else if (name.length > 6) {
+      onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
+      setMessageVisible(true);
+      setNameValid(false);
+    } else if (name !== nameData && name) {
       onChangeCheckMessage('사용할 수 있는 이름이에요.');
+      setNameValid(true);
+      setMessageVisible(true);
       setConfirmSuccess(true);
     }
   };
+
+  //modal창 확인 버튼 클릭
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
   };
 
+  //image data 생성
+  const createFormData = (photo, body = {}) => {
+    const data = new FormData();
+    console.log(photo.fileName, photo.type, photo.uri);
+
+    data.append('photo', {
+      name: photo.fileName,
+      type: photo.type,
+      uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
+    });
+
+    return data;
+  };
+
+  //프로필 이미지 수정 버튼
   const onPressEditImage = async () => {
     const options = {
       storageOptions: {
@@ -64,35 +94,15 @@ const SetProfile = () => {
       includeBase64: true,
     };
     launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
+      // console.log(response);
+      if (response) {
+        setPhoto(response.assets[0]);
+        console.log(
+          createFormData(response.assets[0], {userId: '123'})['_parts'],
+        );
       }
     });
   };
-  const _scrollToInput = reactNode => {
-    this.scroll.props.scrollToFocusedInput(reactNode);
-  };
-
-  useEffect(() => {
-    setConfirmOverlap(false);
-    if (name.length > 6) {
-      onChangeCheckMessage('사용할 수 없는 이름입니다. (한글 6자 제한)');
-      setConfirmSuccess(false);
-    }
-    if (name === '') {
-      setConfirmSuccess(false);
-    }
-  }, [name]);
 
   return (
     <View style={{flex: 1}}>
@@ -108,6 +118,7 @@ const SetProfile = () => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           onPressModalConfirm={onPressModalConfirm}
+          params={{...params, nickName: name}}
         />
       </Modal>
       {/* upperHeader */}
@@ -169,7 +180,11 @@ const SetProfile = () => {
             justifyContent: 'center',
             alignItems: 'center',
             borderBottomWidth: 1,
-            borderBottomColor: '#BEBEBE',
+            borderBottomColor: name.length
+              ? nameValid
+                ? '#4562F1'
+                : '#FF9B9B'
+              : '#BEBEBE',
             marginHorizontal: 43,
             paddingBottom: 10,
           }}>
@@ -181,7 +196,12 @@ const SetProfile = () => {
             }}>
             <TextInput
               style={!name.length ? styles.NameSetPlaceHolder : styles.NameSet}
-              onChangeText={onChangeName}
+              onChangeText={value => {
+                onChangeName(value);
+                setMessageVisible(false);
+                setConfirmSuccess(false);
+                setNameValid(true);
+              }}
               value={name}
               placeholder="닉네임 입력 (한글 6자)"
               autoCorrect={false}
@@ -203,9 +223,11 @@ const SetProfile = () => {
         </View>
 
         {/* Body: NameCheck */}
-        <View style={{marginTop: 9, marginLeft: 42}}>
-          <Text style={styles.checkMessage}>{checkMessage}</Text>
-        </View>
+        {messageVisible ? (
+          <View style={{marginTop: 9, marginLeft: 42}}>
+            <Text style={styles.checkMessage}>{checkMessage}</Text>
+          </View>
+        ) : null}
       </KeyboardAwareScrollView>
       {/* Footer: Button */}
       <View
