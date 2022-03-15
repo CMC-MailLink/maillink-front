@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -61,21 +61,21 @@ const ReaderAuthorProfile = () => {
       },
       includeBase64: true,
     };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
+    // launchImageLibrary(options, response => {
+    //   console.log('Response = ', response);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
-    });
+    //   if (response.didCancel) {
+    //     console.log('User cancelled image picker');
+    //   } else if (response.errorCode) {
+    //     console.log('ImagePicker Error: ', response.errorCode);
+    //     console.log('ImagePicker Error: ', response.errorMessage);
+    //   } else {
+    //     const source = {
+    //       uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+    //     };
+    //     setImageUri(source);
+    //   }
+    // });
   };
 
   return (

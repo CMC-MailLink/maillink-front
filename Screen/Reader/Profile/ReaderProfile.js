@@ -12,7 +12,7 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
@@ -109,21 +109,21 @@ const ReaderProfile = () => {
       },
       includeBase64: true,
     };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
+    // launchImageLibrary(options, response => {
+    //   console.log('Response = ', response);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
-    });
+    //   if (response.didCancel) {
+    //     console.log('User cancelled image picker');
+    //   } else if (response.errorCode) {
+    //     console.log('ImagePicker Error: ', response.errorCode);
+    //     console.log('ImagePicker Error: ', response.errorMessage);
+    //   } else {
+    //     const source = {
+    //       uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+    //     };
+    //     setImageUri(source);
+    //   }
+    // });
   };
 
   useEffect(() => {

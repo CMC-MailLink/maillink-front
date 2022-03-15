@@ -10,17 +10,20 @@ import {
   TouchableOpacity,
   Modal,
   Platform,
+  AppRegistry,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {useNavigation} from '@react-navigation/native';
+import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
+import {signUpAPI} from '../../api';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
+import axios from 'axios';
 
 const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   // console.log('SetProfile params: ', params);
@@ -32,7 +35,6 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   const [nameValid, setNameValid] = useState(false); //닉네임 유효성 검증 유무
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('');
-  const [photo, setPhoto] = useState(null);
   const [nameData, onChangeNameData] = useState('영이당당당당');
 
   //뒤로가기
@@ -68,40 +70,35 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
     setModalVisible(!modalVisible);
   };
 
-  //image data 생성
-  const createFormData = (photo, body = {}) => {
-    const data = new FormData();
-    console.log(photo.fileName, photo.type, photo.uri);
-
-    data.append('photo', {
-      name: photo.fileName,
-      type: photo.type,
-      uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
-    });
-
-    return data;
-  };
-
   //프로필 이미지 수정 버튼
   const onPressEditImage = async () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-        mediaType: 'photo',
-        maxWidth: 115.47,
-        maxHeight: 112.24,
-      },
-      includeBase64: true,
-    };
-    launchImageLibrary(options, response => {
-      // console.log(response);
-      if (response) {
-        setPhoto(response.assets[0]);
-        console.log(
-          createFormData(response.assets[0], {userId: '123'})['_parts'],
-        );
-      }
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      imageUpload(image.path);
     });
+  };
+
+  //프로필 이미지 등록
+  const imageUpload = async imagePath => {
+    const imageData = new FormData();
+    imageData.append('image', {
+      uri: imagePath,
+      name: 'image.png',
+      fileName: 'image',
+      type: 'image/png',
+    });
+
+    const result = await signUpAPI.profileEditing({image: imageData});
+    console.log(result);
+    if (result) {
+      setImageUri(result);
+    } else {
+      console.log('프로필 등록 실패');
+    }
   };
 
   return (
@@ -118,7 +115,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           onPressModalConfirm={onPressModalConfirm}
-          params={{...params, nickName: name}}
+          params={{...params, nickName: name, imgUrl: imageUri}}
         />
       </Modal>
       {/* upperHeader */}
@@ -156,7 +153,8 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
-              source={imageUri == '' ? DefaultProfile : imageUri}
+              defaultSource={DefaultProfile}
+              source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>

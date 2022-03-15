@@ -44,7 +44,7 @@ const SignIn = () => {
     setRegisterUser({socialType: 'KAKAO', socialId: profile.id});
     navigation.navigate('SignUpStacks', {
       screen: 'SelfAuth',
-      params: registerUser,
+      params: {socialType: 'KAKAO', socialId: profile.id},
     });
   };
 

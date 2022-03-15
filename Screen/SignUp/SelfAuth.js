@@ -67,16 +67,16 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
     setSecond(180);
     const result = await signUpAPI.codeSending({target: phone});
     if (result) {
-      Alert.alert('인증 번호가 전송되었습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('인증 번호가 전송되었습니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
       setAuthRequest(true);
     } else {
-      Alert.alert('인증 번호가 전송에 실패했습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('인증 번호가 전송에 실패했습니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
     }
   };
 
@@ -88,16 +88,16 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
     });
     console.log(result);
     if (result) {
-      Alert.alert('인증 되었습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('인증 되었습니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
       setConfirmSuccess(true);
     } else {
-      Alert.alert('잘못된 인증 번호 입니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('잘못된 인증 번호 입니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
     }
   };
 
@@ -111,16 +111,16 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
     setSecond(180);
     const result = await signUpAPI.codeSending({target: phone});
     if (result) {
-      Alert.alert('재발송 되었습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('재발송 되었습니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
       setAuthRequest(true);
     } else {
-      Alert.alert('재발송 되었습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('재발송 되었습니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
     }
   };
 
@@ -269,7 +269,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             />
             {/* Body: confirmRequest */}
             <TouchableOpacity
-              // disabled={!number.length || confirmSuccess ? true : false}
+              disabled={!number.length || confirmSuccess ? true : false}
               onPress={onPressConfirm}
               style={
                 !number.length || confirmSuccess
