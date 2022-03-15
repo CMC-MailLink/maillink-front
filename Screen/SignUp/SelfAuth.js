@@ -67,10 +67,17 @@ const SelfAuth = () => {
   const onPressRequest = () => {
     setAuthRequest(true);
     setSecond(180);
-    Alert.alert('인증 번호가 전송되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
+    Platform.OS === 'ios'
+      ? Alert.alert('인증 번호가 전송되었습니다.', {
+          text: '확인',
+          style: 'cancel',
+        })
+      : Alert.alert('인증 번호가 전송되었습니다.', null, [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ]);
   };
 
   //확인 버튼 클릭
@@ -96,10 +103,17 @@ const SelfAuth = () => {
 
   //재발송 버튼 클릭
   const goAlertPhoneAdd = () => {
-    Alert.alert('재발송 되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
+    Platform.OS === 'ios'
+      ? Alert.alert('재발송 되었습니다.', {
+          text: '확인',
+          style: 'cancel',
+        })
+      : Alert.alert('재발송 되었습니다', null, [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ]);
     setSecond(180);
   };
 
