@@ -34,6 +34,13 @@ const SignIn = () => {
   const [registerUser, setRegisterUser] = useState(null);
   const navigation = useNavigation();
 
+  //for Test
+  const fortest = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'SelfAuth',
+    });
+  };
+
   const signInWithKakao = async () => {
     const token = await login();
     getProfile();
@@ -206,7 +213,7 @@ const SignIn = () => {
               source={KakaoLogin}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={signInWithKakao}>
+          <TouchableOpacity onPress={fortest}>
             <Image
               style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}
