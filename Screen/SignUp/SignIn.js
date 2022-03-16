@@ -37,7 +37,7 @@ const SignIn = () => {
   //for Test
   const fortest = () => {
     navigation.navigate('SignUpStacks', {
-      screen: 'SelfAuth',
+      screen: 'OnBoarding',
     });
   };
 

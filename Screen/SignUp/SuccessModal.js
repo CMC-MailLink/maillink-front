@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ModalCheck from '../../assets/images/ModalCheck.png';
+import NewCheckModal from '../../assets/images/NewCheckModal.png';
 
 const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
       <View style={styles.modalView}>
         <Image
           style={{width: 70, height: 70, top: -78 + 53}}
-          source={ModalCheck}
+          source={NewCheckModal}
         />
         <Text style={styles.modalText}>
           계정 생성<Text styles={styles.modalText2}>이</Text>

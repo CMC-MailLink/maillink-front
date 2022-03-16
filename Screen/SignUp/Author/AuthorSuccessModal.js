@@ -8,7 +8,7 @@ import {
   Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ModalCheck from '../../../assets/images/ModalCheck.png';
+import NewCheckModal from '../../../assets/images/NewCheckModal.png';
 import NoticeModal from './NoticeModal';
 
 const AuthorSuccessModal = ({
@@ -38,7 +38,7 @@ const AuthorSuccessModal = ({
       <View style={styles.modalView}>
         <Image
           style={{width: 70, height: 70, top: -78 + 53}}
-          source={ModalCheck}
+          source={NewCheckModal}
         />
         <Text style={styles.modalText}>
           프로필 설정<Text styles={styles.modalText2}>이</Text>
