@@ -73,6 +73,10 @@
 		<string>NotoSansKR-Medium.otf</string>
 		<string>NotoSansKR-Regular.otf</string>
 		<string>NotoSansKR-Thin.otf</string>
+		<string>Nanum Brush Script.ttf</string>
+		<string>NanumGothic.ttf</string>
+		<string>NanumMyeongjo.ttf</string>
+		<string>Nanum Pen.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
