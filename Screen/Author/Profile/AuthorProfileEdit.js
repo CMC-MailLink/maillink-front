@@ -480,7 +480,7 @@ const AuthorProfileEdit = () => {
       </KeyboardAwareScrollView>
       <TouchableOpacity>
         <View style={styles.buttonView}>
-          <Text style={styles.buttonText}>확인</Text>
+          <Text style={styles.buttonText}>저장</Text>
         </View>
       </TouchableOpacity>
     </View>

@@ -12,21 +12,21 @@ import {
 } from 'react-native';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
-import InstaLogo from '../../assets/images/InstaLogo.png';
-import FacebookLogo from '../../assets/images/FacebookLogo.png';
-import URLLogo from '../../assets/images/URLLogo.png';
-import TwitterLogo from '../../assets/images/TwitterLogo.png';
+import FacebookNone from '../../assets/images/FacebookNone.png';
+import TwitterNone from '../../assets/images/TwitterNone.png';
+import InstagramNone from '../../assets/images/InstagramNone.png';
+import URLNone from '../../assets/images/URLNone.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const AddWebsite = () => {
   const navigation = useNavigation();
-  const [twitterText, onChangeTwitterText] = useState('');
-  const [instaText, onChangeInstaText] = useState('');
-  const [urlText, onChangeUrlText] = useState('');
-  const [facebookText, onChangeFacebookText] = useState('');
+  const [editFacebook, setEditFacebook] = useState('');
+  const [editTwitter, setEditTwitter] = useState('');
+  const [editInstagram, setEditInstagram] = useState('');
+  const [editURL, setEditURL] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [confirmSuccess, setConfirmSuccess] = useState(true);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -52,75 +52,90 @@ const AddWebsite = () => {
         />
       </Modal>
 
-      {/* upperHeader */}
-      <View style={styles.headerView}>
-        <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-
-      {/* mainHeader */}
-      <Image
-        style={{width: 48, height: 32.28, top: 25, left: 25}}
-        source={SignUpStep1}
-      />
-      <View style={{top: 20 + 15.22, left: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.nameTitle}>웹사이트</Text>
-          <Text style={styles.introTitle}>를</Text>
+      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+        {/* upperHeader */}
+        <View style={styles.headerView}>
+          <TouchableWithoutFeedback onPress={onPressBack}>
+            <View style={{left: 24}}>
+              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-        <Text style={styles.introTitle}>추가해주세요.</Text>
-        <Text style={styles.introSub}>
-          자유롭게 추가해주세요. 독자와 연결됩니다.
-        </Text>
-      </View>
 
-      {/* Body: Input */}
-      <View style={{...styles.inputView, top: 85 + 19}}>
-        <Image style={{width: 22, height: 22, top: 7}} source={FacebookLogo} />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeFacebookText}
-          value={facebookText}
-          placeholder="facebook.com/"
+        {/* mainHeader */}
+        <Image
+          style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
+          source={SignUpStep1}
         />
-        <View style={styles.bodyinputBorder} />
-      </View>
+        <View style={{marginTop: 10, marginLeft: 20}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.nameTitle}>웹사이트</Text>
+            <Text style={styles.introTitle}>를</Text>
+          </View>
+          <Text style={styles.introTitle}>추가해주세요.</Text>
+          <Text style={styles.introSub}>
+            자유롭게 추가해주세요. 독자와 연결됩니다.
+          </Text>
+        </View>
 
-      <View style={{...styles.inputView, top: 85 + 19}}>
-        <Image style={{width: 22, height: 22, top: 7}} source={TwitterLogo} />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeTwitterText}
-          value={twitterText}
-          placeholder="twitter.com/"
-        />
-        <View style={styles.bodyinputBorder} />
-      </View>
-
-      <View style={{...styles.inputView, top: 85 + 19}}>
-        <Image style={{width: 22, height: 22, top: 7}} source={InstaLogo} />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeInstaText}
-          value={instaText}
-          placeholder="instagram.com/"
-        />
-        <View style={styles.bodyinputBorder} />
-      </View>
-
-      <View style={{...styles.inputView, top: 85 + 19}}>
-        <Image style={{width: 22, height: 22, top: 7}} source={URLLogo} />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeUrlText}
-          value={urlText}
-          placeholder=""
-        />
-        <View style={styles.bodyinputBorder} />
-      </View>
+        {/* Body: Input */}
+        <View
+          style={{
+            ...styles.titleView,
+            borderBottomWidth: 0,
+            paddingBottom: 150,
+          }}>
+          <View>
+            <View style={styles.websiteView}>
+              <Image
+                style={{width: 21.5, height: 20.64, marginRight: 17}}
+                source={FacebookNone}
+              />
+              <Text style={styles.websiteText}>facebook.com/</Text>
+              <TextInput
+                style={styles.websiteTextInput}
+                value={editFacebook}
+                onChangeText={setEditFacebook}
+              />
+            </View>
+            <View style={styles.websiteView}>
+              <Image
+                style={{width: 21.5, height: 20.64, marginRight: 17}}
+                source={TwitterNone}
+              />
+              <Text style={styles.websiteText}>twitter.com/</Text>
+              <TextInput
+                style={styles.websiteTextInput}
+                value={editTwitter}
+                onChangeText={setEditTwitter}
+              />
+            </View>
+            <View style={styles.websiteView}>
+              <Image
+                style={{width: 21.5, height: 20.64, marginRight: 17}}
+                source={InstagramNone}
+              />
+              <Text style={styles.websiteText}>instagram.com/</Text>
+              <TextInput
+                style={styles.websiteTextInput}
+                value={editInstagram}
+                onChangeText={setEditInstagram}
+              />
+            </View>
+            <View style={styles.websiteView}>
+              <Image
+                style={{width: 21.5, height: 20.64, marginRight: 17}}
+                source={URLNone}
+              />
+              <TextInput
+                style={styles.websiteTextInput}
+                value={editURL}
+                onChangeText={setEditURL}
+              />
+            </View>
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
 
       {/* Footer: Button pass */}
       <View style={styles.footer}>
@@ -162,10 +177,6 @@ const styles = StyleSheet.create({
     color: '#BEBEBE',
     marginTop: 6,
   },
-  inputView: {
-    top: 10 + 93,
-    left: 21.11,
-  },
   input: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
@@ -181,16 +192,15 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E2E2E2',
   },
   footer: {
-    position: 'absolute',
-    top: 247,
-    justifyContent: 'center',
+    position: 'static',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 80,
+    paddingTop: 5,
     alignItems: 'center',
   },
   buttonAble: {
-    top: 410,
-    left: 20,
-    right: 21 + 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#4562F1',
@@ -204,9 +214,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   buttonDisable: {
-    top: 410,
-    left: 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#BEBEBE',
@@ -219,13 +227,40 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   footerPassText: {
-    position: 'absolute',
-    marginTop: 65 + 340 + 21,
-    left: -25,
+    marginTop: 15,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
     textDecorationLine: 'underline',
+  },
+  websiteView: {
+    flexDirection: 'row',
+    borderBottomColor: '#E2E2E2',
+    borderBottomWidth: 0.5,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  websiteText: {
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 14,
+    color: '#BEBEBE',
+    includeFontPadding: false,
+  },
+  websiteTextInput: {
+    padding: 0,
+    width: '100%',
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
+  titleView: {
+    width: '100%',
+    paddingVertical: 18,
+    paddingHorizontal: 21,
+    borderBottomColor: '#F4F4F4',
+    borderBottomWidth: 1,
+    marginTop: 70,
   },
 });
 

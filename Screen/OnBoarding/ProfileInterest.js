@@ -24,6 +24,7 @@ import InterestModal from '../../assets/images/InterestModal.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ProfileInterest = () => {
   const myContext = useContext(AppContext);
@@ -71,7 +72,7 @@ const ProfileInterest = () => {
   };
 
   const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
+    navigation.navigate('OnBoardingStacks', {
       screen: 'AddWebsite',
     });
   };
@@ -181,184 +182,181 @@ const ProfileInterest = () => {
         />
       </Modal>
 
-      {/* upperHeader */}
-      <View style={styles.headerView}>
-        <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-      {/* mainHeader */}
-      <Image
-        style={{width: 48, height: 32.28, top: 25, left: 25}}
-        source={SignUpStep1}
-      />
-      <View style={{top: 20 + 15.22, left: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.nameTitle}>관심사</Text>
-          <Text style={styles.introTitle}>를</Text>
-        </View>
-        <Text style={styles.introTitle}>설정해주세요.</Text>
-        <Text style={styles.introSub}>주로 어떤 글을 쓰는 작가인가요?</Text>
-      </View>
-      <Modal
-        animationType="fade"
-        transparent={false}
-        visible={modalOpen}
-        closeOnTouchOutside={true}>
-        <Image
-          style={{left: -23 + 340, width: 228, height: 187}}
-          source={InterestModal}
-        />
-      </Modal>
-
-      {/* Body */}
-      <View style={{...styles.titleView, marginTop: 10 + 46}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={styles.titleText}>갈래</Text>
-          <TouchableWithoutFeedback>
-            <RenderInfoItem />
+      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+        {/* upperHeader */}
+        <View style={styles.headerView}>
+          <TouchableWithoutFeedback onPress={onPressBack}>
+            <View style={{left: 24}}>
+              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            </View>
           </TouchableWithoutFeedback>
         </View>
-        <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 32}}>
-          {branch.map((item, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => onPressBranch(item, index)}
-                key={index}>
-                <View
-                  style={{
-                    ...styles.itemView,
-                    backgroundColor: item.select ? '#E8EBFF' : '#FFF',
-                    borderColor: item.select ? '#E8EBFF' : '#BEBEBE',
-                    paddingHorizontal: item.rep ? 14.6 : 22,
-                  }}>
-                  <Text
+        {/* mainHeader */}
+        <Image
+          style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
+          source={SignUpStep1}
+        />
+        <View style={{marginTop: 10, marginLeft: 20}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.nameTitle}>관심사</Text>
+            <Text style={styles.introTitle}>를</Text>
+          </View>
+          <Text style={styles.introTitle}>설정해주세요.</Text>
+          <Text style={styles.introSub}>주로 어떤 글을 쓰는 작가인가요?</Text>
+        </View>
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={modalOpen}
+          closeOnTouchOutside={true}>
+          <Image
+            style={{left: -23 + 340, width: 228, height: 187}}
+            source={InterestModal}
+          />
+        </Modal>
+
+        {/* Body */}
+        <View
+          style={{
+            ...styles.titleView,
+            marginTop: 10 + 46,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={styles.titleText}>갈래</Text>
+            <TouchableWithoutFeedback>
+              <RenderInfoItem />
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 32}}>
+            {branch.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => onPressBranch(item, index)}
+                  key={index}>
+                  <View
                     style={{
-                      ...styles.itemText,
-                      color: item.select ? '#0021C6' : '#828282',
+                      ...styles.itemView,
+                      backgroundColor: item.select ? '#E8EBFF' : '#FFF',
+                      borderColor: item.select ? '#E8EBFF' : '#BEBEBE',
+                      paddingHorizontal: item.rep ? 14.6 : 22,
                     }}>
-                    {item.rep ? (
+                    <Text
+                      style={{
+                        ...styles.itemText,
+                        color: item.select ? '#0021C6' : '#828282',
+                      }}>
+                      {item.rep ? (
+                        <Text
+                          style={{
+                            ...styles.itemText,
+                            color: '#4562F1',
+                          }}>
+                          ♥&nbsp;
+                        </Text>
+                      ) : null}
+                      {item.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <Text style={{...styles.titleText, marginTop: -35 + 42}}>분위기</Text>
+          <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 10}}>
+            {vive.map((item, index) => {
+              if (index < 4) {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => onPressVive(item, index)}>
+                    <View
+                      style={{
+                        ...styles.itemView,
+                        backgroundColor: item.select
+                          ? colorCategory[item.name].back
+                          : '#FFF',
+                        borderColor: item.select
+                          ? colorCategory[item.name].back
+                          : '#BEBEBE',
+                        paddingHorizontal: item.rep ? 14.6 : 22,
+                      }}>
                       <Text
                         style={{
                           ...styles.itemText,
-                          color: '#4562F1',
+                          color: item.select
+                            ? colorCategory[item.name].font
+                            : '#828282',
                         }}>
-                        ♥&nbsp;
+                        {item.rep ? (
+                          <Text
+                            style={{
+                              ...styles.itemText,
+                              color: colorCategory[item.name].heart,
+                            }}>
+                            ♥&nbsp;
+                          </Text>
+                        ) : null}
+                        {item.name}
                       </Text>
-                    ) : null}
-                    {item.name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <Text style={{...styles.titleText, marginTop: -35 + 42}}>분위기</Text>
-        <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 10}}>
-          {vive.map((item, index) => {
-            if (index < 4) {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => onPressVive(item, index)}>
-                  <View
-                    style={{
-                      ...styles.itemView,
-                      backgroundColor: item.select
-                        ? colorCategory[item.name].back
-                        : '#FFF',
-                      borderColor: item.select
-                        ? colorCategory[item.name].back
-                        : '#BEBEBE',
-                      paddingHorizontal: item.rep ? 14.6 : 22,
-                    }}>
-                    <Text
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
+            })}
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            {vive.map((item, index) => {
+              if (index >= 4) {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => onPressVive(item, index)}>
+                    <View
                       style={{
-                        ...styles.itemText,
-                        color: item.select
-                          ? colorCategory[item.name].font
-                          : '#828282',
+                        ...styles.itemView,
+                        backgroundColor: item.select
+                          ? colorCategory[item.name].back
+                          : '#FFF',
+                        borderColor: item.select
+                          ? colorCategory[item.name].back
+                          : '#BEBEBE',
+                        paddingHorizontal: item.rep ? 14.6 : 22,
                       }}>
-                      {item.rep ? (
-                        <Text
-                          style={{
-                            ...styles.itemText,
-                            color: colorCategory[item.name].heart,
-                          }}>
-                          ♥&nbsp;
-                        </Text>
-                      ) : null}
-                      {item.name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }
-          })}
+                      <Text
+                        style={{
+                          ...styles.itemText,
+                          color: item.select
+                            ? colorCategory[item.name].font
+                            : '#828282',
+                        }}>
+                        {item.rep ? (
+                          <Text
+                            style={{
+                              ...styles.itemText,
+                              color: colorCategory[item.name].heart,
+                            }}>
+                            ♥&nbsp;
+                          </Text>
+                        ) : null}
+                        {item.name}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
+            })}
+          </View>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          {vive.map((item, index) => {
-            if (index >= 4) {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => onPressVive(item, index)}>
-                  <View
-                    style={{
-                      ...styles.itemView,
-                      backgroundColor: item.select
-                        ? colorCategory[item.name].back
-                        : '#FFF',
-                      borderColor: item.select
-                        ? colorCategory[item.name].back
-                        : '#BEBEBE',
-                      paddingHorizontal: item.rep ? 14.6 : 22,
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.itemText,
-                        color: item.select
-                          ? colorCategory[item.name].font
-                          : '#828282',
-                      }}>
-                      {item.rep ? (
-                        <Text
-                          style={{
-                            ...styles.itemText,
-                            color: colorCategory[item.name].heart,
-                          }}>
-                          ♥&nbsp;
-                        </Text>
-                      ) : null}
-                      {item.name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }
-          })}
-        </View>
-      </View>
+      </KeyboardAwareScrollView>
       {/* footer: Button pass */}
       <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={goNextScreen}
-          style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
+        <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
           <View>
-            <Text
-              style={
-                confirmSuccess
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              다음
-            </Text>
+            <Text style={styles.buttonAbleText}>다음</Text>
           </View>
         </TouchableOpacity>
 
@@ -451,16 +449,15 @@ const styles = StyleSheet.create({
     paddingTop: 14,
   },
   footer: {
-    position: 'absolute',
-    top: 247,
-    justifyContent: 'center',
+    position: 'static',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 40,
+    paddingTop: 5,
     alignItems: 'center',
   },
   buttonAble: {
-    top: 410,
-    left: 20,
-    right: 21 + 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#4562F1',
@@ -472,25 +469,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
-  buttonDisable: {
-    top: 410,
-    left: 20,
-    width: 350,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: '#BEBEBE',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonDisableText: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
   footerPassText: {
-    position: 'absolute',
-    marginTop: 65 + 340 + 21,
-    left: -25,
+    marginTop: 15,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',

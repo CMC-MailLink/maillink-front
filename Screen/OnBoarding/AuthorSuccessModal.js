@@ -32,7 +32,7 @@ const AuthorSuccessModal = ({
         <NoticeModal
           modalVisible={modalVisible2}
           setModalVisible={setModalVisible2}
-          onPressModalConfirm={onPressModalConfirm2}
+          onPressModalConfirm2={onPressModalConfirm2}
         />
       </Modal>
       <View style={styles.modalView}>

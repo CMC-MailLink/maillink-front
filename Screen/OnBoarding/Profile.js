@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import SignUpAuthorProfile from '../../assets/images/SignUpAuthorProfile.png';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Profile = () => {
   const myContext = useContext(AppContext);
@@ -23,7 +24,7 @@ const Profile = () => {
     setModalVisible(!modalVisible);
   };
   const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
+    navigation.navigate('OnBoardingStacks', {
       screen: 'ProfileIntro',
     });
   };
@@ -49,23 +50,27 @@ const Profile = () => {
         />
       </Modal>
 
-      {/* mainHeader */}
-      <Text style={styles.IntroSub}>
-        독자들과 연결되도록 나를 소개해보세요.
-      </Text>
-      <View style={{top: 20 + 15.22, left: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.NameTitle}>작가 프로필</Text>
-          <Text style={styles.IntroTitle}>을</Text>
+      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+        {/* mainHeader */}
+        <Text style={styles.IntroSub}>
+          독자들과 연결되도록 나를 소개해보세요.
+        </Text>
+        <View style={{top: 20 + 15.22, left: 20}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.NameTitle}>작가 프로필</Text>
+            <Text style={styles.IntroTitle}>을</Text>
+          </View>
+          <Text style={styles.IntroTitle}>생성해보세요!</Text>
         </View>
-        <Text style={styles.IntroTitle}>생성해보세요!</Text>
-      </View>
 
-      {/* Body: ProfileName */}
-      <View style={{top: 100}}>
-        <Image style={{width: 392, height: 369}} source={SignUpAuthorProfile} />
-      </View>
-
+        {/* Body: ProfileName */}
+        <View style={{top: 100}}>
+          <Image
+            style={{width: 392, height: 369}}
+            source={SignUpAuthorProfile}
+          />
+        </View>
+      </KeyboardAwareScrollView>
       {/* footer: Button, Pass*/}
       <View style={styles.footer}>
         {/* footer: Button*/}
@@ -109,9 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   buttonDisable: {
-    position: 'absolute',
-    top: 90,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#BEBEBE',
@@ -119,10 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonAble: {
-    position: 'absolute',
-    top: 90,
-    right: 21 + 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#4562F1',
@@ -136,18 +136,19 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   footer: {
-    marginTop: 44,
-    justifyContent: 'center',
+    position: 'static',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 40,
+    paddingTop: 5,
     alignItems: 'center',
-    left: 20,
   },
   footerPassText: {
-    top: 137 + 21,
+    marginTop: 15,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
     textDecorationLine: 'underline',
-    left: -20,
   },
 });
 

@@ -40,10 +40,10 @@ const NoticeModal = ({
         <Text style={styles.modalText}>
           <Text style={styles.modalText3}>글을 작성하고 발행해보세요! </Text>
         </Text>
-        <Text style={styles.modalText4}>www.malink.com </Text>
+        <Text style={styles.modalText4}>https://www.mail-link.co.kr</Text>
         <View style={styles.modalButtonView}>
           <TouchableOpacity
-            onPress={() => Clipboard.setString('www.maillink.com')}>
+            onPress={() => Clipboard.setString('https://www.mail-link.co.kr')}>
             <View style={{marginRight: 26}}>
               <Text style={styles.modalConfirm}>링크복사</Text>
             </View>
