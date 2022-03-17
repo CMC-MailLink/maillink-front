@@ -37,6 +37,13 @@ const SignIn = props => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
+  //for Test
+  const fortest = () => {
+    navigation.navigate('SignUpStacks', {
+      screen: 'OnBoarding',
+    });
+  };
+
   const signInWithKakao = async () => {
     const token = await login();
     getProfile();
@@ -229,7 +236,7 @@ const SignIn = props => {
               source={KakaoLogin}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={signInWithKakao}>
+          <TouchableOpacity onPress={fortest}>
             <Image
               style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}

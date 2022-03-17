@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+// eslint-disable react-native/no-inline-styles
 import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
@@ -9,6 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -67,16 +70,30 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
     setSecond(180);
     const result = await signUpAPI.codeSending({target: phone});
     if (result) {
-      // Alert.alert('인증 번호가 전송되었습니다.', {
-      //   text: '확인',
-      //   style: 'cancel',
-      // });
+      Platform.OS === 'ios'
+        ? Alert.alert('인증 번호가 전송되었습니다.', {
+            text: '확인',
+            style: 'cancel',
+          })
+        : Alert.alert('인증 번호가 전송되었습니다.', null, [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]);
       setAuthRequest(true);
     } else {
-      // Alert.alert('인증 번호가 전송에 실패했습니다.', {
-      //   text: '확인',
-      //   style: 'cancel',
-      // });
+      Platform.OS === 'ios'
+        ? Alert.alert('인증 번호 전송에 실패했습니다.', {
+            text: '확인',
+            style: 'cancel',
+          })
+        : Alert.alert('인증 번호 전송에 실패했습니다.', null, [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]);
     }
   };
 
@@ -111,16 +128,19 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
     setSecond(180);
     const result = await signUpAPI.codeSending({target: phone});
     if (result) {
-      // Alert.alert('재발송 되었습니다.', {
-      //   text: '확인',
-      //   style: 'cancel',
-      // });
+      Platform.OS === 'ios'
+        ? Alert.alert('재발송 되었습니다.', {
+            text: '확인',
+            style: 'cancel',
+          })
+        : Alert.alert('재발송 되었습니다', null, [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]);
       setAuthRequest(true);
     } else {
-      // Alert.alert('재발송 되었습니다.', {
-      //   text: '확인',
-      //   style: 'cancel',
-      // });
     }
   };
 
@@ -157,6 +177,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           </View>
           <Text style={styles.IntroTitle}>진행해주세요.</Text>
         </View>
+
         {/* Body: Name */}
         <View
           style={{
@@ -177,6 +198,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             placeholder="이름을 입력해주세요."
           />
         </View>
+
         {/* Body: Phone */}
         <View
           style={{
@@ -191,7 +213,11 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               flexDirection: 'row',
               borderBottomWidth: 1,
               borderBottomColor: '#BEBEBE',
-              paddingBottom: 10,
+              borderColor: '#BEBEBE',
+              ...Platform.select({
+                ios: {paddingBottom: 10},
+                android: {paddingTop: -10},
+              }),
             }}>
             <TextInput
               editable={name.length && !confirmSuccess ? true : false}
@@ -251,6 +277,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               </TouchableOpacity>
             )}
           </View>
+
           {/* Body: AuthRequest */}
           <View
             style={{
@@ -258,6 +285,10 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               borderBottomWidth: 1,
               borderBottomColor: '#BEBEBE',
               paddingBottom: 10,
+              ...Platform.select({
+                ios: {},
+                android: {paddingBottom: 0},
+              }),
             }}>
             <TextInput
               editable={authRequest && !confirmSuccess ? true : false}
@@ -302,15 +333,14 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           /> */}
           {checkbox ? (
             <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
-              <Image
-                style={{width: 23, height: 23}}
-                source={CheckSelfAuth}></Image>
+              <Image style={{width: 23, height: 23}} source={CheckSelfAuth} />
             </TouchableWithoutFeedback>
           ) : (
             <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
               <Image
                 style={{width: 23, height: 23}}
-                source={CheckDisabledSelfAuth}></Image>
+                source={CheckDisabledSelfAuth}
+              />
             </TouchableWithoutFeedback>
           )}
 
@@ -359,6 +389,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingTop: 22,
+    includeFontPadding: false,
   },
   NameTitle: {
     fontFamily: 'NotoSansKR-Bold',
@@ -391,10 +422,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BEBEBE',
     bottom: 16 - 10,
     paddingTop: -23,
+    includeFontPadding: false,
   },
   timer: {
     left: 239,
     bottom: 17,
+    includeFontPadding: false,
   },
   basicAuthRequest: {
     width: 69,
@@ -407,6 +440,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    ...Platform.select({
+      android: {marginTop: 25 - 10},
+    }),
+    includeFontPadding: false,
   },
   basicAuthRequestText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -423,6 +460,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
+    ...Platform.select({
+      android: {marginTop: 20},
+    }),
+    includeFontPadding: false,
   },
   changeAuthRequestText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -439,6 +480,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
+    includeFontPadding: false,
   },
   authRequest: {
     width: 69,

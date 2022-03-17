@@ -12,6 +12,9 @@ import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
+import OnBoarding1 from '../../assets/images/OnBoarding1.png';
+import OnBoarding2 from '../../assets/images/OnBoarding2.png';
+import OnBoarding3 from '../../assets/images/OnBoarding3.png';
 
 const OnBoarding = props => {
   const navigation = useNavigation();
@@ -45,6 +48,7 @@ const OnBoarding = props => {
           </View>
         </TouchableWithoutFeedback> */}
       </View>
+
       <Swiper
         index={swiperIndex}
         onIndexChanged={index => setSwiperIndex(index)}
@@ -60,18 +64,28 @@ const OnBoarding = props => {
               flex: 2,
               justifyContent: 'flex-end',
               alignItems: 'center',
-              marginBottom: 15,
+              marginBottom: -45,
             }}>
-            <Text style={styles.bodyTitleText}>나에게 꼭 맞는</Text>
-            <Text style={styles.bodyTitleText}>작가 소개받기</Text>
+            <Image style={{width: 400, height: 507}} source={OnBoarding1} />
+            <Text style={styles.bodyTitleText}>당신이 찾던 그 작가</Text>
           </View>
-          <View style={{flex: 1, alignItems: 'center'}}>
-            <Text style={styles.bodyDescText}>
-              취향분석테스트와 간편한 작가찾기로
-            </Text>
-            <Text style={styles.bodyDescText}>
-              나에게 맞는 작가를 구독하세요
-            </Text>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                paddingTop: 33 + 22,
+                alignItems: 'center',
+              }}>
+              <Text style={styles.bodyDescText}>
+                취향분석테스트와 필터링으로
+              </Text>
+              <Text style={styles.bodyDescText}>
+                나에게 꼭 맞는 작가를 만나보세요
+              </Text>
+            </View>
           </View>
         </View>
         <View style={{flex: 1}}>
@@ -80,14 +94,21 @@ const OnBoarding = props => {
               flex: 2,
               justifyContent: 'flex-end',
               alignItems: 'center',
-              marginBottom: 15,
+              marginBottom: -45,
             }}>
+            <Image style={{width: 400, height: 499}} source={OnBoarding2} />
             <Text style={styles.bodyTitleText}>속닥속닥 연결되는 우리</Text>
           </View>
           <View style={{flex: 1, alignItems: 'center'}}>
-            <Text style={styles.bodyDescText}>
-              구독한 작가와 쪽지를 주고받아보세요
-            </Text>
+            <View
+              style={{
+                paddingTop: 33 + 22,
+                alignItems: 'center',
+              }}>
+              <Text style={styles.bodyDescText}>
+                구독한 작가와 쪽지를 주고받아보세요
+              </Text>
+            </View>
           </View>
         </View>
         <View style={{flex: 1}}>
@@ -96,20 +117,34 @@ const OnBoarding = props => {
               flex: 2,
               justifyContent: 'flex-end',
               alignItems: 'center',
-              marginBottom: 15,
+              marginBottom: 100,
             }}>
-            <Text style={styles.bodyTitleText}>어디서나 글을 쓰고</Text>
-            <Text style={styles.bodyTitleText}>발행하기</Text>
+            <Image style={{width: 418, height: 410}} source={OnBoarding3} />
           </View>
           <View style={{flex: 1, alignItems: 'center'}}>
-            <Text style={styles.bodyDescText}>작가는 모바일과 웹 모두에서</Text>
-            <Text style={styles.bodyDescText}>
-              글을 작성하고 편집할 수 있어요
-            </Text>
+            <View style={{flex: 1, marginTop: -104 + 55}}>
+              <Text style={styles.bodyTitleText}>타닥타닥 써내려가는 메일</Text>
+            </View>
+            <View
+              style={{
+                paddingBottom: 180 - 10,
+                alignItems: 'center',
+              }}>
+              <Text style={styles.bodyDescText}>작가는 웹사이트를 통해</Text>
+              <Text style={styles.bodyDescText}>
+                PC에서도 글을 작성할 수 있어요
+              </Text>
+            </View>
           </View>
         </View>
       </Swiper>
-      <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          marginBottom: 35 - 72,
+        }}>
         <View style={styles.bottomView}>
           <TouchableWithoutFeedback onPress={onPressSkip}>
             <Text style={styles.skipText}>건너뛰기</Text>
@@ -141,7 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 2.5,
     marginLeft: 3.5,
     marginRight: 3.5,
-    marginBottom: 100,
+    marginBottom: 63,
   },
   swiperActiveDot: {
     backgroundColor: '#4562F1',
@@ -150,7 +185,7 @@ const styles = StyleSheet.create({
     borderRadius: 2.5,
     marginLeft: 3.5,
     marginRight: 3.5,
-    marginBottom: 100,
+    marginBottom: 63,
   },
   bodyView: {
     width: '100%',
