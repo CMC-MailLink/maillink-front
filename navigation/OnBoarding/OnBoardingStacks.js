@@ -7,17 +7,18 @@ import ProfileIntro from '../../Screen/OnBoarding/ProfileIntro';
 import ProfileInterest from '../../Screen/OnBoarding/ProfileInterest';
 import AddWebsite from '../../Screen/OnBoarding/AddWebsite';
 import AuthorSuccessModal from '../../Screen/OnBoarding/AuthorSuccessModal';
-import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
-import ReaderAnalyzeOne from '../../Screen/Reader/Analyze/ReaderAnalyzeOne';
-import ReaderAnalyzeTwo from '../../Screen/Reader/Analyze/ReaderAnalyzeTwo';
-import ReaderAnalyzeThree from '../../Screen/Reader/Analyze/ReaderAnalyzeThree';
-import ReaderAnalyzeFour from '../../Screen/Reader/Analyze/ReaderAnalyzeFour';
-import ReaderAnalyzeFive from '../../Screen/Reader/Analyze/ReaderAnalyzeFive';
-import ReaderAnalyzeSix from '../../Screen/Reader/Analyze/ReaderAnalyzeSix';
-import ReaderAnalyzeSeven from '../../Screen/Reader/Analyze/ReaderAnalyzeSeven';
-import ReaderAnalyzeEight from '../../Screen/Reader/Analyze/ReaderAnalyzeEight';
-import ReaderAnalyzeNine from '../../Screen/Reader/Analyze/ReaderAnalyzeNine';
-import ReaderAnalyzeResult from '../../Screen/Reader/Analyze/ReaderAnalyzeResult';
+import ReaderAnalyze from '../../Screen/OnBoarding/ReaderAnalyze';
+import ReaderAnalyzeOne from '../../Screen/OnBoarding/ReaderAnalyzeOne';
+import ReaderAnalyzeTwo from '../../Screen/OnBoarding/ReaderAnalyzeTwo';
+import ReaderAnalyzeThree from '../../Screen/OnBoarding/ReaderAnalyzeThree';
+import ReaderAnalyzeFour from '../../Screen/OnBoarding/ReaderAnalyzeFour';
+import ReaderAnalyzeFive from '../../Screen/OnBoarding/ReaderAnalyzeFive';
+import ReaderAnalyzeSix from '../../Screen/OnBoarding/ReaderAnalyzeSix';
+import ReaderAnalyzeSeven from '../../Screen/OnBoarding/ReaderAnalyzeSeven';
+import ReaderAnalyzeEight from '../../Screen/OnBoarding/ReaderAnalyzeEight';
+import ReaderAnalyzeNine from '../../Screen/OnBoarding/ReaderAnalyzeNine';
+import ReaderAnalyzeResult from '../../Screen/OnBoarding/ReaderAnalyzeResult';
+import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
 
 const OnBoardingStack = createNativeStackNavigator();
 const OnBoardingStacks = props => {
@@ -29,7 +30,6 @@ const OnBoardingStacks = props => {
       screenOptions={{
         headerBackTitleVisible: false,
         headerShadowVisible: false,
-        presentation: 'card',
         headerShown: false,
       }}>
       <OnBoardingStack.Screen
@@ -70,7 +70,7 @@ const OnBoardingStacks = props => {
       <OnBoardingStack.Screen
         name="ReaderAnalyze"
         component={ReaderAnalyze}
-        options={{headerTitle: '', presentation: 'fullScreenModal'}}
+        options={{headerTitle: ''}}
       />
       <OnBoardingStack.Screen
         name="ReaderAnalyzeOne"
@@ -121,6 +121,11 @@ const OnBoardingStacks = props => {
         name="ReaderAnalyzeResult"
         component={ReaderAnalyzeResult}
         options={{headerTitle: '', animation: 'fade'}}
+      />
+      <OnBoardingStack.Screen
+        name="ReaderAuthorProfile"
+        component={ReaderAuthorProfile}
+        options={{headerTitle: ''}}
       />
     </OnBoardingStack.Navigator>
   );

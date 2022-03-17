@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -23,8 +23,10 @@ import InfoAuthorProfile from '../../assets/images/InfoAuthorProfile.png';
 import InterestModal from '../../assets/images/InterestModal.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
+import AppContext from '../../AppContext';
 
 const ProfileInterest = () => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [introText, onChangeIntroText] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
@@ -156,6 +158,10 @@ const ProfileInterest = () => {
       temp[index].select = true;
     }
     setVive([...temp]);
+  };
+
+  const onPressSkip = () => {
+    myContext.setIsReader('WRITER');
   };
 
   return (
@@ -357,7 +363,7 @@ const ProfileInterest = () => {
         </TouchableOpacity>
 
         {/* footer: Pass*/}
-        <TouchableWithoutFeedback onPress={onPressModalConfirm}>
+        <TouchableWithoutFeedback onPress={onPressSkip}>
           <View>
             <Text style={styles.footerPassText}>다음에 할께요</Text>
           </View>

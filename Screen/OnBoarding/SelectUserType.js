@@ -49,14 +49,35 @@ const SelectUserType = props => {
   };
   const goAuthorProfile = async () => {
     const result = await signUpAPI.memberType({userType: 'WRITER'});
-    console.log(result);
     // myContext.setIsReader('WRITER');
     navigation.navigate('OnBoardingStacks', {screen: 'Profile'});
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [
+    //       {name: 'OnBoardingStacks'},
+    //       {
+    //         name: 'Profile',
+    //       },
+    //     ],
+    //   }),
+    // );
   };
   const goTasteAnalysisProfile = async () => {
     const result = await signUpAPI.memberType({userType: 'READER'});
     // myContext.setIsReader('READER');
     navigation.navigate('OnBoardingStacks', {screen: 'ReaderAnalyze'});
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [
+    //       {name: 'OnBoardingStacks'},
+    //       {
+    //         name: 'ReaderAnalyze',
+    //       },
+    //     ],
+    //   }),
+    // );
   };
 
   return (

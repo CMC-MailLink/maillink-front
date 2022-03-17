@@ -10,9 +10,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
-import AppContext from '../../../AppContext';
+import AppContext from '../../AppContext';
 
-import AnalyzeStart from '../../../assets/images/AnalyzeStart.png';
+import AnalyzeStart from '../../assets/images/AnalyzeStart.png';
 
 const ReaderAnalyze = () => {
   const myContext = useContext(AppContext);
@@ -23,7 +23,7 @@ const ReaderAnalyze = () => {
     navigation.navigate('ReaderTabs', {screen: 'recommend'});
   };
   const onPressStart = () => {
-    navigation.navigate('ReaderStacks', {
+    navigation.navigate('OnBoardingStacks', {
       screen: 'ReaderAnalyzeOne',
     });
   };

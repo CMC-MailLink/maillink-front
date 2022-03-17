@@ -11,13 +11,13 @@ import {
   Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import AppContext from '../../../AppContext';
+import AppContext from '../../AppContext';
 
-import BackMail from '../../../assets/images/BackMail.png';
-import ExitResult from '../../../assets/images/ExitResult.png';
-import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
-import GoRecommend from '../../../assets/images/GoRecommend.png';
-import AgainRecommend from '../../../assets/images/AgainRecommend.png';
+import BackMail from '../../assets/images/BackMail.png';
+import ExitResult from '../../assets/images/ExitResult.png';
+import AuthorRecommend from '../../assets/images/AuthorRecommend.png';
+import GoRecommend from '../../assets/images/GoRecommend.png';
+import AgainRecommend from '../../assets/images/AgainRecommend.png';
 
 const colorCategory = {
   편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
@@ -197,7 +197,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
         </View>
         <TouchableOpacity
           style={{position: 'absolute', bottom: 45, right: 23}}
-          onPress={() => navigation.popToTop()}>
+          onPress={() => navigation.pop(6)}>
           <View style={styles.againView}>
             <Image
               style={{width: 18, height: 14, marginRight: 7}}

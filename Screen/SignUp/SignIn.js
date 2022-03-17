@@ -37,13 +37,6 @@ const SignIn = props => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
-  //for Test
-  const fortest = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
-  };
-
   const signInWithKakao = async () => {
     const token = await login();
     getProfile();
@@ -75,6 +68,21 @@ const SignIn = props => {
           socialId: profile.id,
         },
       });
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 1,
+      //     routes: [
+      //       {name: 'SignUpStacks'},
+      //       {
+      //         name: 'SelfAuth',
+      //         params: {
+      //           socialType: 'KAKAO',
+      //           socialId: profile.id,
+      //         },
+      //       },
+      //     ],
+      //   }),
+      // );
     }
   };
 
@@ -236,7 +244,7 @@ const SignIn = props => {
               source={KakaoLogin}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={fortest}>
+          <TouchableOpacity onPress={signInWithKakao}>
             <Image
               style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -15,8 +15,10 @@ import SignUpStep1 from '../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
+import AppContext from '../../AppContext';
 
 const ProfileIntro = () => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [introText, onChangeIntroText] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
@@ -48,6 +50,10 @@ const ProfileIntro = () => {
       setenterCount(enterCount + 1);
     }
   }, [introText, confirmSuccess, enterCount]);
+
+  const onPressSkip = () => {
+    myContext.setIsReader('WRITER');
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -124,7 +130,7 @@ const ProfileIntro = () => {
         </TouchableOpacity>
 
         {/* footer: Pass*/}
-        <TouchableWithoutFeedback onPress={onPressModalConfirm}>
+        <TouchableWithoutFeedback onPress={onPressSkip}>
           <View>
             <Text style={styles.footerPassText}>다음에 할께요</Text>
           </View>

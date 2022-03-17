@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,14 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import InfoWeb from '../../assets/images/InfoWeb.png';
 import Clipboard from '@react-native-clipboard/clipboard';
+import AppContext from '../../AppContext';
 
 const NoticeModal = ({
   onPressModalConfirm2,
   modalVisible2,
   setModalVisible2,
 }) => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const onPressCopy = () => {
     Clipboard.setString('www.maillink.com');
@@ -46,7 +48,11 @@ const NoticeModal = ({
               <Text style={styles.modalConfirm}>링크복사</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onPressModalConfirm2}>
+          <TouchableOpacity
+            onPress={() => {
+              myContext.setIsReader('WRITER');
+              onPressModalConfirm2();
+            }}>
             <View>
               <Text style={styles.modalConfirm2}>확인</Text>
             </View>

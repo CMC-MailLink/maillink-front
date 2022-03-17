@@ -60,8 +60,8 @@ const ReaderProfile = () => {
   const [recentSelect, setRecentSelect] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
-  const [name, setName] = useState('영이');
-  const [editName, setEditName] = useState('영이');
+  const [name, setName] = useState('독자비비');
+  const [editName, setEditName] = useState('독자비비');
   const [imageUri, setImageUri] = useState('');
 
   const onPressAll = () => {
