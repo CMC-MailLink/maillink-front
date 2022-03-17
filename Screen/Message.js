@@ -11,8 +11,16 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 import {useNavigation} from '@react-navigation/native';
 import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
+import ReportMenuExit from '../assets/images/ReportMenuExit.png';
+import ReportMenuPage from '../assets/images/ReportMenuPage.png';
 import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 import Report from '../assets/images/Report.png';
@@ -161,6 +169,41 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
     </View>
   );
 
+  const RenderInfoItem = ({item}) => {
+    return (
+      <Menu style={{...styles.menuView, marginTop: -50}}>
+        <MenuTrigger>
+          <Image style={{width: 3, height: 17}} source={Report} />
+        </MenuTrigger>
+        <MenuOptions customStyles={optionsStyles}>
+          <MenuOption
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#E3E3E3',
+              borderLength: 226,
+            }}>
+            <Text style={styles.menuText}>
+              <Text>신고하기</Text>
+            </Text>
+            <Image
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuPage}
+            />
+          </MenuOption>
+          <MenuOption>
+            <Text style={styles.menuText}>
+              <Text>채팅방 나가기</Text>
+            </Text>
+            <Image
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuExit}
+            />
+          </MenuOption>
+        </MenuOptions>
+      </Menu>
+    );
+  };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
@@ -175,8 +218,10 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       </View>
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
-        <View style={{left: 364, marginBottom: 30}}>
-          <Image style={{width: 3, height: 17}} source={Report} />
+        <View style={{left: 364}}>
+          <TouchableWithoutFeedback>
+            <RenderInfoItem />
+          </TouchableWithoutFeedback>
         </View>
         <View style={{left: 22, marginBottom: 45}}>
           <Image
@@ -268,6 +313,29 @@ const styles = StyleSheet.create({
     color: '#BEBEBE',
     paddingBottom: 8,
   },
+  menuText: {
+    left: 13,
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 15,
+    color: '#5F5F5F',
+    includeFontPadding: false,
+  },
 });
+
+const optionsStyles = {
+  optionsContainer: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    width: 226,
+  },
+  optionWrapper: {
+    paddingHorizontal: 10,
+    paddingVertical: 14,
+    justifyContent: 'center',
+  },
+};
 
 export default Message;

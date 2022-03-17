@@ -196,16 +196,6 @@ const ProfileInterest = () => {
         <Text style={styles.introTitle}>설정해주세요.</Text>
         <Text style={styles.introSub}>주로 어떤 글을 쓰는 작가인가요?</Text>
       </View>
-      <Modal
-        animationType="fade"
-        transparent={false}
-        visible={modalOpen}
-        closeOnTouchOutside={true}>
-        <Image
-          style={{left: -23 + 340, width: 228, height: 187}}
-          source={InterestModal}
-        />
-      </Modal>
 
       {/* Body */}
       <View style={{...styles.titleView, marginTop: 10 + 46}}>
