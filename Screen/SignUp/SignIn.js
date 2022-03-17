@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -25,6 +25,7 @@ import {
 import {v4 as uuid} from 'uuid';
 import jwt_decode from 'jwt-decode';
 import {signUpAPI} from '../../API/signUpAPI';
+import AppContext from '../../AppContext';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
@@ -32,6 +33,7 @@ import AppleLogin from '../../assets/images/AppleLogin.png';
 import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = props => {
+  const myContext = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
@@ -50,13 +52,13 @@ const SignIn = props => {
       const result2 = await signUpAPI.memberInfo();
       console.log('signIn : ', result2);
       if (result2 === 'Not Decided') {
-        props.setIsLogged(true);
+        myContext.setIsLogged(true);
       } else if (result2 === 'WRITER') {
-        props.setIsReader('WRITER');
-        props.setIsLogged(true);
+        myContext.setIsReader('WRITER');
+        myContext.setIsLogged(true);
       } else if (result2 === 'READER') {
-        props.setIsReader('READER');
-        props.setIsLogged(true);
+        myContext.setIsReader('READER');
+        myContext.setIsLogged(true);
       }
     } else {
       navigation.navigate('SignUpStacks', {
@@ -64,7 +66,6 @@ const SignIn = props => {
         params: {
           socialType: 'KAKAO',
           socialId: profile.id,
-          setIsLogged: props.setIsLogged,
         },
       });
     }

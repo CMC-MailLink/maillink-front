@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -21,6 +21,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
 import {signUpAPI} from '../../API/signUpAPI';
+import AppContext from '../../AppContext';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
@@ -30,7 +31,7 @@ import EraseNickname from '../../assets/images/EraseNickname.png';
 import axios from 'axios';
 
 const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
-  console.log('SetProfile params: ', params);
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [name, onChangeName] = useState(''); //이름
   const [checkMessage, onChangeCheckMessage] = useState(''); //textinput아래 안내 메세지
@@ -48,9 +49,9 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       // navigation.navigate('OnBoardingStacks', {
       //   screen: 'OnBoarding',
       // });
-      params.setIsLogged(true);
+      myContext.setIsLogged(true);
     }
-  }, [modalConfirm, modalVisible, params]);
+  }, [modalConfirm, modalVisible, myContext]);
 
   //뒤로가기
   const onPressBack = () => {

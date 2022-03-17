@@ -16,18 +16,7 @@ const SignUpRoot = props => {
   return (
     <SignUpNav.Navigator
       screenOptions={{presentation: 'card', headerShown: false}}>
-      <SignUpNav.Screen
-        name="SignUpStacks"
-        children={({navigation}) => (
-          <SignUpStacks
-            navigation={navigation}
-            setIsReader={props.setIsReader}
-            setIsLogged={props.setIsLogged}
-            isLogged={props.isLogged}
-            isReader={props.isReader}
-          />
-        )}
-      />
+      <SignUpNav.Screen name="SignUpStacks" component={SignUpStacks} />
       <ReaderNav.Screen name="ReaderStacks" component={ReaderStacks} />
       <AuthorNav.Screen name="AuthorStacks" component={AuthorStacks} />
       <OnBoardingNav.Screen

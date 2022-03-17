@@ -19,13 +19,7 @@ const SignUpStacks = props => {
       }}>
       <SignUpStack.Screen
         name="SignIn"
-        children={({navigation}) => (
-          <SignIn
-            navigation={navigation}
-            setIsReader={props.setIsReader}
-            setIsLogged={props.setIsLogged}
-          />
-        )}
+        component={SignIn}
         options={{headerTitle: ''}}
       />
       <SignUpStack.Screen

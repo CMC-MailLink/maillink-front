@@ -11,6 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signUpAPI} from './API/signUpAPI';
 import {useNavigation, CommonActions} from '@react-navigation/native';
+import AppContext from './AppContext';
 
 import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
@@ -34,6 +35,12 @@ const MyTheme = {
 const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [isReader, setIsReader] = useState('Not Decided');
+  const userSettings = {
+    isLogged,
+    setIsLogged,
+    isReader,
+    setIsReader,
+  };
 
   setCustomText(customTextProps);
   useEffect(() => {
@@ -65,35 +72,27 @@ const App = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <NavigationContainer theme={MyTheme}>
-        {/* <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+    <AppContext.Provider value={userSettings}>
+      <SafeAreaProvider>
+        <NavigationContainer theme={MyTheme}>
+          {/* <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
-        {/* <StatusBar barStyle="light-content" /> */}
-        <MenuProvider>
-          {!isLogged ? (
-            <SignUpRoot
-              setIsReader={setIsReader}
-              setIsLogged={setIsLogged}
-              isLogged={isLogged}
-              isReader={isReader}
-            />
-          ) : isReader === 'READER' ? (
-            <ReaderRoot />
-          ) : isReader === 'WRITER' ? (
-            <AuthorRoot />
-          ) : (
-            <OnBoardingRoot
-              setIsReader={setIsReader}
-              setIsLogged={setIsLogged}
-              isLogged={isLogged}
-              isReader={isReader}
-            />
-          )}
-          {/* </SafeAreaView> */}
-        </MenuProvider>
-      </NavigationContainer>
-    </SafeAreaProvider>
+          {/* <StatusBar barStyle="light-content" /> */}
+          <MenuProvider>
+            {!isLogged ? (
+              <SignUpRoot />
+            ) : isReader === 'READER' ? (
+              <ReaderRoot />
+            ) : isReader === 'WRITER' ? (
+              <AuthorRoot />
+            ) : (
+              <OnBoardingRoot />
+            )}
+            {/* </SafeAreaView> */}
+          </MenuProvider>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </AppContext.Provider>
   );
 };
 

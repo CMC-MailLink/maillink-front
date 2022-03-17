@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import {signUpAPI} from '../../API/signUpAPI';
+import AppContext from '../../AppContext';
 
 import AuthorHover from '../../assets/images/AuthorHover.png';
 import AuthorHoverSelected from '../../assets/images/AuthorHoverSelected.png';
@@ -18,7 +19,7 @@ import ReaderHover from '../../assets/images/ReaderHover.png';
 import ReaderHoverSelected from '../../assets/images/ReaderHoverSelected.png';
 
 const SelectUserType = props => {
-  // console.log(props);
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [authorSelect, setAuthorSelect] = useState(false);
   const [readerSelect, setReaderSelect] = useState(false);
@@ -49,12 +50,12 @@ const SelectUserType = props => {
   const goAuthorProfile = async () => {
     const result = await signUpAPI.memberType({userType: 'WRITER'});
     console.log(result);
-    props.setIsReader('WRITER');
+    myContext.setIsReader('WRITER');
     navigation.navigate('SignUpStacks', {screen: 'Profile'});
   };
   const goTasteAnalysisProfile = async () => {
     const result = await signUpAPI.memberType({userType: 'READER'});
-    props.setIsReader('READER');
+    myContext.setIsReader('READER');
     navigation.navigate('ReaderStacks', {screen: 'ReaderAnalyze'});
   };
 

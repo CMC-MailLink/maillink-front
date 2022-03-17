@@ -13,13 +13,7 @@ const OnBoardingRoot = props => {
       screenOptions={{presentation: 'card', headerShown: false}}>
       <OnBoardingNav.Screen
         name="OnBoardingStacks"
-        children={({navigation}) => (
-          <OnBoardingStacks
-            navigation={navigation}
-            setIsReader={props.setIsReader}
-            setIsLogged={props.setIsLogged}
-          />
-        )}
+        component={OnBoardingStacks}
       />
       <ReaderNav.Screen name="ReaderTabs" component={ReaderTabs} />
     </OnBoardingNav.Navigator>

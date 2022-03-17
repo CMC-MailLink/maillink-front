@@ -23,23 +23,12 @@ const OnBoardingStacks = props => {
       }}>
       <OnBoardingStack.Screen
         name="OnBoarding"
-        children={({navigation}) => (
-          <OnBoarding
-            navigation={navigation}
-            setIsReader={props.setIsReader}
-            setIsLogged={props.setIsLogged}
-          />
-        )}
+        component={OnBoarding}
         options={{headerTitle: ''}}
       />
       <OnBoardingStack.Screen
         name="SelectUserType"
-        children={({navigation}) => (
-          <SelectUserType
-            navigation={navigation}
-            setIsReader={props.setIsReader}
-          />
-        )}
+        component={SelectUserType}
         options={{headerTitle: ''}}
       />
       <OnBoardingStack.Screen

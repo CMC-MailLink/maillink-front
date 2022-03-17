@@ -33,7 +33,72 @@ const ReaderMailBody = () => {
   const [rowOpen, setRowOpen] = useState(null);
   const [count, setCount] = useState(0);
   const [refreshing, setRefreshing] = React.useState(false);
-  const [mail, setMail] = useState([{key: 'category'}]);
+  const [mail, setMail] = useState([
+    {key: 'category'},
+    {
+      key: '0',
+      author: '이작가',
+      title: '청춘예찬2',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 13',
+      read: false,
+      bookmark: false,
+    },
+    {
+      key: '1',
+      author: '김작가',
+      title: '별 헤는 밤',
+      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
+      date: '21. 02. 12',
+      read: false,
+      bookmark: false,
+    },
+    {
+      key: '2',
+      author: '이작가',
+      title: '청춘예찬',
+      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
+      date: '21. 02. 11',
+      read: false,
+      bookmark: false,
+    },
+    {
+      key: '3',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+      read: false,
+      bookmark: false,
+    },
+    {
+      key: '4',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+      read: false,
+      bookmark: false,
+    },
+    {
+      key: '5',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+      read: false,
+      bookmark: false,
+    },
+    {
+      key: '6',
+      author: '최작가',
+      title: '파란 하늘',
+      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
+      date: '21. 02. 10',
+      read: false,
+      bookmark: false,
+    },
+  ]);
   const [bookmark, setBookmark] = useState([]);
   useEffect(() => {
     async function getMemberInfo() {
