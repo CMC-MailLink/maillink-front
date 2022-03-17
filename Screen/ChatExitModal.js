@@ -27,7 +27,9 @@ const ChatExitModal = ({
           한 번 나간 채팅은 복구되지 않습니다.
         </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={goNextScreen} style={{right: 15}}>
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={{right: 15}}>
             <View>
               <Text style={styles.modalExit}>취소</Text>
             </View>
