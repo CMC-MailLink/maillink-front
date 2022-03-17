@@ -8,9 +8,8 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import InfoWeb from '../../../assets/images/InfoWeb.png';
+import InfoWeb from '../../assets/images/InfoWeb.png';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {TouchableWithoutFeedback} from '@gorhom/bottom-sheet';
 
 const NoticeModal = ({
   onPressModalConfirm2,

@@ -10,13 +10,17 @@ import {
   TouchableOpacity,
   Modal,
   Platform,
-  AppRegistry,
+  Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useNavigation} from '@react-navigation/native';
+import {
+  useNavigation,
+  CommonActions,
+  useLinkProps,
+} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
-import {signUpAPI} from '../../api';
+import {signUpAPI} from '../../API/signUpAPI';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
@@ -26,7 +30,7 @@ import EraseNickname from '../../assets/images/EraseNickname.png';
 import axios from 'axios';
 
 const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
-  // console.log('SetProfile params: ', params);
+  console.log('SetProfile params: ', params);
   const navigation = useNavigation();
   const [name, onChangeName] = useState(''); //이름
   const [checkMessage, onChangeCheckMessage] = useState(''); //textinput아래 안내 메세지
@@ -35,7 +39,18 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   const [nameValid, setNameValid] = useState(false); //닉네임 유효성 검증 유무
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('');
+  const [modalConfirm, setModalConfirm] = useState(false);
   const [nameData, onChangeNameData] = useState('영이당당당당');
+
+  useEffect(() => {
+    if (modalConfirm) {
+      setModalVisible(!modalVisible);
+      // navigation.navigate('OnBoardingStacks', {
+      //   screen: 'OnBoarding',
+      // });
+      params.setIsLogged(true);
+    }
+  }, [modalConfirm, modalVisible, params]);
 
   //뒤로가기
   const onPressBack = () => {
@@ -63,11 +78,6 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       setMessageVisible(true);
       setConfirmSuccess(true);
     }
-  };
-
-  //modal창 확인 버튼 클릭
-  const onPressModalConfirm = () => {
-    setModalVisible(!modalVisible);
   };
 
   //프로필 이미지 수정 버튼
@@ -101,6 +111,24 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
     }
   };
 
+  const onPressConfirm = async () => {
+    const result = await signUpAPI.authSignUp({
+      socialType: params.socialType,
+      socialId: params.socialId,
+      nickName: name,
+      imgUrl: imageUri,
+      phoneNumber: params.phoneNumber,
+    });
+    console.log(result);
+    if (result) setModalVisible(true);
+    else {
+      Alert.alert('회원가입 실패', {
+        text: '확인',
+        style: 'cancel',
+      });
+    }
+  };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
@@ -114,7 +142,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
         <SuccessModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}
+          setModalConfirm={setModalConfirm}
           params={{...params, nickName: name, imgUrl: imageUri}}
         />
       </Modal>
@@ -238,7 +266,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
         }}>
         <TouchableOpacity
           disabled={confirmSuccess ? false : true}
-          onPress={confirmSuccess ? () => setModalVisible(true) : !name}
+          onPress={onPressConfirm}
           style={
             confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
           }>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,8 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {
   KakaoOAuthToken,
   KakaoProfile,
@@ -23,15 +24,15 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import {v4 as uuid} from 'uuid';
 import jwt_decode from 'jwt-decode';
+import {signUpAPI} from '../../API/signUpAPI';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
 import AppleLogin from '../../assets/images/AppleLogin.png';
 import LineSignIn from '../../assets/images/LineSignIn.png';
 
-const SignIn = () => {
+const SignIn = props => {
   const [isLoading, setIsLoading] = useState(true);
-  const [registerUser, setRegisterUser] = useState(null);
   const navigation = useNavigation();
 
   const signInWithKakao = async () => {
@@ -41,11 +42,32 @@ const SignIn = () => {
 
   const getProfile = async () => {
     const profile = await getKakaoProfile();
-    setRegisterUser({socialType: 'KAKAO', socialId: profile.id});
-    navigation.navigate('SignUpStacks', {
-      screen: 'SelfAuth',
-      params: {socialType: 'KAKAO', socialId: profile.id},
+    const result = await signUpAPI.authLogin({
+      socialType: 'KAKAO',
+      socialId: profile.id,
     });
+    if (result) {
+      const result2 = await signUpAPI.memberInfo();
+      console.log('signIn : ', result2);
+      if (result2 === 'Not Decided') {
+        props.setIsLogged(true);
+      } else if (result2 === 'WRITER') {
+        props.setIsReader('WRITER');
+        props.setIsLogged(true);
+      } else if (result2 === 'READER') {
+        props.setIsReader('READER');
+        props.setIsLogged(true);
+      }
+    } else {
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelfAuth',
+        params: {
+          socialType: 'KAKAO',
+          socialId: profile.id,
+          setIsLogged: props.setIsLogged,
+        },
+      });
+    }
   };
 
   const onAppleButtonPress = () => {

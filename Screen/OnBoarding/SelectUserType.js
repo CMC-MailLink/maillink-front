@@ -9,13 +9,16 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
+import {signUpAPI} from '../../API/signUpAPI';
+
 import AuthorHover from '../../assets/images/AuthorHover.png';
 import AuthorHoverSelected from '../../assets/images/AuthorHoverSelected.png';
 import ReaderHover from '../../assets/images/ReaderHover.png';
 import ReaderHoverSelected from '../../assets/images/ReaderHoverSelected.png';
-import {useNavigation} from '@react-navigation/native';
 
-const SelectUserType = () => {
+const SelectUserType = props => {
+  // console.log(props);
   const navigation = useNavigation();
   const [authorSelect, setAuthorSelect] = useState(false);
   const [readerSelect, setReaderSelect] = useState(false);
@@ -43,20 +46,16 @@ const SelectUserType = () => {
       style: 'cancel',
     });
   };
-  const goOnBoarding = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
+  const goAuthorProfile = async () => {
+    const result = await signUpAPI.memberType({userType: 'WRITER'});
+    console.log(result);
+    props.setIsReader('WRITER');
+    navigation.navigate('SignUpStacks', {screen: 'Profile'});
   };
-  const goAuthorProfile = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'Profile',
-    });
-  };
-  const goTasteAnalysisProfile = () => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'ReaderAnalyze',
-    });
+  const goTasteAnalysisProfile = async () => {
+    const result = await signUpAPI.memberType({userType: 'READER'});
+    props.setIsReader('READER');
+    navigation.navigate('ReaderStacks', {screen: 'ReaderAnalyze'});
   };
 
   return (

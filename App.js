@@ -9,10 +9,13 @@ import {
   requestUserPermission,
 } from './notificationService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {signUpAPI} from './API/signUpAPI';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
 import AuthorRoot from './navigation/Author/AuthorRoot';
+import OnBoardingRoot from './navigation/OnBoarding/OnBoardingRoot';
 
 const customTextProps = {
   style: {
@@ -29,26 +32,37 @@ const MyTheme = {
 };
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(true);
-  const [isReader, setIsReader] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
+  const [isReader, setIsReader] = useState('Not Decided');
+
   setCustomText(customTextProps);
   useEffect(() => {
     requestUserPermission();
     notificationListener();
 
-    setTimeout(() => {
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-      AsyncStorage.getItem('user_id').then(value => {
-        console.log('asyncstorage user_id : ', value);
-        if (value) {
-          setIsLogged(true);
-        }
-      });
-    }, 3000);
+    //Check if keys is set or not
+    //If not then send for Authentication
+    //else send to Home Screen
+    // AsyncStorage.removeItem('keys');
+    checkLogged();
     SplashScreen.hide();
   }, []);
+
+  const checkLogged = async () => {
+    const result = await AsyncStorage.getItem('keys');
+    if (result) {
+      console.log('asyncstorage keys : ', result);
+      setIsLogged(true);
+      const result2 = await signUpAPI.memberInfo();
+      console.log(result2);
+      if (result2 === 'Not Decided') {
+      } else if (result2 === 'WRITER') {
+        setIsReader('WRITER');
+      } else if (result2 === 'READER') {
+        setIsReader('READER');
+      }
+    }
+  };
 
   return (
     <SafeAreaProvider>
@@ -58,11 +72,23 @@ const App = () => {
         {/* <StatusBar barStyle="light-content" /> */}
         <MenuProvider>
           {!isLogged ? (
-            <SignUpRoot />
-          ) : isReader ? (
+            <SignUpRoot
+              setIsReader={setIsReader}
+              setIsLogged={setIsLogged}
+              isLogged={isLogged}
+              isReader={isReader}
+            />
+          ) : isReader === 'READER' ? (
             <ReaderRoot />
-          ) : (
+          ) : isReader === 'WRITER' ? (
             <AuthorRoot />
+          ) : (
+            <OnBoardingRoot
+              setIsReader={setIsReader}
+              setIsLogged={setIsLogged}
+              isLogged={isLogged}
+              isReader={isReader}
+            />
           )}
           {/* </SafeAreaView> */}
         </MenuProvider>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,24 +11,24 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 
-import BackMail2 from '../assets/images/BackMail2.png';
+import BackMail2 from '../../assets/images/BackMail2.png';
 
-const OnBoarding = () => {
+const OnBoarding = props => {
   const navigation = useNavigation();
   const [swiperIndex, setSwiperIndex] = useState(0);
-  const onPressBack = () => {
-    navigation.goBack();
-  };
+  // const onPressBack = () => {
+  //   navigation.goBack();
+  // };
   const onPressSkip = () => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'ReaderAnalyze',
+    navigation.navigate('OnBoardingStacks', {
+      screen: 'SelectUserType',
     });
   };
   const onPressNext = () => {
     if (swiperIndex !== 2) {
       setSwiperIndex(swiperIndex + 1);
     } else {
-      navigation.navigate('SignUpStacks', {
+      navigation.navigate('OnBoardingStacks', {
         screen: 'SelectUserType',
       });
     }
@@ -39,11 +39,11 @@ const OnBoarding = () => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
-        <TouchableWithoutFeedback onPress={onPressBack}>
+        {/* <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 24}}>
             <Image style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> */}
       </View>
       <Swiper
         index={swiperIndex}

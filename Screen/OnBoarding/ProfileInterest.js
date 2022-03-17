@@ -17,10 +17,10 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import SignUpStep1 from '../../../assets/images/SignUpStep1.png';
-import BackMail2 from '../../../assets/images/BackMail2.png';
-import InfoAuthorProfile from '../../../assets/images/InfoAuthorProfile.png';
-import InterestModal from '../../../assets/images/InterestModal.png';
+import SignUpStep1 from '../../assets/images/SignUpStep1.png';
+import BackMail2 from '../../assets/images/BackMail2.png';
+import InfoAuthorProfile from '../../assets/images/InfoAuthorProfile.png';
+import InterestModal from '../../assets/images/InterestModal.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 

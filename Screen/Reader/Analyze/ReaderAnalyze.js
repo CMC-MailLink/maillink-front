@@ -9,7 +9,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import AnalyzeStart from '../../../assets/images/AnalyzeStart.png';
 
@@ -17,9 +17,7 @@ const ReaderAnalyze = () => {
   const navigation = useNavigation();
 
   const onPressSkip = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'Profile',
-    });
+    navigation.navigate('ReaderTabs', {screen: 'recommend'});
   };
   const onPressStart = () => {
     navigation.navigate('ReaderStacks', {

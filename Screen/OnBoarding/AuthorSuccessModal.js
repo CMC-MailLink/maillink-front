@@ -8,7 +8,7 @@ import {
   Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ModalCheck from '../../../assets/images/ModalCheck.png';
+import ModalCheck from '../../assets/images/ModalCheck.png';
 import NoticeModal from './NoticeModal';
 
 const AuthorSuccessModal = ({

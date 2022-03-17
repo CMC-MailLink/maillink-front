@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {signUpAPI} from '../../api';
+import {signUpAPI} from '../../API/signUpAPI';
 // import Timer from './Timer';
 // import CheckBox from 'react-native-check-box';
 
@@ -42,7 +42,7 @@ function useInterval(callback, delay) {
 }
 
 const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
-  // console.log('SelfAuth params: ', params);
+  console.log('SelfAuth params: ', params);
   const navigation = useNavigation();
   const [name, onChangeName] = useState(''); //이름
   const [phone, onChangePhone] = useState(''); //전화번호
@@ -330,7 +330,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           paddingTop: 5,
         }}>
         <TouchableOpacity
-          disabled={!confirmSuccess && !checkbox}
+          // disabled={!confirmSuccess && !checkbox}
           onPress={goNextScreen}
           style={
             confirmSuccess && checkbox

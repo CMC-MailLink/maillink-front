@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
-import SignUpAuthorProfile from '../../../assets/images/SignUpAuthorProfile.png';
+import SignUpAuthorProfile from '../../assets/images/SignUpAuthorProfile.png';
 import AuthorSuccessModal from './AuthorSuccessModal';
 const Profile = () => {
   const navigation = useNavigation();

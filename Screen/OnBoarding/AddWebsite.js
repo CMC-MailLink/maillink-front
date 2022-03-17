@@ -8,46 +8,32 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Alert,
   Modal,
 } from 'react-native';
-import SignUpStep1 from '../../../assets/images/SignUpStep1.png';
-import BackMail2 from '../../../assets/images/BackMail2.png';
+import SignUpStep1 from '../../assets/images/SignUpStep1.png';
+import BackMail2 from '../../assets/images/BackMail2.png';
+import InstaLogo from '../../assets/images/InstaLogo.png';
+import FacebookLogo from '../../assets/images/FacebookLogo.png';
+import URLLogo from '../../assets/images/URLLogo.png';
+import TwitterLogo from '../../assets/images/TwitterLogo.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 
-const ProfileIntro = () => {
+const AddWebsite = () => {
   const navigation = useNavigation();
-  const [introText, onChangeIntroText] = useState('');
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [textCount, setTextCount] = useState(0);
-  const [enterCount, setenterCount] = useState(0);
+  const [twitterText, onChangeTwitterText] = useState('');
+  const [instaText, onChangeInstaText] = useState('');
+  const [urlText, onChangeUrlText] = useState('');
+  const [facebookText, onChangeFacebookText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [confirmSuccess, setConfirmSuccess] = useState(true);
 
-  const onPressModalConfirm = () => {
-    setModalVisible(!modalVisible);
-  };
   const onPressBack = () => {
     navigation.goBack();
   };
-
-  const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'ProfileInterest',
-    });
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
   };
-
-  useEffect(() => {
-    if (introText !== '') {
-      setConfirmSuccess(true);
-    } else {
-      setConfirmSuccess(false);
-    }
-    setTextCount(introText.length);
-    if (this.keyCode === 13) {
-      setenterCount(enterCount + 1);
-    }
-  }, [introText, confirmSuccess, enterCount]);
 
   return (
     <View style={{flex: 1}}>
@@ -82,53 +68,69 @@ const ProfileIntro = () => {
       />
       <View style={{top: 20 + 15.22, left: 20}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.nameTitle}>자신</Text>
-          <Text style={styles.introTitle}>을</Text>
+          <Text style={styles.nameTitle}>웹사이트</Text>
+          <Text style={styles.introTitle}>를</Text>
         </View>
-        <Text style={styles.introTitle}>소개해주세요.</Text>
-        <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
+        <Text style={styles.introTitle}>추가해주세요.</Text>
+        <Text style={styles.introSub}>
+          자유롭게 추가해주세요. 독자와 연결됩니다.
+        </Text>
       </View>
 
       {/* Body: Input */}
-      <View style={{top: 10 + 93, left: 21.11}}>
+      <View style={{...styles.inputView, top: 85 + 19}}>
+        <Image style={{width: 22, height: 22, top: 7}} source={FacebookLogo} />
         <TextInput
           style={styles.input}
-          onChangeText={onChangeIntroText}
-          value={introText}
-          placeholder="소개를 입력해주세요."
-          maxLength={160}
-          //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
-          maxHeight={200}
-          multiline={introText > 160 && enterCount > 5 ? false : true}
+          onChangeText={onChangeFacebookText}
+          value={facebookText}
+          placeholder="facebook.com/"
         />
-        <View style={styles.bodyNameBorder} />
-        <Text style={styles.textCount}> {textCount}/ 160자</Text>
+        <View style={styles.bodyinputBorder} />
       </View>
 
-      {/* footer: Button pass */}
+      <View style={{...styles.inputView, top: 85 + 19}}>
+        <Image style={{width: 22, height: 22, top: 7}} source={TwitterLogo} />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeTwitterText}
+          value={twitterText}
+          placeholder="twitter.com/"
+        />
+        <View style={styles.bodyinputBorder} />
+      </View>
+
+      <View style={{...styles.inputView, top: 85 + 19}}>
+        <Image style={{width: 22, height: 22, top: 7}} source={InstaLogo} />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeInstaText}
+          value={instaText}
+          placeholder="instagram.com/"
+        />
+        <View style={styles.bodyinputBorder} />
+      </View>
+
+      <View style={{...styles.inputView, top: 85 + 19}}>
+        <Image style={{width: 22, height: 22, top: 7}} source={URLLogo} />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeUrlText}
+          value={urlText}
+          placeholder=""
+        />
+        <View style={styles.bodyinputBorder} />
+      </View>
+
+      {/* Footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity
-          onPress={goNextScreen}
-          disabled={confirmSuccess ? false : true}
-          style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
+          onPress={onPressModalConfirm}
+          style={styles.buttonAble}>
           <View>
-            <Text
-              style={
-                confirmSuccess
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              다음
-            </Text>
+            <Text style={styles.buttonAbleText}>완료</Text>
           </View>
         </TouchableOpacity>
-
-        {/* footer: Pass*/}
-        <TouchableWithoutFeedback onPress={onPressModalConfirm}>
-          <View>
-            <Text style={styles.footerPassText}>다음에 할께요</Text>
-          </View>
-        </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -142,40 +144,41 @@ const styles = StyleSheet.create({
     paddingTop: 22,
   },
   nameTitle: {
+    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
   },
-  textCount: {
-    marginTop: 4,
-    left: 291,
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 14,
-    color: '#3C3C3C',
-  },
   introTitle: {
+    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
   },
   introSub: {
+    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
   },
+  inputView: {
+    top: 10 + 93,
+    left: 21.11,
+  },
   input: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#3C3C3C',
-    paddingTop: 14,
+    top: -103 + 82,
+    left: 37,
     paddingRight: 40,
   },
-  bodyNameBorder: {
-    width: 350,
+  bodyinputBorder: {
+    bottom: 22 - 11,
+    width: 336,
     borderBottomWidth: 1,
-    borderBottomColor: '#BEBEBE',
-    paddingTop: 14,
+    borderBottomColor: '#E2E2E2',
   },
   footer: {
     position: 'absolute',
@@ -195,6 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonAbleText: {
+    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
@@ -225,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileIntro;
+export default AddWebsite;
