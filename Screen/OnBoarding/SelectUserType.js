@@ -50,13 +50,13 @@ const SelectUserType = props => {
   const goAuthorProfile = async () => {
     const result = await signUpAPI.memberType({userType: 'WRITER'});
     console.log(result);
-    myContext.setIsReader('WRITER');
-    navigation.navigate('SignUpStacks', {screen: 'Profile'});
+    // myContext.setIsReader('WRITER');
+    navigation.navigate('OnBoardingStacks', {screen: 'Profile'});
   };
   const goTasteAnalysisProfile = async () => {
     const result = await signUpAPI.memberType({userType: 'READER'});
-    myContext.setIsReader('READER');
-    navigation.navigate('ReaderStacks', {screen: 'ReaderAnalyze'});
+    // myContext.setIsReader('READER');
+    navigation.navigate('OnBoardingStacks', {screen: 'ReaderAnalyze'});
   };
 
   return (
