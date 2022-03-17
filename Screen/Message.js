@@ -10,6 +10,7 @@ import {
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
+  Modal,
 } from 'react-native';
 import {
   Menu,
@@ -24,6 +25,7 @@ import ReportMenuPage from '../assets/images/ReportMenuPage.png';
 import {SafeAreaView} from 'react-native';
 import BackMail2 from '../assets/images/BackMail2.png';
 import Report from '../assets/images/Report.png';
+import ChatExitModal from './ChatExitModal';
 // import MessageData from '../assets/data/Message';
 
 const STATUSBAR_HEIGHT = 48;
@@ -93,6 +95,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [send, setSendSelect] = useState(false);
   const [messageData, setMessageData] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -117,7 +120,10 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const renderMessageItem = a => {
     console.log(a);
   };
-  useEffect(() => {}, [message]);
+
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const renderItem = data => (
     <View
@@ -172,6 +178,19 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const RenderInfoItem = ({item}) => {
     return (
       <Menu style={{...styles.menuView, marginTop: -50}}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <ChatExitModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            onPressModalConfirm={onPressModalConfirm}
+          />
+        </Modal>
         <MenuTrigger>
           <Image style={{width: 3, height: 17}} source={Report} />
         </MenuTrigger>
@@ -190,7 +209,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               source={ReportMenuPage}
             />
           </MenuOption>
-          <MenuOption>
+          <MenuOption onSelect={onPressModalConfirm}>
             <Text style={styles.menuText}>
               <Text>채팅방 나가기</Text>
             </Text>
