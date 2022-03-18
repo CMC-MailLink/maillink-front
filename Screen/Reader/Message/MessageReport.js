@@ -10,12 +10,14 @@ import {
   TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
+  Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import ReportCheck from '../../../assets/images/ReportCheck.png';
 import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
+import ReportSuccessModal from './ReportSuccessModal';
 
 const MessageReport = () => {
   const navigation = useNavigation();
@@ -25,10 +27,11 @@ const MessageReport = () => {
   const [otherReport, setOtherReport] = useState(false);
   const [otherReportContent, setOtherReportContent] = useState('');
   const [reportTypesData, setReportTypesData] = useState([]);
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
+  const [confirmSuccess, setConfirmSuccess] = useState(true);
   const [enterCount, setenterCount] = useState(0);
   const [textCount, setTextCount] = useState(0);
   const [subscribeCancel, setSubscribeCancel] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -54,7 +57,9 @@ const MessageReport = () => {
   const onPressSubscribeCancel = () => {
     setSubscribeCancel(!subscribeCancel);
   };
-
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
+  };
   const onChangeText = text => setOtherReportContent(text);
 
   useEffect(() => {
@@ -73,6 +78,19 @@ const MessageReport = () => {
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       <StatusBar barStyle="dark-content" />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <ReportSuccessModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          onPressModalConfirm={onPressModalConfirm}
+        />
+      </Modal>
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 24}}>
@@ -185,8 +203,9 @@ const MessageReport = () => {
               marginBottom: 40,
             }}>
             <TouchableOpacity
-              disabled={confirmSuccess ? false : true}
-              onPress={confirmSuccess ? null : null}
+              // disabled={confirmSuccess ? false : true}
+              // onPress={confirmSuccess ? () => setModalVisible(true) : null}
+              onPress={() => setModalVisible(true)}
               style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
               <View>
                 <Text
