@@ -12,7 +12,7 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
@@ -22,6 +22,7 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
+import {signUpAPI} from '../../../API/SignUpAPI';
 
 import ReaderProfileModal from './ReaderProfileModal';
 
@@ -43,26 +44,64 @@ const ReaderProfile = () => {
     {category: '키치', select: true},
   ]);
   const [author, setAuthor] = useState([
-    {name: '이작가', intro: '안녕하세요. 이작가입니다.', order: 1, update: 3},
-    {name: '김작가', intro: '안녕하세요. 김작가입니다.', order: 2, update: 2},
-    {name: '덩이', intro: '안녕하세요. 덩이입니다.', order: 3, update: 1},
-    {name: '이작가', intro: '안녕하세요. 이작가입니다.', order: 1, update: 3},
-    {name: '김작가', intro: '안녕하세요. 김작가입니다.', order: 2, update: 2},
-    {name: '덩이', intro: '안녕하세요. 덩이입니다.', order: 3, update: 1},
-    {name: '이작가', intro: '안녕하세요. 이작가입니다.', order: 1, update: 3},
-    {name: '김작가', intro: '안녕하세요. 김작가입니다.', order: 2, update: 2},
-    {name: '덩이', intro: '안녕하세요. 덩이입니다.', order: 3, update: 1},
-    {name: '이작가', intro: '안녕하세요. 이작가입니다.', order: 1, update: 3},
-    {name: '김작가', intro: '안녕하세요. 김작가입니다.', order: 2, update: 2},
-    {name: '덩이', intro: '안녕하세요. 덩이입니다.', order: 3, update: 1},
+    {
+      key: 0,
+      name: '이작가',
+      intro: '안녕하세요. 이작가입니다.',
+      subscribe: true,
+      repBranch: '시',
+      repVive: '편안',
+      order: 0,
+      update: 4,
+    },
+    {
+      key: 1,
+      name: '김작가',
+      intro: '안녕하세요. 김작가입니다.',
+      subscribe: true,
+      repBranch: '시',
+      repVive: '서정',
+      order: 1,
+      update: 3,
+    },
+    {
+      key: 2,
+      name: '모모',
+      intro: '안녕하세요. 모모입니다.',
+      subscribe: true,
+      repBranch: '시',
+      repVive: '달달',
+      order: 2,
+      update: 2,
+    },
+    {
+      key: 3,
+      name: '덩이',
+      intro: '안녕하세요. 덩이입니다.',
+      subscribe: true,
+      repBranch: '시',
+      repVive: '잔잔',
+      order: 3,
+      update: 1,
+    },
+    {
+      key: 4,
+      name: '훈',
+      intro: '안녕하세요. 훈입니다.',
+      subscribe: true,
+      repBranch: '에세이',
+      repVive: '맑은',
+      order: 4,
+      update: 0,
+    },
   ]);
   const [category, setCategory] = useState(false);
   const [recentSelect, setRecentSelect] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [subscribe, setSubscribe] = useState(false);
-  const [name, setName] = useState('영이');
-  const [editName, setEditName] = useState('영이');
+  const [name, setName] = useState('독자비비');
+  const [editName, setEditName] = useState('독자비비');
   const [imageUri, setImageUri] = useState('');
+  const [filterAuthor, setFilterAuthor] = useState([]);
 
   const onPressAll = () => {
     setBranch([
@@ -100,30 +139,33 @@ const ReaderProfile = () => {
   const [fileUri, setFileUri] = useState(null);
 
   const onPressEditImage = async () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-        mediaType: 'photo',
-        maxWidth: 78,
-        maxHeight: 78,
-      },
-      includeBase64: true,
-    };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      imageUpload(image.path);
     });
+  };
+
+  //프로필 이미지 등록
+  const imageUpload = async imagePath => {
+    const imageData = new FormData();
+    imageData.append('image', {
+      uri: imagePath,
+      name: 'image.png',
+      fileName: 'image',
+      type: 'image/png',
+    });
+
+    const result = await signUpAPI.profileEditing({image: imageData});
+    console.log(result);
+    if (result) {
+      setImageUri(result);
+    } else {
+      console.log('프로필 등록 실패');
+    }
   };
 
   useEffect(() => {
@@ -149,6 +191,34 @@ const ReaderProfile = () => {
       );
     }
   }, [recentSelect]);
+
+  useEffect(() => {
+    var temp = author.filter(data => {
+      for (var i = 0; i < 3; i++) {
+        if (branch[i].select)
+          if (data.repBranch === branch[i].category) return true;
+      }
+      return false;
+    });
+    temp = temp.filter(data => {
+      for (var i = 0; i < 8; i++) {
+        if (vive[i].select) if (data.repVive === vive[i].category) return true;
+      }
+      return false;
+    });
+    setFilterAuthor([...temp]);
+  }, [branch, vive, author]);
+
+  const setSubscribe = index => {
+    var temp = author;
+    temp[index].subscribe = true;
+    setAuthor([...temp]);
+  };
+  const cancelSubscribe = index => {
+    var temp = author;
+    temp[index].subscribe = false;
+    setAuthor([...temp]);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -200,7 +270,7 @@ const ReaderProfile = () => {
             <TouchableWithoutFeedback onPress={onPressEditImage}>
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
-                source={imageUri == '' ? DefaultProfile : imageUri}
+                source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
               />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressEditImage}>
@@ -420,7 +490,7 @@ const ReaderProfile = () => {
           </View>
         </>
         <View style={{paddingBottom: 150}}>
-          {author.map((data, index) => (
+          {filterAuthor.map((data, index) => (
             <View key={index} style={styles.bodyItem}>
               <Image
                 style={{width: 42, height: 42, marginRight: 10}}
@@ -430,20 +500,23 @@ const ReaderProfile = () => {
                 <Text style={styles.bodyItemName}>{data.name}</Text>
                 <Text style={styles.bodyItemIntro}>{data.intro}</Text>
               </View>
-              <TouchableOpacity
-                onPress={() => setSubscribe(!subscribe)}
-                style={
-                  subscribe ? styles.subscribeView : styles.subscribeNotView
-                }>
-                <View>
-                  <Text
-                    style={
-                      subscribe ? styles.subscribeText : styles.subscribeNotText
-                    }>
-                    {subscribe ? '구독중' : '구독하기'}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              {data.subscribe ? (
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 20}}
+                  onPress={() => cancelSubscribe(index)}>
+                  <View style={styles.subscribeView}>
+                    <Text style={styles.subscribeText}>구독중</Text>
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 20}}
+                  onPress={() => setSubscribe(index)}>
+                  <View style={styles.notSubscribeView}>
+                    <Text style={styles.notSubscribeText}>구독하기</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           ))}
         </View>
@@ -591,8 +664,6 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   subscribeView: {
-    position: 'absolute',
-    right: 20,
     width: 75,
     height: 30,
     borderRadius: 15,
@@ -601,9 +672,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  subscribeNotView: {
-    position: 'absolute',
-    right: 20,
+  notSubscribeView: {
     width: 75,
     height: 30,
     borderRadius: 15,
@@ -617,7 +686,7 @@ const styles = StyleSheet.create({
     color: '#828282',
     includeFontPadding: false,
   },
-  subscribeNotText: {
+  notSubscribeText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',

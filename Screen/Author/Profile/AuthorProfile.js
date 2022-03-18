@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -24,7 +24,7 @@ import AuthorProfileMail from './AuthorProfileMail';
 const AuthorProfile = () => {
   const navigation = useNavigation();
 
-  const [name, setName] = useState('덩이');
+  const [name, setName] = useState('비비작가');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
   const [filePath, setFilePath] = useState(null);
@@ -59,21 +59,21 @@ const AuthorProfile = () => {
       },
       includeBase64: true,
     };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
+    // launchImageLibrary(options, response => {
+    //   console.log('Response = ', response);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
-    });
+    //   if (response.didCancel) {
+    //     console.log('User cancelled image picker');
+    //   } else if (response.errorCode) {
+    //     console.log('ImagePicker Error: ', response.errorCode);
+    //     console.log('ImagePicker Error: ', response.errorMessage);
+    //   } else {
+    //     const source = {
+    //       uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+    //     };
+    //     setImageUri(source);
+    //   }
+    // });
   };
 
   return (

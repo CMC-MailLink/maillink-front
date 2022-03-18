@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,89 +10,125 @@ import {
   TouchableOpacity,
   Modal,
   Platform,
+  Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {useNavigation} from '@react-navigation/native';
+import {
+  useNavigation,
+  CommonActions,
+  useLinkProps,
+} from '@react-navigation/native';
+import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
+import {signUpAPI} from '../../API/SignUpAPI';
+import AppContext from '../../AppContext';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
+import axios from 'axios';
 
-const SetProfile = () => {
+const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
-  const [name, onChangeName] = useState('');
-  const [checkMessage, onChangeCheckMessage] = useState('');
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [confirmOverlap, setConfirmOverlap] = useState(false);
+  const [name, onChangeName] = useState(''); //이름
+  const [checkMessage, onChangeCheckMessage] = useState(''); //textinput아래 안내 메세지
+  const [messageVisible, setMessageVisible] = useState(false); //안내메세지 보이기
+  const [confirmSuccess, setConfirmSuccess] = useState(false); //닉네임 확인 성공 유무
+  const [nameValid, setNameValid] = useState(false); //닉네임 유효성 검증 유무
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('');
+  const [modalConfirm, setModalConfirm] = useState(false);
   const [nameData, onChangeNameData] = useState('영이당당당당');
 
+  useEffect(() => {
+    if (modalConfirm) {
+      setModalVisible(!modalVisible);
+      // navigation.navigate('OnBoardingStacks', {
+      //   screen: 'OnBoarding',
+      // });
+      myContext.setIsLogged(true);
+    }
+  }, [modalConfirm, modalVisible, myContext]);
+
+  //뒤로가기
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  //닉네임 전체 지우기 버튼
   const onPressErase = () => {
     onChangeName('');
   };
+
+  //확인 버튼 클릭
   const onCheckName = () => {
     if (name === nameData) {
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
-      setConfirmSuccess(false);
-      setConfirmOverlap(true);
-    }
-    if (name.length <= 6 && name !== nameData && name) {
+      setMessageVisible(true);
+      setNameValid(false);
+    } else if (name.length > 6) {
+      onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
+      setMessageVisible(true);
+      setNameValid(false);
+    } else if (name !== nameData && name) {
       onChangeCheckMessage('사용할 수 있는 이름이에요.');
+      setNameValid(true);
+      setMessageVisible(true);
       setConfirmSuccess(true);
     }
   };
-  const onPressModalConfirm = () => {
-    setModalVisible(!modalVisible);
-  };
 
+  //프로필 이미지 수정 버튼
   const onPressEditImage = async () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-        mediaType: 'photo',
-        maxWidth: 115.47,
-        maxHeight: 112.24,
-      },
-      includeBase64: true,
-    };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      imageUpload(image.path);
     });
   };
-  const _scrollToInput = reactNode => {
-    this.scroll.props.scrollToFocusedInput(reactNode);
+
+  //프로필 이미지 등록
+  const imageUpload = async imagePath => {
+    const imageData = new FormData();
+    imageData.append('image', {
+      uri: imagePath,
+      name: 'image.png',
+      fileName: 'image',
+      type: 'image/png',
+    });
+
+    const result = await signUpAPI.profileEditing({image: imageData});
+    console.log(result);
+    if (result) {
+      setImageUri(result);
+    } else {
+      console.log('프로필 등록 실패');
+    }
   };
 
-  useEffect(() => {
-    setConfirmOverlap(false);
-    if (name.length > 6) {
-      onChangeCheckMessage('사용할 수 없는 이름입니다. (한글 6자 제한)');
-      setConfirmSuccess(false);
+  const onPressConfirm = async () => {
+    const result = await signUpAPI.authSignUp({
+      socialType: params.socialType,
+      socialId: params.socialId,
+      nickName: name,
+      imgUrl: imageUri,
+      phoneNumber: params.phoneNumber,
+    });
+    console.log(result);
+    if (result) setModalVisible(true);
+    else {
+      Alert.alert('회원가입 실패', {
+        text: '확인',
+        style: 'cancel',
+      });
     }
-    if (name === '') {
-      setConfirmSuccess(false);
-    }
-  }, [name]);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -107,7 +143,8 @@ const SetProfile = () => {
         <SuccessModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}
+          setModalConfirm={setModalConfirm}
+          params={{...params, nickName: name, imgUrl: imageUri}}
         />
       </Modal>
       {/* upperHeader */}
@@ -145,7 +182,8 @@ const SetProfile = () => {
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
-              source={imageUri == '' ? DefaultProfile : imageUri}
+              defaultSource={DefaultProfile}
+              source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
@@ -169,7 +207,11 @@ const SetProfile = () => {
             justifyContent: 'center',
             alignItems: 'center',
             borderBottomWidth: 1,
-            borderBottomColor: '#BEBEBE',
+            borderBottomColor: name.length
+              ? nameValid
+                ? '#4562F1'
+                : '#FF9B9B'
+              : '#BEBEBE',
             marginHorizontal: 43,
             paddingBottom: 10,
           }}>
@@ -181,7 +223,12 @@ const SetProfile = () => {
             }}>
             <TextInput
               style={!name.length ? styles.NameSetPlaceHolder : styles.NameSet}
-              onChangeText={onChangeName}
+              onChangeText={value => {
+                onChangeName(value);
+                setMessageVisible(false);
+                setConfirmSuccess(false);
+                setNameValid(true);
+              }}
               value={name}
               placeholder="닉네임 입력 (한글 6자)"
               autoCorrect={false}
@@ -203,9 +250,11 @@ const SetProfile = () => {
         </View>
 
         {/* Body: NameCheck */}
-        <View style={{marginTop: 9, marginLeft: 42}}>
-          <Text style={styles.checkMessage}>{checkMessage}</Text>
-        </View>
+        {messageVisible ? (
+          <View style={{marginTop: 9, marginLeft: 42}}>
+            <Text style={styles.checkMessage}>{checkMessage}</Text>
+          </View>
+        ) : null}
       </KeyboardAwareScrollView>
       {/* Footer: Button */}
       <View
@@ -218,7 +267,7 @@ const SetProfile = () => {
         }}>
         <TouchableOpacity
           disabled={confirmSuccess ? false : true}
-          onPress={confirmSuccess ? () => setModalVisible(true) : !name}
+          onPress={onPressConfirm}
           style={
             confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
           }>

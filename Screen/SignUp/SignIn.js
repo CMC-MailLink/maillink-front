@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -6,8 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {
   KakaoOAuthToken,
   KakaoProfile,
@@ -23,23 +24,18 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import {v4 as uuid} from 'uuid';
 import jwt_decode from 'jwt-decode';
+import {signUpAPI} from '../../API/SignUpAPI';
+import AppContext from '../../AppContext';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
 import AppleLogin from '../../assets/images/AppleLogin.png';
 import LineSignIn from '../../assets/images/LineSignIn.png';
 
-const SignIn = () => {
+const SignIn = props => {
+  const myContext = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [registerUser, setRegisterUser] = useState(null);
   const navigation = useNavigation();
-
-  //for Test
-  const fortest = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
-  };
 
   const signInWithKakao = async () => {
     const token = await login();
@@ -48,11 +44,46 @@ const SignIn = () => {
 
   const getProfile = async () => {
     const profile = await getKakaoProfile();
-    setRegisterUser({socialType: 'KAKAO', socialId: profile.id});
-    navigation.navigate('SignUpStacks', {
-      screen: 'SelfAuth',
-      params: registerUser,
+    const result = await signUpAPI.authLogin({
+      socialType: 'KAKAO',
+      socialId: profile.id,
     });
+    if (result) {
+      const result2 = await signUpAPI.memberInfo();
+      console.log('signIn : ', result2);
+      if (result2 === 'Not Decided') {
+        myContext.setIsLogged(true);
+      } else if (result2 === 'WRITER') {
+        myContext.setIsReader('WRITER');
+        myContext.setIsLogged(true);
+      } else if (result2 === 'READER') {
+        myContext.setIsReader('READER');
+        myContext.setIsLogged(true);
+      }
+    } else {
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelfAuth',
+        params: {
+          socialType: 'KAKAO',
+          socialId: profile.id,
+        },
+      });
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 1,
+      //     routes: [
+      //       {name: 'SignUpStacks'},
+      //       {
+      //         name: 'SelfAuth',
+      //         params: {
+      //           socialType: 'KAKAO',
+      //           socialId: profile.id,
+      //         },
+      //       },
+      //     ],
+      //   }),
+      // );
+    }
   };
 
   const onAppleButtonPress = () => {
@@ -213,7 +244,7 @@ const SignIn = () => {
               source={KakaoLogin}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={fortest}>
+          <TouchableOpacity onPress={signInWithKakao}>
             <Image
               style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}

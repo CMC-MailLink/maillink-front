@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import SubscribeMail from '../../../assets/images/SubscribeMail.png';
 import NoBookMarkMail from '../../../assets/images/NoBookMarkMail.png';
@@ -24,6 +25,7 @@ const STATUSBAR_HEIGHT = 48;
 
 const ReaderMailBody = () => {
   const navigation = useNavigation();
+  const [memberInfo, setMemberInfo] = useState();
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
@@ -98,6 +100,15 @@ const ReaderMailBody = () => {
     },
   ]);
   const [bookmark, setBookmark] = useState([]);
+  useEffect(() => {
+    async function getMemberInfo() {
+      const result = await ReaderAPI.memberInfo();
+      console.log(result);
+      setMemberInfo(result);
+    }
+
+    getMemberInfo();
+  }, []);
 
   useEffect(() => {
     if (mailSelect) {
@@ -395,7 +406,7 @@ const ReaderMailBody = () => {
                           ...styles.headerText,
                           fontFamily: 'NotoSansKR-Medium',
                         }}>
-                        영이&nbsp;
+                        {memberInfo ? memberInfo.nickName : null}&nbsp;
                       </Text>
                       님,
                     </Text>

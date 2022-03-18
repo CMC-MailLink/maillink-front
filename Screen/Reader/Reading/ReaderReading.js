@@ -111,7 +111,11 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
           console.log(selectedText);
           navigation.navigate('ReaderStacks', {
             screen: 'InstaShare',
-            params: selectedText,
+            params: {
+              text: selectedText,
+              title: params.item.title,
+              author: params.item.author,
+            },
           });
         }}
       />

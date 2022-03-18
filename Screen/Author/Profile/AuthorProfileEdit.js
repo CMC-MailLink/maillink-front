@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {
   Menu,
   MenuOptions,
@@ -46,7 +46,7 @@ const colorCategory = {
 const AuthorProfileEdit = () => {
   const navigation = useNavigation();
   const [imageUri, setImageUri] = useState('');
-  const [editName, setEditName] = useState('영이');
+  const [editName, setEditName] = useState('비비작가');
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
   const [editInstagram, setEditInstagram] = useState('');
@@ -85,21 +85,21 @@ const AuthorProfileEdit = () => {
       },
       includeBase64: true,
     };
-    launchImageLibrary(options, response => {
-      console.log('Response = ', response);
+    // launchImageLibrary(options, response => {
+    //   console.log('Response = ', response);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        const source = {
-          uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-        };
-        setImageUri(source);
-      }
-    });
+    //   if (response.didCancel) {
+    //     console.log('User cancelled image picker');
+    //   } else if (response.errorCode) {
+    //     console.log('ImagePicker Error: ', response.errorCode);
+    //     console.log('ImagePicker Error: ', response.errorMessage);
+    //   } else {
+    //     const source = {
+    //       uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
+    //     };
+    //     setImageUri(source);
+    //   }
+    // });
   };
 
   const confirmName = () => {
@@ -480,7 +480,7 @@ const AuthorProfileEdit = () => {
       </KeyboardAwareScrollView>
       <TouchableOpacity>
         <View style={styles.buttonView}>
-          <Text style={styles.buttonText}>확인</Text>
+          <Text style={styles.buttonText}>저장</Text>
         </View>
       </TouchableOpacity>
     </View>

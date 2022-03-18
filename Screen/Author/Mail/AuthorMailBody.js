@@ -12,6 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {AuthorAPI} from '../../../API/AuthorAPI';
 
 import WriteMail from '../../../assets/images/WriteMail.png';
 import AuthorMail from '../../../assets/images/AuthorMail.png';
@@ -20,6 +21,7 @@ const STATUSBAR_HEIGHT = 48;
 
 const AuthorMailBody = () => {
   const navigation = useNavigation();
+  const [memberInfo, setMemberInfo] = useState();
   const [recentSelect, setRecentSelect] = useState(true);
   const [mailDataExist, setMailDataExist] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -74,6 +76,16 @@ const AuthorMailBody = () => {
       date: '21. 02. 10',
     },
   ]);
+
+  useEffect(() => {
+    async function getMemberInfo() {
+      const result = await AuthorAPI.memberInfo();
+      console.log(result);
+      setMemberInfo(result);
+    }
+
+    getMemberInfo();
+  }, []);
 
   useEffect(() => {
     setMail(data =>
@@ -204,7 +216,7 @@ const AuthorMailBody = () => {
                       ...styles.headerText,
                       fontFamily: 'NotoSansKR-Bold',
                     }}>
-                    덩이&nbsp;
+                    {memberInfo ? memberInfo.nickName : null}&nbsp;
                   </Text>
                   님,
                 </Text>

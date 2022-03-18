@@ -17,7 +17,7 @@ import AppleSetting from '../../assets/images/AppleSetting.png';
 
 const SettingAccount = () => {
   const navigation = useNavigation();
-  const [isKakao, setIsKakao] = useState(false);
+  const [isKakao, setIsKakao] = useState(true);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -47,7 +47,7 @@ const SettingAccount = () => {
             <Text style={styles.accountCategoryText}>
               {isKakao ? '카카오 계정 회원' : 'Apple 계정 회원'}
             </Text>
-            <Text style={styles.emailText}>mailink1234@naver.com</Text>
+            <Text style={styles.emailText}>...</Text>
           </View>
         </View>
       </View>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -9,17 +9,18 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
+import AppContext from '../../../AppContext';
 
 import AnalyzeStart from '../../../assets/images/AnalyzeStart.png';
 
 const ReaderAnalyze = () => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
 
   const onPressSkip = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'Profile',
-    });
+    myContext.setIsReader('READER');
+    navigation.navigate('ReaderTabs', {screen: 'recommend'});
   };
   const onPressStart = () => {
     navigation.navigate('ReaderStacks', {

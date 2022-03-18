@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
   Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AppContext from '../../../AppContext';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import ExitResult from '../../../assets/images/ExitResult.png';
@@ -30,6 +31,7 @@ const colorCategory = {
 };
 
 const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
 
@@ -38,15 +40,23 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   const onPressExit = () => {
+    myContext.setIsReader('READER');
     navigation.navigate('ReaderTabs', {
       screen: 'ReaderRecommend',
     });
   };
 
   const onPressAuthor = () => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'ReaderAuthorProfile',
-    });
+    if (myContext.isReader === 'READER') {
+      navigation.navigate('ReaderStacks', {
+        screen: 'ReaderAuthorProfile',
+      });
+    } else {
+      // myContext.setIsReader('READER');
+      navigation.navigate('OnBoardingStacks', {
+        screen: 'ReaderAuthorProfile',
+      });
+    }
   };
 
   const RenderItem = ({item}) => {

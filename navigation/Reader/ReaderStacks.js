@@ -10,7 +10,6 @@ import SettingAlarm from '../../Screen/Setting/SettingAlarm';
 import SettingAccount from '../../Screen/Setting/SettingAccount';
 import Message from '../../Screen/Reader/Message/Message.js';
 import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
-import OnBoarding from '../../Screen/OnBoarding';
 import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
 import ReaderAnalyzeOne from '../../Screen/Reader/Analyze/ReaderAnalyzeOne';
 import ReaderAnalyzeTwo from '../../Screen/Reader/Analyze/ReaderAnalyzeTwo';
@@ -90,11 +89,6 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="ReaderAuthorProfile"
       component={ReaderAuthorProfile}
-      options={{headerTitle: ''}}
-    />
-    <ReaderStack.Screen
-      name="OnBoarding"
-      component={OnBoarding}
       options={{headerTitle: ''}}
     />
     <ReaderStack.Screen

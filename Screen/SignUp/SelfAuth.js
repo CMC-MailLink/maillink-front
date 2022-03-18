@@ -13,10 +13,11 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-// import CheckBox from 'react-native-check-box';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import Timer from './Timer';
+import {signUpAPI} from '../../API/SignUpAPI';
+// import Timer from './Timer';
+// import CheckBox from 'react-native-check-box';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
@@ -43,7 +44,8 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const SelfAuth = () => {
+const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
+  console.log('SelfAuth params: ', params);
   const navigation = useNavigation();
   const [name, onChangeName] = useState(''); //이름
   const [phone, onChangePhone] = useState(''); //전화번호
@@ -64,35 +66,55 @@ const SelfAuth = () => {
   );
 
   //인증요청 버튼 클릭
-  const onPressRequest = () => {
-    setAuthRequest(true);
+  const onPressRequest = async () => {
     setSecond(180);
-    Platform.OS === 'ios'
-      ? Alert.alert('인증 번호가 전송되었습니다.', {
-          text: '확인',
-          style: 'cancel',
-        })
-      : Alert.alert('인증 번호가 전송되었습니다.', null, [
-          {
-            text: 'Cancel',
+    const result = await signUpAPI.codeSending({target: phone});
+    if (result) {
+      Platform.OS === 'ios'
+        ? Alert.alert('인증 번호가 전송되었습니다.', {
+            text: '확인',
             style: 'cancel',
-          },
-        ]);
+          })
+        : Alert.alert('인증 번호가 전송되었습니다.', null, [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]);
+      setAuthRequest(true);
+    } else {
+      Platform.OS === 'ios'
+        ? Alert.alert('인증 번호 전송에 실패했습니다.', {
+            text: '확인',
+            style: 'cancel',
+          })
+        : Alert.alert('인증 번호 전송에 실패했습니다.', null, [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]);
+    }
   };
 
   //확인 버튼 클릭
-  const onPressConfirm = () => {
-    if (parseInt(number) === realNumber) {
-      Alert.alert('인증 되었습니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+  const onPressConfirm = async () => {
+    const result = await signUpAPI.codeChecking({
+      target: phone,
+      code: number,
+    });
+    console.log(result);
+    if (result) {
+      // Alert.alert('인증 되었습니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
       setConfirmSuccess(true);
     } else {
-      Alert.alert('잘못된 인증 번호 입니다.', {
-        text: '확인',
-        style: 'cancel',
-      });
+      // Alert.alert('잘못된 인증 번호 입니다.', {
+      //   text: '확인',
+      //   style: 'cancel',
+      // });
     }
   };
 
@@ -102,25 +124,31 @@ const SelfAuth = () => {
   };
 
   //재발송 버튼 클릭
-  const goAlertPhoneAdd = () => {
-    Platform.OS === 'ios'
-      ? Alert.alert('재발송 되었습니다.', {
-          text: '확인',
-          style: 'cancel',
-        })
-      : Alert.alert('재발송 되었습니다', null, [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-        ]);
+  const goAlertPhoneAdd = async () => {
     setSecond(180);
+    const result = await signUpAPI.codeSending({target: phone});
+    if (result) {
+      Platform.OS === 'ios'
+        ? Alert.alert('재발송 되었습니다.', {
+            text: '확인',
+            style: 'cancel',
+          })
+        : Alert.alert('재발송 되었습니다', null, [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]);
+      setAuthRequest(true);
+    } else {
+    }
   };
 
   //다음 버튼 클릭
   const goNextScreen = () => {
     navigation.navigate('SignUpStacks', {
       screen: 'SetProfile',
+      params: {...params, phoneNumber: phone},
     });
   };
 
@@ -332,7 +360,7 @@ const SelfAuth = () => {
           paddingTop: 5,
         }}>
         <TouchableOpacity
-          disabled={!confirmSuccess && !checkbox}
+          // disabled={!confirmSuccess && !checkbox}
           onPress={goNextScreen}
           style={
             confirmSuccess && checkbox

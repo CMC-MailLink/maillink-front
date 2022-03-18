@@ -1,15 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
+
 import NewCheckModal from '../../assets/images/NewCheckModal.png';
 
-const SuccessModal = ({onPressModalConfirm, modalVisible, setModalVisible}) => {
+const SuccessModal = ({setModalConfirm, modalVisible, setModalVisible}) => {
   const navigation = useNavigation();
   const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
-    setModalVisible(!modalVisible);
+    setModalConfirm(true);
   };
   return (
     <View style={styles.centeredView}>

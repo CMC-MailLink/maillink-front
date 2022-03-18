@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* MailLinkAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MailLinkAppTests.m */; };
+		03DC25F4072E42F0A3872A1D /* NanumGothic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B10D4BD8F41432587A62E8A /* NanumGothic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1CBAE312B55F4CB886B207FD /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */; };
 		2604717427C2AF8300569794 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2604717327C2AF8300569794 /* SplashScreen.storyboard */; };
 		26820A7727DC957800F3E927 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26820A7627DC957800F3E927 /* GoogleService-Info.plist */; };
+		26F7BE7F27E0DF1B00E2DD33 /* Nanum Brush Script.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F7BE7D27E0DF1B00E2DD33 /* Nanum Brush Script.ttf */; };
+		2BDE8A52F8DC44AAA93F05F0 /* NanumMyeongjo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8351BBF3FBA14F998D71BB02 /* NanumMyeongjo.ttf */; };
 		2E099B2CAA2843E0A12570B1 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */; };
 		4E3AD04C853F42D0B2A395D2 /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */; };
 		5ADE07D69FFC4CD7B91B81DB /* NotoSansKR-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */; };
@@ -22,6 +25,7 @@
 		933CCD052E6A48D4863AEBA7 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */; };
 		CD0811B421A5257A87F1FE30 /* libPods-MailLinkApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 518DF389C7069C66151A4E41 /* libPods-MailLinkApp.a */; };
 		D3EC9621AF4880561F653F02 /* libPods-MailLinkApp-MailLinkAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 642770FAB4675082897D58CA /* libPods-MailLinkApp-MailLinkAppTests.a */; };
+		F37056FED64B48A28681279F /* Nanum Pen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76E4FEF4246F4621AE3B6AD2 /* Nanum Pen.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,15 +49,19 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MailLinkApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MailLinkApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MailLinkApp/main.m; sourceTree = "<group>"; };
+		1B10D4BD8F41432587A62E8A /* NanumGothic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NanumGothic.ttf; path = ../assets/fonts/NanumGothic.ttf; sourceTree = "<group>"; };
 		2604717327C2AF8300569794 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		2644C05D27D3282600FA3ACE /* MailLinkApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MailLinkApp.entitlements; path = MailLinkApp/MailLinkApp.entitlements; sourceTree = "<group>"; };
 		26820A7627DC957800F3E927 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		26F7BE7D27E0DF1B00E2DD33 /* Nanum Brush Script.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nanum Brush Script.ttf"; path = "../assets/fonts/Nanum Brush Script.ttf"; sourceTree = "<group>"; };
 		3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Regular.otf"; path = "../assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
 		43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Bold.otf"; path = "../assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
 		518DF389C7069C66151A4E41 /* libPods-MailLinkApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		642770FAB4675082897D58CA /* libPods-MailLinkApp-MailLinkAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MailLinkApp-MailLinkAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Thin.otf"; path = "../assets/fonts/NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
+		76E4FEF4246F4621AE3B6AD2 /* Nanum Pen.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = "Nanum Pen.ttf"; path = "../assets/fonts/Nanum Pen.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MailLinkApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8351BBF3FBA14F998D71BB02 /* NanumMyeongjo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NanumMyeongjo.ttf; path = ../assets/fonts/NanumMyeongjo.ttf; sourceTree = "<group>"; };
 		ACC705EC07B243AA7F26A33F /* Pods-MailLinkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailLinkApp.release.xcconfig"; path = "Target Support Files/Pods-MailLinkApp/Pods-MailLinkApp.release.xcconfig"; sourceTree = "<group>"; };
 		AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Medium.otf"; path = "../assets/fonts/NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Light.otf"; path = "../assets/fonts/NotoSansKR-Light.otf"; sourceTree = "<group>"; };
@@ -161,12 +169,16 @@
 		D061F1023AE74652B497EB93 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				26F7BE7D27E0DF1B00E2DD33 /* Nanum Brush Script.ttf */,
 				CBE780708137421C90A02C4D /* NotoSansKR-Black.otf */,
 				43133B44BA5449B09A7D3FC7 /* NotoSansKR-Bold.otf */,
 				CB98632668324930854CBFE1 /* NotoSansKR-Light.otf */,
 				AE5F7D7C74E24A759DB8C3AE /* NotoSansKR-Medium.otf */,
 				3129E604917F4B8C9C600092 /* NotoSansKR-Regular.otf */,
 				69D6161FD1FE4EE9B19C57C0 /* NotoSansKR-Thin.otf */,
+				76E4FEF4246F4621AE3B6AD2 /* Nanum Pen.ttf */,
+				1B10D4BD8F41432587A62E8A /* NanumGothic.ttf */,
+				8351BBF3FBA14F998D71BB02 /* NanumMyeongjo.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -285,6 +297,10 @@
 				26820A7727DC957800F3E927 /* GoogleService-Info.plist in Resources */,
 				1CBAE312B55F4CB886B207FD /* NotoSansKR-Regular.otf in Resources */,
 				4E3AD04C853F42D0B2A395D2 /* NotoSansKR-Thin.otf in Resources */,
+				26F7BE7F27E0DF1B00E2DD33 /* Nanum Brush Script.ttf in Resources */,
+				F37056FED64B48A28681279F /* Nanum Pen.ttf in Resources */,
+				03DC25F4072E42F0A3872A1D /* NanumGothic.ttf in Resources */,
+				2BDE8A52F8DC44AAA93F05F0 /* NanumMyeongjo.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +553,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 69F5355JYF;
 				INFOPLIST_FILE = MailLinkApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
