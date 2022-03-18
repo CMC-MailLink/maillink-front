@@ -10,9 +10,7 @@ const ChatExitModal = ({
 }) => {
   const navigation = useNavigation();
   const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
-    });
+    navigation.goBack();
     setModalVisible(!modalVisible);
   };
   return (
@@ -71,7 +69,7 @@ const styles = StyleSheet.create({
   modalText2: {
     includeFontPadding: false,
     top: -33 + 25,
-    fontFamily: 'NotoSansKR-DemiLight',
+    fontFamily: 'NotoSansKR-Light',
     fontSize: 15,
     color: '#828282',
   },

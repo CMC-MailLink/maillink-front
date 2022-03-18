@@ -24,7 +24,7 @@ import ReaderAnalyzeEight from '../../Screen/Reader/Analyze/ReaderAnalyzeEight';
 import ReaderAnalyzeNine from '../../Screen/Reader/Analyze/ReaderAnalyzeNine';
 import ReaderAnalyzeResult from '../../Screen/Reader/Analyze/ReaderAnalyzeResult';
 import MessageWrite from '../../Screen/MessageWrite';
-//import ChatExitModal from '../../Screen/ChatExitModal';
+import MessageReport from '../../Screen/Reader/Message/MessageReport';
 
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
@@ -153,11 +153,11 @@ const ReaderStacks = () => (
       component={ReaderAnalyzeResult}
       options={{headerTitle: '', animation: 'fade'}}
     />
-    {/* <ReaderStack.Screen
-      name="ChatExitModal"
-      component={ChatExitModal}
+    <ReaderStack.Screen
+      name="MessageReport"
+      component={MessageReport}
       options={{headerTitle: ''}}
-    /> */}
+    />
   </ReaderStack.Navigator>
 );
 

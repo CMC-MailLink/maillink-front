@@ -112,6 +112,11 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       params: {...data},
     });
   };
+  const onPressReport = data => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'MessageReport',
+    });
+  };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -200,7 +205,8 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               borderBottomWidth: 1,
               borderBottomColor: '#E3E3E3',
               borderLength: 226,
-            }}>
+            }}
+            onSelect={onPressReport}>
             <Text style={styles.menuText}>
               <Text>신고하기</Text>
             </Text>
