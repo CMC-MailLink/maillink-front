@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -15,21 +15,42 @@ import {WebView} from 'react-native-webview';
 
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
+import {AuthorAPI} from '../../../API/AuthorAPI';
 
 const AuthorEditor = () => {
+  let webRef = useRef();
   const navigation = useNavigation();
+  const url = 'https://www.mail-link.co.kr/quilEditor';
+  const [save, setSave] = useState(false);
+  const [title, setTitle] = useState('');
+
   const onPressBack = () => {
     navigation.goBack();
   };
+  const handleOnMessage = async ({nativeEvent: {data}}) => {
+    if (save) {
+      const temp = await JSON.parse(data);
+      const contents = temp.contents;
+      const text = temp.text;
+      const preView = text.replaceAll('\n', ' ').slice(0, 44) + '...';
+      const result = await AuthorAPI.writerPostSaving({
+        title: title,
+        content: contents,
+        preView: preView,
+      });
+    }
+  };
 
-  const url = 'https://www.mail-link.co.kr/quilEditor';
+  const runFirst = `
+      document.getElementById('sendButton').click();
+      true; // note: this is required, or you'll sometimes get silent failures
+    `;
 
-  //   const INJECTED_JAVASCRIPT = `(function() {
-  //     console.log(document.getElementsByClassName('ql-editor')[0]);
-  //     document.getElementsByClassName('ql-editor')[0].style.height='100px';
-  //     window.ReactNativeWebView.postMessage("Hello world!");
+  const onPressSend = async () => {
+    await webRef.current.injectJavaScript(runFirst);
+    setSave(true);
+  };
 
-  // })();`;
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
@@ -48,7 +69,7 @@ const AuthorEditor = () => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={onPressSend}>
             <Text
               style={{
                 fontFamily: 'NotoSansKR-Medium',
@@ -84,11 +105,16 @@ const AuthorEditor = () => {
           includeFontPadding: false,
         }}
         placeholder="제목을 입력해주세요."
-        placeholderTextColor="#BFBFBF"></TextInput>
+        placeholderTextColor="#BFBFBF"
+        value={title}
+        onChangeText={setTitle}></TextInput>
       <WebView
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}
+        hideKeyboardAccessoryView={true}
+        ref={webRef}
+        onMessage={handleOnMessage}
         // injectedJavaScript={INJECTED_JAVASCRIPT}
       />
     </View>

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AuthorAPI} from '../../../API/AuthorAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import WriteMail from '../../../assets/images/WriteMail.png';
 import AuthorMail from '../../../assets/images/AuthorMail.png';
@@ -21,83 +22,38 @@ const STATUSBAR_HEIGHT = 48;
 
 const AuthorMailBody = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [memberInfo, setMemberInfo] = useState();
   const [recentSelect, setRecentSelect] = useState(true);
-  const [mailDataExist, setMailDataExist] = useState(true);
-  const [refreshing, setRefreshing] = React.useState(false);
-  const [mail, setMail] = useState([
-    {
-      key: '0',
-      author: '이작가',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      author: '김작가',
-      title: '청춘예찬1',
-      body: '그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      author: '이작가',
-      title: '청춘예찬0',
-      body: '그들은 광야에서 얼마나 무엇을 때문이다. 인생을 것은 같으며, 것이다. 발휘하기 굳세게 인생의 설산에',
-      date: '21. 02. 11',
-    },
-    {
-      key: '3',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-    },
-    {
-      key: '4',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-    },
-    {
-      key: '5',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-    },
-    {
-      key: '6',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-    },
-  ]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [filterMail, setFilterMail] = useState(mailData);
+
+  const {isLoading: mailLoading, data: mailData} = useQuery(
+    ['AuthorMail'],
+    AuthorAPI.writerGetPublishing,
+  );
 
   useEffect(() => {
     async function getMemberInfo() {
       const result = await AuthorAPI.memberInfo();
-      console.log(result);
+      // console.log(result);
       setMemberInfo(result);
     }
-
     getMemberInfo();
   }, []);
 
   useEffect(() => {
-    setMail(data =>
-      data.slice().sort(function (a, b) {
-        if (a.date >= b.date) {
-          return recentSelect ? -1 : 1;
-        } else if (a.date < b.date) {
-          return recentSelect ? 1 : -1;
-        }
-      }),
-    );
-  }, [recentSelect]);
+    if (filterMail)
+      setFilterMail(data =>
+        data.slice().sort(function (a, b) {
+          if (a.publishedTime >= b.publishedTime) {
+            return recentSelect ? -1 : 1;
+          } else if (a.publishedTime < b.publishedTime) {
+            return recentSelect ? 1 : -1;
+          }
+        }),
+      );
+  }, [recentSelect, filterMail]);
 
   const onPressRecent = () => {
     setRecentSelect(true);
@@ -114,20 +70,17 @@ const AuthorMailBody = () => {
     });
   };
 
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = async () => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+    await queryClient.refetchQueries(['movies']);
+    setRefreshing(false);
+  };
 
   const renderItem = ({item}) => {
     return (
       <TouchableWithoutFeedback onPress={e => onPressMailItem(item)}>
         <View style={styles.itemView}>
-          <Text style={styles.itemDateText}>{item.date}</Text>
+          <Text style={styles.itemDateText}>{item.publishedTime}</Text>
           <Text style={styles.itemTitleText}>{item.title}</Text>
           <Text style={styles.itemBodyText}>{item.body}</Text>
         </View>
@@ -232,10 +185,29 @@ const AuthorMailBody = () => {
         renderItem={renderCategory}
         ListFooterComponent={
           <View>
-            {mailDataExist ? (
-              <View style={styles.bodyContainer}>
-                <FlatList data={mail} renderItem={renderItem}></FlatList>
-              </View>
+            {mailData ? (
+              mailData.length ? (
+                <View style={styles.bodyContainer}>
+                  <FlatList data={mailData} renderItem={renderItem}></FlatList>
+                </View>
+              ) : (
+                <View
+                  style={{
+                    width: '100%',
+                    height: Dimensions.get('window').height - 301,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#FFFFFF',
+                  }}>
+                  <Image
+                    style={{
+                      width: 261,
+                      height: 211,
+                    }}
+                    source={WriteMail}
+                  />
+                </View>
+              )
             ) : (
               <View
                 style={{

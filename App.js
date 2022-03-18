@@ -4,6 +4,7 @@ import {setCustomText} from 'react-native-global-props';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 import {MenuProvider} from 'react-native-popup-menu';
+import {QueryClient, QueryClientProvider} from 'react-query';
 import {
   notificationListener,
   requestUserPermission,
@@ -34,6 +35,8 @@ const MyTheme = {
   },
 };
 
+const queryClient = new QueryClient();
+
 const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [isReader, setIsReader] = useState('Not Decided');
@@ -53,13 +56,16 @@ const App = () => {
     //If not then send for Authentication
     //else send to Home Screen
     // AsyncStorage.removeItem('keys');
-    checkLogged();
+    async function loading() {
+      await checkLogged();
+    }
+
+    loading();
     SplashScreen.hide();
   }, []);
 
   const checkLogged = async () => {
     var token = await getCredentials(); //jwt token 불러오기
-    console.log('token : ', token.access, token.refresh);
     if (!token) {
       //토큰없으면 login 실패
       console.log('로그인 불가');
@@ -67,6 +73,7 @@ const App = () => {
       setIsLogged(false);
     } else {
       //토큰있으면 login 성공
+      console.log('token : ', token.access, token.refresh);
       console.log('로그인 성공');
       setIsLogged(true);
       const result = await signUpAPI.memberInfo();
@@ -80,27 +87,29 @@ const App = () => {
   };
 
   return (
-    <AppContext.Provider value={userSettings}>
-      <SafeAreaProvider>
-        <NavigationContainer theme={MyTheme}>
-          {/* <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
+    <QueryClientProvider client={queryClient}>
+      <AppContext.Provider value={userSettings}>
+        <SafeAreaProvider>
+          <NavigationContainer theme={MyTheme}>
+            {/* <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
-          {/* <StatusBar barStyle="light-content" /> */}
-          <MenuProvider>
-            {!isLogged ? (
-              <SignUpRoot />
-            ) : isReader === 'READER' ? (
-              <ReaderRoot />
-            ) : isReader === 'WRITER' ? (
-              <AuthorRoot />
-            ) : (
-              <OnBoardingRoot />
-            )}
-            {/* </SafeAreaView> */}
-          </MenuProvider>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </AppContext.Provider>
+            {/* <StatusBar barStyle="light-content" /> */}
+            <MenuProvider>
+              {!isLogged ? (
+                <SignUpRoot />
+              ) : isReader === 'READER' ? (
+                <ReaderRoot />
+              ) : isReader === 'WRITER' ? (
+                <AuthorRoot />
+              ) : (
+                <OnBoardingRoot />
+              )}
+              {/* </SafeAreaView> */}
+            </MenuProvider>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </AppContext.Provider>
+    </QueryClientProvider>
   );
 };
 

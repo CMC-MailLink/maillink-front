@@ -6,6 +6,7 @@ export const getCredentials = async () => {
   try {
     let credentials = await AsyncStorage.getItem('keys');
 
+    if (!credentials) return null;
     let cred = await getVerifiedKeys(JSON.parse(credentials));
 
     if (credentials != null && cred != null) {
@@ -81,23 +82,29 @@ async function getVerifiedKeys(keys) {
 
 //takes the refresh token and returns object consisting of both renewed refresh and access tokens.
 async function getAccessUsingRefresh(accessToken, refreshToken) {
-  // console.log(accessToken, refreshToken);
-  return fetch(`http:52.79.226.129:8080/api/v1/member/auth/reissue`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    }),
-  }).then(res => {
-    // console.log(res);
-    let json = res.json();
+  console.log(accessToken, refreshToken);
+  try {
+    const response = await fetch(
+      `http:52.79.226.129:8080/api/v1/member/auth/reissue`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        }),
+      },
+    );
+    let json = await response.json();
+    console.log(json);
     if (json.data) {
-      // console.log(json.data);
+      console.log(json.data);
       return json.data;
     }
     return null;
-  });
+  } catch (e) {
+    console.log(e);
+  }
 }
