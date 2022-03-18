@@ -28,7 +28,6 @@ const MessageReport = () => {
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [enterCount, setenterCount] = useState(0);
   const [textCount, setTextCount] = useState(0);
-  const [subscribeCancel, setSubscribeCancel] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -51,10 +50,6 @@ const MessageReport = () => {
   const onPressOtherReport = () => {
     setOtherReport(!otherReport);
   };
-  const onPressSubscribeCancel = () => {
-    setSubscribeCancel(!subscribeCancel);
-  };
-
   const onChangeText = text => setOtherReportContent(text);
 
   useEffect(() => {
@@ -88,10 +83,10 @@ const MessageReport = () => {
       <View style={styles.bodyHeader}>
         <View style={{paddingLeft: 21, paddingBottom: 17 + 25 - 27}}>
           <Text style={styles.bodyHeaderText}>
-            해당 작가를 신고하는 이유를 선택해주세요. (중복가능)
+            해당 사용자를 신고하시겠습니까?
           </Text>
           <Text style={styles.bodyHeaderText}>
-            해당 사용자와의 쪽지는 비활성화됩니다.
+            사용자를 신고하는 이유를 선택해주세요. (중복가능)
           </Text>
         </View>
       </View>
@@ -134,16 +129,28 @@ const MessageReport = () => {
           <TouchableWithoutFeedback onPress={onPressOtherReport}>
             <View style={styles.itemView}>
               <Text style={styles.itemText}>기타 사유</Text>
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              {!otherReport ? (
+                <Image style={styles.itemCheckImg} source={ReportCheck} />
+              ) : (
+                <Image
+                  style={styles.itemCheckImg}
+                  source={ReportCheckActivate}
+                />
+              )}
             </View>
           </TouchableWithoutFeedback>
         ) : (
           <TouchableWithoutFeedback onPress={onPressOtherReport}>
             <View style={styles.itemOtherView}>
               <Text style={styles.itemText}>기타 사유</Text>
-
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
-
+              {!otherReport ? (
+                <Image style={styles.itemCheckImg} source={ReportCheck} />
+              ) : (
+                <Image
+                  style={styles.itemCheckImg}
+                  source={ReportCheckActivate}
+                />
+              )}
               <View style={{alignItems: 'center', paddingTop: 18}}>
                 <TextInput
                   style={styles.textInput}
@@ -163,19 +170,16 @@ const MessageReport = () => {
           </TouchableWithoutFeedback>
         )}
 
-        <TouchableWithoutFeedback onPress={onPressSubscribeCancel}>
-          <View style={{...styles.itemView, marginTop: 22}}>
-            <Text style={styles.itemText}>해당 작가의 구독을 취소합니다.</Text>
-            {!subscribeCancel ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
-            ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
-            )}
-          </View>
-        </TouchableWithoutFeedback>
-
         {/* footer */}
-        <View style={!otherReport ? {paddingTop: 293} : {paddingTop: 24}}>
+        <View style={!otherReport ? {paddingTop: 312} : {paddingTop: 43}}>
+          <View style={{alignItems: 'center', paddingBottom: 10}}>
+            <Text style={styles.bodyHeaderText}>
+              사용자를 신고해도 메일 발송은 유지됩니다.
+            </Text>
+            <Text style={styles.bodyHeaderText}>
+              해당 사용자와의 쪽지는 비활성화됩니다.
+            </Text>
+          </View>
           <View
             style={{
               position: 'static',

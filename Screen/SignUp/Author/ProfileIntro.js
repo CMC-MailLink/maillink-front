@@ -100,6 +100,8 @@ const ProfileIntro = () => {
           //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
           maxHeight={200}
           multiline={introText > 160 && enterCount > 5 ? false : true}
+          autoCorrect={false}
+          autoCapitalize={false}
         />
         <View style={styles.bodyNameBorder} />
         <Text style={styles.textCount}> {textCount}/ 160자</Text>
