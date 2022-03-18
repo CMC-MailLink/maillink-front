@@ -2,15 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var jwt_decode = require('jwt-decode');
 
-const setCredentials = async keys => {
-  try {
-    await AsyncStorage.setItem('keys', JSON.stringify(keys));
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const getCredentials = async () => {
+export const getCredentials = async () => {
   try {
     let credentials = await AsyncStorage.getItem('keys');
 
@@ -21,9 +13,7 @@ const getCredentials = async () => {
     } else {
       return null;
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
   return null;
 };
 
@@ -57,9 +47,21 @@ async function getVerifiedKeys(keys) {
       if (!isTokenExpired(keys.refresh)) {
         console.log('fetching access using refresh');
 
-        const response = await getAccessUsingRefresh(keys.refresh);
+        const response = await getAccessUsingRefresh(keys.access, keys.refresh);
 
-        await AsyncStorage.setItem('keys', JSON.stringify(response));
+        console.log(
+          '토큰 재발급 : ',
+          response.accessToken,
+          response.refreshToken,
+        );
+
+        await AsyncStorage.setItem(
+          'keys',
+          JSON.stringify({
+            access: response.accessToken,
+            refresh: response.refreshToken,
+          }),
+        );
 
         console.log('UPDATED ONE');
 
@@ -78,13 +80,24 @@ async function getVerifiedKeys(keys) {
 }
 
 //takes the refresh token and returns object consisting of both renewed refresh and access tokens.
-async function getAccessUsingRefresh(refreshToken) {
-  return fetch(URL, {
+async function getAccessUsingRefresh(accessToken, refreshToken) {
+  // console.log(accessToken, refreshToken);
+  return fetch(`http:52.79.226.129:8080/api/v1/member/auth/reissue`, {
     method: 'POST',
-
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(refreshToken),
-  }).then(res => res.json());
+    body: JSON.stringify({
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    }),
+  }).then(res => {
+    // console.log(res);
+    let json = res.json();
+    if (json.data) {
+      // console.log(json.data);
+      return json.data;
+    }
+    return null;
+  });
 }

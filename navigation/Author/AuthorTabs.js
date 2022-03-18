@@ -23,7 +23,7 @@ const AuthorTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
   <TouchableOpacity onPress={onPress} activeOpacity={1}>
-    <View style={{top: -15.96, left: -Dimensions.get('window').width / 2}}>
+    <View style={{top: 12, left: -Dimensions.get('window').width / 2}}>
       <View>{children}</View>
     </View>
   </TouchableOpacity>
@@ -89,8 +89,32 @@ const AuthorTabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View>
-              <Image style={{width: 68.58, height: 68.58}} source={LogoTabs} />
+            <View
+              style={{
+                width: 88,
+                height: 88,
+                backgroundColor: '#fff',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 90,
+              }}>
+              <View
+                style={{
+                  width: 68.58,
+                  height: 68.58,
+                  shadowColor: '#4562F1',
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.314,
+                  shadowRadius: 5,
+                }}>
+                <Image
+                  style={{width: 68.58, height: 68.58}}
+                  source={LogoTabs}
+                />
+              </View>
             </View>
           ),
           tabBarButton: props => <CustomTabBarButton {...props} />,

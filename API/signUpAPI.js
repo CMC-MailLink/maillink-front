@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getCredentials} from '../Credentials';
 
 const BASE_URL = 'http:52.79.226.129:8080';
 
@@ -19,8 +20,8 @@ export const signUpAPI = {
       } else return false;
     } catch (e) {
       console.log(e);
-      return false;
     }
+    return false;
   },
   //휴대폰 문자 인증 코드 인증
   codeChecking: async ({target, code}) => {
@@ -41,8 +42,8 @@ export const signUpAPI = {
       }
     } catch (e) {
       console.log(e);
-      return false;
     }
+    return false;
   },
   //프로필 이미지 업로드
   profileEditing: async ({image}) => {
@@ -64,8 +65,8 @@ export const signUpAPI = {
       }
     } catch (e) {
       console.log(e);
-      return false;
     }
+    return false;
   },
   //로그인
   authLogin: async ({socialType, socialId}) => {
@@ -79,7 +80,7 @@ export const signUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'writerbibi',
+          socialId: 'bibireader3',
         }),
       });
       let json = await response.json();
@@ -105,8 +106,8 @@ export const signUpAPI = {
       }
     } catch (e) {
       console.log(e);
-      return false;
     }
+    return false;
   },
   //회원 가입
   authSignUp: async ({socialType, socialId, nickName, imgUrl, phoneNumber}) => {
@@ -133,8 +134,8 @@ export const signUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'writerbibi',
-          nickName: '작가비비',
+          socialId: 'bibireader3',
+          nickName: '비비독자3',
           imgUrl:
             'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
           phoneNumber: '01011111111',
@@ -165,38 +166,35 @@ export const signUpAPI = {
       }
     } catch (e) {
       console.log(e);
-      return false;
     }
+    return false;
   },
   //유저 정보 조회
   memberInfo: async () => {
-    var token = await AsyncStorage.getItem('keys');
-    var accessToken = JSON.parse(token).access;
+    var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/info`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token.access}`,
         },
       });
       let json = await response.json();
       return json.data.userType;
     } catch (e) {
       console.log(e);
-      return false;
     }
+    return false;
   },
   memberType: async ({userType}) => {
-    console.log(userType);
-    var token = await AsyncStorage.getItem('keys');
-    var accessToken = JSON.parse(token).access;
+    var token = await getCredentials();
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/type/?userType=${userType}`,
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token.access}`,
           },
         },
       );

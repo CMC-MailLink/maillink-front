@@ -24,7 +24,7 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import {v4 as uuid} from 'uuid';
 import jwt_decode from 'jwt-decode';
-import {signUpAPI} from '../../API/signUpAPI';
+import {signUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';

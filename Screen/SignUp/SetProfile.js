@@ -20,7 +20,7 @@ import {
 } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
-import {signUpAPI} from '../../API/signUpAPI';
+import {signUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
 
 import BackMail2 from '../../assets/images/BackMail2.png';

@@ -24,7 +24,7 @@ import AuthorProfileMail from './AuthorProfileMail';
 const AuthorProfile = () => {
   const navigation = useNavigation();
 
-  const [name, setName] = useState('덩이');
+  const [name, setName] = useState('비비작가');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
   const [filePath, setFilePath] = useState(null);

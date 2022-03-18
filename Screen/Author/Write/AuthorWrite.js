@@ -214,7 +214,9 @@ const AuthorWrite = () => {
         <SwipeListView
           ListHeaderComponent={
             <TouchableOpacity
-              onPress={() => Clipboard.setString('maillink address')}>
+              onPress={() =>
+                Clipboard.setString('https://www.mail-link.co.kr/')
+              }>
               <View style={styles.LinkView}>
                 <View>
                   <View style={{marginBottom: 5}}>

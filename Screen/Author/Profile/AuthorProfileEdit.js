@@ -46,7 +46,7 @@ const colorCategory = {
 const AuthorProfileEdit = () => {
   const navigation = useNavigation();
   const [imageUri, setImageUri] = useState('');
-  const [editName, setEditName] = useState('영이');
+  const [editName, setEditName] = useState('비비작가');
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
   const [editInstagram, setEditInstagram] = useState('');

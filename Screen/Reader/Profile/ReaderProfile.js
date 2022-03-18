@@ -22,7 +22,7 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
-import {signUpAPI} from '../../../API/signUpAPI';
+import {signUpAPI} from '../../../API/SignUpAPI';
 
 import ReaderProfileModal from './ReaderProfileModal';
 

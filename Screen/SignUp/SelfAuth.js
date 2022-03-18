@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {signUpAPI} from '../../API/signUpAPI';
+import {signUpAPI} from '../../API/SignUpAPI';
 // import Timer from './Timer';
 // import CheckBox from 'react-native-check-box';
 

@@ -9,14 +9,16 @@ import {
   requestUserPermission,
 } from './notificationService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {signUpAPI} from './API/signUpAPI';
+import {signUpAPI} from './API/SignUpAPI';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import AppContext from './AppContext';
+var jwt_decode = require('jwt-decode');
 
 import SignUpRoot from './navigation/SignUp/SignUpRoot';
 import ReaderRoot from './navigation/Reader/ReaderRoot';
 import AuthorRoot from './navigation/Author/AuthorRoot';
 import OnBoardingRoot from './navigation/OnBoarding/OnBoardingRoot';
+import {getCredentials} from './Credentials';
 
 const customTextProps = {
   style: {
@@ -50,22 +52,28 @@ const App = () => {
     //Check if keys is set or not
     //If not then send for Authentication
     //else send to Home Screen
-    AsyncStorage.removeItem('keys');
+    // AsyncStorage.removeItem('keys');
     checkLogged();
     SplashScreen.hide();
   }, []);
 
   const checkLogged = async () => {
-    const result = await AsyncStorage.getItem('keys');
-    if (result) {
-      console.log('asyncstorage keys : ', result);
+    var token = await getCredentials(); //jwt token 불러오기
+    console.log('token : ', token.access, token.refresh);
+    if (!token) {
+      //토큰없으면 login 실패
+      console.log('로그인 불가');
+      AsyncStorage.removeItem('keys');
+      setIsLogged(false);
+    } else {
+      //토큰있으면 login 성공
+      console.log('로그인 성공');
       setIsLogged(true);
-      const result2 = await signUpAPI.memberInfo();
-      console.log(result2);
-      if (result2 === 'Not Decided') {
-      } else if (result2 === 'WRITER') {
+      const result = await signUpAPI.memberInfo();
+      if (result === 'Not Decided') {
+      } else if (result === 'WRITER') {
         setIsReader('WRITER');
-      } else if (result2 === 'READER') {
+      } else if (result === 'READER') {
         setIsReader('READER');
       }
     }

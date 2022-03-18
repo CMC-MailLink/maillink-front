@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
-import {signUpAPI} from '../../API/signUpAPI';
+import {signUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
 
 import AuthorHover from '../../assets/images/AuthorHover.png';

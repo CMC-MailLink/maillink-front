@@ -3,8 +3,8 @@ import {getCredentials} from '../Credentials';
 
 const BASE_URL = 'http:52.79.226.129:8080';
 
-//Reader API
-export const ReaderAPI = {
+//Author API
+export const AuthorAPI = {
   //유저 정보 조회
   memberInfo: async () => {
     var token = await getCredentials();
@@ -22,17 +22,18 @@ export const ReaderAPI = {
       return false;
     }
   },
-  //독자 메일함 조회
-  readerMailBox: async () => {
+  //작가 발행 메일 리스트 조회
+  writerGetPublishing: async () => {
     var token = await getCredentials();
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/reader/mailbox`, {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/publish`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token.access}`,
         },
       });
       let json = await response.json();
+      console.log(json);
       return json.data;
     } catch (e) {
       console.log(e);

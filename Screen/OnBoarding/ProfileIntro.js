@@ -129,7 +129,7 @@ const ProfileIntro = () => {
         {/* footer: Pass*/}
         <TouchableWithoutFeedback onPress={onPressSkip}>
           <View>
-            <Text style={styles.footerPassText}>다음에 할께요</Text>
+            <Text style={styles.footerPassText}>다음에 할게요</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
