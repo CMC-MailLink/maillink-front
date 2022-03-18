@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import ExitMessage from '../assets/images/ExitMessage.png';
-import SendWriting from '../assets/images/SendWriting.png';
+import ExitMessage from '../../../assets/images/ExitMessage.png';
+import SendWriting from '../../../assets/images/SendWriting.png';
 
 const MessageWrite = () => {
   const navigation = useNavigation();
@@ -42,7 +42,8 @@ const MessageWrite = () => {
         multiline={true}
         placeholder="내용을 입력하세요. (200자 제한)"
         placeholderTextColor="#BEBEBE"
-        maxLength={200}></TextInput>
+        maxLength={200}
+      />
     </View>
   );
 };

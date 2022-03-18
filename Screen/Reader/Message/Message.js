@@ -19,12 +19,12 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useNavigation} from '@react-navigation/native';
-import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
-import ReportMenuExit from '../assets/images/ReportMenuExit.png';
-import ReportMenuPage from '../assets/images/ReportMenuPage.png';
+import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
+import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 import {SafeAreaView} from 'react-native';
-import BackMail2 from '../assets/images/BackMail2.png';
-import Report from '../assets/images/Report.png';
+import BackMail2 from '../../../assets/images/BackMail2.png';
+import Report from '../../../assets/images/Report.png';
 import ChatExitModal from './ChatExitModal';
 // import MessageData from '../assets/data/Message';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import Alarm from '../../Screen/Alarm';
+import Alarm from '../../Screen/Reader/Alarm.js';
 import ReaderMailSearch from '../../Screen/Reader/Mail/ReaderMailSearch';
 import ReaderReading from '../../Screen/Reader/Reading/ReaderReading';
 import InstaShare from '../../Screen/InstaShare';
@@ -9,7 +8,7 @@ import ReaderProfileSearch from '../../Screen/Reader/Profile/ReaderProfileSearch
 import Setting from '../../Screen/Setting/Setting';
 import SettingAlarm from '../../Screen/Setting/SettingAlarm';
 import SettingAccount from '../../Screen/Setting/SettingAccount';
-import Message from '../../Screen/Message';
+import Message from '../../Screen/Reader/Message/Message.js';
 import ReaderAuthorProfile from '../../Screen/Reader/Profile/ReaderAuthorProfile';
 import OnBoarding from '../../Screen/OnBoarding';
 import ReaderAnalyze from '../../Screen/Reader/Analyze/ReaderAnalyze';
@@ -23,7 +22,7 @@ import ReaderAnalyzeSeven from '../../Screen/Reader/Analyze/ReaderAnalyzeSeven';
 import ReaderAnalyzeEight from '../../Screen/Reader/Analyze/ReaderAnalyzeEight';
 import ReaderAnalyzeNine from '../../Screen/Reader/Analyze/ReaderAnalyzeNine';
 import ReaderAnalyzeResult from '../../Screen/Reader/Analyze/ReaderAnalyzeResult';
-import MessageWrite from '../../Screen/MessageWrite';
+import MessageWrite from '../../Screen/Reader/Message/MessageWrite';
 import MessageReport from '../../Screen/Reader/Message/MessageReport';
 
 const ReaderStack = createNativeStackNavigator();

@@ -72,7 +72,24 @@ const MessageReport = () => {
     if (this.keyCode === 13) {
       setenterCount(enterCount + 1);
     }
-  }, [otherReportContent, enterCount]);
+    if (
+      moneyReport ||
+      dateReport ||
+      languageReport ||
+      otherReport ||
+      subscribeCancel
+    ) {
+      setConfirmSuccess(true);
+    }
+  }, [
+    moneyReport,
+    dateReport,
+    languageReport,
+    otherReport,
+    subscribeCancel,
+    otherReportContent,
+    enterCount,
+  ]);
 
   return (
     <View style={{flex: 1}}>
@@ -203,9 +220,8 @@ const MessageReport = () => {
               marginBottom: 40,
             }}>
             <TouchableOpacity
-              // disabled={confirmSuccess ? false : true}
-              // onPress={confirmSuccess ? () => setModalVisible(true) : null}
-              onPress={() => setModalVisible(true)}
+              disabled={confirmSuccess ? false : true}
+              onPress={confirmSuccess ? () => setModalVisible(true) : null}
               style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
               <View>
                 <Text

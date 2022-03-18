@@ -16,8 +16,8 @@ import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
-import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
-import BackMail2 from '../assets/images/BackMail2.png';
+import AuthorProfileImage from '../../assets/images/AuthorProfileImage.png';
+import BackMail2 from '../../assets/images/BackMail2.png';
 const STATUSBAR_HEIGHT = 48;
 
 const Alarm = () => {
@@ -149,7 +149,7 @@ const Alarm = () => {
     navigation.goBack();
   };
   const onPressMessageItem = data => {
-    navigation.navigate('ReaderStacks', {
+    navigation.navigate('AuthorStacks', {
       screen: 'Message',
       params: {...data},
     });
@@ -173,7 +173,7 @@ const Alarm = () => {
       onPress={e => onPressMessageItem(data)}>
       <View style={styles.itemView}>
         <View style={styles.itemTextView}>
-          <View style={styles.itemNewView}></View>
+          <View style={styles.itemNewView} />
           <Image
             style={{
               position: 'absolute',
