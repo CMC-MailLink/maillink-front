@@ -14,7 +14,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import ReportCheck from '../../../assets/images/ReportCheck.png';
+import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 const STATUSBAR_HEIGHT = 48;
 
@@ -22,17 +23,14 @@ const MessageReport = () => {
   const [alarmData, setAlarmData] = useState(true);
   const [alarmSelect, setAlarmSelect] = useState(true);
   const navigation = useNavigation();
+  const [moneyReport, setMoneyReport] = useState(false);
+  const [dateReport, setDateReport] = useState(false);
+  const [languageReport, setLanguageReport] = useState(false);
+  const [otherReport, setOtherReport] = useState(false);
+  const [otherReportContent, setOtherReportContent] = useState('');
+  const [reportTypesData, setReportTypesData] = useState([]);
+  const [confirmSuccess, setConfirmSuccess] = useState(false);
 
-  const [refreshing, setRefreshing] = React.useState(false);
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-  const onPressAlarm = () => {
-    setAlarmSelect(true);
-  };
-  const onPressLetter = () => {
-    setAlarmSelect(false);
-  };
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -42,60 +40,18 @@ const MessageReport = () => {
       params: {...data},
     });
   };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-
-  const handleNotification = () => {
-    PushNotification.localNotification({
-      channelId: 'test-channel',
-      title: 'You clicked Alarm Test!!!!',
-      message: 'This is Test!',
-    });
+  const onPressMoneyReport = () => {
+    setMoneyReport(!moneyReport);
   };
-
-  const renderItem = (data, rowMap) => (
-    <TouchableOpacity
-      disabled={alarmSelect}
-      onPress={e => onPressMessageItem(data)}>
-      <View style={styles.itemView}>
-        <View style={styles.itemTextView}>
-          <View style={styles.itemNewView} />
-          <Image
-            style={{
-              position: 'absolute',
-              width: 42,
-              height: 42,
-            }}
-            source={AuthorProfileImage}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={styles.itemAuthorText}>
-              <Text
-                style={{
-                  fontFamily: 'NotoSansKR-Bold',
-                }}>
-                금전 요구
-              </Text>
-              <Text>
-                {data.item.newpost ? data.item.newpost : data.item.subscribe}
-              </Text>
-            </Text>
-            <Text style={styles.itemDateText}>{data.item.date}</Text>
-          </View>
-          <Text style={styles.itemBodyText}>
-            {data.item.messageContext}
-            {data.item.newpost ? data.item.title : data.item.context}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+  const onPressDateReport = () => {
+    setDateReport(!dateReport);
+  };
+  const onPressLanguageReport = () => {
+    setLanguageReport(!languageReport);
+  };
+  const onPressOtherReport = () => {
+    setOtherReport(!otherReport);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -125,10 +81,85 @@ const MessageReport = () => {
       </View>
 
       {/* body */}
+
       <View style={{flex: 1, backgroundColor: '#F8F8F8'}}>
-        <View style={styles.ItemView}>
-          <Text>금전요구</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={onPressMoneyReport}>
+          <View style={{...styles.itemView, marginTop: 6}}>
+            <Text style={styles.itemText}>금전 요구</Text>
+            {!moneyReport ? (
+              <Image style={styles.itemCheckImg} source={ReportCheck} />
+            ) : (
+              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={onPressDateReport}>
+          <View style={styles.itemView}>
+            <Text style={styles.itemText}>연애 목적의 대화 시도</Text>
+            {!dateReport ? (
+              <Image style={styles.itemCheckImg} source={ReportCheck} />
+            ) : (
+              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={onPressLanguageReport}>
+          <View style={styles.itemView}>
+            <Text style={styles.itemText}>부적절한 어휘 사용</Text>
+            {!languageReport ? (
+              <Image style={styles.itemCheckImg} source={ReportCheck} />
+            ) : (
+              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={onPressOtherReport}>
+          <View style={styles.itemView}>
+            <Text style={styles.itemText}>기타 사유</Text>
+            {!otherReport ? (
+              <Image style={styles.itemCheckImg} source={ReportCheck} />
+            ) : (
+              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+
+      {/* footer */}
+      <View style={{alignItems: 'center', paddingBottom: 10}}>
+        <Text style={styles.bodyHeaderText}>
+          사용자를 신고해도 메일 발송은 유지됩니다.
+        </Text>
+        <Text style={styles.bodyHeaderText}>
+          해당 사용자와의 쪽지는 비활성화됩니다.
+        </Text>
+      </View>
+      <View
+        style={{
+          position: 'static',
+          width: '100%',
+          paddingHorizontal: 20,
+          paddingTop: 5,
+          marginBottom: 40,
+        }}>
+        <TouchableOpacity
+          disabled={confirmSuccess ? false : true}
+          onPress={confirmSuccess ? null : null}
+          style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
+          <View>
+            <Text
+              style={
+                confirmSuccess
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
+              }>
+              신고하기
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -171,15 +202,10 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemView: {
-    height: 10,
-    width: '100%',
-    backgroundColor: 'red',
-    paddingVertical: 15,
+    backgroundColor: 'white',
+    height: 56,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
-    flexDirection: 'row',
-    paddingLeft: 36,
-    paddingRight: 20,
   },
   itemNewView: {
     position: 'absolute',
@@ -190,9 +216,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF9B9B',
     borderRadius: 90,
   },
-  itemTextView: {
-    width: '100%',
-    paddingLeft: 57,
+  itemText: {
+    paddingLeft: 10,
+    paddingTop: 17,
+  },
+  itemCheckImg: {
+    position: 'absolute',
+    width: 17.88,
+    height: 14.12,
+    marginTop: 22,
+    marginLeft: 370 - 21.91,
   },
   itemAuthorText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -211,6 +244,34 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     marginTop: 3,
+    includeFontPadding: false,
+  },
+  buttonAble: {
+    width: '100%',
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: '#4562F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonAbleText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
+    includeFontPadding: false,
+  },
+  buttonDisable: {
+    width: '100%',
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: '#BEBEBE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonDisableText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
     includeFontPadding: false,
   },
 });
