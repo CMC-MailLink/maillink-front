@@ -24,7 +24,7 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import {v4 as uuid} from 'uuid';
 import jwt_decode from 'jwt-decode';
-import {signUpAPI} from '../../API/SignUpAPI';
+import {SignUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
@@ -44,12 +44,12 @@ const SignIn = props => {
 
   const getProfile = async () => {
     const profile = await getKakaoProfile();
-    const result = await signUpAPI.authLogin({
+    const result = await SignUpAPI.authLogin({
       socialType: 'KAKAO',
       socialId: profile.id,
     });
     if (result) {
-      const result2 = await signUpAPI.memberInfo();
+      const result2 = await SignUpAPI.memberInfo();
       console.log('signIn : ', result2);
       if (result2 === 'Not Decided') {
         myContext.setIsLogged(true);

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCredentials} from '../Credentials';
 
-const BASE_URL = 'http:52.79.226.129:8080';
+const BASE_URL = 'https://www.maillink-api.com';
 
 //Reader API
 export const ReaderAPI = {

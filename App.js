@@ -10,7 +10,7 @@ import {
   requestUserPermission,
 } from './notificationService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {signUpAPI} from './API/SignUpAPI';
+import {SignUpAPI} from './API/SignUpAPI';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import AppContext from './AppContext';
 var jwt_decode = require('jwt-decode');
@@ -69,14 +69,14 @@ const App = () => {
     if (!token) {
       //토큰없으면 login 실패
       console.log('로그인 불가');
-      AsyncStorage.removeItem('keys');
+      // AsyncStorage.removeItem('keys');
       setIsLogged(false);
     } else {
       //토큰있으면 login 성공
-      console.log('token : ', token.access, token.refresh);
+      console.log('token : ', token);
       console.log('로그인 성공');
       setIsLogged(true);
-      const result = await signUpAPI.memberInfo();
+      const result = await SignUpAPI.memberInfo();
       if (result === 'Not Decided') {
       } else if (result === 'WRITER') {
         setIsReader('WRITER');

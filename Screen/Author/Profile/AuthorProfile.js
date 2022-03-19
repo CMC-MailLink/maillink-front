@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {AuthorAPI} from '../../../API/AuthorAPI';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -30,6 +30,16 @@ const AuthorProfile = () => {
   const [filePath, setFilePath] = useState(null);
   const [fileData, setFileData] = useState(null);
   const [fileUri, setFileUri] = useState(null);
+  const [memberInfo, setMemberInfo] = useState();
+
+  useEffect(() => {
+    async function getMemberInfo() {
+      const result = await AuthorAPI.memberInfo();
+      // console.log(result);
+      setMemberInfo(result);
+    }
+    getMemberInfo();
+  }, []);
 
   const onPressIntro = () => {
     setIntroSelect(true);
@@ -112,12 +122,7 @@ const AuthorProfile = () => {
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={imageUri == '' ? DefaultProfile : imageUri}></Image>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={onPressEditImage}>
-              <Image
-                style={{width: 27.76, height: 27.76, top: -31, left: 25}}
-                source={ImageEditProfile}></Image>
-            </TouchableWithoutFeedback>
-            <View style={{alignItems: 'center', top: -21}}>
+            <View style={{alignItems: 'center', top: 8}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>작가님</Text>
               <TouchableOpacity onPress={onPressProfileEdit}>

@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {signUpAPI} from '../../API/SignUpAPI';
+import {SignUpAPI} from '../../API/SignUpAPI';
 // import Timer from './Timer';
 // import CheckBox from 'react-native-check-box';
 
@@ -68,7 +68,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
   //인증요청 버튼 클릭
   const onPressRequest = async () => {
     setSecond(180);
-    const result = await signUpAPI.codeSending({target: phone});
+    const result = await SignUpAPI.codeSending({target: phone});
     if (result) {
       Platform.OS === 'ios'
         ? Alert.alert('인증 번호가 전송되었습니다.', {
@@ -99,7 +99,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
 
   //확인 버튼 클릭
   const onPressConfirm = async () => {
-    const result = await signUpAPI.codeChecking({
+    const result = await SignUpAPI.codeChecking({
       target: phone,
       code: number,
     });
@@ -126,7 +126,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
   //재발송 버튼 클릭
   const goAlertPhoneAdd = async () => {
     setSecond(180);
-    const result = await signUpAPI.codeSending({target: phone});
+    const result = await SignUpAPI.codeSending({target: phone});
     if (result) {
       Platform.OS === 'ios'
         ? Alert.alert('재발송 되었습니다.', {

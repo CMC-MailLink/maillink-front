@@ -104,7 +104,9 @@ const AuthorWrite = () => {
       <TouchableWithoutFeedback
         onPress={e => onPressStorageItem(rowMap, data.item)}>
         <View style={styles.itemView}>
-          <Text style={styles.itemDateText}>{data.item.tempSaveTime}</Text>
+          <Text style={styles.itemDateText}>
+            {data.item.tempSaveTime.slice(0, 10)}
+          </Text>
           <Text style={styles.itemTitleText}>{data.item.title}</Text>
           <Text style={styles.itemBodyText}>{data.item.preView}</Text>
         </View>

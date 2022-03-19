@@ -9,35 +9,98 @@ import {
   TouchableWithoutFeedback,
   Platform,
   TextInput,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
+import ImagePicker from 'react-native-image-crop-picker';
+import {SignUpAPI} from '../../../API/SignUpAPI';
 
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 import {AuthorAPI} from '../../../API/AuthorAPI';
 
-const AuthorEditor = () => {
+const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   let webRef = useRef();
   const navigation = useNavigation();
   const url = 'https://www.mail-link.co.kr/quilEditor';
+  // const url = 'http://localhost:3000/quilEditor';
   const [save, setSave] = useState(false);
-  const [title, setTitle] = useState('');
+  const [send, setSend] = useState(false);
+  const [title, setTitle] = useState(params ? params.title : '');
+  const [imageCount, setImageCount] = useState(0);
+  var imageURL = '';
 
   const onPressBack = () => {
     navigation.goBack();
   };
   const handleOnMessage = async ({nativeEvent: {data}}) => {
+    if (data === 'image') {
+      console.log('!!');
+      //이미지 선택
+      const onPressEditImage = async () => {
+        ImagePicker.openPicker({
+          width: 300,
+          height: 400,
+          cropping: true,
+        }).then(image => {
+          console.log(image);
+          imageUpload(image.path);
+        });
+      };
+
+      //이미지 등록
+      const imageUpload = async imagePath => {
+        const imageData = new FormData();
+        imageData.append('image', {
+          uri: imagePath,
+          name: 'image.png',
+          fileName: 'image',
+          type: 'image/png',
+        });
+
+        const result = await SignUpAPI.profileEditing({image: imageData});
+        console.log(result);
+        if (result) {
+          webRef.current.postMessage(JSON.stringify({imageURL: result}));
+          setImageCount(imageCount + 1);
+          webRef.current.injectJavaScript(`
+            var imageDiv = document.getElementById('imageURL');
+            var textNode = document.createTextNode('${result}');
+            imageDiv.appendChild(textNode);
+            true;
+          `);
+        } else {
+          console.log('이미지 업로드 실패');
+        }
+      };
+
+      onPressEditImage();
+    }
     if (save) {
       const temp = await JSON.parse(data);
       const contents = temp.contents;
       const text = temp.text;
-      const preView = text.replaceAll('\n', ' ').slice(0, 44) + '...';
+      console.log(contents, text);
+      const preView = text.replace(/\n/g, ' ').slice(0, 44) + '...';
       const result = await AuthorAPI.writerPostSaving({
         title: title,
         content: contents,
         preView: preView,
       });
+      navigation.goBack();
+    }
+    if (send) {
+      const temp = await JSON.parse(data);
+      const contents = temp.contents;
+      const text = temp.text;
+      const preView = text.replace(/\n/g, ' ').slice(0, 44) + '...';
+      const result = await AuthorAPI.writerPostSending({
+        title: title,
+        content: contents,
+        preView: preView,
+      });
+      navigation.goBack();
     }
   };
 
@@ -46,9 +109,39 @@ const AuthorEditor = () => {
       true; // note: this is required, or you'll sometimes get silent failures
     `;
 
-  const onPressSend = async () => {
+  const contentSending = `
+    let div = document.createElement('div');
+    div.classList.add('test');
+    var textNode = document.createTextNode('${params ? params.content : ''}');
+    div.append(textNode);
+    div.style.display="none";
+    document.body.appendChild(div);
+    true;
+  `;
+
+  const onPressSave = async () => {
     await webRef.current.injectJavaScript(runFirst);
     setSave(true);
+  };
+
+  const onPressSend2 = async () => {
+    await webRef.current.injectJavaScript(runFirst);
+    setSend(true);
+  };
+
+  const onPressSend = () => {
+    Alert.alert('발행하기', '발행 후 수정이 불가합니다. 발행하시겠습니까?', [
+      {
+        text: '취소',
+        onPress: () => console.log('Cancel Pressed'),
+      },
+      {
+        text: '확인',
+        onPress: () => {
+          onPressSend2();
+        },
+      },
+    ]);
   };
 
   return (
@@ -69,7 +162,7 @@ const AuthorEditor = () => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <TouchableWithoutFeedback onPress={onPressSend}>
+          <TouchableWithoutFeedback onPress={onPressSave}>
             <Text
               style={{
                 fontFamily: 'NotoSansKR-Medium',
@@ -88,7 +181,7 @@ const AuthorEditor = () => {
             }}>
             ・
           </Text>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={onPressSend}>
             <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
           </TouchableWithoutFeedback>
         </View>
@@ -115,7 +208,7 @@ const AuthorEditor = () => {
         hideKeyboardAccessoryView={true}
         ref={webRef}
         onMessage={handleOnMessage}
-        // injectedJavaScript={INJECTED_JAVASCRIPT}
+        injectedJavaScript={contentSending}
       />
     </View>
   );

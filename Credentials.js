@@ -5,7 +5,7 @@ var jwt_decode = require('jwt-decode');
 export const getCredentials = async () => {
   try {
     let credentials = await AsyncStorage.getItem('keys');
-
+    console.log('asyncstorage token : ', credentials);
     if (!credentials) return null;
     let cred = await getVerifiedKeys(JSON.parse(credentials));
 
@@ -85,7 +85,7 @@ async function getAccessUsingRefresh(accessToken, refreshToken) {
   console.log(accessToken, refreshToken);
   try {
     const response = await fetch(
-      `http:52.79.226.129:8080/api/v1/member/auth/reissue`,
+      `https://www.maillink-api.com/api/v1/member/auth/reissue`,
       {
         method: 'POST',
         headers: {
@@ -97,6 +97,7 @@ async function getAccessUsingRefresh(accessToken, refreshToken) {
         }),
       },
     );
+    console.log('reissue : ', response);
     let json = await response.json();
     console.log(json);
     if (json.data) {
