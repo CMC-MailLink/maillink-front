@@ -195,14 +195,21 @@ const ReaderProfile = () => {
   useEffect(() => {
     var temp = author.filter(data => {
       for (var i = 0; i < 3; i++) {
-        if (branch[i].select)
-          if (data.repBranch === branch[i].category) return true;
+        if (branch[i].select) {
+          if (data.repBranch === branch[i].category) {
+            return true;
+          }
+        }
       }
       return false;
     });
     temp = temp.filter(data => {
       for (var i = 0; i < 8; i++) {
-        if (vive[i].select) if (data.repVive === vive[i].category) return true;
+        if (vive[i].select) {
+          if (data.repVive === vive[i].category) {
+            return true;
+          }
+        }
       }
       return false;
     });
@@ -437,7 +444,8 @@ const ReaderProfile = () => {
                 <View style={styles.allView}>
                   <Image
                     style={{width: 14, height: 10, marginRight: 4}}
-                    source={AllReaderProfile}></Image>
+                    source={AllReaderProfile}
+                  />
                   <Text style={styles.allText}>전체선택</Text>
                 </View>
               </TouchableOpacity>

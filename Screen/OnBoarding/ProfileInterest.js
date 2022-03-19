@@ -36,6 +36,7 @@ const ProfileInterest = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [category, setCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [viveCount, setViveCount] = useState(0);
 
   const colorCategory = {
     편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
@@ -147,6 +148,7 @@ const ProfileInterest = () => {
       if (temp[index].rep) {
         temp[index].select = false;
         temp[index].rep = false;
+        setViveCount(viveCount - 1);
       } else {
         temp.map(data => {
           if (data.rep) {
@@ -156,8 +158,12 @@ const ProfileInterest = () => {
         temp[index].rep = true;
       }
     } else {
-      temp[index].select = true;
+      if (viveCount < 3) {
+        temp[index].select = true;
+        setViveCount(viveCount + 1);
+      }
     }
+    console.log(viveCount);
     setVive([...temp]);
   };
 
@@ -352,6 +358,7 @@ const ProfileInterest = () => {
           </View>
         </View>
       </KeyboardAwareScrollView>
+
       {/* footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
