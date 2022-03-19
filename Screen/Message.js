@@ -14,9 +14,11 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import AuthorProfileImage from '../assets/images/AuthorProfileImage.png';
 import {SafeAreaView} from 'react-native';
+import {FloatingAction} from 'react-native-floating-action';
+
 import BackMail2 from '../assets/images/BackMail2.png';
 import Report from '../assets/images/Report.png';
-// import MessageData from '../assets/data/Message';
+import PenceilWriting from '../assets/images/PenceilWriting.png';
 
 const STATUSBAR_HEIGHT = 48;
 
@@ -201,31 +203,61 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         {renderMessageItem(message.sender)}
       </View>
       {/* body */}
-      {messageData ? (
-        <FlatList
-          style={styles.bodyContainer}
-          data={message}
-          renderItem={renderItem}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              style={styles.refresh}
-              tintColor="#4562F1"
-            />
-          }
-          //keyExtractor={item => item.id}
-        />
-      ) : (
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
-            flex: 1,
-          }}
-        />
-      )}
+      <View>
+        {messageData ? (
+          <FlatList
+            style={styles.bodyContainer}
+            data={message}
+            renderItem={renderItem}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                style={styles.refresh}
+                tintColor="#4562F1"
+              />
+            }
+            //keyExtractor={item => item.id}
+          />
+        ) : (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#FFFFFF',
+              flex: 1,
+            }}
+          />
+        )}
+      </View>
+      <FloatingAction
+        actions={[
+          {
+            icon: (
+              <Image
+                style={{
+                  width: 22,
+                  height: 22,
+                }}
+                source={PenceilWriting}
+              />
+            ),
+            name: 'bt_write',
+            position: 1,
+            buttonSize: 50,
+          },
+        ]}
+        color="#FFF"
+        distanceToEdge={{vertical: 110, horizontal: 17}}
+        buttonSize={50}
+        shadow={{
+          shadowOpacity: 0.12,
+          shadowColor: '#000000',
+          shadowRadius: 23,
+        }}
+        overrideWithAction={true}
+        animated={false}
+      />
     </View>
   );
 };
