@@ -14,6 +14,8 @@ import {useNavigation} from '@react-navigation/native';
 import {FloatingAction} from 'react-native-floating-action';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {AuthorAPI} from '../../../API/AuthorAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import LinkAuthorWrite from '../../../assets/images/LinkAuthorWrite.png';
@@ -26,44 +28,25 @@ const AuthorWrite = () => {
   const [rowList, setRowList] = useState(null);
   const [rowOpen, setRowOpen] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [storage, setStorage] = useState([
-    {
-      id: '0',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의',
-      date: '21. 02. 12',
-    },
-    {
-      id: '1',
-      title: '청춘예찬1',
-      body: '그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의',
-      date: '21. 02. 11',
-    },
-    {
-      id: '2',
-      title: '청춘예찬0',
-      body: '그들은 광야에서 얼마나 무엇을 때문이다. 인생을 것은 같으며, 것이다. 발휘하기 굳세게 인생의 설산에',
-      date: '21. 02. 10',
-    },
-    {
-      id: '3',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 09',
-    },
-  ]);
+  // const [filterStorage, setFilterStorage] = useState(storageData);
 
-  useEffect(() => {
-    setStorage(data =>
-      data.slice().sort(function (a, b) {
-        if (a.date >= b.date) {
-          return recentSelect ? -1 : 1;
-        } else if (a.date < b.date) {
-          return recentSelect ? 1 : -1;
-        }
-      }),
-    );
-  }, [recentSelect]);
+  const {isLoading: storageLoading, data: storageData} = useQuery(
+    ['AuthorStorage', recentSelect],
+    AuthorAPI.writerGetSaving,
+  );
+
+  // useEffect(() => {
+  //   if (filterStorage)
+  //     setFilterStorage(data =>
+  //       filterStorage.slice().sort(function (a, b) {
+  //         if (a.tempSaveTime >= b.tempSaveTime) {
+  //           return recentSelect ? -1 : 1;
+  //         } else if (a.tempSaveTime < b.tempSaveTime) {
+  //           return recentSelect ? 1 : -1;
+  //         }
+  //       }),
+  //     );
+  // }, [recentSelect, filterStorage]);
 
   const onPressRecent = () => {
     rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
@@ -121,9 +104,9 @@ const AuthorWrite = () => {
       <TouchableWithoutFeedback
         onPress={e => onPressStorageItem(rowMap, data.item)}>
         <View style={styles.itemView}>
-          <Text style={styles.itemDateText}>{data.item.date}</Text>
+          <Text style={styles.itemDateText}>{data.item.tempSaveTime}</Text>
           <Text style={styles.itemTitleText}>{data.item.title}</Text>
-          <Text style={styles.itemBodyText}>{data.item.body}</Text>
+          <Text style={styles.itemBodyText}>{data.item.preView}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -211,8 +194,51 @@ const AuthorWrite = () => {
         </View>
       </View>
       <View style={styles.bodyContainer}>
-        <SwipeListView
-          ListHeaderComponent={
+        {storageData && storageData.length ? (
+          <SwipeListView
+            ListHeaderComponent={
+              <TouchableOpacity
+                onPress={() =>
+                  Clipboard.setString('https://www.mail-link.co.kr/')
+                }>
+                <View style={styles.LinkView}>
+                  <View>
+                    <View style={{marginBottom: 5}}>
+                      <Text style={styles.LinkText}>
+                        <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
+                          웹사이트
+                        </Text>
+                        에서도 편하게
+                      </Text>
+                      <Text style={styles.LinkText}>
+                        글을 작성하고 발행해보세요!
+                      </Text>
+                    </View>
+                    <Text style={styles.LinkCopyText}>
+                      클릭하여 링크복사하기
+                    </Text>
+                  </View>
+                  <Image
+                    style={{width: 134, height: 92}}
+                    source={LinkAuthorWrite}></Image>
+                </View>
+              </TouchableOpacity>
+            }
+            keyExtractor={(rowData, index) => {
+              return rowData.id.toString();
+            }}
+            data={storageData}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            rightOpenValue={-77}
+            stopRightSwipe={-77}
+            disableRightSwipe={true}
+            onRowOpen={onRowOpen}
+            onRowClose={onRowClose}
+            closeOnScroll={true}
+          />
+        ) : (
+          <>
             <TouchableOpacity
               onPress={() =>
                 Clipboard.setString('https://www.mail-link.co.kr/')
@@ -237,20 +263,19 @@ const AuthorWrite = () => {
                   source={LinkAuthorWrite}></Image>
               </View>
             </TouchableOpacity>
-          }
-          keyExtractor={(rowData, index) => {
-            return rowData.id.toString();
-          }}
-          data={storage}
-          renderItem={renderItem}
-          renderHiddenItem={renderHiddenItem}
-          rightOpenValue={-77}
-          stopRightSwipe={-77}
-          disableRightSwipe={true}
-          onRowOpen={onRowOpen}
-          onRowClose={onRowClose}
-          closeOnScroll={true}
-        />
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'NotoSansKR-Regular',
+                  color: '#3C3C3C',
+                  includeFontPadding: false,
+                }}>
+                저장된 메일이 없습니다.
+              </Text>
+            </View>
+          </>
+        )}
       </View>
       <FloatingAction
         actions={[

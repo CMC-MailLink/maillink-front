@@ -85,7 +85,7 @@ export const signUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibireader',
+          socialId: 'bibiwriter',
         }),
       });
       let json = await response.json();
@@ -139,7 +139,7 @@ export const signUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibireader3',
+          socialId: 'bibiwriter',
           nickName: '비비독자3',
           imgUrl:
             'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
@@ -191,6 +191,7 @@ export const signUpAPI = {
     }
     return false;
   },
+  //유저타입변경
   memberType: async ({userType}) => {
     var token = await getCredentials();
     try {
