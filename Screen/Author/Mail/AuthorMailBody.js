@@ -28,7 +28,6 @@ const AuthorMailBody = () => {
   const [recentSelect, setRecentSelect] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
-
   const {isLoading: mailLoading, data: mailData} = useQuery(
     ['AuthorMail', recentSelect],
     AuthorAPI.writerGetPublishing,
@@ -37,7 +36,6 @@ const AuthorMailBody = () => {
   useEffect(() => {
     async function getMemberInfo() {
       const result = await AuthorAPI.memberInfo();
-      // console.log(result);
       setMemberInfo(result);
     }
     getMemberInfo();
@@ -200,7 +198,7 @@ const AuthorMailBody = () => {
             {mailData ? (
               mailData.length ? (
                 <View style={styles.bodyContainer}>
-                  <FlatList data={mailData} renderItem={renderItem}></FlatList>
+                  <FlatList data={mailData} renderItem={renderItem} />
                 </View>
               ) : (
                 <View
@@ -239,7 +237,8 @@ const AuthorMailBody = () => {
               </View>
             )}
           </View>
-        }></FlatList>
+        }
+      />
     </View>
   );
 };
