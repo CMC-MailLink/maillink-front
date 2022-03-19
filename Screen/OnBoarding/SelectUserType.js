@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
-import {signUpAPI} from '../../API/SignUpAPI.js';
+import {SignUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
 
 import AuthorHover from '../../assets/images/AuthorHover.png';
@@ -48,7 +48,7 @@ const SelectUserType = props => {
     });
   };
   const goAuthorProfile = async () => {
-    const result = await signUpAPI.memberType({userType: 'WRITER'});
+    const result = await SignUpAPI.memberType({userType: 'WRITER'});
     // myContext.setIsReader('WRITER');
     navigation.navigate('OnBoardingStacks', {screen: 'Profile'});
     // navigation.dispatch(
@@ -64,7 +64,7 @@ const SelectUserType = props => {
     // );
   };
   const goTasteAnalysisProfile = async () => {
-    const result = await signUpAPI.memberType({userType: 'READER'});
+    const result = await SignUpAPI.memberType({userType: 'READER'});
     // myContext.setIsReader('READER');
     navigation.navigate('OnBoardingStacks', {screen: 'ReaderAnalyze'});
     // navigation.dispatch(

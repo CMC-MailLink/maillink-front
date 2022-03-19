@@ -20,7 +20,7 @@ import {
 } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
-import {signUpAPI} from '../../API/SignUpAPI.js';
+import {SignUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
@@ -103,7 +103,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       type: 'image/png',
     });
 
-    const result = await signUpAPI.profileEditing({image: imageData});
+    const result = await SignUpAPI.profileEditing({image: imageData});
     console.log(result);
     if (result) {
       setImageUri(result);
@@ -113,7 +113,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   const onPressConfirm = async () => {
-    const result = await signUpAPI.authSignUp({
+    const result = await SignUpAPI.authSignUp({
       socialType: params.socialType,
       socialId: params.socialId,
       nickName: name,

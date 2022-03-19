@@ -22,7 +22,7 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
-import {signUpAPI} from '../../../API/SignUpAPI';
+import {SignUpAPI} from '../../../API/SignUpAPI';
 
 import ReaderProfileModal from './ReaderProfileModal';
 
@@ -159,7 +159,7 @@ const ReaderProfile = () => {
       type: 'image/png',
     });
 
-    const result = await signUpAPI.profileEditing({image: imageData});
+    const result = await SignUpAPI.profileEditing({image: imageData});
     console.log(result);
     if (result) {
       setImageUri(result);

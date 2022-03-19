@@ -70,6 +70,7 @@ const AuthorProfileEdit = () => {
     {name: '달달', select: false, rep: false},
     {name: '키치', select: false, rep: false},
   ]);
+  const [viveCount, setViveCount] = useState(0);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -143,6 +144,7 @@ const AuthorProfileEdit = () => {
       if (temp[index].rep) {
         temp[index].select = false;
         temp[index].rep = false;
+        setViveCount(viveCount - 1);
       } else {
         temp.map(data => {
           if (data.rep) {
@@ -152,8 +154,12 @@ const AuthorProfileEdit = () => {
         temp[index].rep = true;
       }
     } else {
-      temp[index].select = true;
+      if (viveCount < 3) {
+        temp[index].select = true;
+        setViveCount(viveCount + 1);
+      }
     }
+    console.log(viveCount);
     setVive([...temp]);
   };
 

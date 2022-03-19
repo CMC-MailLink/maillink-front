@@ -15,6 +15,8 @@ import {
   Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {AuthorAPI} from '../../../API/AuthorAPI';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -27,60 +29,14 @@ const STORAGE_KEY = '@recentDataAuthorMailSearch';
 
 const AuthorMailSearch = () => {
   const [recentSearch, setRecentSearch] = useState([]);
-  const [mail, setMail] = useState([
-    {
-      key: '0',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '3',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-    {
-      key: '4',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '5',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-    {
-      key: '6',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '7',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-  ]);
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
+  const {isLoading: mailLoading, data: mailData} = useQuery(
+    ['AuthorMail'],
+    AuthorAPI.writerGetPublishing,
+  );
 
   useEffect(() => {
     getRecentSearch();
@@ -107,7 +63,7 @@ const AuthorMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = mail.filter(item => item.title.includes(data));
+    var res = mailData.filter(item => item.title.includes(data));
     setResult([...res]);
 
     var temp = recentSearch;
@@ -128,7 +84,7 @@ const AuthorMailSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = mail.filter(item => item.title.includes(query));
+    var res = mailData.filter(item => item.title.includes(query));
     setResult([...res]);
 
     var temp = recentSearch;
@@ -215,9 +171,11 @@ const AuthorMailSearch = () => {
                   onPress={e => onPressMailItem(data)}
                   key={index}>
                   <View style={styles.itemView}>
-                    <Text style={styles.itemDateText}>{data.date}</Text>
+                    <Text style={styles.itemDateText}>
+                      {data.publishedTime.slice(0, 10)}
+                    </Text>
                     <Text style={styles.itemTitleText}>{data.title}</Text>
-                    <Text style={styles.itemBodyText}>{data.body}</Text>
+                    <Text style={styles.itemBodyText}>{data.preView}</Text>
                   </View>
                 </TouchableWithoutFeedback>
               ))

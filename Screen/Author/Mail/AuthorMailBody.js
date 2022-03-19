@@ -19,6 +19,7 @@ import WriteMail from '../../../assets/images/WriteMail.png';
 import AuthorMail from '../../../assets/images/AuthorMail.png';
 
 const STATUSBAR_HEIGHT = 48;
+const refreshingHeight = 100;
 
 const AuthorMailBody = () => {
   const navigation = useNavigation();
@@ -26,10 +27,10 @@ const AuthorMailBody = () => {
   const [memberInfo, setMemberInfo] = useState();
   const [recentSelect, setRecentSelect] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [filterMail, setFilterMail] = useState(mailData);
+  const [offsetY, setOffsetY] = useState(0);
 
   const {isLoading: mailLoading, data: mailData} = useQuery(
-    ['AuthorMail'],
+    ['AuthorMail', recentSelect],
     AuthorAPI.writerGetPublishing,
   );
 
@@ -42,18 +43,25 @@ const AuthorMailBody = () => {
     getMemberInfo();
   }, []);
 
-  useEffect(() => {
-    if (filterMail)
-      setFilterMail(data =>
-        data.slice().sort(function (a, b) {
-          if (a.publishedTime >= b.publishedTime) {
-            return recentSelect ? -1 : 1;
-          } else if (a.publishedTime < b.publishedTime) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-  }, [recentSelect, filterMail]);
+  // useEffect(() => {
+  //   if (filterMail)
+  //     setFilterMail(data =>
+  //       data.slice().sort(function (a, b) {
+  //         if (a.publishedTime >= b.publishedTime) {
+  //           return recentSelect ? -1 : 1;
+  //         } else if (a.publishedTime < b.publishedTime) {
+  //           return recentSelect ? 1 : -1;
+  //         }
+  //       }),
+  //     );
+  // }, [recentSelect, filterMail]);
+
+  function onScroll(event) {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  }
 
   const onPressRecent = () => {
     setRecentSelect(true);
@@ -80,9 +88,11 @@ const AuthorMailBody = () => {
     return (
       <TouchableWithoutFeedback onPress={e => onPressMailItem(item)}>
         <View style={styles.itemView}>
-          <Text style={styles.itemDateText}>{item.publishedTime}</Text>
+          <Text style={styles.itemDateText}>
+            {item.publishedTime.slice(0, 10)}
+          </Text>
           <Text style={styles.itemTitleText}>{item.title}</Text>
-          <Text style={styles.itemBodyText}>{item.body}</Text>
+          <Text style={styles.itemBodyText}>{item.preView}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -134,13 +144,15 @@ const AuthorMailBody = () => {
     <View style={{flex: 1}}>
       <View
         style={{
-          height: 300,
-          width: '100%',
+          height: 100 - offsetY,
           backgroundColor: '#4562F1',
           position: 'absolute',
+          left: 0,
+          right: 0,
         }}
       />
       <FlatList
+        onScroll={onScroll}
         stickyHeaderIndices={[1]}
         refreshing={refreshing}
         onRefresh={onRefresh}

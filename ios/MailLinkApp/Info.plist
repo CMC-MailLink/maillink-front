@@ -98,5 +98,7 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library Access Warning</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take pictures for certain activities</string>	
 </dict>
 </plist>

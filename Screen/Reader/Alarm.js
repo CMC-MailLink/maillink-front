@@ -15,13 +15,14 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {MessageAPI} from '../API/MessageAPI';
 
 import AuthorProfileImage from '../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 const STATUSBAR_HEIGHT = 48;
 
 const Alarm = () => {
-  const [alarmData, setAlarmData] = useState(true);
   const [alarmSelect, setAlarmSelect] = useState(true);
   const navigation = useNavigation();
 
@@ -108,32 +109,11 @@ const Alarm = () => {
       context: null,
     },
   ]);
-  const [message, setMessage] = useState([
-    {
-      key: '0',
-      sender: '이작가',
-      messageContext: '저도 감사했습니다~',
-      date: '21. 02. 10',
-    },
-    {
-      key: '1',
-      sender: '덩이',
-      messageContext: '안녕하세요~',
-      date: '21. 02. 11',
-    },
-    {
-      key: '2',
-      sender: '동구리',
-      messageContext: '넵 맞습니다!',
-      date: '21. 02. 12',
-    },
-    {
-      key: '3',
-      sender: '비비',
-      messageContext: '이부분에서는 저렇게 생각했는데 ...',
-      date: '21. 02. 13',
-    },
-  ]);
+  const {isLoading: messageLoading, data: messageData} = useQuery(
+    ['Message'],
+    MessageAPI.getMessageList,
+  );
+
   //refreshing 기능
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = timeout => {
@@ -220,11 +200,11 @@ const Alarm = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <TouchableOpacity onPress={handleNotification}>
+      {/* <TouchableOpacity onPress={handleNotification}>
         <View>
           <Text>Alarm Test</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
@@ -261,10 +241,10 @@ const Alarm = () => {
       </View>
 
       {/* body */}
-      {alarmData ? (
+      {(!alarmSelect && messageData && messageData.length) || alarmSelect ? (
         <FlatList
           style={styles.bodyContainer}
-          data={alarmSelect ? alarm : message}
+          data={alarmSelect ? alarm : messageData}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl
@@ -281,10 +261,17 @@ const Alarm = () => {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
             flex: 1,
-          }}
-        />
+          }}>
+          <Text
+            style={{
+              fontFamily: 'NotoSansKR-Regular',
+              color: '#3C3C3C',
+              includeFontPadding: false,
+            }}>
+            메세지가 없습니다.
+          </Text>
+        </View>
       )}
     </View>
   );
