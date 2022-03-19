@@ -100,19 +100,13 @@ const ProfileInterest = () => {
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>대표 관심사</Text>로
               표시됩니다.
             </Text>
-            <Text style={styles.menuText}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>
-              대표 관심사는 각&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
-                선택지 주제 당 하나
-              </Text>
-              만
-            </Text>
             <Text style={{...styles.menuText, marginBottom: 7}}>
-              <Text style={{color: '#FFF'}}>・</Text>
-              선택이 가능합니다.
+              <Text style={{color: '#C4C4C4'}}>・</Text>
+              분위기는&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>3개</Text>
+              까지 선택이 가능합니다.
             </Text>
-            <Text style={styles.menuText}>
+            <Text style={{...styles.menuText}}>
               <Text style={{color: '#C4C4C4'}}>・</Text>
               대표 관심사는 독자가 작가를 검색할 때
             </Text>
