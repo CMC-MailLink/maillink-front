@@ -38,8 +38,9 @@ const MyTheme = {
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(true);
-  const [isReader, setIsReader] = useState('Not Decided');
+  const [isLogged, setIsLogged] = useState(false);
+  //'Not Decided'
+  const [isReader, setIsReader] = useState(true);
   const userSettings = {
     isLogged,
     setIsLogged,
@@ -55,7 +56,7 @@ const App = () => {
     //Check if keys is set or not
     //If not then send for Authentication
     //else send to Home Screen
-    // AsyncStorage.removeItem('keys');
+    //AsyncStorage.removeItem('keys');
     async function loading() {
       await checkLogged();
     }
