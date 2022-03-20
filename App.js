@@ -11,9 +11,7 @@ import {
 } from './notificationService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SignUpAPI} from './API/SignUpAPI';
-import {useNavigation, CommonActions} from '@react-navigation/native';
 import AppContext from './AppContext';
-var jwt_decode = require('jwt-decode');
 
 import Root from './navigation/Root';
 import {getCredentials} from './Credentials';

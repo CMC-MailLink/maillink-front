@@ -56,7 +56,6 @@ export const AuthorAPI = {
   writerGetSaving: async ({queryKey}) => {
     console.log('작가 임시저장 리스트 조회');
     const [_, sort] = queryKey;
-    console.log(typeof sort);
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/publish/temp`, {

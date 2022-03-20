@@ -31,183 +31,88 @@ const ReaderMailBody = () => {
   const [recentSelect, setRecentSelect] = useState(true);
   const [rowList, setRowList] = useState(null);
   const [rowOpen, setRowOpen] = useState(null);
-  const queryClient = useQueryClient();
   const [count, setCount] = useState(0);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [mail, setMail] = useState([{key: 'category'}]);
   const [bookmark, setBookmark] = useState([]);
-  //변경 전
-  //const [filterMail, setFilterMail] = useState(mailData);
-
-  //추가 부문
-  const [refreshing, setRefreshing] = useState(false);
-  const [offsetY, setOffsetY] = useState(0);
   const {isLoading: mailLoading, data: mailData} = useQuery(
     ['ReaderMail', recentSelect],
     ReaderAPI.readerMailBox,
   );
-  //-----
-  //변경 전
-  // const [mailDataExist, setMailDataExist] = useState(true);
-  // const [refreshing, setRefreshing] = React.useState(false);
-  // const [mail, setMail] = useState([
-  //   {key: 'category'},
-  //   {
-  //     key: '0',
-  //     author: '이작가',
-  //     title: '청춘예찬2',
-  //     body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-  //     date: '21. 02. 13',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //   {
-  //     key: '1',
-  //     author: '김작가',
-  //     title: '별 헤는 밤',
-  //     body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-  //     date: '21. 02. 12',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //   {
-  //     key: '2',
-  //     author: '이작가',
-  //     title: '청춘예찬',
-  //     body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-  //     date: '21. 02. 11',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //   {
-  //     key: '3',
-  //     author: '최작가',
-  //     title: '파란 하늘',
-  //     body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-  //     date: '21. 02. 10',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //   {
-  //     key: '4',
-  //     author: '최작가',
-  //     title: '파란 하늘',
-  //     body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-  //     date: '21. 02. 10',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //   {
-  //     key: '5',
-  //     author: '최작가',
-  //     title: '파란 하늘',
-  //     body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-  //     date: '21. 02. 10',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //   {
-  //     key: '6',
-  //     author: '최작가',
-  //     title: '파란 하늘',
-  //     body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-  //     date: '21. 02. 10',
-  //     read: false,
-  //     bookmark: false,
-  //   },
-  //]);
 
-  //추가 부문
   useEffect(() => {
     async function getMemberInfo() {
       const result = await ReaderAPI.memberInfo();
-      console.log(result + '결과 나옴 ');
+      console.log(result);
       setMemberInfo(result);
     }
+
     getMemberInfo();
   }, []);
 
-  //변경 전
-  // useEffect(() => {
-  //   if (mailSelect) {
-  //     setMail(data =>
-  //       data.slice().sort(function (a, b) {
-  //         if (a.date >= b.date) {
-  //           return recentSelect ? -1 : 1;
-  //         } else if (a.date < b.date) {
-  //           return recentSelect ? 1 : -1;
-  //         }
-  //       }),
-  //     );
-  //   } else {
-  //     setBookmark(data =>
-  //       data.slice().sort(function (a, b) {
-  //         if (a.date >= b.date) {
-  //           return recentSelect ? -1 : 1;
-  //         } else if (a.date < b.date) {
-  //           return recentSelect ? 1 : -1;
-  //         }
-  //       }),
-  //     );
-  //   }
-  // }, [recentSelect, mailSelect]);
+  useEffect(() => {
+    if (mailSelect) {
+      setMail(data =>
+        data.slice().sort(function (a, b) {
+          if (a.date >= b.date) {
+            return recentSelect ? -1 : 1;
+          } else if (a.date < b.date) {
+            return recentSelect ? 1 : -1;
+          }
+        }),
+      );
+    } else {
+      setBookmark(data =>
+        data.slice().sort(function (a, b) {
+          if (a.date >= b.date) {
+            return recentSelect ? -1 : 1;
+          } else if (a.date < b.date) {
+            return recentSelect ? 1 : -1;
+          }
+        }),
+      );
+    }
+  }, [recentSelect, mailSelect]);
 
-  //변경후
-  function onScroll(event) {
-    const {nativeEvent} = event;
-    const {contentOffset} = nativeEvent;
-    const {y} = contentOffset;
-    setOffsetY(y);
-  }
+  useEffect(() => {
+    var temp = mail.filter(item => {
+      if (item.key === 'category') {
+        return true;
+      }
+      if (item.bookmark) {
+        return true;
+      }
+    });
+    setBookmark([...temp]);
 
-  //변경 전
-  // useEffect(() => {
-  //   var temp = mailData.filter(item => {
-  //     if (item.key === 'category') {
-  //       return true;
-  //     }
-  //     if (item.bookmark) {
-  //       return true;
-  //     }
-  //   });
-  //   setBookmark([...temp]);
-
-  //   var tempCount = 0;
-  //   mailData.map(item => {
-  //     if (item.read === false) {
-  //       tempCount++;
-  //     }
-  //   });
-  //   setCount(tempCount);
-  // }, [mailData]);
+    var tempCount = 0;
+    mail.map(item => {
+      if (item.read === false) {
+        tempCount++;
+      }
+    });
+    setCount(tempCount);
+  }, [mail]);
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  //변경 전
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   wait(2000).then(() => setRefreshing(false));
-  // }, []);
-
-  //변경 후
-  const onRefresh = async () => {
+  const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    await queryClient.refetchQueries(['movies']);
-    setRefreshing(false);
-  };
-  ///----
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   const bookmarkRow = (rowMap, key) => {
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
-    var temp = mailData;
+    var temp = mail;
     temp.map(item => {
       if (item.key === key) {
         item.bookmark = !item.bookmark;
       }
     });
-    //변경 전
-    //setMail([...temp]);
+    setMail([...temp]);
   };
 
   const sendRow = (rowMap, key) => {
@@ -250,14 +155,13 @@ const ReaderMailBody = () => {
   };
 
   const setReadItem = data => {
-    var temp = mailData;
+    var temp = mail;
     temp.map(item => {
       if (item.key === data.item.key) {
         item.read = true;
       }
     });
-    //변경 전
-    //setMail([...temp]);
+    setMail([...temp]);
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
       params: {...data},
@@ -266,12 +170,11 @@ const ReaderMailBody = () => {
 
   const renderItem = (data, rowMap, rowKey) => {
     if (data.item.key === 'category') {
-      return <renderCategory />;
+      return <RenderCategory />;
     } else {
       return (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
           <View style={styles.itemView}>
-            {console.log('아이템나옴 ')}
             <Image
               style={{
                 width: 42,
@@ -317,7 +220,6 @@ const ReaderMailBody = () => {
   };
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
-      {console.log('히든나옴 ')}
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => bookmarkRow(rowMap, data.item.key)}>
@@ -334,9 +236,8 @@ const ReaderMailBody = () => {
       </TouchableOpacity>
     </View>
   );
-  const renderCategory = () => (
+  const RenderCategory = () => (
     <View style={styles.bodyHeader}>
-      {console.log('카테고리나옴 ')}
       <View
         style={{
           width: 111.5,
@@ -466,17 +367,11 @@ const ReaderMailBody = () => {
                         }}>
                         당신의 작가
                       </Text>
-                      {/* {mailData.length === 1 ? '를' : '가'} */}
-                      {mailData ? '를' : '가'}
+                      {mail.length === 1 ? '를' : '가'}
                     </Text>
                   </View>
                   <Text style={styles.headerText}>
-                    {/* {mailData.length === 1
-                      ? '기다려보세요.'
-                      : count
-                      ? '찾아왔어요.'
-                      : '글을 쓰고 있어요.'} */}
-                    {mailData
+                    {mail.length === 1
                       ? '기다려보세요.'
                       : count
                       ? '찾아왔어요.'
@@ -486,9 +381,8 @@ const ReaderMailBody = () => {
               </View>
             </View>
           }
-          //data={mailSelect ? mailData : bookmark}
-          data={[{id: '1'}]}
-          renderItem={renderCategory}
+          data={mailSelect ? mail : bookmark}
+          renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           rightOpenValue={-150}
           stopRightSwipe={-150}
@@ -497,11 +391,11 @@ const ReaderMailBody = () => {
           onRowClose={onRowClose}
           closeOnScroll={false}
           ListFooterComponent={
-            mailData ? (
+            mail.length === 1 ? (
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height - 250,
+                  height: Dimensions.get('window').height - 301,
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
@@ -518,7 +412,7 @@ const ReaderMailBody = () => {
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height - 250,
+                  height: Dimensions.get('window').height - 301,
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#FFF',
