@@ -41,9 +41,6 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
 
   const onPressExit = () => {
     myContext.setIsReader('READER');
-    navigation.navigate('ReaderTabs', {
-      screen: 'ReaderRecommend',
-    });
   };
 
   const onPressAuthor = () => {

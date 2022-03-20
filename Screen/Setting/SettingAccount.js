@@ -40,9 +40,8 @@ const SettingAccount = () => {
   };
   const onPressLogout = () => {
     AsyncStorage.removeItem('keys');
-    myContext.setIsReader('Not Decided');
     myContext.setIsLogged(false);
-    navigation.navigate('SignUpStacks', {screen: 'SignIn'});
+    myContext.setIsReader('Not Decided');
   };
   const onPressSignout = () => {};
 
