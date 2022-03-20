@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AppContext from '../../AppContext';
 
 import BackMail from '../../assets/images/BackMail.png';
 import AlarmSetting from '../../assets/images/AlarmSetting.png';
@@ -17,13 +18,13 @@ import AccountSetting from '../../assets/images/AccountSetting.png';
 import NextSetting from '../../assets/images/NextSetting.png';
 
 const Setting = () => {
-  const [isReader, setIsReader] = useState(true);
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
   };
   const onPressAlarm = () => {
-    if (isReader)
+    if (myContext.isReader === 'READER')
       navigation.navigate('ReaderStacks', {
         screen: 'SettingAlarm',
       });
@@ -33,7 +34,7 @@ const Setting = () => {
       });
   };
   const onPressAccount = () => {
-    if (isReader)
+    if (myContext.isReader === 'READER')
       navigation.navigate('ReaderStacks', {
         screen: 'SettingAccount',
       });

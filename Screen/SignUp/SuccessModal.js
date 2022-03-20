@@ -8,6 +8,7 @@ const SuccessModal = ({setModalConfirm, modalVisible, setModalVisible}) => {
   const navigation = useNavigation();
   const goNextScreen = () => {
     setModalConfirm(true);
+    setModalVisible(false);
   };
   return (
     <View style={styles.centeredView}>

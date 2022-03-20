@@ -15,10 +15,7 @@ import {useNavigation, CommonActions} from '@react-navigation/native';
 import AppContext from './AppContext';
 var jwt_decode = require('jwt-decode');
 
-import SignUpRoot from './navigation/SignUp/SignUpRoot';
-import ReaderRoot from './navigation/Reader/ReaderRoot';
-import AuthorRoot from './navigation/Author/AuthorRoot';
-import OnBoardingRoot from './navigation/OnBoarding/OnBoardingRoot';
+import Root from './navigation/Root';
 import {getCredentials} from './Credentials';
 
 const customTextProps = {
@@ -96,15 +93,7 @@ const App = () => {
       <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
             {/* <StatusBar barStyle="light-content" /> */}
             <MenuProvider>
-              {!isLogged ? (
-                <SignUpRoot />
-              ) : isReader === 'READER' ? (
-                <ReaderRoot />
-              ) : isReader === 'WRITER' ? (
-                <AuthorRoot />
-              ) : (
-                <OnBoardingRoot />
-              )}
+              <Root isLogged={isLogged} isReader={isReader} />
               {/* </SafeAreaView> */}
             </MenuProvider>
           </NavigationContainer>

@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     flex: 1,
     // paddingBottom: 103 - 23.78,
-    paddingBottom: 84.5,
+    paddingBottom: 150,
   },
   bodyHeaderTextOrder: {
     fontFamily: 'NotoSansKR-Medium',

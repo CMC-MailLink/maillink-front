@@ -31,14 +31,15 @@ const AuthorProfile = () => {
   const [fileData, setFileData] = useState(null);
   const [fileUri, setFileUri] = useState(null);
   const [memberInfo, setMemberInfo] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function getMemberInfo() {
-      const result = await AuthorAPI.memberInfo();
-      // console.log(result);
-      setMemberInfo(result);
-    }
-    getMemberInfo();
+    // setLoading(true);
+    // async function getMemberInfo() {
+    //   const result = await AuthorAPI.memberInfo();
+    //   setMemberInfo(result);
+    // }
+    // getMemberInfo();
   }, []);
 
   const onPressIntro = () => {

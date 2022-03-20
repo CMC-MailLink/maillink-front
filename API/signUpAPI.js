@@ -191,7 +191,7 @@ export const SignUpAPI = {
     }
     return false;
   },
-  //유저타입변경
+  //유저타입변경ddd
   memberType: async ({userType}) => {
     var token = await getCredentials();
     try {
