@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
+import {ReaderAPI} from '../../../API/ReaderAPI';
+
+import EraseNickname from '../../../assets/images/EraseNickname.png';
 
 const ReaderProfileModal = ({
   editName,
@@ -14,31 +19,79 @@ const ReaderProfileModal = ({
   setModalVisible,
   onPressModalConfirm,
 }) => {
+  const [status, setStatus] = useState(0);
+  const [originName, setOriginName] = useState('');
+
+  useState(() => {
+    setOriginName(editName);
+  }, []);
+
+  //닉네임 전체 지우기 버튼
+  const onPressErase = () => {
+    setEditName('');
+  };
+
+  //닉네임 확인 버튼
+  const onPressEdit = async () => {
+    if (editName === originName) {
+      onPressModalConfirm();
+      return;
+    }
+    var result = await ReaderAPI.checkNickName({nickName: editName});
+    if (result) {
+      var result2 = await ReaderAPI.changeNickName({nickName: editName});
+      if (result2) onPressModalConfirm();
+    } else {
+      setStatus(2);
+    }
+  };
+
+  useEffect(() => {
+    if (editName.length > 6) {
+      setStatus(1);
+    } else {
+      setStatus(0);
+    }
+  }, [editName]);
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <Text style={styles.modalHeader}>이름 수정</Text>
-        <TextInput
-          style={styles.editNameText}
-          value={editName}
-          onChangeText={setEditName}
-          maxLength={6}
-        />
-        <Text
+        <View
           style={{
-            marginTop: 10,
-            ...styles.modalText,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            top: 110,
           }}>
-          사용할 수 있는 이름이에요.
-        </Text>
-        <Text style={styles.modalText}>(최대 한글 6자)</Text>
+          <TextInput
+            style={{
+              ...styles.editNameText,
+              borderBottomColor: status === 0 ? '#4562F1' : '#FF9B9B',
+            }}
+            value={editName}
+            onChangeText={setEditName}
+          />
+          <TouchableWithoutFeedback onPress={onPressErase}>
+            <Image style={styles.eraseButton} source={EraseNickname} />
+          </TouchableWithoutFeedback>
+        </View>
+        {status === 0 ? null : (
+          <Text style={styles.modalText}>
+            {status == 1
+              ? '사용할 수 없는 이름이에요.\n(한글 6자 제한)'
+              : '이미 존재하는 닉네임입니다.'}
+          </Text>
+        )}
         <View style={styles.modalButtonView}>
           <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
             <View style={{marginRight: 27}}>
               <Text style={styles.modalCancel}>취소</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onPressModalConfirm}>
+          <TouchableOpacity onPress={onPressEdit}>
             <View>
               <Text style={styles.modalConfirm}>확인</Text>
             </View>
@@ -91,14 +144,16 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 24,
     paddingBottom: 10,
-    borderBottomColor: '#4562F1',
     borderBottomWidth: 1,
     includeFontPadding: false,
   },
   modalText: {
+    position: 'absolute',
+    top: 160,
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     color: '#BEBEBE',
+    textAlign: 'center',
     includeFontPadding: false,
   },
   modalButtonView: {
@@ -106,6 +161,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 27,
     right: 27,
+  },
+  eraseButton: {
+    width: 12,
+    height: 12,
+    right: 12,
   },
 });
 export default ReaderProfileModal;

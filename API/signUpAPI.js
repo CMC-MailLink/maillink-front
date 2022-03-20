@@ -134,8 +134,8 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibireader',
-          nickName: '비비독자',
+          socialId: 'bibiwriter2',
+          nickName: '비비작가2',
           imgUrl:
             'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
           phoneNumber: '01011111111',
@@ -180,13 +180,14 @@ export const SignUpAPI = {
         },
       });
       let json = await response.json();
+      console.log(json);
       return json.data.userType;
     } catch (e) {
       console.log(e);
     }
     return false;
   },
-  //유저타입변경ddd
+  //유저타입변경
   memberType: async ({userType}) => {
     var token = await getCredentials();
     try {
