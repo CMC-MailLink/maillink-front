@@ -8,16 +8,17 @@ import {
   Modal,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
+import {useNavigation} from '@react-navigation/native';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import ReaderRecommendModal from './ReaderRecommendModal';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 import AuthorProfileRecommend from '../../../assets/images/AuthorProfileRecommend.png';
-import ReaderRecommendModal from './ReaderRecommendModal';
-
-import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
-import {useNavigation} from '@react-navigation/native';
 
 const ReaderRecommendList = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [allSelect, setAllSelect] = useState(true);
   const [branch, setBranch] = useState([
     {category: '시', select: true},
@@ -34,50 +35,21 @@ const ReaderRecommendList = () => {
     {category: '달달', select: true},
     {category: '키치', select: true},
   ]);
-  const [author, setAuthor] = useState([
-    {
-      key: 0,
-      name: '이작가',
-      intro: '안녕하세요. 이작가입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '편안',
-    },
-    {
-      key: 1,
-      name: '김작가',
-      intro: '안녕하세요. 김작가입니다.',
-      subscribe: false,
-      repBranch: '시',
-      repVive: '서정',
-    },
-    {
-      key: 2,
-      name: '모모',
-      intro: '안녕하세요. 모모입니다.',
-      subscribe: false,
-      repBranch: '시',
-      repVive: '달달',
-    },
-    {
-      key: 3,
-      name: '덩이',
-      intro: '안녕하세요. 덩이입니다.',
-      subscribe: false,
-      repBranch: '시',
-      repVive: '잔잔',
-    },
-    {
-      key: 4,
-      name: '훈',
-      intro: '안녕하세요. 훈입니다.',
-      subscribe: false,
-      repBranch: '에세이',
-      repVive: '맑은',
-    },
-  ]);
+  const [author, setAuthor] = useState([]);
   const [filterAuthor, setFilterAuthor] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const {isLoading: authrListLoading, data: authorListData} = useQuery(
+    ['AuthorList'],
+    ReaderAPI.getWriters,
+  );
+
+  useEffect(() => {
+    if (authorListData) setAuthor([...authorListData]);
+  }, [authorListData]);
+
+  useEffect(() => {
+    setFilterAuthor([...author]);
+  }, [author]);
 
   const onPressAll = () => {
     setAllSelect(true);
@@ -85,25 +57,23 @@ const ReaderRecommendList = () => {
   const onPressInterest = () => {
     setAllSelect(false);
   };
-  const setSubscribe = index => {
-    var temp = author;
-    temp[index].subscribe = true;
-    setAuthor([...temp]);
+
+  const onPressSubscribe = async writerId => {
+    var result = await ReaderAPI.subscribing({writerId: writerId});
+    console.log(result);
+    if (result) await await queryClient.refetchQueries(['AuthorList']);
   };
-  const cancelSubscribe = index => {
-    var temp = author;
-    temp[index].subscribe = false;
-    setAuthor([...temp]);
+  const onPressCancelSubscribe = async writerId => {
+    var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
+    console.log(result);
+    if (result) await await queryClient.refetchQueries(['AuthorList']);
   };
+
   const onPressAuthor = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAuthorProfile',
     });
   };
-
-  useEffect(() => {
-    setFilterAuthor([...author]);
-  }, [author]);
 
   return (
     <View style={{flex: 1}}>
@@ -174,15 +144,17 @@ const ReaderRecommendList = () => {
             <View style={styles.itemView}>
               <Image
                 style={{width: 42, height: 42, marginRight: 15}}
-                source={AuthorProfileRecommend}></Image>
+                source={{uri: data.writerInfo.imgUrl}}></Image>
               <View>
-                <Text style={styles.itemName}>{data.name}</Text>
-                <Text style={styles.itemIntro}>{data.intro}</Text>
+                <Text style={styles.itemName}>{data.writerInfo.nickName}</Text>
+                <Text style={styles.itemIntro}>
+                  {data.writerInfo.introduction}
+                </Text>
               </View>
-              {data.subscribe ? (
+              {data.isSubscribe ? (
                 <TouchableOpacity
                   style={{position: 'absolute', right: 20}}
-                  onPress={() => cancelSubscribe(index)}>
+                  onPress={() => onPressCancelSubscribe(data.writerInfo.id)}>
                   <View style={styles.subscribeView}>
                     <Text style={styles.subscribeText}>구독중</Text>
                   </View>
@@ -190,7 +162,7 @@ const ReaderRecommendList = () => {
               ) : (
                 <TouchableOpacity
                   style={{position: 'absolute', right: 20}}
-                  onPress={() => setSubscribe(index)}>
+                  onPress={() => onPressSubscribe(data.writerInfo.id)}>
                   <View style={styles.notSubscribeView}>
                     <Text style={styles.notSubscribeText}>구독하기</Text>
                   </View>

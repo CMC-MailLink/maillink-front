@@ -20,7 +20,6 @@ const ReaderAnalyze = () => {
 
   const onPressSkip = () => {
     myContext.setIsReader('READER');
-    navigation.navigate('ReaderTabs', {screen: 'recommend'});
   };
   const onPressStart = () => {
     navigation.navigate('OnBoardingStacks', {

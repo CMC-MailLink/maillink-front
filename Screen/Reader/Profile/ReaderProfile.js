@@ -13,6 +13,7 @@ import {
   ScrollView,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
@@ -141,7 +142,7 @@ const ReaderProfile = () => {
   const onPressEditImage = async () => {
     ImagePicker.openPicker({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true,
     }).then(image => {
       console.log(image);
@@ -159,10 +160,10 @@ const ReaderProfile = () => {
       type: 'image/png',
     });
 
-    const result = await SignUpAPI.profileEditing({image: imageData});
+    const result = await ReaderAPI.changeProfileImage({image: imageData});
     console.log(result);
     if (result) {
-      setImageUri(result);
+      //setImageUri(result);
     } else {
       console.log('프로필 등록 실패');
     }

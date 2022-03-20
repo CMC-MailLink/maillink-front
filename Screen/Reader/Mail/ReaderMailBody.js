@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
@@ -26,6 +27,7 @@ const STATUSBAR_HEIGHT = 48;
 
 const ReaderMailBody = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [memberInfo, setMemberInfo] = useState();
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
@@ -36,9 +38,17 @@ const ReaderMailBody = () => {
   const [mail, setMail] = useState([{key: 'category'}]);
   const [bookmark, setBookmark] = useState([]);
   const {isLoading: mailLoading, data: mailData} = useQuery(
-    ['ReaderMail', recentSelect],
+    ['ReaderMail'],
     ReaderAPI.readerMailBox,
   );
+
+  useEffect(() => {
+    if (mailData) {
+      var temp = mailData;
+      temp.unshift({key: 'category'});
+      setMail([...temp]);
+    } else setMail([{key: 'category'}]);
+  }, [mailData]);
 
   useEffect(() => {
     async function getMemberInfo() {
@@ -97,10 +107,11 @@ const ReaderMailBody = () => {
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = async () => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+    await queryClient.refetchQueries(['ReaderMail']);
+    setRefreshing(false);
+  };
 
   const bookmarkRow = (rowMap, key) => {
     if (rowMap[key]) {
@@ -194,7 +205,7 @@ const ReaderMailBody = () => {
                     ...styles.itemAuthorText,
                     color: data.item.read ? '#BEBEBE' : '#4562F1',
                   }}>
-                  {data.item.author}
+                  {data.item.writerId}
                 </Text>
                 <Text style={styles.itemDateText}>{data.item.date}</Text>
               </View>
@@ -210,7 +221,7 @@ const ReaderMailBody = () => {
                   ...styles.itemBodyText,
                   color: data.item.read ? '#BEBEBE' : '#828282',
                 }}>
-                {data.item.body}
+                {data.item.preView}
               </Text>
             </View>
           </View>
@@ -325,8 +336,11 @@ const ReaderMailBody = () => {
         <SwipeListView
           stickyHeaderIndices={[1]}
           showsVerticalScrollIndicator={false}
-          refreshing={refreshing}
-          onRefresh={onRefresh}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}></RefreshControl>
+          }
           ListHeaderComponent={
             <View>
               <View style={styles.header}>

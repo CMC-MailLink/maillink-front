@@ -11,10 +11,11 @@ import {
   Dimensions,
   ScrollView,
   TouchableWithoutFeedback,
+  RefreshControl,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
-
 import ReaderRecommendList from './ReaderRecommendList';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
@@ -34,6 +35,8 @@ const colorCategory = {
 
 const ReaderRecommend = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
   const [recommend, setRecommend] = useState([
     {
       key: 0,
@@ -74,6 +77,12 @@ const ReaderRecommend = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAnalyze',
     });
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['AuthorList']);
+    setRefreshing(false);
   };
 
   const renderItem = ({item}) => {
@@ -134,7 +143,13 @@ const ReaderRecommend = () => {
       <View style={styles.headerView}>
         <Text style={styles.headerText}>작가찾기</Text>
       </View>
-      <ScrollView style={{flex: 1}}>
+      <ScrollView
+        style={{flex: 1}}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}></RefreshControl>
+        }>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>
             <Text
@@ -152,7 +167,7 @@ const ReaderRecommend = () => {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('ReaderStacks', {
-                screen: 'ReaderProfileSearch',
+                screen: 'ReaderRecommendSearch',
               })
             }
             style={{position: 'absolute', right: 20, bottom: 5}}>
