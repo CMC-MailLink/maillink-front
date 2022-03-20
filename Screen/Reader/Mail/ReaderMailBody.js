@@ -334,7 +334,7 @@ const ReaderMailBody = () => {
       </TouchableOpacity>
     </View>
   );
-  const RenderCategory = () => (
+  const renderCategory = () => (
     <View style={styles.bodyHeader}>
       {console.log('카테고리나옴 ')}
       <View
@@ -486,9 +486,9 @@ const ReaderMailBody = () => {
               </View>
             </View>
           }
-          data={mailSelect ? mailData : bookmark}
-          // data={[{id: '1'}]}
-          renderItem={renderItem}
+          //data={mailSelect ? mailData : bookmark}
+          data={[{id: '1'}]}
+          renderItem={renderCategory}
           renderHiddenItem={renderHiddenItem}
           rightOpenValue={-150}
           stopRightSwipe={-150}
@@ -501,7 +501,7 @@ const ReaderMailBody = () => {
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height - 301,
+                  height: Dimensions.get('window').height - 250,
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
@@ -518,7 +518,7 @@ const ReaderMailBody = () => {
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height - 301,
+                  height: Dimensions.get('window').height - 250,
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#FFF',
