@@ -1,17 +1,17 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ChatExitModalExclamMark from '../assets/images/ChatExitModalExclamMark.png';
+import NewCheckModal from '../../../assets/images/NewCheckModal.png';
 
-const ChatExitModal = ({
+const ReportSuccessModal = ({
   onPressModalConfirm,
   modalVisible,
   setModalVisible,
 }) => {
   const navigation = useNavigation();
   const goNextScreen = () => {
-    navigation.navigate('SignUpStacks', {
-      screen: 'OnBoarding',
+    navigation.navigate('AuthorStacks', {
+      screen: 'Alarm',
     });
     setModalVisible(!modalVisible);
   };
@@ -19,24 +19,17 @@ const ChatExitModal = ({
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <Image
-          style={{width: 60, height: 60, top: -78 + 53}}
-          source={ChatExitModalExclamMark}
+          style={{width: 70, height: 70, top: -78 + 53}}
+          source={NewCheckModal}
         />
-        <Text style={styles.modalText}>채팅방을 나가시겠습니까?</Text>
+        <Text style={styles.modalText}>신고 접수 완료</Text>
         <Text style={styles.modalText2}>
           한 번 나간 채팅은 복구되지 않습니다.
         </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity
-            onPress={() => setModalVisible(!modalVisible)}
-            style={{right: 15}}>
-            <View>
-              <Text style={styles.modalExit}>취소</Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity onPress={goNextScreen}>
             <View>
-              <Text style={styles.modalConfirm}>나가기</Text>
+              <Text style={styles.modalConfirm}>확인</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -54,7 +47,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: 330,
-    height: 240,
+    height: 296,
     borderRadius: 15,
     backgroundColor: 'white',
     alignItems: 'center',
@@ -62,16 +55,15 @@ const styles = StyleSheet.create({
   },
   modalText: {
     includeFontPadding: false,
-    top: -33 + 18,
+    top: -33 + 17,
     fontFamily: 'NotoSansKR-Bold',
-    fontSize: 20,
+    fontSize: 24,
     color: '#3C3C3C',
-    marginTop: 10,
   },
   modalText2: {
     includeFontPadding: false,
     top: -33 + 25,
-    fontFamily: 'NotoSansKR-DemiLight',
+    fontFamily: 'NotoSansKR-Light',
     fontSize: 15,
     color: '#828282',
   },
@@ -84,7 +76,7 @@ const styles = StyleSheet.create({
   modalConfirm: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
-    color: '#FF5A5A',
+    color: '#4562F1',
   },
   editNameText: {
     width: 208,
@@ -99,13 +91,8 @@ const styles = StyleSheet.create({
   modalButtonView: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 23,
+    bottom: 27,
     right: 27,
   },
-  modalExit: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#828282',
-  },
 });
-export default ChatExitModal;
+export default ReportSuccessModal;
