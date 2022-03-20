@@ -23,19 +23,13 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
 import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 import {SafeAreaView} from 'react-native';
-<<<<<<< HEAD:Screen/Message.js
 import {FloatingAction} from 'react-native-floating-action';
 import ChatExitModal from './ChatExitModal';
 
-import BackMail2 from '../assets/images/BackMail2.png';
-import Report from '../assets/images/Report.png';
-import PenceilWriting from '../assets/images/PenceilWriting.png';
-=======
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import Report from '../../../assets/images/Report.png';
-import ChatExitModal from './ChatExitModal';
+import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 // import MessageData from '../assets/data/Message';
->>>>>>> 7522cb2ec525e73c3fcfa192d5d1077983da4fab:Screen/Author/Message/Message.js
 
 const STATUSBAR_HEIGHT = 48;
 
