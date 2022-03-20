@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,10 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppContext from '../../AppContext';
+import {AuthorAPI} from '../../API/AuthorAPI';
 
 import BackMail from '../../assets/images/BackMail.png';
 import KakaoSetting from '../../assets/images/KakaoSetting.png';
@@ -17,12 +20,30 @@ import AppleSetting from '../../assets/images/AppleSetting.png';
 
 const SettingAccount = () => {
   const navigation = useNavigation();
+  const myContext = useContext(AppContext);
+  const [memberInfo, setMemberInfo] = useState();
   const [isKakao, setIsKakao] = useState(true);
+
+  // useEffect(() => {
+  //   async function getMemberInfo() {
+  //     const result = await AuthorAPI.memberInfo();
+  //     //console.log(result);
+  //     setMemberInfo(result);
+  //     if (result.socialType === 'KAKAO') setIsKakao(true);
+  //     else setIsKakao(false);
+  //   }
+  //   getMemberInfo();
+  // }, []);
 
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressLogout = () => {};
+  const onPressLogout = () => {
+    AsyncStorage.removeItem('keys');
+    myContext.setIsReader('Not Decided');
+    myContext.setIsLogged(false);
+    navigation.navigate('SignUpStacks', {screen: 'SignIn'});
+  };
   const onPressSignout = () => {};
 
   return (

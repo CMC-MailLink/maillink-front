@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -16,25 +16,24 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 
 const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
+  console.log(params);
+  let webRef = useRef();
   const navigation = useNavigation();
+  // const url = 'https://www.mail-link.co.kr/readingEditor';
+  const url = 'http://localhost:3000/readingEditor';
   const onPressBack = () => {
     navigation.goBack();
   };
 
-  //instashare
-  // const onSelectionChange = (
-  //   eventType,
-  //   content,
-  //   selectionStart,
-  //   selectionEnd,
-  // ) => {
-  //   navigation.navigate('AuthorStacks', {
-  //     screen: 'InstaShare',
-  //     params: content,
-  //   });
-  // };
-
-  const url = 'https://www.mail-link.co.kr/readingEditor';
+  const contentSending = `
+    let div = document.createElement('div');
+    div.classList.add('test');
+    var textNode = document.createTextNode('${params ? params.content : ''}');
+    div.append(textNode);
+    div.style.display="none";
+    document.body.appendChild(div);
+    true;
+  `;
 
   return (
     <View style={{flex: 1}}>
@@ -50,7 +49,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
       </View>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>{params.title}</Text>
-        <Text style={styles.dateText}>{params.date}</Text>
+        <Text style={styles.dateText}>{params.publishedTime.slice(0, 10)}</Text>
       </View>
       <View style={styles.authorView}>
         <Image
@@ -62,6 +61,25 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}
+        hideKeyboardAccessoryView={true}
+        ref={webRef}
+        onMessage={event => {}}
+        injectedJavaScript={contentSending}
+        menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
+        onCustomMenuSelection={webViewEvent => {
+          const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
+          const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
+          const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
+          console.log(selectedText);
+          navigation.navigate('AuthorStacks', {
+            screen: 'InstaShare',
+            params: {
+              text: selectedText,
+              title: params.title,
+              // author: params.author,
+            },
+          });
+        }}
       />
     </View>
   );

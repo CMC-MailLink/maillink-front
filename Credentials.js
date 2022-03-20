@@ -82,7 +82,7 @@ async function getVerifiedKeys(keys) {
 
 //takes the refresh token and returns object consisting of both renewed refresh and access tokens.
 async function getAccessUsingRefresh(accessToken, refreshToken) {
-  console.log(accessToken, refreshToken);
+  console.log('getAccessUsingRefresh :', accessToken, refreshToken);
   try {
     const response = await fetch(
       `https://www.maillink-api.com/api/v1/member/auth/reissue`,
@@ -99,9 +99,9 @@ async function getAccessUsingRefresh(accessToken, refreshToken) {
     );
     console.log('reissue : ', response);
     let json = await response.json();
-    console.log(json);
+    console.log('reissue json: ', json);
     if (json.data) {
-      console.log(json.data);
+      console.log('reissue json.data : ', json.data);
       return json.data;
     }
     return null;

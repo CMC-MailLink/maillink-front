@@ -29,7 +29,6 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   const [send, setSend] = useState(false);
   const [title, setTitle] = useState(params ? params.title : '');
   const [imageCount, setImageCount] = useState(0);
-  var imageURL = '';
 
   const onPressBack = () => {
     navigation.goBack();

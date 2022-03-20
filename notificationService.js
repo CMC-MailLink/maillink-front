@@ -11,7 +11,7 @@ export async function requestUserPermission() {
     console.log('AuthorizationStatus: ', authStatus);
     getFcmToken();
   }
-  console.log(authStatus);
+  console.log('notification authStatus : ', authStatus);
 }
 
 const getFcmToken = async () => {
