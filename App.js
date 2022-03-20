@@ -51,7 +51,7 @@ const App = () => {
     //Check if keys is set or not
     //If not then send for Authentication
     //else send to Home Screen
-    //AsyncStorage.removeItem('keys');
+    AsyncStorage.removeItem('keys');
     async function loading() {
       await checkLogged();
     }
@@ -65,7 +65,7 @@ const App = () => {
     if (!token) {
       //토큰없으면 login 실패
       console.log('로그인 불가');
-      // AsyncStorage.removeItem('keys');
+      //AsyncStorage.removeItem('keys');
       setIsLogged(false);
     } else {
       //토큰있으면 login 성공

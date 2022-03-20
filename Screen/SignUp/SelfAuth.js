@@ -230,10 +230,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             {authRequest ? (
               <>
                 <View style={{position: 'absolute', right: 80}}>
-                  <Text style={styles.timerText}>
-                    {Math.floor(second / 60)}:
-                    {second % 60 < 10 ? '0' + (second % 60) : second % 60}
-                  </Text>
+                  {!confirmSuccess ? (
+                    <Text style={styles.timerText}>
+                      {Math.floor(second / 60)}:
+                      {second % 60 < 10 ? '0' + (second % 60) : second % 60}
+                    </Text>
+                  ) : null}
                 </View>
                 <TouchableOpacity
                   disabled={confirmSuccess}

@@ -85,7 +85,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibireader',
+          socialId: 'dongurireader1',
         }),
       });
       let json = await response.json();
