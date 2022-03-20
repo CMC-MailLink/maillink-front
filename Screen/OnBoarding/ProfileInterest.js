@@ -86,32 +86,32 @@ const ProfileInterest = () => {
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           <MenuOption>
-            <Text style={styles.menuText}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>한 번</Text>을
-              누르면&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>
-              로,
-            </Text>
             <Text style={{...styles.menuText, marginBottom: 7}}>
-              <Text style={{color: '#FFF'}}>・</Text>
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>두 번</Text>을
-              누르면&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>대표 관심사</Text>로
-              표시됩니다.
-            </Text>
-            <Text style={{...styles.menuText, marginBottom: 7}}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>
-              분위기는&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>3개</Text>
-              까지 선택이 가능합니다.
+              <Text style={{color: '#C4C4C4'}}>・</Text>선택한&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>순서</Text>
+              대로&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>순위</Text>가
+              결정됩니다.
             </Text>
             <Text style={{...styles.menuText}}>
               <Text style={{color: '#C4C4C4'}}>・</Text>
-              대표 관심사는 독자가 작가를 검색할 때
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>갈래</Text>와&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>{' '}
+              각각&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
+                1-3순위까지&nbsp;
+              </Text>
+            </Text>
+            <Text style={{...styles.menuText, marginBottom: 7}}>
+              <Text style={{color: '#FFF'}}>・</Text>
+              선택이 가능합니다.
+            </Text>
+            <Text style={{...styles.menuText}}>
+              <Text style={{color: '#C4C4C4'}}>・</Text>
+              선택한 관심사는 독자가 작가를
             </Text>
             <Text style={styles.menuText}>
-              <Text style={{color: '#FFF'}}>・</Text>
+              <Text style={{color: '#FFF'}}>・</Text>검색할때 &nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>필터의 기준</Text>이
               되어줍니다.
             </Text>

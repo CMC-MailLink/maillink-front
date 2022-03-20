@@ -85,7 +85,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'dongurireader1',
+          socialId: 'dongurireader8',
         }),
       });
       let json = await response.json();
@@ -139,8 +139,8 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibiwriter2',
-          nickName: '비비작가2',
+          socialId: 'dongurireader8',
+          nickName: '동구리독자8',
           imgUrl:
             'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
           phoneNumber: '01011111111',
