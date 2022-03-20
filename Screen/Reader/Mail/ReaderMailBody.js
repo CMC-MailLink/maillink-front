@@ -266,7 +266,7 @@ const ReaderMailBody = () => {
 
   const renderItem = (data, rowMap, rowKey) => {
     if (data.item.key === 'category') {
-      return <RenderCategory />;
+      return <renderCategory />;
     } else {
       return (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
