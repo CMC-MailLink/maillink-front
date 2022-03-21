@@ -38,7 +38,7 @@ const ReaderRecommendList = () => {
   const [author, setAuthor] = useState([]);
   const [filterAuthor, setFilterAuthor] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const {isLoading: authrListLoading, data: authorListData} = useQuery(
+  const {isLoading: authorListLoading, data: authorListData} = useQuery(
     ['AuthorList'],
     ReaderAPI.getWriters,
   );

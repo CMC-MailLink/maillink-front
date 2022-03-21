@@ -13,6 +13,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -22,25 +24,32 @@ import {useEffect} from 'react/cjs/react.development';
 
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
-  const [subscribe, setSubscribe] = useState(false);
   const url = 'https://www.mail-link.co.kr/readingEditor';
-  const WebViewReading = useRef();
+  let webRef = useRef();
+  const {isLoading: authrListLoading, data: mailDetailData} = useQuery(
+    ['ReaderMailDetail', params.mailId],
+    ReaderAPI.mailReading,
+  );
+
   const onPressSubscribe = () => {
-    setSubscribe(!subscribe);
+    //setSubscribe(!subscribe);
   };
 
   const onPressBack = () => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    const preventCopy = AccessibilityInfo.addEventListener(
-      'screenReaderChanged',
-      screenReaderEnabled => {
-        console.log('aaa');
-      },
-    );
-  }, []);
+  const contentSending = `
+    let div = document.createElement('div');
+    div.classList.add('test');
+    var textNode = document.createTextNode('${
+      mailDetailData ? mailDetailData.content : ''
+    }');
+    div.append(textNode);
+    div.style.display="none";
+    document.body.appendChild(div);
+    true;
+  `;
 
   return (
     <View style={{flex: 1}}>
@@ -53,7 +62,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
           </View>
         </TouchableWithoutFeedback>
-        {subscribe ? (
+        {mailDetailData && mailDetailData.subscribe ? (
           <>
             <TouchableWithoutFeedback>
               <View style={{position: 'absolute', right: 61}}>
@@ -73,48 +82,61 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         ) : null}
       </View>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>{params.item.title}</Text>
-        <Text style={styles.dateText}>{params.item.date}</Text>
+        <Text style={styles.titleText}>
+          {mailDetailData ? mailDetailData.title : null}
+        </Text>
+        <Text style={styles.dateText}>
+          {mailDetailData ? mailDetailData.publishedTime.slice(0, 10) : null}
+        </Text>
       </View>
       <View style={styles.authorView}>
         <Image
           style={{width: 30, height: 30, marginRight: 12}}
           source={AuthorProfileImage}></Image>
-        <Text style={styles.authorText}>{params.item.author}</Text>
+        <Text style={styles.authorText}>
+          {mailDetailData ? mailDetailData.writerId : null}
+        </Text>
         <TouchableOpacity
           onPress={onPressSubscribe}
-          style={subscribe ? styles.subscribeView : styles.subscribeNotView}>
+          style={
+            mailDetailData && mailDetailData.subscribe
+              ? styles.subscribeView
+              : styles.subscribeNotView
+          }>
           <View>
             <Text
               style={
-                subscribe ? styles.subscribeText : styles.subscribeNotText
+                mailDetailData && mailDetailData.subscribe
+                  ? styles.subscribeText
+                  : styles.subscribeNotText
               }>
-              {subscribe ? '구독중' : '구독하기'}
+              {mailDetailData && mailDetailData.subscribe
+                ? '구독중'
+                : '구독하기'}
             </Text>
           </View>
         </TouchableOpacity>
       </View>
       <WebView
-        onPress={e => {
-          console.log('event');
-          e.preventDefault();
-        }}
-        ref={WebViewReading}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
+        scrollEnabled={true}
         hideKeyboardAccessoryView={true}
+        ref={webRef}
+        onMessage={event => {}}
+        injectedJavaScript={contentSending}
         menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
           console.log(selectedText);
-          navigation.navigate('ReaderStacks', {
+          navigation.navigate('AuthorStacks', {
             screen: 'InstaShare',
             params: {
               text: selectedText,
-              title: params.item.title,
-              author: params.item.author,
+              title: params.title,
+              // author: params.author,
             },
           });
         }}

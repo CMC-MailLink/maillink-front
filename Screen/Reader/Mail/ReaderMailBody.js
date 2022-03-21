@@ -31,8 +31,6 @@ const ReaderMailBody = () => {
   const [memberInfo, setMemberInfo] = useState();
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
-  const [rowList, setRowList] = useState(null);
-  const [rowOpen, setRowOpen] = useState(null);
   const [count, setCount] = useState(0);
   const [refreshing, setRefreshing] = React.useState(false);
   const [mail, setMail] = useState([{key: 'category'}]);
@@ -41,14 +39,6 @@ const ReaderMailBody = () => {
     ['ReaderMail'],
     ReaderAPI.readerMailBox,
   );
-
-  useEffect(() => {
-    if (mailData) {
-      var temp = mailData;
-      temp.unshift({key: 'category'});
-      setMail([...temp]);
-    } else setMail([{key: 'category'}]);
-  }, [mailData]);
 
   useEffect(() => {
     async function getMemberInfo() {
@@ -61,12 +51,23 @@ const ReaderMailBody = () => {
   }, []);
 
   useEffect(() => {
+    if (mailData) {
+      var temp = mailData;
+      temp.map((data, index) => {
+        data.key = index.toString();
+      });
+      temp.unshift({key: 'category'});
+      setMail([...temp]);
+    } else setMail([{key: 'category'}]);
+  }, [mailData]);
+
+  useEffect(() => {
     if (mailSelect) {
       setMail(data =>
         data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
+          if (a.publishedTime >= b.publishedTime) {
             return recentSelect ? -1 : 1;
-          } else if (a.date < b.date) {
+          } else if (a.publishedTime < b.publishedTime) {
             return recentSelect ? 1 : -1;
           }
         }),
@@ -74,9 +75,9 @@ const ReaderMailBody = () => {
     } else {
       setBookmark(data =>
         data.slice().sort(function (a, b) {
-          if (a.date >= b.date) {
+          if (a.publishedTime >= b.publishedTime) {
             return recentSelect ? -1 : 1;
-          } else if (a.date < b.date) {
+          } else if (a.publishedTime < b.publishedTime) {
             return recentSelect ? 1 : -1;
           }
         }),
@@ -87,37 +88,35 @@ const ReaderMailBody = () => {
   useEffect(() => {
     var temp = mail.filter(item => {
       if (item.key === 'category') return true;
-      if (item.bookmark) return true;
+      if (item.isSaved) return true;
     });
     setBookmark([...temp]);
 
     var tempCount = 0;
     mail.map(item => {
-      if (item.read === false) tempCount++;
+      if (item.isRead === false) tempCount++;
     });
     setCount(tempCount);
   }, [mail]);
 
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
   const onRefresh = async () => {
     setRefreshing(true);
     await queryClient.refetchQueries(['ReaderMail']);
     setRefreshing(false);
   };
 
-  const bookmarkRow = (rowMap, key) => {
+  const bookmarkRow = async (rowMap, key, item) => {
+    console.log(item);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
-    var temp = mail;
-    temp.map(item => {
-      if (item.key === key) {
-        item.bookmark = !item.bookmark;
-      }
-    });
-    setMail([...temp]);
+    if (!item.isSaved) {
+      var result = await ReaderAPI.mailSaving({mailId: item.id});
+      if (result) await queryClient.refetchQueries(['ReaderMail']);
+    } else {
+      var result = await ReaderAPI.mailCancelSaving({mailId: item.id});
+      if (result) await queryClient.refetchQueries(['ReaderMail']);
+    }
   };
 
   const sendRow = (rowMap, key) => {
@@ -127,50 +126,36 @@ const ReaderMailBody = () => {
   };
 
   const onPressMail = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setMailSelect(true);
   };
 
   const onPressSave = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setMailSelect(false);
   };
 
   const onPressRecent = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(true);
   };
 
   const onPressOld = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
+    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(false);
   };
 
-  const onRowOpen = (rowKey, rowMap, toValue) => {
-    setRowList(rowMap);
-    setRowOpen(rowKey);
-  };
-
-  const onRowClose = (rowKey, rowMap, toValue) => {
-    setRowOpen(null);
-  };
-
   const onPressMailItem = (rowMap, data) => {
-    rowList ? (rowList[rowOpen] ? null : setReadItem(data)) : setReadItem(data);
+    //rowList ? (rowList[rowOpen] ? null : setReadItem(data)) : setReadItem(data);
+    setReadItem(data);
   };
 
-  const setReadItem = data => {
-    var temp = mail;
-    temp.map(item => {
-      if (item.key === data.item.key) {
-        item.read = true;
-      }
-    });
-    setMail([...temp]);
+  const setReadItem = async data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
-      params: {...data},
+      params: {mailId: data.item.id},
     });
+    await queryClient.refetchQueries(['ReaderMail']);
   };
 
   const renderItem = (data, rowMap, rowKey) => {
@@ -197,23 +182,27 @@ const ReaderMailBody = () => {
                 <Text
                   style={{
                     ...styles.itemAuthorText,
-                    color: data.item.read ? '#BEBEBE' : '#4562F1',
+                    color: data.item.isRead ? '#BEBEBE' : '#4562F1',
                   }}>
                   {data.item.writerId}
                 </Text>
-                <Text style={styles.itemDateText}>{data.item.date}</Text>
+                <Text style={styles.itemDateText}>
+                  {data.item.publishedTime
+                    ? data.item.publishedTime.slice(0, 10)
+                    : null}
+                </Text>
               </View>
               <Text
                 style={{
                   ...styles.itemTitleText,
-                  color: data.item.read ? '#BEBEBE' : '#3C3C3C',
+                  color: data.item.isRead ? '#BEBEBE' : '#3C3C3C',
                 }}>
                 {data.item.title}
               </Text>
               <Text
                 style={{
                   ...styles.itemBodyText,
-                  color: data.item.read ? '#BEBEBE' : '#828282',
+                  color: data.item.isRead ? '#BEBEBE' : '#828282',
                 }}>
                 {data.item.preView}
               </Text>
@@ -227,8 +216,8 @@ const ReaderMailBody = () => {
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => bookmarkRow(rowMap, data.item.key)}>
-        {data.item.bookmark ? (
+        onPress={() => bookmarkRow(rowMap, data.item.key, data.item)}>
+        {data.item.isSaved ? (
           <Image style={{width: 21, height: 20.5}} source={StarMail} />
         ) : (
           <Image style={{width: 21, height: 20.5}} source={NoStarMail} />
@@ -394,9 +383,9 @@ const ReaderMailBody = () => {
           rightOpenValue={-150}
           stopRightSwipe={-150}
           disableRightSwipe={true}
-          onRowOpen={onRowOpen}
-          onRowClose={onRowClose}
-          closeOnScroll={false}
+          // onRowOpen={onRowOpen}
+          // onRowClose={onRowClose}
+          closeOnScroll={true}
           ListFooterComponent={
             mail.length === 1 ? (
               <View

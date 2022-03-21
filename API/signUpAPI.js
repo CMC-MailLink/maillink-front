@@ -134,8 +134,8 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibiwriter2',
-          nickName: '비비작가2',
+          socialId: 'bibiwriter3',
+          nickName: '비비작가3',
           imgUrl:
             'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
           phoneNumber: '01011111111',
