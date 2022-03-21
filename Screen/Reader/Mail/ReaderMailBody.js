@@ -22,8 +22,10 @@ import StarMail from '../../../assets/images/StarMail.png';
 import NoStarMail from '../../../assets/images/NoStarMail.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import ReaderMail from '../../../assets/images/ReaderMail.png';
+import MailRefresh from '../../../assets/images/MailRefresh.png';
 
 const STATUSBAR_HEIGHT = 48;
+const refreshingHeight = 100;
 
 const ReaderMailBody = () => {
   const navigation = useNavigation();
@@ -32,9 +34,10 @@ const ReaderMailBody = () => {
   const [mailSelect, setMailSelect] = useState(true);
   const [recentSelect, setRecentSelect] = useState(true);
   const [count, setCount] = useState(0);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [mail, setMail] = useState([{key: 'category'}]);
   const [bookmark, setBookmark] = useState([]);
+  const [offsetY, setOffsetY] = useState(0);
   const {isLoading: mailLoading, data: mailData} = useQuery(
     ['ReaderMail'],
     ReaderAPI.readerMailBox,
@@ -99,10 +102,25 @@ const ReaderMailBody = () => {
     setCount(tempCount);
   }, [mail]);
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await queryClient.refetchQueries(['ReaderMail']);
-    setRefreshing(false);
+  function onScroll(event) {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  }
+
+  // const onRefresh = async () => {
+  //   setRefreshing(true);
+  //   await queryClient.refetchQueries(['ReaderMail']);
+  //   setRefreshing(false);
+  // };
+
+  const onRelease = async () => {
+    if (offsetY <= -refreshingHeight && !refreshing) {
+      setRefreshing(true);
+      await queryClient.refetchQueries(['ReaderMail']);
+      setRefreshing(false);
+    }
   };
 
   const bookmarkRow = async (rowMap, key, item) => {
@@ -307,22 +325,32 @@ const ReaderMailBody = () => {
 
   return (
     <View style={{flex: 1}}>
-      <View
-        style={{
-          height: 300,
-          width: '100%',
-          backgroundColor: '#4562F1',
-          position: 'absolute',
-        }}></View>
+      <View style={{...styles.refreshView, height: refreshingHeight - offsetY}}>
+        <View
+          style={{
+            marginTop: -offsetY / 2 > 0 ? -offsetY / 2 : 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{width: 14.67, height: 10.67, marginRight: 5}}
+            source={MailRefresh}></Image>
+          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text>
+        </View>
+      </View>
       <View style={styles.bodyContainer}>
         <SwipeListView
+          onScroll={onScroll}
+          onResponderRelease={onRelease}
           stickyHeaderIndices={[1]}
           showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}></RefreshControl>
-          }
+          // refreshControl={
+          //   <RefreshControl
+          //     tintColor="rgba(255, 255, 255, 0.5)"
+          //     style={{backgroundColor: 'transparent'}}
+          //     refreshing={refreshing}
+          //     onRefresh={onRefresh}></RefreshControl>
+          // }
           ListHeaderComponent={
             <View>
               <View style={styles.header}>
@@ -551,6 +579,18 @@ const styles = StyleSheet.create({
     height: 10,
     backgroundColor: '#FF9B9B',
     borderRadius: 90,
+  },
+  refreshView: {
+    backgroundColor: '#4562F1',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  refreshText: {
+    color: '#fff',
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
   },
 });
 
