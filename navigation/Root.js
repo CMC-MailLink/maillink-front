@@ -20,6 +20,11 @@ const Root = props => {
       {!props.isLogged ? (
         <RootNav.Group>
           <SignUpNav.Screen name="SignUpStacks" component={SignUpStacks} />
+          {/* for test */}
+          <OnBoardingNav.Screen
+            name="OnBoardingStacks"
+            component={OnBoardingStacks}
+          />
         </RootNav.Group>
       ) : (
         <RootNav.Group>

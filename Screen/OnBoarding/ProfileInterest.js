@@ -37,6 +37,7 @@ const ProfileInterest = () => {
   const [category, setCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [viveCount, setViveCount] = useState(0);
+  const [branchRanking, setBranchRanking] = useState(0);
 
   const colorCategory = {
     편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
@@ -49,19 +50,19 @@ const ProfileInterest = () => {
     키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
   };
   const [branch, setBranch] = useState([
-    {name: '시', select: false, rep: false},
-    {name: '소설', select: false, rep: false},
-    {name: '에세이', select: false, rep: false},
+    {name: '시', select: false, rep: 0},
+    {name: '소설', select: false, rep: 0},
+    {name: '에세이', select: false, rep: 0},
   ]);
   const [vive, setVive] = useState([
-    {name: '편안', select: false, rep: false},
-    {name: '맑은', select: false, rep: false},
-    {name: '서정', select: false, rep: false},
-    {name: '잔잔', select: false, rep: false},
-    {name: '명랑', select: false, rep: false},
-    {name: '유쾌', select: false, rep: false},
-    {name: '달달', select: false, rep: false},
-    {name: '키치', select: false, rep: false},
+    {name: '편안', select: false, rep: 0},
+    {name: '맑은', select: false, rep: 0},
+    {name: '서정', select: false, rep: 0},
+    {name: '잔잔', select: false, rep: 0},
+    {name: '명랑', select: false, rep: 0},
+    {name: '유쾌', select: false, rep: 0},
+    {name: '달달', select: false, rep: 0},
+    {name: '키치', select: false, rep: 0},
   ]);
 
   const onPressModalConfirm = () => {
@@ -123,16 +124,23 @@ const ProfileInterest = () => {
 
   const onPressBranch = (item, index) => {
     var temp = branch;
-    if (temp[index].select) {
-      if (temp[index].rep) {
-        temp[index].select = false;
-        temp[index].rep = false;
-      } else {
-        temp[index].rep = true;
-      }
-    } else {
+    if (!temp[index].select) {
+      console.log('랭킹 올라가는 기능 켜짐');
+      temp[index].rep = branchRanking + 1;
+      setBranchRanking(temp[index].rep);
       temp[index].select = true;
+    } else {
+      temp.map((item, index2) => {
+        if (item.rep > temp[index].rep) {
+          item.rep -= 1;
+        }
+      });
+      temp[index].rep = branchRanking - 1;
+      setBranchRanking(temp[index].rep);
+      temp[index].select = false;
+      temp[index].rep = 0;
     }
+
     setBranch([...temp]);
   };
 
@@ -164,6 +172,13 @@ const ProfileInterest = () => {
   const onPressSkip = () => {
     myContext.setIsReader('WRITER');
   };
+
+  // useEffect(() => {
+  //   console.log('전체 랭킹:', branchRanking);
+  //   console.log(branch[0].name, branch[0].rep, branch[0].select);
+  //   console.log(branch[1].name, branch[1].rep, branch[1].select);
+  //   console.log(branch[2].name, branch[2].rep, branch[2].select);
+  // }, [branchRanking, branch]);
 
   return (
     <View style={{flex: 1}}>
@@ -231,6 +246,7 @@ const ProfileInterest = () => {
               <RenderInfoItem />
             </TouchableWithoutFeedback>
           </View>
+          {/* 갈래 */}
           <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 32}}>
             {branch.map((item, index) => {
               return (
@@ -242,20 +258,21 @@ const ProfileInterest = () => {
                       ...styles.itemView,
                       backgroundColor: item.select ? '#E8EBFF' : '#FFF',
                       borderColor: item.select ? '#E8EBFF' : '#BEBEBE',
-                      paddingHorizontal: item.rep ? 14.6 : 22,
+                      paddingHorizontal: item.select ? 15.7 : 22,
                     }}>
                     <Text
                       style={{
                         ...styles.itemText,
                         color: item.select ? '#0021C6' : '#828282',
                       }}>
-                      {item.rep ? (
+                      {item.select ? (
                         <Text
                           style={{
                             ...styles.itemText,
                             color: '#4562F1',
+                            fontFamily: 'NotoSansKR-Black',
                           }}>
-                          ♥&nbsp;
+                          {item.rep}&nbsp;&nbsp;
                         </Text>
                       ) : null}
                       {item.name}
@@ -265,6 +282,7 @@ const ProfileInterest = () => {
               );
             })}
           </View>
+
           <Text style={{...styles.titleText, marginTop: -35 + 42}}>분위기</Text>
           <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 10}}>
             {vive.map((item, index) => {
@@ -282,7 +300,7 @@ const ProfileInterest = () => {
                         borderColor: item.select
                           ? colorCategory[item.name].back
                           : '#BEBEBE',
-                        paddingHorizontal: item.rep ? 14.6 : 22,
+                        paddingHorizontal: item.rep ? 15.7 : 22,
                       }}>
                       <Text
                         style={{
@@ -296,8 +314,9 @@ const ProfileInterest = () => {
                             style={{
                               ...styles.itemText,
                               color: colorCategory[item.name].heart,
+                              fontFamily: 'NotoSansKR-Black',
                             }}>
-                            ♥&nbsp;
+                            {item.rep}&nbsp;&nbsp;
                           </Text>
                         ) : null}
                         {item.name}
@@ -324,7 +343,7 @@ const ProfileInterest = () => {
                         borderColor: item.select
                           ? colorCategory[item.name].back
                           : '#BEBEBE',
-                        paddingHorizontal: item.rep ? 14.6 : 22,
+                        paddingHorizontal: item.rep ? 15.7 : 22,
                       }}>
                       <Text
                         style={{
@@ -338,8 +357,9 @@ const ProfileInterest = () => {
                             style={{
                               ...styles.itemText,
                               color: colorCategory[item.name].heart,
+                              fontFamily: 'NotoSansKR-Black',
                             }}>
-                            ♥&nbsp;
+                            {item.rep}&nbsp;&nbsp;
                           </Text>
                         ) : null}
                         {item.name}
@@ -400,13 +420,6 @@ const styles = StyleSheet.create({
     color: '#828282',
     includeFontPadding: false,
   },
-  menuText: {
-    fontFamily: 'NotoSansKR-Light',
-    fontSize: 11,
-    color: '#3C3C3C',
-    includeFontPadding: false,
-  },
-  /////
   headerView: {
     width: '100%',
     alignItems: 'center',
