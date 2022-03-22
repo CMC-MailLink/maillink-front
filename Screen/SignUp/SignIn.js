@@ -85,7 +85,6 @@ const SignIn = props => {
       // );
     }
   };
-  //for test!!!!!!!!!
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
       onAppleButtonPressIos();

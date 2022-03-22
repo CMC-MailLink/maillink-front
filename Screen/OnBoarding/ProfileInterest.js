@@ -29,15 +29,11 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ProfileInterest = () => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
-  const [introText, onChangeIntroText] = useState('');
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [textCount, setTextCount] = useState(0);
-  const [enterCount, setenterCount] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [category, setCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [viveCount, setViveCount] = useState(0);
   const [branchRanking, setBranchRanking] = useState(0);
+  const [viveRanking, setViveRanking] = useState(0);
 
   const colorCategory = {
     편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
@@ -130,7 +126,7 @@ const ProfileInterest = () => {
       setBranchRanking(temp[index].rep);
       temp[index].select = true;
     } else {
-      temp.map((item, index2) => {
+      temp.map(item => {
         if (item.rep > temp[index].rep) {
           item.rep -= 1;
         }
@@ -146,39 +142,27 @@ const ProfileInterest = () => {
 
   const onPressVive = (item, index) => {
     var temp = vive;
-    if (temp[index].select) {
-      if (temp[index].rep) {
-        temp[index].select = false;
-        temp[index].rep = false;
-        setViveCount(viveCount - 1);
-      } else {
-        temp.map(data => {
-          if (data.rep) {
-            data.rep = false;
-          }
-        });
-        temp[index].rep = true;
-      }
-    } else {
-      if (viveCount < 3) {
-        temp[index].select = true;
-        setViveCount(viveCount + 1);
-      }
+    if (!temp[index].select && viveRanking < 3) {
+      temp[index].rep = viveRanking + 1;
+      setViveRanking(temp[index].rep);
+      temp[index].select = true;
+    } else if (temp[index].select) {
+      temp.map(item => {
+        if (item.rep > temp[index].rep) {
+          item.rep -= 1;
+        }
+      });
+      temp[index].rep = viveRanking - 1;
+      setViveRanking(temp[index].rep);
+      temp[index].select = false;
+      temp[index].rep = 0;
     }
-    console.log(viveCount);
     setVive([...temp]);
   };
 
   const onPressSkip = () => {
     myContext.setIsReader('WRITER');
   };
-
-  // useEffect(() => {
-  //   console.log('전체 랭킹:', branchRanking);
-  //   console.log(branch[0].name, branch[0].rep, branch[0].select);
-  //   console.log(branch[1].name, branch[1].rep, branch[1].select);
-  //   console.log(branch[2].name, branch[2].rep, branch[2].select);
-  // }, [branchRanking, branch]);
 
   return (
     <View style={{flex: 1}}>
@@ -375,9 +359,23 @@ const ProfileInterest = () => {
 
       {/* footer: Button pass */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
+        <TouchableOpacity
+          disabled={branchRanking && viveRanking ? false : true}
+          onPress={goNextScreen}
+          style={
+            branchRanking && viveRanking
+              ? styles.buttonAble
+              : styles.buttonDisable
+          }>
           <View>
-            <Text style={styles.buttonAbleText}>다음</Text>
+            <Text
+              style={
+                branchRanking && viveRanking
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
+              }>
+              완료
+            </Text>
           </View>
         </TouchableOpacity>
 
@@ -431,13 +429,6 @@ const styles = StyleSheet.create({
     fontSize: 27,
     color: '#3C3C3C',
   },
-  textCount: {
-    marginTop: 4,
-    left: 291,
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 14,
-    color: '#3C3C3C',
-  },
   introTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
@@ -456,18 +447,20 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingRight: 40,
   },
-  bodyNameBorder: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: '#BEBEBE',
-    paddingTop: 14,
-  },
   footer: {
     position: 'static',
     width: '100%',
     paddingHorizontal: 20,
     marginBottom: 40,
     paddingTop: 5,
+    alignItems: 'center',
+  },
+  buttonDisable: {
+    width: '100%',
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: '#BEBEBE',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   buttonAble: {
@@ -478,10 +471,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+  },
+  buttonDisableText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
+    includeFontPadding: false,
   },
   footerPassText: {
     marginTop: 15,
