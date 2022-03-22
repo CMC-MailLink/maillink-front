@@ -48,27 +48,47 @@ const ReaderRecommendList = () => {
   }, [authorListData]);
 
   useEffect(() => {
-    setFilterAuthor([...author]);
-  }, [author]);
+    var temp = author.filter(data => {
+      for (var i = 0; i < 3; i++) {
+        if (branch[i].select)
+          if (data.repBranch === branch[i].category) return true;
+      }
+      return false;
+    });
+    temp = temp.filter(data => {
+      for (var i = 0; i < 8; i++) {
+        if (vive[i].select) if (data.repVive === vive[i].category) return true;
+      }
+      return false;
+    });
+    setFilterAuthor([...temp]);
+  }, [author, branch, vive]);
 
+  //전체목록 선택
   const onPressAll = () => {
     setAllSelect(true);
   };
+
+  //관심작가 선택
   const onPressInterest = () => {
     setAllSelect(false);
   };
 
+  //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
     console.log(result);
     if (result) await await queryClient.refetchQueries(['AuthorList']);
   };
+
+  //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
     console.log(result);
     if (result) await await queryClient.refetchQueries(['AuthorList']);
   };
 
+  //작가 선택
   const onPressAuthor = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAuthorProfile',
@@ -175,6 +195,7 @@ const ReaderRecommendList = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   headerView: {
     borderBottomColor: '#EBEBEB',

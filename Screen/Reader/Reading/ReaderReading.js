@@ -131,7 +131,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
           console.log(selectedText);
-          navigation.navigate('AuthorStacks', {
+          navigation.navigate('ReaderStacks', {
             screen: 'InstaShare',
             params: {
               text: selectedText,

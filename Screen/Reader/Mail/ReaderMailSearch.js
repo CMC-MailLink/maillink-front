@@ -15,6 +15,8 @@ import {
   Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -28,73 +30,25 @@ const STORAGE_KEY = '@recentDataReaderMailSearch';
 
 const ReaderMailSearch = () => {
   const [recentSearch, setRecentSearch] = useState([]);
-  const [mail, setMail] = useState([
-    {
-      key: '0',
-      author: '이작가',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      author: '김작가',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '3',
-      author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-    {
-      key: '4',
-      author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '5',
-      author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-    {
-      key: '6',
-      author: '이작가',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '7',
-      author: '최작가',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-  ]);
   const [query, setQuery] = useState(null);
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
+  const [mail, setMail] = useState();
+  const {isLoading: mailLoading, data: mailListSearchData} = useQuery(
+    ['ReaderMailSearch'],
+    ReaderAPI.readerMailBox,
+  );
 
   useEffect(() => {
     getRecentSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (mailListSearchData) setMail([...mailListSearchData]);
+    console.log('mailListSearchData : ', mailListSearchData);
+  }, [mailListSearchData]);
 
   useEffect(() => {
     if (query === '') setSubmit(false);
@@ -116,9 +70,7 @@ const ReaderMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = mail.filter(
-      item => item.author.includes(data) || item.title.includes(data),
-    );
+    var res = mail.filter(item => item.title.includes(data));
     setResult([...res]);
 
     var temp = recentSearch;
@@ -139,9 +91,7 @@ const ReaderMailSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = mail.filter(
-      item => item.author.includes(query) || item.title.includes(query),
-    );
+    var res = mail.filter(item => item.title.includes(query));
     setResult([...res]);
 
     var temp = recentSearch;
@@ -229,25 +179,47 @@ const ReaderMailSearch = () => {
                   key={index}
                   onPress={e => onPressMailItem(data)}>
                   <View style={styles.itemView}>
+                    <Image
+                      style={{
+                        width: 42,
+                        height: 42,
+                        opacity: data.isRead ? 0.4 : null,
+                      }}
+                      source={AuthorProfileImage}
+                    />
                     <View style={styles.itemTextView}>
-                      <Image
-                        style={{
-                          position: 'absolute',
-                          width: 42,
-                          height: 42,
-                        }}
-                        source={AuthorProfileImage}
-                      />
                       <View
                         style={{
                           flexDirection: 'row',
                           justifyContent: 'space-between',
                         }}>
-                        <Text style={styles.itemAuthorText}>{data.author}</Text>
-                        <Text style={styles.itemDateText}>{data.date}</Text>
+                        <Text
+                          style={{
+                            ...styles.itemAuthorText,
+                            color: data.isRead ? '#BEBEBE' : '#4562F1',
+                          }}>
+                          {data.writerId}
+                        </Text>
+                        <Text style={styles.itemDateText}>
+                          {data.publishedTime
+                            ? data.publishedTime.slice(0, 10)
+                            : null}
+                        </Text>
                       </View>
-                      <Text style={styles.itemTitleText}>{data.title}</Text>
-                      <Text style={styles.itemBodyText}>{data.body}</Text>
+                      <Text
+                        style={{
+                          ...styles.itemTitleText,
+                          color: data.isRead ? '#BEBEBE' : '#3C3C3C',
+                        }}>
+                        {data.title}
+                      </Text>
+                      <Text
+                        style={{
+                          ...styles.itemBodyText,
+                          color: data.isRead ? '#BEBEBE' : '#828282',
+                        }}>
+                        {data.preView}
+                      </Text>
                     </View>
                   </View>
                 </TouchableWithoutFeedback>
@@ -404,24 +376,23 @@ const styles = StyleSheet.create({
   itemView: {
     width: '100%',
     flexDirection: 'row',
-    paddingTop: 12,
-    paddingBottom: 10,
-    paddingLeft: 36,
-    paddingRight: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     backgroundColor: '#FFF',
   },
   itemTextView: {
+    paddingLeft: 15,
+    paddingRight: 42,
     width: '100%',
-    paddingLeft: 57,
+    top: -4,
   },
   itemAuthorText: {
-    color: '#4562F1',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     includeFontPadding: false,
-    marginBottom: 2,
+    marginBottom: 3,
   },
   itemDateText: {
     color: '#BEBEBE',
@@ -437,10 +408,8 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemBodyText: {
-    color: '#828282',
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
-    width: 230,
     includeFontPadding: false,
   },
 });

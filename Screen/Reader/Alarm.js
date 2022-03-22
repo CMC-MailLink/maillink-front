@@ -25,8 +25,12 @@ const STATUSBAR_HEIGHT = 48;
 const Alarm = () => {
   const [alarmSelect, setAlarmSelect] = useState(true);
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  //refreshing 기능
+  const [refreshingMessage, setRefreshingMessage] = useState(false);
+  const [refreshingAlarm, setRefreshingAlarm] = useState(false);
 
-  const [alarm, setAlarm] = useState([
+  const [alarmData, setAlarmData] = useState([
     {
       key: '0',
       author: '이작가',
@@ -114,11 +118,6 @@ const Alarm = () => {
     MessageAPI.getMessageList,
   );
 
-  //refreshing 기능
-  const [refreshing, setRefreshing] = React.useState(false);
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
   const onPressAlarm = () => {
     setAlarmSelect(true);
   };
@@ -131,13 +130,23 @@ const Alarm = () => {
   const onPressMessageItem = data => {
     navigation.navigate('ReaderStacks', {
       screen: 'Message',
-      params: {...data},
+      params: {partnerId: data.item.partnerId},
     });
   };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+
+  const onPressAlarmItem = data => {};
+
+  const onRefreshMessage = async () => {
+    setRefreshingMessage(true);
+    await queryClient.refetchQueries(['Message']);
+    setRefreshingMessage(false);
+  };
+
+  const onRefreshAlarm = async () => {
+    setRefreshingAlarm(true);
+    await queryClient.refetchQueries(['Alarm']);
+    setRefreshingAlarm(false);
+  };
 
   const handleNotification = () => {
     PushNotification.localNotification({
@@ -147,10 +156,8 @@ const Alarm = () => {
     });
   };
 
-  const renderItem = (data, rowMap) => (
-    <TouchableOpacity
-      disabled={alarmSelect}
-      onPress={e => onPressMessageItem(data)}>
+  const renderMessageItem = (data, rowMap) => (
+    <TouchableOpacity onPress={e => onPressMessageItem(data)}>
       <View style={styles.itemView}>
         <View style={styles.itemTextView}>
           <View style={styles.itemNewView} />
@@ -168,21 +175,47 @@ const Alarm = () => {
               justifyContent: 'space-between',
             }}>
             <Text style={styles.itemAuthorText}>
-              <Text
-                style={{
-                  fontFamily: 'NotoSansKR-Bold',
-                }}>
-                {data.item.author ? data.item.author : data.item.sender}&nbsp;
-              </Text>
-              <Text>
-                {data.item.newpost ? data.item.newpost : data.item.subscribe}
-              </Text>
+              {data.item.id ? data.item.id : ''}
             </Text>
-            <Text style={styles.itemDateText}>{data.item.date}</Text>
+            <Text style={styles.itemDateText}>
+              {data.item.time ? data.item.time.slice(0, 10) : ''}
+            </Text>
           </View>
           <Text style={styles.itemBodyText}>
-            {data.item.messageContext}
-            {data.item.newpost ? data.item.title : data.item.context}
+            {data.item.text ? data.item.text : ''}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderAlarmItem = (data, rowMap) => (
+    <TouchableOpacity onPress={e => onPressAlarmItem(data)}>
+      <View style={styles.itemView}>
+        <View style={styles.itemTextView}>
+          <View style={styles.itemNewView} />
+          <Image
+            style={{
+              position: 'absolute',
+              width: 42,
+              height: 42,
+            }}
+            source={AuthorProfileImage}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={styles.itemAuthorText}>
+              {data.item.id ? data.item.id : ''}
+            </Text>
+            <Text style={styles.itemDateText}>
+              {data.item.time ? data.item.time.slice(0, 10) : ''}
+            </Text>
+          </View>
+          <Text style={styles.itemBodyText}>
+            {data.item.text ? data.item.text : ''}
           </Text>
         </View>
       </View>
@@ -241,20 +274,51 @@ const Alarm = () => {
       </View>
 
       {/* body */}
-      {(!alarmSelect && messageData && messageData.length) || alarmSelect ? (
+      {alarmSelect ? (
+        alarmData && alarmData.length ? (
+          <FlatList
+            style={styles.bodyContainer}
+            data={alarmData}
+            renderItem={renderAlarmItem}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshingAlarm}
+                onRefresh={onRefreshAlarm}
+                style={styles.refresh}
+                tintColor="#4562F1"
+              />
+            }
+          />
+        ) : (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Regular',
+                color: '#3C3C3C',
+                includeFontPadding: false,
+              }}>
+              알림이 없습니다.
+            </Text>
+          </View>
+        )
+      ) : messageData && messageData.length ? (
         <FlatList
           style={styles.bodyContainer}
-          data={alarmSelect ? alarm : messageData}
-          renderItem={renderItem}
+          data={messageData}
+          renderItem={renderMessageItem}
           refreshControl={
             <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
+              refreshing={refreshingMessage}
+              onRefresh={onRefreshMessage}
               style={styles.refresh}
               tintColor="#4562F1"
             />
           }
-          //keyExtractor={item => item.id}
         />
       ) : (
         <View
@@ -337,22 +401,22 @@ const styles = StyleSheet.create({
     paddingLeft: 57,
   },
   itemAuthorText: {
-    fontFamily: 'NotoSansKR-Regular',
+    fontFamily: 'NotoSansKR-Bold',
     color: '#3C3C3C',
-    fontSize: 14,
+    fontSize: 16,
     includeFontPadding: false,
   },
   itemDateText: {
     color: '#BEBEBE',
     fontFamily: 'NotoSansKR-Light',
     fontSize: 12,
+    marginTop: 1,
     includeFontPadding: false,
   },
   itemBodyText: {
     color: '#828282',
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
-    marginTop: 3,
     includeFontPadding: false,
   },
 });

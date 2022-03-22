@@ -28,7 +28,7 @@ export const AuthorAPI = {
     const [_, sort] = queryKey;
     var token = await getCredentials();
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/writer/publish`, {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/temp`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token.access}`,

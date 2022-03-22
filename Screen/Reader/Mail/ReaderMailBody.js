@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
-  FlatList,
-  RefreshControl,
+  Animated,
+  Easing,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
@@ -30,14 +30,15 @@ const refreshingHeight = 100;
 const ReaderMailBody = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const [memberInfo, setMemberInfo] = useState();
-  const [mailSelect, setMailSelect] = useState(true);
-  const [recentSelect, setRecentSelect] = useState(true);
-  const [count, setCount] = useState(0);
-  const [refreshing, setRefreshing] = useState(false);
-  const [mail, setMail] = useState([{key: 'category'}]);
-  const [bookmark, setBookmark] = useState([]);
-  const [offsetY, setOffsetY] = useState(0);
+  const [memberInfo, setMemberInfo] = useState(); //유저 정보
+  const [mailSelect, setMailSelect] = useState(true); //메일함,저장함 선택 toggle
+  const [recentSelect, setRecentSelect] = useState(true); //최신순, 오래된순 선택 toggle
+  const [count, setCount] = useState(0); //읽지않은 메일 수
+  const [refreshing, setRefreshing] = useState(false); //새로고침 상태
+  const [mail, setMail] = useState([{key: 'category'}]); //메일 데이터
+  const [bookmark, setBookmark] = useState([]); //저장된 메일 데이터
+  const [offsetY, setOffsetY] = useState(0); //스크롤 Y
+  const animation = useRef(new Animated.Value(0)).current; //스크롤 애니메이션
   const {isLoading: mailLoading, data: mailData} = useQuery(
     ['ReaderMail'],
     ReaderAPI.readerMailBox,
@@ -49,9 +50,18 @@ const ReaderMailBody = () => {
       console.log(result);
       setMemberInfo(result);
     }
-
     getMemberInfo();
   }, []);
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(animation, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start();
+  }, [animation]);
 
   useEffect(() => {
     if (mailData) {
@@ -102,6 +112,7 @@ const ReaderMailBody = () => {
     setCount(tempCount);
   }, [mail]);
 
+  //새로고침 스크롤
   function onScroll(event) {
     const {nativeEvent} = event;
     const {contentOffset} = nativeEvent;
@@ -109,12 +120,7 @@ const ReaderMailBody = () => {
     setOffsetY(y);
   }
 
-  // const onRefresh = async () => {
-  //   setRefreshing(true);
-  //   await queryClient.refetchQueries(['ReaderMail']);
-  //   setRefreshing(false);
-  // };
-
+  //새로고침 이벤트
   const onRelease = async () => {
     if (offsetY <= -refreshingHeight && !refreshing) {
       setRefreshing(true);
@@ -123,6 +129,7 @@ const ReaderMailBody = () => {
     }
   };
 
+  //저장하기 버튼 클릭
   const bookmarkRow = async (rowMap, key, item) => {
     console.log(item);
     if (rowMap[key]) {
@@ -137,38 +144,39 @@ const ReaderMailBody = () => {
     }
   };
 
-  const sendRow = (rowMap, key) => {
+  //쪽지 보내기 버튼 클릭
+  const sendRow = (rowMap, key, writerId) => {
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
+    navigation.navigate('ReaderStacks', {
+      screen: 'MessageWrite',
+      params: {writerId: writerId},
+    });
   };
 
+  //메일함 클릭
   const onPressMail = () => {
-    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setMailSelect(true);
   };
 
+  //저장함 클릭
   const onPressSave = () => {
-    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setMailSelect(false);
   };
 
+  //최신순 클릭
   const onPressRecent = () => {
-    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(true);
   };
 
+  //오래된순 클릭
   const onPressOld = () => {
-    //rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(false);
   };
 
-  const onPressMailItem = (rowMap, data) => {
-    //rowList ? (rowList[rowOpen] ? null : setReadItem(data)) : setReadItem(data);
-    setReadItem(data);
-  };
-
-  const setReadItem = async data => {
+  //메일 아이템 클릭
+  const onPressMailItem = async (rowMap, data) => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
       params: {mailId: data.item.id},
@@ -176,6 +184,7 @@ const ReaderMailBody = () => {
     await queryClient.refetchQueries(['ReaderMail']);
   };
 
+  //메일 아이템 render
   const renderItem = (data, rowMap, rowKey) => {
     if (data.item.key === 'category') {
       return <RenderCategory></RenderCategory>;
@@ -187,7 +196,7 @@ const ReaderMailBody = () => {
               style={{
                 width: 42,
                 height: 42,
-                // opacity: data.item.read ? 0.4 : null,
+                opacity: data.item.isRead ? 0.4 : null,
               }}
               source={AuthorProfileImage}
             />
@@ -230,6 +239,8 @@ const ReaderMailBody = () => {
       );
     }
   };
+
+  //메일아이템 swipe render
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
@@ -243,11 +254,13 @@ const ReaderMailBody = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => sendRow(rowMap, data.item.key)}>
+        onPress={() => sendRow(rowMap, data.item.key, data.item.writerId)}>
         <Image style={{width: 21.54, height: 23.82}} source={SendMail} />
       </TouchableOpacity>
     </View>
   );
+
+  //카테고리 render
   const RenderCategory = () => (
     <View style={styles.bodyHeader}>
       <View
@@ -332,9 +345,21 @@ const ReaderMailBody = () => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Image
-            style={{width: 14.67, height: 10.67, marginRight: 5}}
-            source={MailRefresh}></Image>
+          <Animated.Image
+            style={{
+              width: 14.67,
+              height: 10.67,
+              marginRight: 5,
+              transform: [
+                {
+                  rotate: animation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '180deg'],
+                  }),
+                },
+              ],
+            }}
+            source={MailRefresh}></Animated.Image>
           <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text>
         </View>
       </View>
@@ -344,13 +369,6 @@ const ReaderMailBody = () => {
           onResponderRelease={onRelease}
           stickyHeaderIndices={[1]}
           showsVerticalScrollIndicator={false}
-          // refreshControl={
-          //   <RefreshControl
-          //     tintColor="rgba(255, 255, 255, 0.5)"
-          //     style={{backgroundColor: 'transparent'}}
-          //     refreshing={refreshing}
-          //     onRefresh={onRefresh}></RefreshControl>
-          // }
           ListHeaderComponent={
             <View>
               <View style={styles.header}>
@@ -411,8 +429,6 @@ const ReaderMailBody = () => {
           rightOpenValue={-150}
           stopRightSwipe={-150}
           disableRightSwipe={true}
-          // onRowOpen={onRowOpen}
-          // onRowClose={onRowClose}
           closeOnScroll={true}
           ListFooterComponent={
             mail.length === 1 ? (
@@ -570,15 +586,6 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     includeFontPadding: false,
-  },
-  itemNewView: {
-    position: 'absolute',
-    top: 0,
-    left: -16,
-    width: 10,
-    height: 10,
-    backgroundColor: '#FF9B9B',
-    borderRadius: 90,
   },
   refreshView: {
     backgroundColor: '#4562F1',

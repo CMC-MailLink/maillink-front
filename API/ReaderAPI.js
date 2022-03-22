@@ -227,4 +227,22 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //독자 구독한 작가 리스트 불러오기
+  getSubscribeWriters: async () => {
+    console.log('구독 작가 리스트 조회');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/reader/subscribe`, {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

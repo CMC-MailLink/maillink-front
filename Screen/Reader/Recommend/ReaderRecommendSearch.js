@@ -41,9 +41,27 @@ const ReaderRecommendSearch = () => {
   );
 
   useEffect(() => {
+    getRecentSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (authorListData) setAuthor([...authorListData]);
     console.log(authorListData);
   }, [authorListData]);
+
+  useEffect(() => {
+    if (query === '') setSubmit(false);
+  }, [query]);
+
+  useEffect(() => {
+    async function addRecentSearch() {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
+      } catch (e) {}
+    }
+    addRecentSearch();
+  }, [recentSearch]);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -92,24 +110,6 @@ const ReaderRecommendSearch = () => {
     temp[index].subscribe = !temp[index].subscribe;
     setResult([...temp]);
   };
-
-  useEffect(() => {
-    getRecentSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (query === '') setSubmit(false);
-  }, [query]);
-
-  useEffect(() => {
-    async function addRecentSearch() {
-      try {
-        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearch));
-      } catch (e) {}
-    }
-    addRecentSearch();
-  }, [recentSearch]);
 
   const getRecentSearch = async () => {
     try {
