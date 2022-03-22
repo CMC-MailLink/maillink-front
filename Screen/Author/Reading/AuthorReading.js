@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,15 +12,16 @@ import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
 
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 
 const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   console.log(params);
   let webRef = useRef();
   const navigation = useNavigation();
-  // const url = 'https://www.mail-link.co.kr/readingEditor';
-  const url = 'http://localhost:3000/readingEditor';
+  const url = 'https://www.mail-link.co.kr/readingEditor';
+  // const url = 'http://localhost:3000/readingEditor';
+
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -28,7 +29,9 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   const contentSending = `
     let div = document.createElement('div');
     div.classList.add('test');
-    var textNode = document.createTextNode('${params ? params.content : ''}');
+    var textNode = document.createTextNode('${
+      params.data ? params.data.content : ''
+    }');
     div.append(textNode);
     div.style.display="none";
     document.body.appendChild(div);
@@ -48,14 +51,20 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableWithoutFeedback>
       </View>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>{params.title}</Text>
-        <Text style={styles.dateText}>{params.publishedTime.slice(0, 10)}</Text>
+        <Text style={styles.titleText}>{params.data.title}</Text>
+        <Text style={styles.dateText}>
+          {params.data.publishedTime.slice(0, 10)}
+        </Text>
       </View>
       <View style={styles.authorView}>
         <Image
           style={{width: 30, height: 30, marginRight: 12}}
-          source={AuthorProfileImage}></Image>
-        <Text style={styles.authorText}>{params.author}</Text>
+          source={
+            params.memberInfo.imgUrl == ''
+              ? DefaultProfile
+              : {uri: params.memberInfo.imgUrl}
+          }></Image>
+        <Text style={styles.authorText}>{params.memberInfo.nickName}</Text>
       </View>
       <WebView
         automaticallyAdjustContentInsets={false}
@@ -75,7 +84,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
             screen: 'InstaShare',
             params: {
               text: selectedText,
-              title: params.title,
+              title: params.data.title,
               // author: params.author,
             },
           });

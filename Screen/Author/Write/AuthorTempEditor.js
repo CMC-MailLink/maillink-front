@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
   Platform,
   TextInput,
@@ -15,13 +14,15 @@ import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
 import ImagePicker from 'react-native-image-crop-picker';
 import {SignUpAPI} from '../../../API/SignUpAPI';
+import FastImage from 'react-native-fast-image';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 import {AuthorAPI} from '../../../API/AuthorAPI';
 
-const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
+const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
+  console.log(params);
   let webRef = useRef();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
@@ -84,7 +85,8 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       const text = temp.text;
       console.log(contents, text);
       const preView = text.replace(/\n/g, ' ').slice(0, 44) + '...';
-      const result = await AuthorAPI.writerPostSaving({
+      const result = await AuthorAPI.writerTempSaving({
+        mailId: params.id,
         title: title,
         content: contents,
         preView: preView,
@@ -97,10 +99,14 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       const contents = temp.contents;
       const text = temp.text;
       const preView = text.replace(/\n/g, ' ').slice(0, 44) + '...';
-      const result = await AuthorAPI.writerPostSending({
+      const result = await AuthorAPI.writerTempSaving({
+        mailId: params.id,
         title: title,
         content: contents,
         preView: preView,
+      });
+      const result2 = await AuthorAPI.writerTempSending({
+        tempMailId: params.id,
       });
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
@@ -156,7 +162,10 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 22.5}}>
-            <Image style={{width: 14.5, height: 14.5}} source={ExitWriting} />
+            <FastImage
+              style={{width: 14.5, height: 14.5}}
+              source={ExitWriting}
+            />
           </View>
         </TouchableWithoutFeedback>
         <View
@@ -186,7 +195,10 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
             ・
           </Text>
           <TouchableWithoutFeedback onPress={onPressSend}>
-            <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
+            <FastImage
+              style={{width: 21.05, height: 25.43}}
+              source={SendWriting}
+            />
           </TouchableWithoutFeedback>
         </View>
       </View>
@@ -243,4 +255,4 @@ const styles = StyleSheet.create({
     paddingBottom: 84.5,
   },
 });
-export default AuthorEditor;
+export default AuthorTempEditor;

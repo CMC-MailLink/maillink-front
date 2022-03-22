@@ -29,6 +29,7 @@ const STORAGE_KEY = '@recentDataAuthorMailSearch';
 
 const AuthorMailSearch = () => {
   const [recentSearch, setRecentSearch] = useState([]);
+  const [memberInfo, setMemberInfo] = useState();
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
@@ -40,6 +41,14 @@ const AuthorMailSearch = () => {
 
   useEffect(() => {
     getRecentSearch();
+
+    async function getMemberInfo() {
+      const result = await AuthorAPI.memberInfo();
+      console.log(result);
+      setMemberInfo(result);
+    }
+
+    getMemberInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -101,7 +110,7 @@ const AuthorMailSearch = () => {
   const onPressMailItem = data => {
     navigation.navigate('AuthorStacks', {
       screen: 'AuthorReading',
-      params: {item: {...data}},
+      params: {data, memberInfo},
     });
   };
 

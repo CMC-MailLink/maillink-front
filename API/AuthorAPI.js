@@ -23,9 +23,27 @@ export const AuthorAPI = {
     }
   },
   //작가 발행 메일 리스트 조회
-  writerGetPublishing: async ({queryKey}) => {
+  writerGetPublishing: async () => {
     console.log('작가 발행 메일 리스트 조회');
-    const [_, sort] = queryKey;
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/publish`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      let json = await response.json();
+      console.log(json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //작가 임시저장 리스트 조회
+  writerGetSaving: async () => {
+    console.log('작가 임시저장 리스트 조회');
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/temp`, {
@@ -34,47 +52,10 @@ export const AuthorAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
+      console.log(response);
       let json = await response.json();
-      var result = json.data;
-      if (sort) {
-        result.sort(function (a, b) {
-          if (a.tempSaveTime >= b.tempSaveTime) {
-            return sort === true ? -1 : 1;
-          } else if (a.tempSaveTime < b.tempSaveTime) {
-            return sort === true ? 1 : -1;
-          }
-        });
-      }
-      console.log(result);
-      return result;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
-  },
-  //작가 임시저장 리스트 조회
-  writerGetSaving: async ({queryKey}) => {
-    console.log('작가 임시저장 리스트 조회');
-    const [_, sort] = queryKey;
-    var token = await getCredentials();
-    try {
-      const response = await fetch(`${BASE_URL}/api/v1/writer/publish/temp`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.access}`,
-        },
-      });
-      let json = await response.json();
-      var result = json.data;
-      result.sort(function (a, b) {
-        if (a.tempSaveTime >= b.tempSaveTime) {
-          return sort === true ? -1 : 1;
-        } else if (a.tempSaveTime < b.tempSaveTime) {
-          return sort === true ? 1 : -1;
-        }
-      });
-      console.log(result);
-      return result;
+      console.log(json.data);
+      return json.data;
     } catch (e) {
       console.log(e);
       return false;
@@ -85,7 +66,7 @@ export const AuthorAPI = {
     console.log('작가 임시저장');
     var token = await getCredentials();
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/writer/publish/temp`, {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/temp`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token.access}`,
@@ -97,6 +78,7 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
+      console.log(response);
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -121,6 +103,77 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
+      console.log(response);
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //작가 메일임시저장 수정
+  writerTempSaving: async ({mailId, title, content, preView}) => {
+    console.log('작가 메일 임시저장 수정');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/temp`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mailId: mailId,
+          title: title,
+          content: content,
+          preView: preView,
+        }),
+      });
+      console.log(response);
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //작가 메일 임시저장 발행
+  writerTempSending: async ({tempMailId}) => {
+    console.log('작가 메일 임시저장 발행');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/temp/publish?tempMailId=${tempMailId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //작가 임시저장 삭제
+  writerTempDeleting: async ({tempMailId}) => {
+    console.log('작가 메일 임시저장 삭제');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/temp?tempMailId=${tempMailId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
       let json = await response.json();
       return json.data;
     } catch (e) {

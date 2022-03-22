@@ -7,12 +7,12 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   ScrollView,
 } from 'react-native';
 import {captureRef} from 'react-native-view-shot';
 import {useNavigation} from '@react-navigation/native';
 import Share from 'react-native-share';
+import FastImage from 'react-native-fast-image';
 
 import ExitWriting from '../assets/images/ExitWriting.png';
 import LogoInstaShare from '../assets/images/LogoInstaShare.png';
@@ -74,9 +74,9 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View>
-            <Image
+            <FastImage
               style={{width: 14.5, height: 14.5}}
-              source={ExitWriting}></Image>
+              source={ExitWriting}></FastImage>
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>공유 텍스트 꾸미기 </Text>
@@ -124,7 +124,7 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
           <Text style={{...styles.authorText, color: textColorSelect}}>
             {params.author}
           </Text>
-          <Image
+          <FastImage
             style={{
               width: 74,
               height: 14,
@@ -136,7 +136,7 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
               textColorSelect === '#FFFFFF'
                 ? LogoInstaShare
                 : LogoBlackInstaShare
-            }></Image>
+            }></FastImage>
         </View>
       </View>
       <ScrollView>
@@ -193,12 +193,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                       shadowOpacity: 0.1,
                       shadowRadius: 9,
                     }}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 20,
                         height: 20,
                       }}
-                      source={ColorSelectInstaShare}></Image>
+                      source={ColorSelectInstaShare}></FastImage>
                   </View>
                 ) : null}
               </View>
@@ -220,12 +220,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                       shadowOpacity: 0.1,
                       shadowRadius: 9,
                     }}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 20,
                         height: 20,
                       }}
-                      source={ColorSelectInstaShare}></Image>
+                      source={ColorSelectInstaShare}></FastImage>
                   </View>
                 ) : null}
               </View>
@@ -247,12 +247,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                       shadowOpacity: 0.1,
                       shadowRadius: 9,
                     }}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 20,
                         height: 20,
                       }}
-                      source={ColorSelectInstaShare}></Image>
+                      source={ColorSelectInstaShare}></FastImage>
                   </View>
                 ) : null}
               </View>
@@ -274,12 +274,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                       shadowOpacity: 0.1,
                       shadowRadius: 9,
                     }}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 20,
                         height: 20,
                       }}
-                      source={ColorSelectInstaShare}></Image>
+                      source={ColorSelectInstaShare}></FastImage>
                   </View>
                 ) : null}
               </View>
@@ -301,12 +301,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                       shadowOpacity: 0.1,
                       shadowRadius: 9,
                     }}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 20,
                         height: 20,
                       }}
-                      source={ColorSelectInstaShare}></Image>
+                      source={ColorSelectInstaShare}></FastImage>
                   </View>
                 ) : null}
               </View>
@@ -443,12 +443,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                   position: 'absolute',
                   right: 0,
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 20,
                     height: 20,
                   }}
-                  source={ColorSelectInstaShare}></Image>
+                  source={ColorSelectInstaShare}></FastImage>
               </View>
             ) : null}
           </TouchableOpacity>
@@ -471,12 +471,12 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
                   position: 'absolute',
                   right: 0,
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 20,
                     height: 20,
                   }}
-                  source={ColorSelectInstaShare}></Image>
+                  source={ColorSelectInstaShare}></FastImage>
               </View>
             ) : null}
           </TouchableOpacity>

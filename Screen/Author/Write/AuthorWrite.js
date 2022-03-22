@@ -9,6 +9,8 @@ import {
   TouchableWithoutFeedback,
   Image,
   Modal,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FloatingAction} from 'react-native-floating-action';
@@ -24,37 +26,45 @@ import DeleteModal from '../../../assets/images/DeleteModal.png';
 
 const AuthorWrite = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [recentSelect, setRecentSelect] = useState(true);
-  const [rowList, setRowList] = useState(null);
-  const [rowOpen, setRowOpen] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [filterStorage, setFilterStorage] = useState(storageData);
+  const [filterStorage, setFilterStorage] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [deleteId, setDeleteId] = useState();
 
   const {isLoading: storageLoading, data: storageData} = useQuery(
-    ['AuthorStorage', recentSelect],
+    ['AuthorStorage'],
     AuthorAPI.writerGetSaving,
   );
 
-  // useEffect(() => {
-  //   if (filterStorage)
-  //     setFilterStorage(data =>
-  //       filterStorage.slice().sort(function (a, b) {
-  //         if (a.tempSaveTime >= b.tempSaveTime) {
-  //           return recentSelect ? -1 : 1;
-  //         } else if (a.tempSaveTime < b.tempSaveTime) {
-  //           return recentSelect ? 1 : -1;
-  //         }
-  //       }),
-  //     );
-  // }, [recentSelect, filterStorage]);
+  useEffect(() => {
+    if (storageData) {
+      var temp = storageData;
+      temp.map((data, index) => {
+        data.key = index.toString();
+      });
+      setFilterStorage([...temp]);
+    }
+  }, [storageData]);
+
+  useEffect(() => {
+    setFilterStorage(data =>
+      data.slice().sort(function (a, b) {
+        if (a.tempSaveTime >= b.tempSaveTime) {
+          return recentSelect ? -1 : 1;
+        } else if (a.tempSaveTime < b.tempSaveTime) {
+          return recentSelect ? 1 : -1;
+        }
+      }),
+    );
+  }, [recentSelect]);
 
   const onPressRecent = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(true);
   };
 
   const onPressOld = () => {
-    rowList ? (rowList[rowOpen] ? rowList[rowOpen].closeRow() : null) : null;
     setRecentSelect(false);
   };
 
@@ -64,39 +74,32 @@ const AuthorWrite = () => {
     });
   };
 
-  const onRowOpen = (rowKey, rowMap, toValue) => {
-    console.log(rowKey);
-    setRowList(rowMap);
-    setRowOpen(rowKey);
-  };
-
-  const onRowClose = (rowKey, rowMap, toValue) => {
-    setRowOpen(null);
-  };
-
   const onPressStorageItem = (rowMap, data) => {
-    rowList
-      ? rowList[rowOpen]
-        ? null
-        : navigation.navigate('AuthorStacks', {
-            screen: 'AuthorEditor',
-            params: {...data},
-          })
-      : navigation.navigate('AuthorStacks', {
-          screen: 'AuthorEditor',
-          params: {...data},
-        });
+    navigation.navigate('AuthorStacks', {
+      screen: 'AuthorTempEditor',
+      params: {...data},
+    });
   };
 
-  const deleteRow = (rowMap, key) => {
+  const deleteRow = (rowMap, key, data) => {
+    console.log(data);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
+    setDeleteId(data.item.id);
     setModalVisible(true);
   };
 
-  const onPressModalDelete = () => {
+  const onPressModalDelete = async () => {
+    var result = await AuthorAPI.writerTempDeleting({tempMailId: deleteId});
+    await queryClient.refetchQueries(['AuthorStorage']);
     setModalVisible(!modalVisible);
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['AuthorStorage']);
+    setRefreshing(false);
   };
 
   const renderItem = (data, rowMap, rowKey) => {
@@ -114,11 +117,11 @@ const AuthorWrite = () => {
     );
   };
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (data, rowMap, rowKey) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={styles.backRightBtn}
-        onPress={() => deleteRow(rowMap, data.item.id)}>
+        onPress={() => deleteRow(rowMap, rowKey, data)}>
         <Image
           style={{width: 18, height: 21}}
           source={DeleteAuthorWrite}></Image>
@@ -196,7 +199,7 @@ const AuthorWrite = () => {
         </View>
       </View>
       <View style={styles.bodyContainer}>
-        {storageData && storageData.length ? (
+        {filterStorage && filterStorage.length ? (
           <SwipeListView
             ListHeaderComponent={
               <TouchableOpacity
@@ -229,18 +232,30 @@ const AuthorWrite = () => {
             keyExtractor={(rowData, index) => {
               return rowData.id.toString();
             }}
-            data={storageData}
+            data={filterStorage}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             rightOpenValue={-77}
             stopRightSwipe={-77}
             disableRightSwipe={true}
-            onRowOpen={onRowOpen}
-            onRowClose={onRowClose}
             closeOnScroll={true}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                style={styles.refresh}
+              />
+            }
           />
         ) : (
-          <>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                style={styles.refresh}
+              />
+            }>
             <TouchableOpacity
               onPress={() =>
                 Clipboard.setString('https://www.mail-link.co.kr/')
@@ -266,7 +281,11 @@ const AuthorWrite = () => {
               </View>
             </TouchableOpacity>
             <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              style={{
+                top: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text
                 style={{
                   fontFamily: 'NotoSansKR-Regular',
@@ -276,7 +295,7 @@ const AuthorWrite = () => {
                 저장된 메일이 없습니다.
               </Text>
             </View>
-          </>
+          </ScrollView>
         )}
       </View>
       <FloatingAction

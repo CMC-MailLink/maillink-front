@@ -52,6 +52,7 @@ const ReaderMailBody = () => {
     }
     getMemberInfo();
   }, []);
+
   useEffect(() => {
     Animated.loop(
       Animated.timing(animation, {
