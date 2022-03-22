@@ -8,6 +8,7 @@
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
 #import <RNKakaoLogins.h>
+#import <React/RCTLinkingManager.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -79,14 +80,14 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 }
 
-- (BOOL)application:(UIApplication *)app
+- (BOOL)application:(UIApplication *)application
      openURL:(NSURL *)url
      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
- if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+  if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
     return [RNKakaoLogins handleOpenUrl: url];
- }
+  }
 
- return NO;
+ return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 // Required for the register event.

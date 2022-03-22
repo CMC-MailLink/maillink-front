@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import Facebook from '../../../assets/images/Facebook.png';
@@ -25,22 +32,22 @@ const colorCategory = {
 const AuthorProfileIntro = () => {
   const author = {
     name: '덩이',
-    facebook: null,
+    facebook: 'asd',
     twitter: 'twitter',
     instagram: 'instagram',
     url: 'url',
   };
-  const onPressFacebook = data => {
-    Clipboard.setString(data);
+  const onPressFacebook = async url => {
+    await Linking.openURL(url);
   };
-  const onPressTwitter = data => {
-    Clipboard.setString(data);
+  const onPressTwitter = async url => {
+    await Linking.openURL(url);
   };
-  const onPressInstagram = data => {
-    Clipboard.setString(data);
+  const onPressInstagram = async url => {
+    await Linking.openURL(url);
   };
-  const onPressURL = data => {
-    Clipboard.setString(data);
+  const onPressURL = async url => {
+    await Linking.openURL(url);
   };
 
   return (
@@ -150,7 +157,11 @@ const AuthorProfileIntro = () => {
         <View style={{flexDirection: 'row', marginTop: 20}}>
           {author.facebook ? (
             <TouchableOpacity
-              onPress={() => onPressFacebook('facebook.com/덩이')}>
+              onPress={() =>
+                onPressFacebook(
+                  'https://www.facebook.com/profile.php?id=100023431479176',
+                )
+              }>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
                 source={Facebook}></Image>
@@ -162,7 +173,7 @@ const AuthorProfileIntro = () => {
           )}
           {author.twitter ? (
             <TouchableOpacity
-              onPress={() => onPressTwitter('facebook.com/덩이')}>
+              onPress={() => onPressTwitter('https://twitter.com/?lang=ko')}>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
                 source={Twitter}></Image>
@@ -174,7 +185,9 @@ const AuthorProfileIntro = () => {
           )}
           {author.instagram ? (
             <TouchableOpacity
-              onPress={() => onPressInstagram('facebook.com/덩이')}>
+              onPress={() =>
+                onPressInstagram('https://www.instagram.com/mail_link/')
+              }>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
                 source={Instagram}></Image>
@@ -185,7 +198,8 @@ const AuthorProfileIntro = () => {
               source={InstagramNone}></Image>
           )}
           {author.url ? (
-            <TouchableOpacity onPress={() => onPressURL('facebook.com/덩이')}>
+            <TouchableOpacity
+              onPress={() => onPressURL('https://www.mail-link.co.kr')}>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
                 source={URL}></Image>

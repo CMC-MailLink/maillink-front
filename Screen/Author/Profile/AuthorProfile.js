@@ -23,23 +23,23 @@ import AuthorProfileMail from './AuthorProfileMail';
 
 const AuthorProfile = () => {
   const navigation = useNavigation();
-
   const [name, setName] = useState('비비작가');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
   const [filePath, setFilePath] = useState(null);
   const [fileData, setFileData] = useState(null);
   const [fileUri, setFileUri] = useState(null);
-  const [memberInfo, setMemberInfo] = useState();
+  const [writerInfo, setWriterInfo] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // setLoading(true);
-    // async function getMemberInfo() {
-    //   const result = await AuthorAPI.memberInfo();
-    //   setMemberInfo(result);
-    // }
-    // getMemberInfo();
+    setLoading(true);
+    async function getWriterInfo() {
+      const result = await AuthorAPI.writerInfo();
+      setWriterInfo(result);
+    }
+    getWriterInfo();
+    setLoading(false);
   }, []);
 
   const onPressIntro = () => {
@@ -58,33 +58,6 @@ const AuthorProfile = () => {
     navigation.navigate('AuthorStacks', {
       screen: 'AuthorProfileEdit',
     });
-  };
-
-  const onPressEditImage = async () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-        mediaType: 'photo',
-        maxWidth: 78,
-        maxHeight: 78,
-      },
-      includeBase64: true,
-    };
-    // launchImageLibrary(options, response => {
-    //   console.log('Response = ', response);
-
-    //   if (response.didCancel) {
-    //     console.log('User cancelled image picker');
-    //   } else if (response.errorCode) {
-    //     console.log('ImagePicker Error: ', response.errorCode);
-    //     console.log('ImagePicker Error: ', response.errorMessage);
-    //   } else {
-    //     const source = {
-    //       uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-    //     };
-    //     setImageUri(source);
-    //   }
-    // });
   };
 
   return (
@@ -118,11 +91,11 @@ const AuthorProfile = () => {
               top: -39,
               width: 160,
             }}>
-            <TouchableWithoutFeedback onPress={onPressEditImage}>
+            <View>
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={imageUri == '' ? DefaultProfile : imageUri}></Image>
-            </TouchableWithoutFeedback>
+            </View>
             <View style={{alignItems: 'center', top: 8}}>
               <Text style={styles.profileName}>{name}</Text>
               <Text style={styles.profileCategory}>작가님</Text>

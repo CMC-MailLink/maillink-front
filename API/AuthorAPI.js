@@ -181,4 +181,24 @@ export const AuthorAPI = {
       return false;
     }
   },
+  //작가 본인 정보 조회
+  writerInfo: async () => {
+    console.log('작가 본인 정보 조회');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/info/self`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      console.log(response);
+      let json = await response.json();
+      console.log(json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
 };
