@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AuthorAPI} from '../../../API/AuthorAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -21,30 +22,30 @@ import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AuthorProfileIntro from './AuthorProfileIntro';
 import AuthorProfileMail from './AuthorProfileMail';
 
+const refreshingHeight = 100;
+
 const AuthorProfile = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [name, setName] = useState('');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
   const [writerInfo, setWriterInfo] = useState();
-  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [offsetY, setOffsetY] = useState(0);
+  const {isLoading: authorProfileLoading, data: authorProfileData} = useQuery(
+    ['AuthorProfile'],
+    AuthorAPI.writerInfo,
+  );
 
   useEffect(() => {
-    setLoading(true);
-    async function getWriterInfo() {
-      const result = await AuthorAPI.writerInfo();
-      setWriterInfo(result);
+    if (authorProfileData) {
+      console.log(authorProfileData);
+      setWriterInfo(authorProfileData);
+      setName(authorProfileData.nickName);
+      setImageUri(authorProfileData.imageUrl);
     }
-    getWriterInfo();
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if (writerInfo) {
-      setName(writerInfo.nickName);
-      setImageUri(writerInfo.imageUrl);
-    }
-  }, [writerInfo]);
+  }, [authorProfileData]);
 
   const onPressIntro = () => {
     setIntroSelect(true);
@@ -61,17 +62,52 @@ const AuthorProfile = () => {
   const onPressProfileEdit = () => {
     navigation.navigate('AuthorStacks', {
       screen: 'AuthorProfileEdit',
+      params: {writerInfo},
     });
+  };
+
+  //새로고침 스크롤
+  function onScroll(event) {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  }
+
+  //새로고침 스크롤
+  function onScroll(event) {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  }
+
+  //새로고침 이벤트
+  const onRelease = async () => {
+    if (offsetY <= -refreshingHeight && !refreshing) {
+      setRefreshing(true);
+      await queryClient.refetchQueries(['AuthorProfile']);
+      setRefreshing(false);
+    }
   };
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <StatusBar barStyle="light-content" />
+      <View
+        style={{
+          ...styles.refreshView,
+          height: refreshingHeight - offsetY + 40,
+        }}></View>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
       </View>
-      <ScrollView stickyHeaderIndices={[2]} bounces={false}>
+      <ScrollView
+        onScroll={onScroll}
+        scrollEventThrottle={0}
+        onResponderRelease={onRelease}
+        stickyHeaderIndices={[2]}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
             style={{position: 'absolute', right: 20, bottom: 18}}
@@ -226,6 +262,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#3C3C3C',
     includeFontPadding: false,
+  },
+  refreshView: {
+    backgroundColor: '#4562F1',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -5,
+    alignItems: 'center',
   },
 });
 
