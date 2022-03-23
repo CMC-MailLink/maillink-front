@@ -29,14 +29,7 @@ const colorCategory = {
   키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
 };
 
-const AuthorProfileIntro = () => {
-  const author = {
-    name: '덩이',
-    facebook: 'asd',
-    twitter: 'twitter',
-    instagram: 'instagram',
-    url: 'url',
-  };
+const AuthorProfileIntro = ({writerInfo}) => {
   const onPressFacebook = async url => {
     await Linking.openURL(url);
   };
@@ -55,7 +48,7 @@ const AuthorProfileIntro = () => {
       <View style={styles.bodyIntroView}>
         <Text style={styles.bodyIntroHeadText}>소개</Text>
         <Text style={styles.bodyIntroText}>
-          안녕하세요, 신진작가 ‘덩이’입니다 :) 재미있는 글을 쓰고 싶습니다.
+          {writerInfo ? writerInfo.introduction : ''}
         </Text>
       </View>
       <View style={styles.bodyInterestView}>
@@ -155,7 +148,7 @@ const AuthorProfileIntro = () => {
         }}>
         <Text style={styles.bodyIntroHeadText}>웹사이트</Text>
         <View style={{flexDirection: 'row', marginTop: 20}}>
-          {author.facebook ? (
+          {writerInfo && writerInfo.facebook ? (
             <TouchableOpacity
               onPress={() =>
                 onPressFacebook(
@@ -171,7 +164,7 @@ const AuthorProfileIntro = () => {
               style={{width: 39.83, height: 38.24, marginRight: 21}}
               source={FacebookNone}></Image>
           )}
-          {author.twitter ? (
+          {writerInfo && writerInfo.twitter ? (
             <TouchableOpacity
               onPress={() => onPressTwitter('https://twitter.com/?lang=ko')}>
               <Image
@@ -183,7 +176,7 @@ const AuthorProfileIntro = () => {
               style={{width: 39.83, height: 38.24, marginRight: 21}}
               source={TwitterNone}></Image>
           )}
-          {author.instagram ? (
+          {writerInfo && writerInfo.instagram ? (
             <TouchableOpacity
               onPress={() =>
                 onPressInstagram('https://www.instagram.com/mail_link/')
@@ -197,7 +190,7 @@ const AuthorProfileIntro = () => {
               style={{width: 39.83, height: 38.24, marginRight: 21}}
               source={InstagramNone}></Image>
           )}
-          {author.url ? (
+          {writerInfo && writerInfo.etc ? (
             <TouchableOpacity
               onPress={() => onPressURL('https://www.mail-link.co.kr')}>
               <Image

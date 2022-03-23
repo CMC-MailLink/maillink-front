@@ -192,7 +192,6 @@ export const AuthorAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       let json = await response.json();
       console.log(json.data);
       return json.data;

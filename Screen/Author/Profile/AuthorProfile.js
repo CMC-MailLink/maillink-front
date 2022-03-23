@@ -23,12 +23,9 @@ import AuthorProfileMail from './AuthorProfileMail';
 
 const AuthorProfile = () => {
   const navigation = useNavigation();
-  const [name, setName] = useState('비비작가');
+  const [name, setName] = useState('');
   const [imageUri, setImageUri] = useState('');
   const [introSelect, setIntroSelect] = useState(true);
-  const [filePath, setFilePath] = useState(null);
-  const [fileData, setFileData] = useState(null);
-  const [fileUri, setFileUri] = useState(null);
   const [writerInfo, setWriterInfo] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +38,13 @@ const AuthorProfile = () => {
     getWriterInfo();
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (writerInfo) {
+      setName(writerInfo.nickName);
+      setImageUri(writerInfo.imageUrl);
+    }
+  }, [writerInfo]);
 
   const onPressIntro = () => {
     setIntroSelect(true);
@@ -94,7 +98,12 @@ const AuthorProfile = () => {
             <View>
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
-                source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+                defaultSource={DefaultProfile}
+                source={
+                  !writerInfo || writerInfo.imgUrl == ''
+                    ? DefaultProfile
+                    : {uri: writerInfo.imgUrl}
+                }></Image>
             </View>
             <View style={{alignItems: 'center', top: 8}}>
               <Text style={styles.profileName}>{name}</Text>
@@ -140,7 +149,7 @@ const AuthorProfile = () => {
           </View>
         </View>
         {introSelect ? (
-          <AuthorProfileIntro></AuthorProfileIntro>
+          <AuthorProfileIntro writerInfo={writerInfo}></AuthorProfileIntro>
         ) : (
           <AuthorProfileMail></AuthorProfileMail>
         )}
