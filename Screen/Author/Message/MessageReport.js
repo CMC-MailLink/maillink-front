@@ -20,8 +20,9 @@ import BackMail2 from '../../../assets/images/BackMail2.png';
 const MessageReport = () => {
   const navigation = useNavigation();
   const [moneyReport, setMoneyReport] = useState(false);
-  const [dateReport, setDateReport] = useState(false);
-  const [languageReport, setLanguageReport] = useState(false);
+  const [obsceneReport, setObsenceReport] = useState(false);
+  const [rightReport, setRightReport] = useState(false);
+  const [repeatReport, setRepeatReport] = useState(false);
   const [otherReport, setOtherReport] = useState(false);
   const [otherReportContent, setOtherReportContent] = useState('');
   const [reportTypesData, setReportTypesData] = useState([]);
@@ -41,14 +42,17 @@ const MessageReport = () => {
   const onPressMoneyReport = () => {
     setMoneyReport(!moneyReport);
   };
-  const onPressDateReport = () => {
-    setDateReport(!dateReport);
+  const onPressObsceneReport = () => {
+    setObsenceReport(!obsceneReport);
   };
-  const onPressLanguageReport = () => {
-    setLanguageReport(!languageReport);
+  const onPressRightReport = () => {
+    setRightReport(!rightReport);
   };
   const onPressOtherReport = () => {
     setOtherReport(!otherReport);
+  };
+  const onPressRepeatReport = () => {
+    setRepeatReport(!repeatReport);
   };
   const onChangeText = text => setOtherReportContent(text);
 
@@ -59,9 +63,10 @@ const MessageReport = () => {
       setConfirmSuccess(false);
     }
     setTextCount(otherReportContent.length);
-    if (this.keyCode === 13) {
-      setenterCount(enterCount + 1);
-    }
+    //fortest
+    // if (this.keyCode === 13) {
+    //   setenterCount(enterCount + 1);
+    // }
   }, [otherReportContent, enterCount]);
 
   return (
@@ -95,7 +100,7 @@ const MessageReport = () => {
       <View style={{flex: 1, backgroundColor: '#F8F8F8'}}>
         <TouchableWithoutFeedback onPress={onPressMoneyReport}>
           <View style={{...styles.itemView, marginTop: 6}}>
-            <Text style={styles.itemText}>금전 요구</Text>
+            <Text style={styles.itemText}>영리 목적/ 홍보성 글</Text>
             {!moneyReport ? (
               <Image style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
@@ -104,10 +109,10 @@ const MessageReport = () => {
           </View>
         </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback onPress={onPressDateReport}>
+        <TouchableWithoutFeedback onPress={onPressObsceneReport}>
           <View style={styles.itemView}>
-            <Text style={styles.itemText}>연애 목적의 대화 시도</Text>
-            {!dateReport ? (
+            <Text style={styles.itemText}>음란성/선정성</Text>
+            {!obsceneReport ? (
               <Image style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
               <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
@@ -115,16 +120,28 @@ const MessageReport = () => {
           </View>
         </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback onPress={onPressLanguageReport}>
+        <TouchableWithoutFeedback onPress={onPressRightReport}>
           <View style={styles.itemView}>
-            <Text style={styles.itemText}>부적절한 어휘 사용</Text>
-            {!languageReport ? (
+            <Text style={styles.itemText}>타인의 권리 침해</Text>
+            {!rightReport ? (
               <Image style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
               <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
             )}
           </View>
         </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={onPressRepeatReport}>
+          <View style={styles.itemView}>
+            <Text style={styles.itemText}>같은 내용 반복(도배)</Text>
+            {!repeatReport ? (
+              <Image style={styles.itemCheckImg} source={ReportCheck} />
+            ) : (
+              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+
         {!otherReport ? (
           <TouchableWithoutFeedback onPress={onPressOtherReport}>
             <View style={styles.itemView}>
@@ -151,16 +168,16 @@ const MessageReport = () => {
                   source={ReportCheckActivate}
                 />
               )}
-              <View style={{alignItems: 'center', paddingTop: 18}}>
+              <View style={{alignItems: 'center', paddingTop: 26}}>
                 <TextInput
                   style={styles.textInput}
                   value={otherReportContent}
-                  placeholder="(300자 이하)"
+                  placeholder="(200자 이하)"
                   placeholderTextColor="#BEBEBE"
                   returnKeyType="search"
                   onChangeText={onChangeText}
-                  maxLength={300}
-                  maxHeight={300}
+                  maxLength={200}
+                  maxHeight={189}
                   multiline={true}
                   autoCorrect={false}
                   autoCapitalize={false}
@@ -171,7 +188,7 @@ const MessageReport = () => {
         )}
 
         {/* footer */}
-        <View style={!otherReport ? {paddingTop: 312} : {paddingTop: 43}}>
+        <View style={!otherReport ? {paddingTop: 245} : {paddingTop: 32}}>
           <View style={{alignItems: 'center', paddingBottom: 10}}>
             <Text style={styles.bodyHeaderText}>
               사용자를 신고해도 메일 발송은 유지됩니다.
@@ -246,7 +263,7 @@ const styles = StyleSheet.create({
   },
   itemOtherView: {
     backgroundColor: 'white',
-    height: 325,
+    height: 269,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
   },
