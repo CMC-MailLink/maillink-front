@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -10,13 +9,17 @@ import {
   RefreshControl,
   FlatList,
   Dimensions,
+  Animated,
+  Easing,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AuthorAPI} from '../../../API/AuthorAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import WriteMail from '../../../assets/images/WriteMail.png';
 import AuthorMail from '../../../assets/images/AuthorMail.png';
+import MailRefresh from '../../../assets/images/MailRefresh.png';
 
 const STATUSBAR_HEIGHT = 48;
 const refreshingHeight = 100;
@@ -26,40 +29,70 @@ const AuthorMailBody = () => {
   const queryClient = useQueryClient();
   const [memberInfo, setMemberInfo] = useState();
   const [recentSelect, setRecentSelect] = useState(true);
+  const [mail, setMail] = useState([{key: 'category'}]); //메일 데이터
   const [refreshing, setRefreshing] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
+  const animation = useRef(new Animated.Value(0)).current; //스크롤 애니메이션
+
   const {isLoading: mailLoading, data: mailData} = useQuery(
-    ['AuthorMail', recentSelect],
+    ['AuthorMail'],
     AuthorAPI.writerGetPublishing,
   );
 
   useEffect(() => {
     async function getMemberInfo() {
       const result = await AuthorAPI.memberInfo();
+      console.log(result);
       setMemberInfo(result);
     }
     getMemberInfo();
   }, []);
 
-  // useEffect(() => {
-  //   if (filterMail)
-  //     setFilterMail(data =>
-  //       data.slice().sort(function (a, b) {
-  //         if (a.publishedTime >= b.publishedTime) {
-  //           return recentSelect ? -1 : 1;
-  //         } else if (a.publishedTime < b.publishedTime) {
-  //           return recentSelect ? 1 : -1;
-  //         }
-  //       }),
-  //     );
-  // }, [recentSelect, filterMail]);
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(animation, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start();
+  }, [animation]);
 
+  useEffect(() => {
+    if (mailData) {
+      setMail([...mailData]);
+    }
+  }, [mailData]);
+
+  useEffect(() => {
+    setMail(data =>
+      data.slice().sort(function (a, b) {
+        if (a.publishedTime >= b.publishedTime) {
+          return recentSelect ? -1 : 1;
+        } else if (a.publishedTime < b.publishedTime) {
+          return recentSelect ? 1 : -1;
+        }
+      }),
+    );
+  }, [recentSelect]);
+
+  //새로고침 스크롤
   function onScroll(event) {
     const {nativeEvent} = event;
     const {contentOffset} = nativeEvent;
     const {y} = contentOffset;
     setOffsetY(y);
   }
+
+  //새로고침 이벤트
+  const onRelease = async () => {
+    if (offsetY <= -refreshingHeight && !refreshing) {
+      setRefreshing(true);
+      await queryClient.refetchQueries(['AuthorMail']);
+      setRefreshing(false);
+    }
+  };
 
   const onPressRecent = () => {
     setRecentSelect(true);
@@ -72,14 +105,8 @@ const AuthorMailBody = () => {
   const onPressMailItem = data => {
     navigation.navigate('AuthorStacks', {
       screen: 'AuthorReading',
-      params: {...data},
+      params: {data, memberInfo},
     });
-  };
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await queryClient.refetchQueries(['movies']);
-    setRefreshing(false);
   };
 
   const renderItem = ({item}) => {
@@ -87,7 +114,7 @@ const AuthorMailBody = () => {
       <TouchableWithoutFeedback onPress={e => onPressMailItem(item)}>
         <View style={styles.itemView}>
           <Text style={styles.itemDateText}>
-            {item.publishedTime.slice(0, 10)}
+            {item.publishedTime ? item.publishedTime.slice(0, 10) : ''}
           </Text>
           <Text style={styles.itemTitleText}>{item.title}</Text>
           <Text style={styles.itemBodyText}>{item.preView}</Text>
@@ -140,23 +167,39 @@ const AuthorMailBody = () => {
 
   return (
     <View style={{flex: 1}}>
-      <View
-        style={{
-          height: 100 - offsetY,
-          backgroundColor: '#4562F1',
-          position: 'absolute',
-          left: 0,
-          right: 0,
-        }}
-      />
+      <View style={{...styles.refreshView, height: refreshingHeight - offsetY}}>
+        <View
+          style={{
+            marginTop: -offsetY / 2 > 0 ? -offsetY / 2 : 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Animated.Image
+            style={{
+              width: 14.67,
+              height: 10.67,
+              marginRight: 5,
+              transform: [
+                {
+                  rotate: animation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '180deg'],
+                  }),
+                },
+              ],
+            }}
+            source={MailRefresh}
+          />
+          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text>
+        </View>
+      </View>
       <FlatList
         onScroll={onScroll}
+        onResponderRelease={onRelease}
         stickyHeaderIndices={[1]}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Image
+            <FastImage
               style={{
                 position: 'absolute',
                 top: -4,
@@ -195,10 +238,10 @@ const AuthorMailBody = () => {
         renderItem={renderCategory}
         ListFooterComponent={
           <View>
-            {mailData ? (
-              mailData.length ? (
+            {mail ? (
+              mail.length ? (
                 <View style={styles.bodyContainer}>
-                  <FlatList data={mailData} renderItem={renderItem} />
+                  <FlatList data={mail} renderItem={renderItem} />
                 </View>
               ) : (
                 <View
@@ -209,7 +252,7 @@ const AuthorMailBody = () => {
                     justifyContent: 'center',
                     backgroundColor: '#FFFFFF',
                   }}>
-                  <Image
+                  <FastImage
                     style={{
                       width: 261,
                       height: 211,
@@ -227,7 +270,7 @@ const AuthorMailBody = () => {
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 261,
                     height: 211,
@@ -310,6 +353,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     width: 301,
     includeFontPadding: false,
+  },
+  refreshView: {
+    backgroundColor: '#4562F1',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  refreshText: {
+    color: '#fff',
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
   },
 });
 

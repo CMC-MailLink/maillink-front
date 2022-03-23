@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Image, View, TouchableOpacity, StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 
-// import ReaderMailHeader from './ReaderMailHeader';
 import ReaderMailBody from './ReaderMailBody';
 
 import SearchMail from '../../../assets/images/SearchMail.png';
@@ -15,20 +14,15 @@ const STATUSBAR_HEIGHT = 48;
 
 const ReaderMail = () => {
   const navigation = useNavigation();
-  const [refreshing, setRefreshing] = React.useState(false);
 
+  //메일 검색 클릭
   const onPressSearchPage = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderMailSearch',
     });
   };
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    //refresh
-    setRefreshing(false);
-  };
-
+  //알람 클릭
   const goToAlarm = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'Alarm',

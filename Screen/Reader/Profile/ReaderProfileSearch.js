@@ -15,6 +15,8 @@ import {
   Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ReaderAPI} from '../../../API/ReaderAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -28,52 +30,21 @@ const STORAGE_KEY = '@recentDataReaderProfileSearch';
 
 const ReaderProfileSearch = () => {
   const [recentSearch, setRecentSearch] = useState([]);
-  const [author, setAuthor] = useState([
-    {
-      key: 0,
-      name: '이작가',
-      intro: '안녕하세요. 이작가입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '편안',
-    },
-    {
-      key: 1,
-      name: '김작가',
-      intro: '안녕하세요. 김작가입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '서정',
-    },
-    {
-      key: 2,
-      name: '모모',
-      intro: '안녕하세요. 모모입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '달달',
-    },
-    {
-      key: 3,
-      name: '덩이',
-      intro: '안녕하세요. 덩이입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '잔잔',
-    },
-    {
-      key: 4,
-      name: '훈',
-      intro: '안녕하세요. 훈입니다.',
-      subscribe: true,
-      repBranch: '에세이',
-      repVive: '맑은',
-    },
-  ]);
+  const [author, setAuthor] = useState();
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
+  const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
+    useQuery(['SubscribeAuthorList'], ReaderAPI.getSubscribeWriters);
+
+  useEffect(() => {
+    console.log(subscribeAuthorListData);
+    if (subscribeAuthorListData) {
+      setAuthor([...subscribeAuthorListData]);
+    }
+  }, [subscribeAuthorListData]);
+
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -210,24 +181,27 @@ const ReaderProfileSearch = () => {
                       source={AuthorProfileImage}
                     />
                     <View>
-                      <Text style={styles.bodyItemName}>{data.name}</Text>
-                      <Text style={styles.bodyItemIntro}>{data.intro}</Text>
+                      <Text style={styles.bodyItemName}>{data.id}</Text>
+                      <Text style={styles.bodyItemIntro}>
+                        {data.introduction}
+                      </Text>
                     </View>
                     <TouchableOpacity
                       onPress={() => setSubscribe(index)}
                       style={
-                        data.subscribe
-                          ? styles.subscribeView
-                          : styles.subscribeNotView
+                        // data.subscribe
+                        styles.subscribeView
+                        // : styles.subscribeNotView
                       }>
                       <View>
                         <Text
                           style={
-                            data.subscribe
-                              ? styles.subscribeText
-                              : styles.subscribeNotText
+                            // data.subscribe
+                            styles.subscribeText
+                            // : styles.subscribeNotText
                           }>
-                          {data.subscribe ? '구독중' : '구독하기'}
+                          // {data.subscribe ? '구독중' : '구독하기'}
+                          구독중
                         </Text>
                       </View>
                     </TouchableOpacity>

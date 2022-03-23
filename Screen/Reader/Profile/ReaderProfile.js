@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import ReaderProfileModal from './ReaderProfileModal';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
@@ -25,10 +27,9 @@ import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
 import {SignUpAPI} from '../../../API/SignUpAPI';
 
-import ReaderProfileModal from './ReaderProfileModal';
-
 const ReaderProfile = () => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [branch, setBranch] = useState([
     {category: '시', select: true},
     {category: '소설', select: true},
@@ -44,130 +45,34 @@ const ReaderProfile = () => {
     {category: '달달', select: true},
     {category: '키치', select: true},
   ]);
-  const [author, setAuthor] = useState([
-    {
-      key: 0,
-      name: '이작가',
-      intro: '안녕하세요. 이작가입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '편안',
-      order: 0,
-      update: 4,
-    },
-    {
-      key: 1,
-      name: '김작가',
-      intro: '안녕하세요. 김작가입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '서정',
-      order: 1,
-      update: 3,
-    },
-    {
-      key: 2,
-      name: '모모',
-      intro: '안녕하세요. 모모입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '달달',
-      order: 2,
-      update: 2,
-    },
-    {
-      key: 3,
-      name: '덩이',
-      intro: '안녕하세요. 덩이입니다.',
-      subscribe: true,
-      repBranch: '시',
-      repVive: '잔잔',
-      order: 3,
-      update: 1,
-    },
-    {
-      key: 4,
-      name: '훈',
-      intro: '안녕하세요. 훈입니다.',
-      subscribe: true,
-      repBranch: '에세이',
-      repVive: '맑은',
-      order: 4,
-      update: 0,
-    },
-  ]);
+  const [author, setAuthor] = useState([]);
   const [category, setCategory] = useState(false);
   const [recentSelect, setRecentSelect] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState('독자비비');
-  const [editName, setEditName] = useState('독자비비');
+  const [name, setName] = useState();
+  const [editName, setEditName] = useState();
   const [imageUri, setImageUri] = useState('');
   const [filterAuthor, setFilterAuthor] = useState([]);
+  const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
+    useQuery(['SubscribeAuthorList'], ReaderAPI.getSubscribeWriters);
 
-  const onPressAll = () => {
-    setBranch([
-      {category: '시', select: true},
-      {category: '소설', select: true},
-      {category: '에세이', select: true},
-    ]);
-    setVive([
-      {category: '편안', select: true},
-      {category: '맑은', select: true},
-      {category: '서정', select: true},
-      {category: '잔잔', select: true},
-      {category: '명랑', select: true},
-      {category: '유쾌', select: true},
-      {category: '달달', select: true},
-      {category: '키치', select: true},
-    ]);
-  };
-  const onPressBranch = index => {
-    var temp = branch;
-    temp[index].select = !temp[index].select;
-    setBranch([...temp]);
-  };
-  const onPressVive = index => {
-    var temp = vive;
-    temp[index].select = !temp[index].select;
-    setVive([...temp]);
-  };
-  const onPressModalConfirm = () => {
-    setName(editName);
-    setModalVisible(!modalVisible);
-  };
-  const [filePath, setFilePath] = useState(null);
-  const [fileData, setFileData] = useState(null);
-  const [fileUri, setFileUri] = useState(null);
-
-  const onPressEditImage = async () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-    }).then(image => {
-      console.log(image);
-      imageUpload(image.path);
-    });
-  };
-
-  //프로필 이미지 등록
-  const imageUpload = async imagePath => {
-    const imageData = new FormData();
-    imageData.append('image', {
-      uri: imagePath,
-      name: 'image.png',
-      fileName: 'image',
-      type: 'image/png',
-    });
-
-    const result = await ReaderAPI.changeProfileImage({image: imageData});
-    console.log(result);
-    if (result) {
-      //setImageUri(result);
-    } else {
-      console.log('프로필 등록 실패');
+  useEffect(() => {
+    async function getMemberInfo() {
+      const result = await ReaderAPI.memberInfo();
+      setName(result.nickName);
+      setEditName(result.nickName);
+      setImageUri(result.imgUrl);
     }
-  };
+    getMemberInfo();
+  }, []);
+
+  useEffect(() => {
+    console.log(subscribeAuthorListData);
+    if (subscribeAuthorListData) {
+      setAuthor([...subscribeAuthorListData]);
+      setFilterAuthor([...subscribeAuthorListData]);
+    }
+  }, [subscribeAuthorListData]);
 
   useEffect(() => {
     if (recentSelect) {
@@ -217,15 +122,82 @@ const ReaderProfile = () => {
     setFilterAuthor([...temp]);
   }, [branch, vive, author]);
 
-  const setSubscribe = index => {
-    var temp = author;
-    temp[index].subscribe = true;
-    setAuthor([...temp]);
+  const onPressAll = () => {
+    setBranch([
+      {category: '시', select: true},
+      {category: '소설', select: true},
+      {category: '에세이', select: true},
+    ]);
+    setVive([
+      {category: '편안', select: true},
+      {category: '맑은', select: true},
+      {category: '서정', select: true},
+      {category: '잔잔', select: true},
+      {category: '명랑', select: true},
+      {category: '유쾌', select: true},
+      {category: '달달', select: true},
+      {category: '키치', select: true},
+    ]);
   };
-  const cancelSubscribe = index => {
-    var temp = author;
-    temp[index].subscribe = false;
-    setAuthor([...temp]);
+
+  const onPressBranch = index => {
+    var temp = branch;
+    temp[index].select = !temp[index].select;
+    setBranch([...temp]);
+  };
+  const onPressVive = index => {
+    var temp = vive;
+    temp[index].select = !temp[index].select;
+    setVive([...temp]);
+  };
+  const onPressModalConfirm = () => {
+    setName(editName);
+    setModalVisible(!modalVisible);
+  };
+
+  const onPressEditImage = async () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      imageUpload(image.path);
+    });
+  };
+
+  //프로필 이미지 등록
+  const imageUpload = async imagePath => {
+    const imageData = new FormData();
+    imageData.append('image', {
+      uri: imagePath,
+      name: 'image.png',
+      fileName: 'image',
+      type: 'image/png',
+    });
+
+    const result = await ReaderAPI.changeProfileImage({image: imageData});
+    console.log(result);
+    if (result) {
+      //setImageUri(result);
+    } else {
+      console.log('프로필 등록 실패');
+    }
+  };
+
+  const setSubscribe = async writerId => {
+    var result = await ReaderAPI.subscribing({writerId: writerId});
+    console.log(result);
+    if (result) {
+      await await queryClient.refetchQueries(['subscribeAuthorList']);
+    }
+  };
+  const cancelSubscribe = async writerId => {
+    var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
+    console.log(result);
+    if (result) {
+      await await queryClient.refetchQueries(['subscribeAuthorList']);
+    }
   };
 
   return (
@@ -457,7 +429,7 @@ const ReaderProfile = () => {
               총&nbsp;
             </Text>
             <Text style={{...styles.bodyHeaderText, color: '#3C3C3C'}}>
-              {author.length}
+              {filterAuthor.length}
             </Text>
             <Text style={{...styles.bodyHeaderText, color: '#828282'}}>
               &nbsp;명
@@ -506,7 +478,7 @@ const ReaderProfile = () => {
                 source={AuthorProfileImage}
               />
               <View>
-                <Text style={styles.bodyItemName}>{data.name}</Text>
+                <Text style={styles.bodyItemName}>{data.nickName}</Text>
                 <Text style={styles.bodyItemIntro}>{data.intro}</Text>
               </View>
               {data.subscribe ? (

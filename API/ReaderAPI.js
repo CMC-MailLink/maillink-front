@@ -34,7 +34,6 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       let json = await response.json();
       console.log(json.data);
       return json.data;
@@ -164,6 +163,83 @@ export const ReaderAPI = {
       console.log(response);
       if (response.status === 200) return true;
       return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //독자 메일 단독 조회
+  mailReading: async ({queryKey}) => {
+    console.log('독자 메일 단독 조회');
+    const [_, mailId] = queryKey;
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/reader/mail/${mailId}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      console.log(response);
+      let json = await response.json();
+      console.log(json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //독자 메일 저장
+  mailSaving: async ({mailId}) => {
+    console.log('독자 메일 저장');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/reader/save/${mailId}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      console.log(response);
+      if (response.status === 200) return true;
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //독자 메일 저장 취소
+  mailCancelSaving: async ({mailId}) => {
+    console.log('독자 메일 저장 취소');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/reader/save/${mailId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      console.log(response);
+      if (response.status === 200) return true;
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //독자 구독한 작가 리스트 불러오기
+  getSubscribeWriters: async () => {
+    console.log('구독 작가 리스트 조회');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/reader/subscribe`, {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      let json = await response.json();
+      return json.data;
     } catch (e) {
       console.log(e);
     }
