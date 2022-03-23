@@ -188,7 +188,7 @@ const ReaderMailBody = () => {
   //메일 아이템 render
   const renderItem = (data, rowMap, rowKey) => {
     if (data.item.key === 'category') {
-      return <RenderCategory></RenderCategory>;
+      return <RenderCategory />;
     } else {
       return (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
@@ -468,7 +468,7 @@ const ReaderMailBody = () => {
                 />
               </View>
             ) : (
-              <View style={{height: 150, backgroundColor: 'white'}}></View>
+              <View style={{height: 150, backgroundColor: 'white'}} />
             )
           }
         />

@@ -17,7 +17,9 @@ export const SignUpAPI = {
       );
       if (response.status === 200) {
         return true;
-      } else return false;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
     }
@@ -35,8 +37,11 @@ export const SignUpAPI = {
       );
       if (response.ok) {
         let json = await response.json();
-        if (json.data === true) return true;
-        else return false;
+        if (json.data === true) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

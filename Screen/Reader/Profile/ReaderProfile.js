@@ -406,7 +406,8 @@ const ReaderProfile = () => {
                 <View style={styles.allView}>
                   <Image
                     style={{width: 14, height: 10, marginRight: 4}}
-                    source={AllReaderProfile}></Image>
+                    source={AllReaderProfile}
+                  />
                   <Text style={styles.allText}>전체선택</Text>
                 </View>
               </TouchableOpacity>

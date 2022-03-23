@@ -29,13 +29,11 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ProfileInterest = () => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
-  const [introText, onChangeIntroText] = useState('');
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [textCount, setTextCount] = useState(0);
-  const [enterCount, setenterCount] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [category, setCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [branchRanking, setBranchRanking] = useState(0);
+  const [viveRanking, setViveRanking] = useState(0);
 
   const colorCategory = {
     편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
@@ -48,19 +46,19 @@ const ProfileInterest = () => {
     키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
   };
   const [branch, setBranch] = useState([
-    {name: '시', select: false, rep: false},
-    {name: '소설', select: false, rep: false},
-    {name: '에세이', select: false, rep: false},
+    {name: '시', select: false, rep: 0},
+    {name: '소설', select: false, rep: 0},
+    {name: '에세이', select: false, rep: 0},
   ]);
   const [vive, setVive] = useState([
-    {name: '편안', select: false, rep: false},
-    {name: '맑은', select: false, rep: false},
-    {name: '서정', select: false, rep: false},
-    {name: '잔잔', select: false, rep: false},
-    {name: '명랑', select: false, rep: false},
-    {name: '유쾌', select: false, rep: false},
-    {name: '달달', select: false, rep: false},
-    {name: '키치', select: false, rep: false},
+    {name: '편안', select: false, rep: 0},
+    {name: '맑은', select: false, rep: 0},
+    {name: '서정', select: false, rep: 0},
+    {name: '잔잔', select: false, rep: 0},
+    {name: '명랑', select: false, rep: 0},
+    {name: '유쾌', select: false, rep: 0},
+    {name: '달달', select: false, rep: 0},
+    {name: '키치', select: false, rep: 0},
   ]);
 
   const onPressModalConfirm = () => {
@@ -85,38 +83,32 @@ const ProfileInterest = () => {
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           <MenuOption>
-            <Text style={styles.menuText}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>한 번</Text>을
-              누르면&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>
-              로,
-            </Text>
             <Text style={{...styles.menuText, marginBottom: 7}}>
-              <Text style={{color: '#FFF'}}>・</Text>
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>두 번</Text>을
-              누르면&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>대표 관심사</Text>로
-              표시됩니다.
+              <Text style={{color: '#C4C4C4'}}>・</Text>선택한&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>순서</Text>
+              대로&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>순위</Text>가
+              결정됩니다.
             </Text>
-            <Text style={styles.menuText}>
+            <Text style={{...styles.menuText}}>
               <Text style={{color: '#C4C4C4'}}>・</Text>
-              대표 관심사는 각&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>갈래</Text>와&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>{' '}
+              각각&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
-                선택지 주제 당 하나
+                1-3순위까지&nbsp;
               </Text>
-              만
             </Text>
             <Text style={{...styles.menuText, marginBottom: 7}}>
               <Text style={{color: '#FFF'}}>・</Text>
               선택이 가능합니다.
             </Text>
-            <Text style={styles.menuText}>
+            <Text style={{...styles.menuText}}>
               <Text style={{color: '#C4C4C4'}}>・</Text>
-              대표 관심사는 독자가 작가를 검색할 때
+              선택한 관심사는 독자가 작가를
             </Text>
             <Text style={styles.menuText}>
-              <Text style={{color: '#FFF'}}>・</Text>
+              <Text style={{color: '#FFF'}}>・</Text>검색할때 &nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>필터의 기준</Text>이
               되어줍니다.
             </Text>
@@ -128,35 +120,42 @@ const ProfileInterest = () => {
 
   const onPressBranch = (item, index) => {
     var temp = branch;
-    if (temp[index].select) {
-      if (temp[index].rep) {
-        temp[index].select = false;
-        temp[index].rep = false;
-      } else {
-        temp[index].rep = true;
-      }
-    } else {
+    if (!temp[index].select) {
+      console.log('랭킹 올라가는 기능 켜짐');
+      temp[index].rep = branchRanking + 1;
+      setBranchRanking(temp[index].rep);
       temp[index].select = true;
+    } else {
+      temp.map(item => {
+        if (item.rep > temp[index].rep) {
+          item.rep -= 1;
+        }
+      });
+      temp[index].rep = branchRanking - 1;
+      setBranchRanking(temp[index].rep);
+      temp[index].select = false;
+      temp[index].rep = 0;
     }
+
     setBranch([...temp]);
   };
 
   const onPressVive = (item, index) => {
     var temp = vive;
-    if (temp[index].select) {
-      if (temp[index].rep) {
-        temp[index].select = false;
-        temp[index].rep = false;
-      } else {
-        temp.map(data => {
-          if (data.rep) {
-            data.rep = false;
-          }
-        });
-        temp[index].rep = true;
-      }
-    } else {
+    if (!temp[index].select && viveRanking < 3) {
+      temp[index].rep = viveRanking + 1;
+      setViveRanking(temp[index].rep);
       temp[index].select = true;
+    } else if (temp[index].select) {
+      temp.map(item => {
+        if (item.rep > temp[index].rep) {
+          item.rep -= 1;
+        }
+      });
+      temp[index].rep = viveRanking - 1;
+      setViveRanking(temp[index].rep);
+      temp[index].select = false;
+      temp[index].rep = 0;
     }
     setVive([...temp]);
   };
@@ -231,6 +230,7 @@ const ProfileInterest = () => {
               <RenderInfoItem />
             </TouchableWithoutFeedback>
           </View>
+          {/* 갈래 */}
           <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 32}}>
             {branch.map((item, index) => {
               return (
@@ -242,20 +242,21 @@ const ProfileInterest = () => {
                       ...styles.itemView,
                       backgroundColor: item.select ? '#E8EBFF' : '#FFF',
                       borderColor: item.select ? '#E8EBFF' : '#BEBEBE',
-                      paddingHorizontal: item.rep ? 14.6 : 22,
+                      paddingHorizontal: item.select ? 15.7 : 22,
                     }}>
                     <Text
                       style={{
                         ...styles.itemText,
                         color: item.select ? '#0021C6' : '#828282',
                       }}>
-                      {item.rep ? (
+                      {item.select ? (
                         <Text
                           style={{
                             ...styles.itemText,
                             color: '#4562F1',
+                            fontFamily: 'NotoSansKR-Black',
                           }}>
-                          ♥&nbsp;
+                          {item.rep}&nbsp;&nbsp;
                         </Text>
                       ) : null}
                       {item.name}
@@ -265,6 +266,7 @@ const ProfileInterest = () => {
               );
             })}
           </View>
+
           <Text style={{...styles.titleText, marginTop: -35 + 42}}>분위기</Text>
           <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 10}}>
             {vive.map((item, index) => {
@@ -282,7 +284,7 @@ const ProfileInterest = () => {
                         borderColor: item.select
                           ? colorCategory[item.name].back
                           : '#BEBEBE',
-                        paddingHorizontal: item.rep ? 14.6 : 22,
+                        paddingHorizontal: item.rep ? 15.7 : 22,
                       }}>
                       <Text
                         style={{
@@ -296,8 +298,9 @@ const ProfileInterest = () => {
                             style={{
                               ...styles.itemText,
                               color: colorCategory[item.name].heart,
+                              fontFamily: 'NotoSansKR-Black',
                             }}>
-                            ♥&nbsp;
+                            {item.rep}&nbsp;&nbsp;
                           </Text>
                         ) : null}
                         {item.name}
@@ -324,7 +327,7 @@ const ProfileInterest = () => {
                         borderColor: item.select
                           ? colorCategory[item.name].back
                           : '#BEBEBE',
-                        paddingHorizontal: item.rep ? 14.6 : 22,
+                        paddingHorizontal: item.rep ? 15.7 : 22,
                       }}>
                       <Text
                         style={{
@@ -338,8 +341,9 @@ const ProfileInterest = () => {
                             style={{
                               ...styles.itemText,
                               color: colorCategory[item.name].heart,
+                              fontFamily: 'NotoSansKR-Black',
                             }}>
-                            ♥&nbsp;
+                            {item.rep}&nbsp;&nbsp;
                           </Text>
                         ) : null}
                         {item.name}
@@ -352,11 +356,26 @@ const ProfileInterest = () => {
           </View>
         </View>
       </KeyboardAwareScrollView>
+
       {/* footer: Button pass */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
+        <TouchableOpacity
+          disabled={branchRanking && viveRanking ? false : true}
+          onPress={goNextScreen}
+          style={
+            branchRanking && viveRanking
+              ? styles.buttonAble
+              : styles.buttonDisable
+          }>
           <View>
-            <Text style={styles.buttonAbleText}>다음</Text>
+            <Text
+              style={
+                branchRanking && viveRanking
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
+              }>
+              완료
+            </Text>
           </View>
         </TouchableOpacity>
 
@@ -399,13 +418,6 @@ const styles = StyleSheet.create({
     color: '#828282',
     includeFontPadding: false,
   },
-  menuText: {
-    fontFamily: 'NotoSansKR-Light',
-    fontSize: 11,
-    color: '#3C3C3C',
-    includeFontPadding: false,
-  },
-  /////
   headerView: {
     width: '100%',
     alignItems: 'center',
@@ -415,13 +427,6 @@ const styles = StyleSheet.create({
   nameTitle: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
-    color: '#3C3C3C',
-  },
-  textCount: {
-    marginTop: 4,
-    left: 291,
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 14,
     color: '#3C3C3C',
   },
   introTitle: {
@@ -442,18 +447,20 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingRight: 40,
   },
-  bodyNameBorder: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: '#BEBEBE',
-    paddingTop: 14,
-  },
   footer: {
     position: 'static',
     width: '100%',
     paddingHorizontal: 20,
     marginBottom: 40,
     paddingTop: 5,
+    alignItems: 'center',
+  },
+  buttonDisable: {
+    width: '100%',
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: '#BEBEBE',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   buttonAble: {
@@ -464,10 +471,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+  },
+  buttonDisableText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
+    includeFontPadding: false,
   },
   footerPassText: {
     marginTop: 15,

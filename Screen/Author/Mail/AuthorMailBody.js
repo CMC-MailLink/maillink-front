@@ -277,7 +277,8 @@ const AuthorMailBody = () => {
               </View>
             )}
           </View>
-        }></FlatList>
+        }
+      />
     </View>
   );
 };

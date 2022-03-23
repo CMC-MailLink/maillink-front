@@ -121,8 +121,9 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       phoneNumber: params.phoneNumber,
     });
     console.log(result);
-    if (result) setModalVisible(true);
-    else {
+    if (result) {
+      setModalVisible(true);
+    } else {
       Alert.alert('회원가입 실패', {
         text: '확인',
         style: 'cancel',
@@ -178,7 +179,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <View style={{alignItems: 'center', width: 115.47}}></View>
+          <View style={{alignItems: 'center', width: 115.47}} />
           <TouchableWithoutFeedback onPress={onPressEditImage}>
             <Image
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
