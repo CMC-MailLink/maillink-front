@@ -243,12 +243,16 @@ const Alarm = () => {
       <View style={styles.bodyHeader}>
         <View
           style={{
+            flex: 1,
             width: 241,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            left: 76,
+            alignItems: 'center',
+            marginLeft: 36,
+            marginRight: 36,
           }}>
-          <View style={alarmSelect ? styles.bodyHeaderBorder : null}>
+          <View
+            style={alarmSelect ? styles.bodyHeaderBorder : {marginLeft: 40}}>
             <TouchableOpacity onPress={onPressAlarm}>
               <Text
                 style={{
@@ -259,7 +263,8 @@ const Alarm = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={alarmSelect ? null : styles.bodyHeaderBorder}>
+          <View
+            style={alarmSelect ? {marginRight: 40} : styles.bodyHeaderBorder}>
             <TouchableOpacity onPress={onPressLetter}>
               <Text
                 style={{
@@ -355,6 +360,7 @@ const styles = StyleSheet.create({
   },
   bodyHeaderBorder: {
     borderBottomWidth: 2,
+    width: 123,
     borderBottomColor: '#4562F1',
   },
   bodyContainer: {
@@ -373,6 +379,7 @@ const styles = StyleSheet.create({
   bodyHeaderText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
+    textAlign: 'center',
     color: '#BEBEBE',
     paddingBottom: 8,
     includeFontPadding: false,

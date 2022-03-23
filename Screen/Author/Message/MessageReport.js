@@ -63,10 +63,10 @@ const MessageReport = () => {
       setConfirmSuccess(false);
     }
     setTextCount(otherReportContent.length);
-    //fortest
-    // if (this.keyCode === 13) {
-    //   setenterCount(enterCount + 1);
-    // }
+
+    if (this.keyCode === 13) {
+      setenterCount(enterCount + 1);
+    }
   }, [otherReportContent, enterCount]);
 
   return (
