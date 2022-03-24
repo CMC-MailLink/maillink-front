@@ -255,8 +255,9 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   websiteTextInput: {
+    width: 215,
     padding: 0,
-    width: '100%',
+    // width: '100%',
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#3C3C3C',

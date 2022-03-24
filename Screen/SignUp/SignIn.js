@@ -73,8 +73,8 @@ const SignIn = props => {
   //for test!!
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
-      navigation.navigate('AuthorStacks', {
-        screen: 'Alarm',
+      navigation.navigate('OnBoardingStacks', {
+        screen: 'Profile',
       });
       //onAppleButtonPressIos();
     } else {

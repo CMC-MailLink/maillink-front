@@ -21,8 +21,14 @@ const Root = props => {
         <RootNav.Group>
           <SignUpNav.Screen name="SignUpStacks" component={SignUpStacks} />
           {/* for test */}
+          <ReaderNav.Screen name="ReaderTabs" component={ReaderTabs} />
+          <ReaderNav.Screen name="ReaderStacks" component={ReaderStacks} />
           <AuthorNav.Screen name="AuthorTabs" component={AuthorTabs} />
           <AuthorNav.Screen name="AuthorStacks" component={AuthorStacks} />
+          <OnBoardingNav.Screen
+            name="OnBoardingStacks"
+            component={OnBoardingStacks}
+          />
         </RootNav.Group>
       ) : (
         <RootNav.Group>
