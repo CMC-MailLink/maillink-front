@@ -15,6 +15,7 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
+      console.log(response);
       if (response.status === 200) {
         return true;
       } else {
@@ -82,12 +83,13 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({socialType: socialType, socialId: socialId}),
-        body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'bibireader2',
-        }),
+        body: JSON.stringify({socialType: socialType, socialId: socialId}),
+        // body: JSON.stringify({
+        //   socialType: 'KAKAO',
+        //   socialId: 'bibireader2',
+        // }),
       });
+      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;
@@ -130,21 +132,22 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   nickName: nickName,
-        //   imgUrl: imgUrl,
-        //   phoneNumber: phoneNumber,
-        // }),
         body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'bibireader2',
-          nickName: '비비독자2',
+          socialType: socialType,
+          socialId: socialId,
+          nickName: nickName,
           imgUrl: imgUrl,
-          phoneNumber: '01011111111',
+          phoneNumber: phoneNumber,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'KAKAO',
+        //   socialId: 'bibireader3',
+        //   nickName: '비비독자3',
+        //   imgUrl: imgUrl,
+        //   phoneNumber: '01011111111',
+        // }),
       });
+      console.log(response);
       let json = await response.json();
       console.log(json);
       if (json.errorCode === 400) {

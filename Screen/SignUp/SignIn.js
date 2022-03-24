@@ -100,6 +100,7 @@ const SignIn = props => {
         is_private_email: ${is_private_email}
         sub: ${sub}`;
         console.log(temp);
+        SignInApple(sub);
       }
     } catch (error) {
       if (error.code === appleAuth.Error.CANCELED) {
@@ -153,6 +154,34 @@ const SignIn = props => {
       }
     }
   }
+
+  const SignInApple = async id => {
+    const result = await SignUpAPI.authLogin({
+      socialType: 'APPLE',
+      socialId: id,
+    });
+    if (result) {
+      const result2 = await SignUpAPI.memberInfo();
+      console.log('signIn : ', result2);
+      if (result2 === 'Not Decided') {
+        myContext.setIsLogged(true);
+      } else if (result2 === 'WRITER') {
+        myContext.setIsReader('WRITER');
+        myContext.setIsLogged(true);
+      } else if (result2 === 'READER') {
+        myContext.setIsReader('READER');
+        myContext.setIsLogged(true);
+      }
+    } else {
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelfAuth',
+        params: {
+          socialType: 'KAKAO',
+          socialId: id,
+        },
+      });
+    }
+  };
 
   return (
     <View
