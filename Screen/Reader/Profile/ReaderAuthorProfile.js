@@ -63,6 +63,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
     }
   };
 
@@ -73,6 +74,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
     }
   };
 
@@ -83,6 +85,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
     }
   };
 
@@ -93,6 +96,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
     }
   };
 

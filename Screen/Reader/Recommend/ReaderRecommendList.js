@@ -44,14 +44,18 @@ const ReaderRecommendList = () => {
   );
 
   useEffect(() => {
-    if (authorListData) {
-      setAuthor([...authorListData]);
-    }
-  }, [authorListData]);
+    if (authorListData && !allSelect) {
+      var temp = authorListData.filter(data => {
+        if (data.interestedCheck) return true;
+      });
+      console.log('temp : ', temp);
+      setAuthor([...temp]);
+    } else if (authorListData) setAuthor([...authorListData]);
+  }, [authorListData, allSelect]);
 
   useEffect(() => {
-    if (!authorListData) return;
-    var temp = authorListData.filter(data => {
+    if (!author) return;
+    var temp = author.filter(data => {
       for (var i = 0; i < 3; i++) {
         if (branch[i].select)
           if (data.writerInfo.primaryGenre === branch[i].name) return true;
@@ -66,7 +70,7 @@ const ReaderRecommendList = () => {
       return false;
     });
     setFilterAuthor([...temp]);
-  }, [authorListData, branch, vive]);
+  }, [author, branch, vive]);
 
   //전체목록 선택
   const onPressAll = () => {
@@ -83,6 +87,7 @@ const ReaderRecommendList = () => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
     console.log(result);
     if (result) await queryClient.refetchQueries(['AuthorList']);
+    await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
 
   //구독 취소하기 버튼 클릭
@@ -90,6 +95,7 @@ const ReaderRecommendList = () => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
     console.log(result);
     if (result) await queryClient.refetchQueries(['AuthorList']);
+    await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
 
   //작가 선택
@@ -115,8 +121,7 @@ const ReaderRecommendList = () => {
           vive={vive}
           setVive={setVive}
           filterAuthor={filterAuthor}
-          setFilterAuthor={setFilterAuthor}
-          author={author}></ReaderRecommendModal>
+          setFilterAuthor={setFilterAuthor}></ReaderRecommendModal>
       </Modal>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>전체 메일링크 작가</Text>
@@ -164,43 +169,63 @@ const ReaderRecommendList = () => {
         </View>
       </View>
       <View style={{marginBottom: 150, minHeight: 400}}>
-        {filterAuthor.map((data, index) => (
-          <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
-            <View style={styles.itemView}>
-              <Image
-                style={{
-                  width: 42,
-                  height: 42,
-                  marginRight: 15,
-                  borderRadius: 90,
-                }}
-                source={{uri: data.writerInfo.imgUrl}}></Image>
-              <View>
-                <Text style={styles.itemName}>{data.writerInfo.nickName}</Text>
-                <Text style={styles.itemIntro}>
-                  {data.writerInfo.introduction}
-                </Text>
+        {filterAuthor && filterAuthor.length ? (
+          filterAuthor.map((data, index) => (
+            <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
+              <View style={styles.itemView}>
+                <Image
+                  style={{
+                    width: 42,
+                    height: 42,
+                    marginRight: 15,
+                    borderRadius: 90,
+                  }}
+                  source={{uri: data.writerInfo.imgUrl}}></Image>
+                <View>
+                  <Text style={styles.itemName}>
+                    {data.writerInfo.nickName}
+                  </Text>
+                  <Text style={styles.itemIntro}>
+                    {data.writerInfo.introduction}
+                  </Text>
+                </View>
+                {data.subscribeCheck ? (
+                  <TouchableOpacity
+                    style={{position: 'absolute', right: 20}}
+                    onPress={() => onPressCancelSubscribe(data.writerInfo.id)}>
+                    <View style={styles.subscribeView}>
+                      <Text style={styles.subscribeText}>구독중</Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={{position: 'absolute', right: 20}}
+                    onPress={() => onPressSubscribe(data.writerInfo.id)}>
+                    <View style={styles.notSubscribeView}>
+                      <Text style={styles.notSubscribeText}>구독하기</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
-              {data.isSubscribe ? (
-                <TouchableOpacity
-                  style={{position: 'absolute', right: 20}}
-                  onPress={() => onPressCancelSubscribe(data.writerInfo.id)}>
-                  <View style={styles.subscribeView}>
-                    <Text style={styles.subscribeText}>구독중</Text>
-                  </View>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={{position: 'absolute', right: 20}}
-                  onPress={() => onPressSubscribe(data.writerInfo.id)}>
-                  <View style={styles.notSubscribeView}>
-                    <Text style={styles.notSubscribeText}>구독하기</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          ))
+        ) : (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 100,
+            }}>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Regular',
+                color: '#3C3C3C',
+                includeFontPadding: false,
+              }}>
+              작가가 없습니다.
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );

@@ -24,77 +24,36 @@ import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
 import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
 const STORAGE_KEY = '@recentDataReaderProfileSearch';
 
 const ReaderProfileSearch = () => {
+  const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [recentSearch, setRecentSearch] = useState([]);
-  const [author, setAuthor] = useState();
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
-  const navigation = useNavigation();
   const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
     useQuery(['SubscribeAuthorList'], ReaderAPI.getSubscribeWriters);
-
-  useEffect(() => {
-    console.log(subscribeAuthorListData);
-    if (subscribeAuthorListData) {
-      setAuthor([...subscribeAuthorListData]);
-    }
-  }, [subscribeAuthorListData]);
-
-  const onPressBack = () => {
-    navigation.goBack();
-  };
-  const onPressRecentSearch = (data, index) => {
-    setQuery(data);
-    setSubmit(true);
-    var res = author.filter(item => item.name.includes(data));
-    setResult([...res]);
-
-    var temp = recentSearch;
-    temp.splice(index, 1);
-    temp.unshift(data);
-    setRecentSearch([...temp]);
-  };
-  const onPressDelete = (data, index) => {
-    var temp = recentSearch;
-    temp.splice(index, 1);
-    setRecentSearch([...temp]);
-  };
-  const onChangeText = text => setQuery(text);
-  const onSubmit = () => {
-    if (query === '') {
-      return;
-    }
-    setSubmit(true);
-    var res = author.filter(item => item.name.includes(query));
-    setResult([...res]);
-
-    var temp = recentSearch;
-    if (temp.length) {
-      if (temp.length > 9) temp.pop();
-      temp.unshift(query);
-    } else {
-      temp = [query];
-      setRecentSearch([query]);
-    }
-    setRecentSearch([...temp]);
-  };
-
-  const onPressAuthorItem = data => {};
-  const setSubscribe = index => {
-    var temp = result;
-    temp[index].subscribe = !temp[index].subscribe;
-    setResult([...temp]);
-  };
 
   useEffect(() => {
     getRecentSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (query === '') {
+      return;
+    }
+    setSubmit(true);
+    var res = subscribeAuthorListData.filter(item =>
+      item.writerInfo.nickName.includes(query),
+    );
+    setResult([...res]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subscribeAuthorListData]);
 
   useEffect(() => {
     if (query === '') setSubmit(false);
@@ -108,6 +67,73 @@ const ReaderProfileSearch = () => {
     }
     addRecentSearch();
   }, [recentSearch]);
+
+  const onPressBack = () => {
+    navigation.goBack();
+  };
+  const onPressRecentSearch = (data, index) => {
+    setQuery(data);
+    setSubmit(true);
+    var res = subscribeAuthorListData.filter(item =>
+      item.writerInfo.nickName.includes(data),
+    );
+    setResult([...res]);
+
+    var temp = recentSearch;
+    temp.splice(index, 1);
+    temp.unshift(data);
+    setRecentSearch([...temp]);
+  };
+  const onPressDelete = (data, index) => {
+    var temp = recentSearch;
+    temp.splice(index, 1);
+    setRecentSearch([...temp]);
+  };
+  const onChangeText = text => setQuery(text);
+
+  const onSubmit = () => {
+    if (query === '') {
+      return;
+    }
+    setSubmit(true);
+    var res = subscribeAuthorListData.filter(item =>
+      item.writerInfo.nickName.includes(query),
+    );
+    setResult([...res]);
+
+    var temp = recentSearch;
+    if (temp.length) {
+      if (temp.length > 9) temp.pop();
+      temp.unshift(query);
+    } else {
+      temp = [query];
+      setRecentSearch([query]);
+    }
+    setRecentSearch([...temp]);
+  };
+
+  const onPressAuthorItem = data => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAuthorProfile',
+      params: {id: data.writerInfo.id},
+    });
+  };
+
+  //구독하기 버튼 클릭
+  const onPressSubscribe = async (writerId, index) => {
+    await ReaderAPI.subscribing({writerId: writerId});
+    var temp = result;
+    temp[index].subscribeCheck = true;
+    setResult([...temp]);
+  };
+
+  //구독 취소하기 버튼 클릭
+  const onPressCancelSubscribe = async (writerId, index) => {
+    await ReaderAPI.cancelSubscribing({writerId: writerId});
+    var temp = result;
+    temp[index].subscribeCheck = false;
+    setResult([...temp]);
+  };
 
   const getRecentSearch = async () => {
     try {
@@ -177,31 +203,45 @@ const ReaderProfileSearch = () => {
                   key={index}>
                   <View key={index} style={styles.bodyItem}>
                     <Image
-                      style={{width: 42, height: 42, marginRight: 10}}
-                      source={AuthorProfileImage}
+                      style={{
+                        width: 42,
+                        height: 42,
+                        marginRight: 10,
+                        borderRadius: 90,
+                      }}
+                      source={
+                        data.writerInfo.imgUrl === ''
+                          ? DefaultProfile
+                          : {uri: data.writerInfo.imgUrl}
+                      }
                     />
                     <View>
-                      <Text style={styles.bodyItemName}>{data.id}</Text>
+                      <Text style={styles.bodyItemName}>
+                        {data.writerInfo.nickName}
+                      </Text>
                       <Text style={styles.bodyItemIntro}>
-                        {data.introduction}
+                        {data.writerInfo.introduction}
                       </Text>
                     </View>
                     <TouchableOpacity
-                      onPress={() => setSubscribe(index)}
+                      onPress={() =>
+                        data.subscribeCheck
+                          ? onPressCancelSubscribe(data.writerInfo.id, index)
+                          : onPressSubscribe(data.writerInfo.id, index)
+                      }
                       style={
-                        // data.subscribe
-                        styles.subscribeView
-                        // : styles.subscribeNotView
+                        data.subscribeCheck
+                          ? styles.subscribeView
+                          : styles.subscribeNotView
                       }>
                       <View>
                         <Text
                           style={
-                            // data.subscribe
-                            styles.subscribeText
-                            // : styles.subscribeNotText
+                            data.subscribeCheck
+                              ? styles.subscribeText
+                              : styles.subscribeNotText
                           }>
-                          // {data.subscribe ? '구독중' : '구독하기'}
-                          구독중
+                          {data.subscribeCheck ? '구독중' : '구독하기'}
                         </Text>
                       </View>
                     </TouchableOpacity>

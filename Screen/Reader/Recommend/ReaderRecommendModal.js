@@ -13,7 +13,6 @@ const ReaderRecommendModal = ({
   vive,
   filterAuthor,
   setFilterAuthor,
-  author,
 }) => {
   const [tempBranch, setTempBranch] = useState(branch);
   const [tempVive, setTempVive] = useState(vive);
