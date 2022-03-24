@@ -96,6 +96,8 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editFacebook}
                 onChangeText={setEditFacebook}
+                autoCorrect={false}
+                autoCapitalize={false}
               />
             </View>
             <View style={styles.websiteView}>
@@ -108,6 +110,8 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editTwitter}
                 onChangeText={setEditTwitter}
+                autoCorrect={false}
+                autoCapitalize={false}
               />
             </View>
             <View style={styles.websiteView}>
@@ -120,6 +124,8 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editInstagram}
                 onChangeText={setEditInstagram}
+                autoCorrect={false}
+                autoCapitalize={false}
               />
             </View>
             <View style={styles.websiteView}>
@@ -131,6 +137,8 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editURL}
                 onChangeText={setEditURL}
+                autoCorrect={false}
+                autoCapitalize={false}
               />
             </View>
           </View>

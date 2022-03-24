@@ -233,6 +233,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
               value={name}
               placeholder="닉네임 입력 (한글 6자)"
               autoCorrect={false}
+              autoCapitalize={false}
             />
             <TouchableWithoutFeedback onPress={onPressErase}>
               <Image style={styles.eraseButton} source={EraseNickname} />
