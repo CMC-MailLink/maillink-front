@@ -85,7 +85,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibireader',
+          socialId: 'bibireader2',
         }),
       });
       let json = await response.json();
@@ -139,10 +139,9 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibireader',
-          nickName: '비비독자',
-          imgUrl:
-            'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
+          socialId: 'bibireader2',
+          nickName: '비비독자2',
+          imgUrl: imgUrl,
           phoneNumber: '01011111111',
         }),
       });
@@ -212,5 +211,24 @@ export const SignUpAPI = {
       console.log(e);
       return false;
     }
+  },
+  //닉네임중복확인
+  checkNickName: async ({nickName}) => {
+    console.log('닉네임 중복 확인');
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/auth/signup/nickname/check?nickName=${nickName}`,
+        {
+          method: 'post',
+        },
+      );
+      console.log(response);
+      let json = await response.json();
+      if (json.errorCode === 400) return false;
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
   },
 };
