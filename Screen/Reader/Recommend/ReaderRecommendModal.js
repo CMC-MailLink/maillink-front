@@ -7,42 +7,47 @@ import RefreshAllRecommend from '../../../assets/images/RefreshAllRecommend.png'
 const ReaderRecommendModal = ({
   modalVisible,
   setModalVisible,
-  branch,
   setBranch,
-  vive,
   setVive,
+  branch,
+  vive,
   filterAuthor,
   setFilterAuthor,
   author,
 }) => {
+  const [tempBranch, setTempBranch] = useState(branch);
+  const [tempVive, setTempVive] = useState(vive);
+
   const onPressBranch = index => {
-    var temp = branch;
+    var temp = tempBranch;
     temp[index].select = !temp[index].select;
-    setBranch([...temp]);
+    setTempBranch([...temp]);
   };
   const onPressVive = index => {
-    var temp = vive;
+    var temp = tempVive;
     temp[index].select = !temp[index].select;
-    setVive([...temp]);
+    setTempVive([...temp]);
   };
   const onPressAll = () => {
-    setBranch([
-      {category: '시', select: true},
-      {category: '소설', select: true},
-      {category: '에세이', select: true},
+    setTempBranch([
+      {name: 'Poetry', category: '시', select: true},
+      {name: 'Novels', category: '소설', select: true},
+      {name: 'Essays', category: '에세이', select: true},
     ]);
-    setVive([
-      {category: '편안', select: true},
-      {category: '맑은', select: true},
-      {category: '서정', select: true},
-      {category: '잔잔', select: true},
-      {category: '명랑', select: true},
-      {category: '유쾌', select: true},
-      {category: '달달', select: true},
-      {category: '키치', select: true},
+    setTempVive([
+      {name: 'Comfortable', category: '편안', select: true},
+      {name: 'Clear', category: '맑은', select: true},
+      {name: 'Lyrical', category: '서정', select: true},
+      {name: 'Calm', category: '잔잔', select: true},
+      {name: 'Light', category: '명랑', select: true},
+      {name: 'Cheerful', category: '유쾌', select: true},
+      {name: 'Sweet', category: '달달', select: true},
+      {name: 'Kitsch', category: '키치', select: true},
     ]);
   };
   const submit = () => {
+    setBranch([...tempBranch]);
+    setVive([...tempVive]);
     setModalVisible(false);
   };
 
@@ -62,14 +67,14 @@ const ReaderRecommendModal = ({
         <View style={styles.branchView}>
           <Text style={styles.categoryText}>갈래</Text>
           <View style={{flexDirection: 'row'}}>
-            {branch.length
-              ? branch.map((data, index) => (
+            {tempBranch.length
+              ? tempBranch.map((data, index) => (
                   <TouchableOpacity
                     onPress={e => onPressBranch(index)}
                     key={index}>
                     <View
                       style={{
-                        ...styles.itemViewTwo,
+                        ...styles.itemView,
                         borderColor: data.select ? '#4562F1' : '#EBEBEB',
                       }}>
                       <Text
@@ -89,8 +94,8 @@ const ReaderRecommendModal = ({
           <Text style={{...styles.categoryText, marginRight: 17}}>분위기</Text>
           <View>
             <View style={{flexDirection: 'row', marginBottom: 7}}>
-              {vive.length
-                ? vive.map((data, index) => {
+              {tempVive.length
+                ? tempVive.map((data, index) => {
                     if (index > 4) {
                       return null;
                     } else {
@@ -100,7 +105,7 @@ const ReaderRecommendModal = ({
                           key={index}>
                           <View
                             style={{
-                              ...styles.itemViewTwo,
+                              ...styles.itemView,
                               borderColor: data.select ? '#4562F1' : '#EBEBEB',
                             }}>
                             <Text
@@ -118,8 +123,8 @@ const ReaderRecommendModal = ({
                 : null}
             </View>
             <View style={{flexDirection: 'row'}}>
-              {vive.length
-                ? vive.map((data, index) => {
+              {tempVive.length
+                ? tempVive.map((data, index) => {
                     if (index < 5) {
                       return null;
                     } else {
@@ -129,7 +134,7 @@ const ReaderRecommendModal = ({
                           key={index}>
                           <View
                             style={{
-                              ...styles.itemViewTwo,
+                              ...styles.itemView,
                               borderColor: data.select ? '#4562F1' : '#EBEBEB',
                             }}>
                             <Text
@@ -229,8 +234,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     includeFontPadding: false,
   },
-  itemViewTwo: {
-    width: 52,
+  itemView: {
+    paddingHorizontal: 12,
     height: 24,
     backgroundColor: '#fff',
     justifyContent: 'center',

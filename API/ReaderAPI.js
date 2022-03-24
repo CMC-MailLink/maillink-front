@@ -245,4 +245,27 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //작가 정보 조회
+  getWriterInfo: async ({queryKey}) => {
+    console.log('작가 정보 조회');
+    const [_, writerId] = queryKey;
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/info/${writerId}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      console.log('작가 정보 : ', json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

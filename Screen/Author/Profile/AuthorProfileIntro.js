@@ -19,14 +19,22 @@ import InstagramNone from '../../../assets/images/InstagramNone.png';
 import URLNone from '../../../assets/images/URLNone.png';
 
 const colorCategory = {
-  편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
-  맑은: {back: '#DDF9FF', font: '#002C36', heart: '#6BD0E6'},
-  서정: {back: '#E6DDFF', font: '#1E0072', heart: '#AE92FF'},
-  잔잔: {back: '#C5F0E3', font: '#00573D', heart: '#5ECEAC'},
-  명랑: {back: '#FFF2AD', font: '#5D4300', heart: '#FFC839'},
-  유쾌: {back: '#FFDDDD', font: '#370000', heart: '#FF8E8E'},
-  달달: {back: '#FFE8FB', font: '#3E0035', heart: '#FFACDE'},
-  키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
+  Comfortable: {
+    name: '편안',
+    back: '#E2FAE2',
+    font: '#00402D',
+    num: '#7FCE7F',
+  },
+  Clear: {name: '맑은', back: '#DDF9FF', font: '#002C36', num: '#6BD0E6'},
+  Lyrical: {name: '서정', back: '#E6DDFF', font: '#1E0072', num: '#AE92FF'},
+  Calm: {name: '잔잔', back: '#C5F0E3', font: '#00573D', num: '#5ECEAC'},
+  Light: {name: '명랑', back: '#FFF2AD', font: '#5D4300', num: '#FFC839'},
+  Cheerful: {name: '유쾌', back: '#FFDDDD', font: '#370000', num: '#FF8E8E'},
+  Sweet: {name: '달달', back: '#FFE8FB', font: '#3E0035', num: '#FFACDE'},
+  Kitsch: {name: '키치', back: '#FFE6B7', font: '#432C00', num: '#FFAD62'},
+  Poetry: {name: '시', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  Novels: {name: '소설', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  Essays: {name: '에세이', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
 };
 
 const AuthorProfileIntro = ({writerInfo}) => {
@@ -55,90 +63,141 @@ const AuthorProfileIntro = ({writerInfo}) => {
         <Text style={styles.bodyIntroHeadText}>관심사</Text>
         <Text style={styles.bodyInterestHeadText}>갈래</Text>
         <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <View style={styles.bodyInterestItemView1}>
-            <Text style={styles.bodyInterestItemText1}>
+          {writerInfo && writerInfo.genre1 ? (
+            <View
+              style={{
+                ...styles.bodyInterestItemView,
+                backgroundColor: colorCategory[writerInfo.genre1].back,
+              }}>
               <Text
                 style={{
-                  ...styles.bodyInterestItemText1,
-                  color: '#4562F1',
+                  ...styles.bodyInterestItemText,
+                  color: colorCategory[writerInfo.genre1].font,
                 }}>
-                ♥&nbsp;
+                <Text
+                  style={{
+                    ...styles.bodyInterestItemRankText,
+                    color: colorCategory[writerInfo.genre1].rank,
+                  }}>
+                  1&nbsp;&nbsp;&nbsp;
+                </Text>
+                {colorCategory[writerInfo.genre1].name}
               </Text>
-              시
-            </Text>
-          </View>
-          <View style={styles.bodyInterestItemView2}>
-            <Text style={styles.bodyInterestItemText2}>
+            </View>
+          ) : null}
+          {writerInfo && writerInfo.genre2 ? (
+            <View
+              style={{
+                ...styles.bodyInterestItemView,
+                backgroundColor: colorCategory[writerInfo.genre2].back,
+              }}>
               <Text
                 style={{
-                  ...styles.bodyInterestItemText1,
-                  color: '#4562F1',
+                  ...styles.bodyInterestItemText,
+                  color: colorCategory[writerInfo.genre2].font,
                 }}>
-                ♥&nbsp;
+                <Text
+                  style={{
+                    ...styles.bodyInterestItemRankText,
+                    color: colorCategory[writerInfo.genre2].rank,
+                  }}>
+                  2&nbsp;&nbsp;&nbsp;
+                </Text>
+                {colorCategory[writerInfo.genre2].name}
               </Text>
-              소설
-            </Text>
-          </View>
-          <View style={styles.bodyInterestItemView3}>
-            <Text style={styles.bodyInterestItemText3}>
+            </View>
+          ) : null}
+          {writerInfo && writerInfo.genre3 ? (
+            <View
+              style={{
+                ...styles.bodyInterestItemView,
+                backgroundColor: colorCategory[writerInfo.genre3].back,
+              }}>
               <Text
                 style={{
-                  ...styles.bodyInterestItemText1,
-                  color: '#4562F1',
+                  ...styles.bodyInterestItemText,
+                  color: colorCategory[writerInfo.genre3].font,
                 }}>
-                ♥&nbsp;
+                <Text
+                  style={{
+                    ...styles.bodyInterestItemRankText,
+                    color: colorCategory[writerInfo.genre3].rank,
+                  }}>
+                  3&nbsp;&nbsp;&nbsp;
+                </Text>
+                {colorCategory[writerInfo.genre3].name}
               </Text>
-              에세이
-            </Text>
-          </View>
+            </View>
+          ) : null}
         </View>
         <Text style={styles.bodyInterestHeadText}>분위기</Text>
         <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <View
-            style={{
-              ...styles.bodyInterestItemView2,
-              backgroundColor: '#E6DDFF',
-            }}>
-            <Text style={{...styles.bodyInterestItemText2, color: '#1E0072'}}>
-              서정
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.bodyInterestItemView2,
-              backgroundColor: '#C5F0E3',
-            }}>
-            <Text style={{...styles.bodyInterestItemText2, color: '#00402D'}}>
-              잔잔
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.bodyInterestItemView2,
-              backgroundColor: '#FFF2AD',
-            }}>
-            <Text style={{...styles.bodyInterestItemText2, color: '#3D3300'}}>
-              명랑
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.bodyInterestItemView2,
-              backgroundColor: '#FFDDDD',
-            }}>
-            <Text style={{...styles.bodyInterestItemText2, color: '#370000'}}>
-              유쾌
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.bodyInterestItemView2,
-              backgroundColor: '#FFE8FB',
-            }}>
-            <Text style={{...styles.bodyInterestItemText2, color: '#3E0035'}}>
-              달달
-            </Text>
-          </View>
+          {writerInfo && writerInfo.mood1 ? (
+            <View
+              style={{
+                ...styles.bodyInterestItemView,
+                backgroundColor: colorCategory[writerInfo.mood1].back,
+              }}>
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText,
+                  color: colorCategory[writerInfo.mood1].font,
+                }}>
+                <Text
+                  style={{
+                    ...styles.bodyInterestItemRankText,
+                    color: colorCategory[writerInfo.mood1].rank,
+                  }}>
+                  1&nbsp;&nbsp;&nbsp;
+                </Text>
+                {colorCategory[writerInfo.mood1].name}
+              </Text>
+            </View>
+          ) : null}
+          {writerInfo && writerInfo.mood2 ? (
+            <View
+              style={{
+                ...styles.bodyInterestItemView,
+                backgroundColor: colorCategory[writerInfo.mood2].back,
+              }}>
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText,
+                  color: colorCategory[writerInfo.mood2].font,
+                }}>
+                <Text
+                  style={{
+                    ...styles.bodyInterestItemRankText,
+                    color: colorCategory[writerInfo.mood2].rank,
+                  }}>
+                  2&nbsp;&nbsp;&nbsp;
+                </Text>
+                {colorCategory[writerInfo.mood2].name}
+              </Text>
+            </View>
+          ) : null}
+          {writerInfo && writerInfo.mood3 ? (
+            <View
+              style={{
+                ...styles.bodyInterestItemView,
+                backgroundColor: colorCategory[writerInfo.mood3].back,
+              }}>
+              <Text
+                style={{
+                  ...styles.bodyInterestItemText,
+                  color: colorCategory[writerInfo.mood3].font,
+                }}>
+                <Text
+                  style={{
+                    ...styles.bodyInterestItemRankText,
+                    color: colorCategory[writerInfo.mood3].rank,
+                  }}>
+                  3&nbsp;&nbsp;&nbsp;
+                </Text>
+                {colorCategory[writerInfo.mood3].name}
+              </Text>
+            </View>
+          ) : null}
         </View>
       </View>
       <View
@@ -152,7 +211,7 @@ const AuthorProfileIntro = ({writerInfo}) => {
             <TouchableOpacity
               onPress={() =>
                 onPressFacebook(
-                  'https://www.facebook.com/profile.php?id=100023431479176',
+                  `https://www.facebook.com/${writerInfo.facebook}`,
                 )
               }>
               <Image
@@ -166,7 +225,9 @@ const AuthorProfileIntro = ({writerInfo}) => {
           )}
           {writerInfo && writerInfo.twitter ? (
             <TouchableOpacity
-              onPress={() => onPressTwitter('https://twitter.com/?lang=ko')}>
+              onPress={() =>
+                onPressTwitter(`https://twitter.com/${writerInfo.twitter}`)
+              }>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
                 source={Twitter}></Image>
@@ -179,7 +240,9 @@ const AuthorProfileIntro = ({writerInfo}) => {
           {writerInfo && writerInfo.instagram ? (
             <TouchableOpacity
               onPress={() =>
-                onPressInstagram('https://www.instagram.com/mail_link/')
+                onPressInstagram(
+                  `https://www.instagram.com/${writerInfo.instagram}`,
+                )
               }>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
@@ -192,7 +255,7 @@ const AuthorProfileIntro = ({writerInfo}) => {
           )}
           {writerInfo && writerInfo.etc ? (
             <TouchableOpacity
-              onPress={() => onPressURL('https://www.mail-link.co.kr')}>
+              onPress={() => onPressURL(`https://${writerInfo.etc}`)}>
               <Image
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
                 source={URL}></Image>
@@ -241,50 +304,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#828282',
     marginBottom: 5,
-  },
-  bodyInterestItemView1: {
-    width: 43,
-    height: 24,
-    borderRadius: 26,
-    backgroundColor: '#E8EBFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 7,
-  },
-  bodyInterestItemText1: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    color: '#0021C6',
     includeFontPadding: false,
   },
-  bodyInterestItemView2: {
-    width: 53,
-    height: 24,
+  bodyInterestItemView: {
+    paddingHorizontal: 14.6,
+    height: 30,
     borderRadius: 26,
-    backgroundColor: '#E8EBFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 7,
+    marginRight: 11,
   },
-  bodyInterestItemText2: {
+  bodyInterestItemText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
-    color: '#0021C6',
     includeFontPadding: false,
   },
-  bodyInterestItemView3: {
-    width: 63,
-    height: 24,
-    borderRadius: 26,
-    backgroundColor: '#E8EBFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 7,
-  },
-  bodyInterestItemText3: {
-    fontFamily: 'NotoSansKR-Regular',
+  bodyInterestItemRankText: {
+    fontFamily: 'NotoSansKR-BLACK',
     fontSize: 12,
-    color: '#0021C6',
     includeFontPadding: false,
   },
 });

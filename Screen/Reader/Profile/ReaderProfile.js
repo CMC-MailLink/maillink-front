@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
@@ -16,6 +15,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import ReaderProfileModal from './ReaderProfileModal';
+import FastImage from 'react-native-fast-image';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
@@ -25,11 +25,13 @@ import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
-import {SignUpAPI} from '../../../API/SignUpAPI';
+
+const refreshingHeight = 100;
 
 const ReaderProfile = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
+  const [offsetY, setOffsetY] = useState(0);
   const [branch, setBranch] = useState([
     {category: '시', select: true},
     {category: '소설', select: true},
@@ -55,16 +57,19 @@ const ReaderProfile = () => {
   const [filterAuthor, setFilterAuthor] = useState([]);
   const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
     useQuery(['SubscribeAuthorList'], ReaderAPI.getSubscribeWriters);
+  const {isLoading: readerInfoLoading, data: readerInfoData} = useQuery(
+    ['ReaderInfo'],
+    ReaderAPI.memberInfo,
+  );
 
   useEffect(() => {
-    async function getMemberInfo() {
-      const result = await ReaderAPI.memberInfo();
-      setName(result.nickName);
-      setEditName(result.nickName);
-      setImageUri(result.imgUrl);
+    if (readerInfoData) {
+      console.log('readerInfoData : ', readerInfoData);
+      setName(readerInfoData.nickName);
+      setEditName(readerInfoData.nickName);
+      setImageUri(readerInfoData.imgUrl);
     }
-    getMemberInfo();
-  }, []);
+  }, [readerInfoData]);
 
   useEffect(() => {
     console.log(subscribeAuthorListData);
@@ -179,7 +184,7 @@ const ReaderProfile = () => {
     const result = await ReaderAPI.changeProfileImage({image: imageData});
     console.log(result);
     if (result) {
-      //setImageUri(result);
+      await queryClient.refetchQueries(['ReaderInfo']);
     } else {
       console.log('프로필 등록 실패');
     }
@@ -200,10 +205,23 @@ const ReaderProfile = () => {
     }
   };
 
+  function onScroll(event) {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  }
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <StatusBar barStyle="light-content" />
+      <View
+        style={{
+          ...styles.refreshView,
+          height: refreshingHeight - offsetY + 40,
+        }}
+      />
       <Modal
         animationType="fade"
         transparent={true}
@@ -222,7 +240,10 @@ const ReaderProfile = () => {
       <View style={styles.headerView}>
         <Text style={styles.headerText}>프로필</Text>
       </View>
-      <ScrollView stickyHeaderIndices={[2]} bounces={false}>
+      <ScrollView
+        stickyHeaderIndices={[2]}
+        onScroll={onScroll}
+        scrollEventThrottle={0}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
             style={{position: 'absolute', right: 20, bottom: 18}}
@@ -231,7 +252,7 @@ const ReaderProfile = () => {
                 screen: 'Setting',
               });
             }}>
-            <Image
+            <FastImage
               style={{
                 width: 18.68,
                 height: 19.2,
@@ -248,13 +269,13 @@ const ReaderProfile = () => {
               width: 160,
             }}>
             <TouchableWithoutFeedback onPress={onPressEditImage}>
-              <Image
+              <FastImage
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
               />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressEditImage}>
-              <Image
+              <FastImage
                 style={{width: 27.76, height: 27.76, top: -31, left: 25}}
                 source={ImageEditProfile}
               />
@@ -276,7 +297,7 @@ const ReaderProfile = () => {
               <TouchableWithoutFeedback onPress={() => setCategory(!category)}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Text style={styles.accordionText}>구독작가</Text>
-                  <Image
+                  <FastImage
                     style={{width: 10, height: 5}}
                     source={AccordionProfile}
                   />
@@ -286,7 +307,7 @@ const ReaderProfile = () => {
               <TouchableWithoutFeedback onPress={() => setCategory(!category)}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Text style={styles.accordionText}>구독작가</Text>
-                  <Image
+                  <FastImage
                     style={{width: 10, height: 5}}
                     source={AccordionProfile2}
                   />
@@ -300,7 +321,10 @@ const ReaderProfile = () => {
                   screen: 'ReaderProfileSearch',
                 })
               }>
-              <Image style={{width: 16, height: 16}} source={SearchProfile} />
+              <FastImage
+                style={{width: 16, height: 16}}
+                source={SearchProfile}
+              />
             </TouchableOpacity>
           </View>
           {category ? (
@@ -320,7 +344,7 @@ const ReaderProfile = () => {
                           key={index}>
                           <View
                             style={{
-                              ...styles.itemViewTwo,
+                              ...styles.itemView,
                               borderColor: data.select ? '#4562F1' : '#EBEBEB',
                             }}>
                             <Text
@@ -357,7 +381,7 @@ const ReaderProfile = () => {
                                 key={index}>
                                 <View
                                   style={{
-                                    ...styles.itemViewTwo,
+                                    ...styles.itemView,
                                     borderColor: data.select
                                       ? '#4562F1'
                                       : '#EBEBEB',
@@ -390,7 +414,7 @@ const ReaderProfile = () => {
                                 key={index}>
                                 <View
                                   style={{
-                                    ...styles.itemViewTwo,
+                                    ...styles.itemView,
                                     borderColor: data.select
                                       ? '#4562F1'
                                       : '#EBEBEB',
@@ -415,7 +439,7 @@ const ReaderProfile = () => {
               </View>
               <TouchableOpacity onPress={onPressAll}>
                 <View style={styles.allView}>
-                  <Image
+                  <FastImage
                     style={{width: 14, height: 10, marginRight: 4}}
                     source={AllReaderProfile}
                   />
@@ -473,7 +497,7 @@ const ReaderProfile = () => {
         <View style={{paddingBottom: 150}}>
           {filterAuthor.map((data, index) => (
             <View key={index} style={styles.bodyItem}>
-              <Image
+              <FastImage
                 style={{width: 42, height: 42, marginRight: 10}}
                 source={AuthorProfileImage}
               />
@@ -582,8 +606,8 @@ const styles = StyleSheet.create({
     color: '#828282',
     includeFontPadding: false,
   },
-  itemViewOne: {
-    width: 42,
+  itemView: {
+    paddingHorizontal: 12,
     height: 24,
     backgroundColor: '#fff',
     justifyContent: 'center',
@@ -597,26 +621,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#3C3C3C',
     includeFontPadding: false,
-  },
-  itemViewTwo: {
-    width: 52,
-    height: 24,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 26,
-    marginRight: 7,
-  },
-  itemViewThree: {
-    width: 64,
-    height: 24,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 26,
-    marginRight: 7,
   },
   bodyItem: {
     height: 68,
@@ -716,6 +720,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#3C3C3C',
     includeFontPadding: false,
+  },
+  refreshView: {
+    backgroundColor: '#4562F1',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -5,
+    alignItems: 'center',
   },
 });
 

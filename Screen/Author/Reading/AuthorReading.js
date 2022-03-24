@@ -58,7 +58,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
       </View>
       <View style={styles.authorView}>
         <Image
-          style={{width: 30, height: 30, marginRight: 12}}
+          style={{width: 30, height: 30, marginRight: 12, borderRadius: 90}}
           source={
             params.memberInfo.imgUrl == ''
               ? DefaultProfile

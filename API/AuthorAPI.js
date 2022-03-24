@@ -200,4 +200,137 @@ export const AuthorAPI = {
       return false;
     }
   },
+  //프로필 이미지 업로드
+  profileEditing: async ({image}) => {
+    console.log('작가 프로필 이미지 업로드');
+    console.log('profileEditing api : ', image);
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/auth/signup/profile/img/`,
+        {
+          method: 'post',
+          body: image,
+          headers: {'Content-Type': 'multipart/form-data'},
+        },
+      );
+      if (response.ok) {
+        let json = await response.json();
+        return json.data;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //닉네임중복확인
+  checkNickName: async ({nickName}) => {
+    console.log('작가 닉네임 중복 확인');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/auth/signup/nickname/check?nickName=${nickName}`,
+        {
+          method: 'post',
+        },
+      );
+      console.log(response);
+      let json = await response.json();
+      if (json.errorCode === 400) return false;
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //프로필 수정
+  infoEditing: async ({
+    introduction,
+    genre1,
+    genre2,
+    genre3,
+    mood1,
+    mood2,
+    mood3,
+    facebook,
+    twitter,
+    instagram,
+    etc,
+  }) => {
+    console.log('작가 프로필 수정', introduction);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
+        method: 'put',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          introduction: introduction,
+          genre1: genre1,
+          genre2: genre2,
+          genre3: genre3,
+          mood1: mood1,
+          mood2: mood2,
+          mood3: mood3,
+          facebook: facebook,
+          twitter: twitter,
+          instagram: instagram,
+          etc: etc,
+        }),
+      });
+      console.log(response);
+      let json = await response.json();
+      if (json.errorCode === 400) return false;
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //닉네임변경
+  changeNickName: async ({nickName}) => {
+    console.log('작가 닉네임 변경');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/nickname?nickName=${nickName}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
+      if (response.status === 200) return true;
+      return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //프로필이미지변경
+  changeProfileImage: async ({image}) => {
+    console.log('작가 프로필 이미지 변경');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/member/profile/img`, {
+        method: 'PUT',
+        body: image,
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response);
+      if (response.status === 200) return true;
+      else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
 };

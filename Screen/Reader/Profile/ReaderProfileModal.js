@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import EraseNickname from '../../../assets/images/EraseNickname.png';
 
@@ -19,6 +20,7 @@ const ReaderProfileModal = ({
   setModalVisible,
   onPressModalConfirm,
 }) => {
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState(0);
   const [originName, setOriginName] = useState('');
 
@@ -40,7 +42,10 @@ const ReaderProfileModal = ({
     var result = await ReaderAPI.checkNickName({nickName: editName});
     if (result) {
       var result2 = await ReaderAPI.changeNickName({nickName: editName});
-      if (result2) onPressModalConfirm();
+      if (result2) {
+        await queryClient.refetchQueries(['ReaderInfo']);
+        onPressModalConfirm();
+      }
     } else {
       setStatus(2);
     }
@@ -86,7 +91,11 @@ const ReaderProfileModal = ({
           </Text>
         )}
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+          <TouchableOpacity
+            onPress={() => {
+              setEditName(originName);
+              setModalVisible(!modalVisible);
+            }}>
             <View style={{marginRight: 27}}>
               <Text style={styles.modalCancel}>취소</Text>
             </View>

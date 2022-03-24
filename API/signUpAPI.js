@@ -140,7 +140,7 @@ export const SignUpAPI = {
         body: JSON.stringify({
           socialType: 'KAKAO',
           socialId: 'dongurireader615',
-          nickName: '동구dd',
+          nickName: '동구리615',
           imgUrl:
             'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
           phoneNumber: '01011111111',
@@ -212,5 +212,26 @@ export const SignUpAPI = {
       console.log(e);
       return false;
     }
+  },
+  //닉네임중복확인
+  checkNickName: async ({nickName}) => {
+    console.log('닉네임 중복 확인');
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/auth/signup/nickname/check?nickName=${nickName}`,
+        {
+          method: 'post',
+        },
+      );
+      console.log(response);
+      let json = await response.json();
+      if (json.errorCode === 400) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
   },
 };
