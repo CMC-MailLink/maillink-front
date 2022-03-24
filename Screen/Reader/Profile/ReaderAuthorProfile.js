@@ -28,9 +28,9 @@ const refreshingHeight = 100;
 
 const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
   console.log(params);
+  const queryClient = useQueryClient();
   const navigation = useNavigation();
   const [introSelect, setIntroSelect] = useState(true);
-  const [heart, setHeart] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
   const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
     ['AuthorInfo', params.id],
@@ -56,6 +56,46 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
     setOffsetY(y);
   }
 
+  //구독 취소하기 버튼 클릭
+  const onPressCancelSubscribe = async writerId => {
+    var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
+    console.log(result);
+    if (result) {
+      await queryClient.refetchQueries(['AuthorInfo']);
+      await queryClient.refetchQueries(['AuthorList']);
+    }
+  };
+
+  //구독하기 버튼 클릭
+  const onPressSubscribe = async writerId => {
+    var result = await ReaderAPI.subscribing({writerId: writerId});
+    console.log(result);
+    if (result) {
+      await queryClient.refetchQueries(['AuthorInfo']);
+      await queryClient.refetchQueries(['AuthorList']);
+    }
+  };
+
+  //관심 버튼 클릭
+  const onPressInterest = async writerId => {
+    var result = await ReaderAPI.interesting({writerId: writerId});
+    console.log(result);
+    if (result) {
+      await queryClient.refetchQueries(['AuthorInfo']);
+      await queryClient.refetchQueries(['AuthorList']);
+    }
+  };
+
+  //관심 취소하기 버튼 클릭
+  const onPressCancelInterest = async writerId => {
+    var result = await ReaderAPI.cancelInteresting({writerId: writerId});
+    console.log(result);
+    if (result) {
+      await queryClient.refetchQueries(['AuthorInfo']);
+      await queryClient.refetchQueries(['AuthorList']);
+    }
+  };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
@@ -78,25 +118,29 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
         onScroll={onScroll}
         scrollEventThrottle={0}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
-          <TouchableOpacity
-            style={{position: 'absolute', right: 20, bottom: 18}}
-            onPress={() => setHeart(!heart)}>
-            {heart ? (
+          {authorInfoData && authorInfoData.interestedCheck ? (
+            <TouchableOpacity
+              style={{position: 'absolute', right: 20, bottom: 18}}
+              onPress={() => onPressCancelInterest(params.id)}>
               <Image
                 style={{
                   width: 22,
                   height: 20.17,
                 }}
                 source={HeartProfile}></Image>
-            ) : (
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{position: 'absolute', right: 20, bottom: 18}}
+              onPress={() => onPressInterest(params.id)}>
               <Image
                 style={{
                   width: 22,
                   height: 20.17,
                 }}
                 source={NotHeartProfile}></Image>
-            )}
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
         </View>
         <View style={styles.profileView}>
           <View
@@ -109,24 +153,30 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={
-                  !authorInfoData || authorInfoData.imgUrl === ''
+                  !authorInfoData || authorInfoData.writerInfo.imgUrl === ''
                     ? DefaultProfile
-                    : {uri: authorInfoData.imgUrl}
+                    : {uri: authorInfoData.writerInfo.imgUrl}
                 }></Image>
             </View>
             <View style={{alignItems: 'center', top: 5}}>
               <Text style={styles.profileName}>
-                {authorInfoData ? authorInfoData.nickName : ''}
+                {authorInfoData ? authorInfoData.writerInfo.nickName : ''}
               </Text>
               <Text style={styles.profileCategory}>작가님</Text>
-              {authorInfoData && authorInfoData.subscribe ? (
-                <TouchableOpacity onPress={() => {}}>
+              {authorInfoData && authorInfoData.subscribeCheck ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    onPressCancelSubscribe(params.id);
+                  }}>
                   <View style={styles.subscribeView}>
                     <Text style={styles.subscribeText}>구독중</Text>
                   </View>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    onPressSubscribe(params.id);
+                  }}>
                   <View style={styles.notSubscribeView}>
                     <Text style={styles.notSubscribeText}>구독하기</Text>
                   </View>
@@ -170,7 +220,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
         {introSelect ? (
           <AuthorProfileIntro
             authorInfoData={
-              authorInfoData ? authorInfoData : null
+              authorInfoData ? authorInfoData.writerInfo : null
             }></AuthorProfileIntro>
         ) : (
           <AuthorProfileMail></AuthorProfileMail>

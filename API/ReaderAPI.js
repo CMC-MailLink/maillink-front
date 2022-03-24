@@ -268,4 +268,48 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //작가 관심하기
+  interesting: async ({writerId}) => {
+    console.log('독자 작가 관심하기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/reader/interest?writerId=${writerId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
+      if (response.status === 200) return true;
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //작가 관심취소하기
+  cancelInteresting: async ({writerId}) => {
+    console.log('독자 작가 관심 취소하기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/reader/interest?writerId=${writerId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
+      if (response.status === 200) return true;
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };
