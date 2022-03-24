@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,9 +13,9 @@ import {
   TouchableWithoutFeedback,
   RefreshControl,
 } from 'react-native';
-import {useState} from 'react/cjs/react.development';
 import ReaderRecommendList from './ReaderRecommendList';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
@@ -36,6 +36,7 @@ const colorCategory = {
 const ReaderRecommend = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
+  const [name, setName] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [recommend, setRecommend] = useState([
     {
@@ -67,6 +68,16 @@ const ReaderRecommend = () => {
       repVive: '달달',
     },
   ]);
+  const {isLoading: readerInfoLoading, data: readerInfoData} = useQuery(
+    ['ReaderInfo'],
+    ReaderAPI.memberInfo,
+  );
+
+  useEffect(() => {
+    if (readerInfoData) {
+      setName(readerInfoData.nickName);
+    }
+  }, [readerInfoData]);
 
   const onPressAuthor = () => {
     navigation.navigate('ReaderStacks', {
@@ -145,6 +156,7 @@ const ReaderRecommend = () => {
       </View>
       <ScrollView
         style={{flex: 1}}
+        stickyHeaderIndices={[3]}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -159,7 +171,7 @@ const ReaderRecommend = () => {
                 color: '#3C3C3C',
                 includeFontPadding: false,
               }}>
-              영이
+              {name}
             </Text>
             님,
           </Text>

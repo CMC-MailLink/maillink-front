@@ -12,7 +12,8 @@ import {
   ScrollView,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -23,17 +24,18 @@ import NotHeartProfile from '../../../assets/images/NotHeartProfile.png';
 import AuthorProfileIntro from './ReaderAuthorProfileIntro';
 import AuthorProfileMail from './ReaderAuthorProfileMail';
 
-const ReaderAuthorProfile = () => {
-  const navigation = useNavigation();
+const refreshingHeight = 100;
 
-  const [name, setName] = useState('덩이');
-  const [subscribe, setSubscribe] = useState(false);
-  const [imageUri, setImageUri] = useState('');
+const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
+  console.log(params);
+  const navigation = useNavigation();
   const [introSelect, setIntroSelect] = useState(true);
   const [heart, setHeart] = useState(false);
-  const [filePath, setFilePath] = useState(null);
-  const [fileData, setFileData] = useState(null);
-  const [fileUri, setFileUri] = useState(null);
+  const [offsetY, setOffsetY] = useState(0);
+  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
+    ['AuthorInfo', params.id],
+    ReaderAPI.getWriterInfo,
+  );
 
   const onPressBack = () => {
     navigation.goBack();
@@ -47,41 +49,22 @@ const ReaderAuthorProfile = () => {
     setIntroSelect(false);
   };
 
-  const copyToClipboard = data => {
-    Clipboard.setString(data);
-  };
-
-  const onPressEditImage = async () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-        mediaType: 'photo',
-        maxWidth: 78,
-        maxHeight: 78,
-      },
-      includeBase64: true,
-    };
-    // launchImageLibrary(options, response => {
-    //   console.log('Response = ', response);
-
-    //   if (response.didCancel) {
-    //     console.log('User cancelled image picker');
-    //   } else if (response.errorCode) {
-    //     console.log('ImagePicker Error: ', response.errorCode);
-    //     console.log('ImagePicker Error: ', response.errorMessage);
-    //   } else {
-    //     const source = {
-    //       uri: 'data:image/jpeg;base64,' + response.assets[0].base64,
-    //     };
-    //     setImageUri(source);
-    //   }
-    // });
-  };
+  function onScroll(event) {
+    const {nativeEvent} = event;
+    const {contentOffset} = nativeEvent;
+    const {y} = contentOffset;
+    setOffsetY(y);
+  }
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       <StatusBar barStyle="light-content" />
+      <View
+        style={{
+          ...styles.refreshView,
+          height: refreshingHeight - offsetY + 40,
+        }}></View>
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24}}>
@@ -90,7 +73,10 @@ const ReaderAuthorProfile = () => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>작가프로필</Text>
       </View>
-      <ScrollView stickyHeaderIndices={[2]} bounces={false}>
+      <ScrollView
+        stickyHeaderIndices={[2]}
+        onScroll={onScroll}
+        scrollEventThrottle={0}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
             style={{position: 'absolute', right: 20, bottom: 18}}
@@ -122,19 +108,25 @@ const ReaderAuthorProfile = () => {
             <View>
               <Image
                 style={{width: 78, height: 78, borderRadius: 90}}
-                source={imageUri == '' ? DefaultProfile : imageUri}></Image>
+                source={
+                  !authorInfoData || authorInfoData.imgUrl === ''
+                    ? DefaultProfile
+                    : {uri: authorInfoData.imgUrl}
+                }></Image>
             </View>
             <View style={{alignItems: 'center', top: 5}}>
-              <Text style={styles.profileName}>{name}</Text>
+              <Text style={styles.profileName}>
+                {authorInfoData ? authorInfoData.nickName : ''}
+              </Text>
               <Text style={styles.profileCategory}>작가님</Text>
-              {subscribe ? (
-                <TouchableOpacity onPress={() => setSubscribe(false)}>
+              {authorInfoData && authorInfoData.subscribe ? (
+                <TouchableOpacity onPress={() => {}}>
                   <View style={styles.subscribeView}>
                     <Text style={styles.subscribeText}>구독중</Text>
                   </View>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity onPress={() => setSubscribe(true)}>
+                <TouchableOpacity onPress={() => {}}>
                   <View style={styles.notSubscribeView}>
                     <Text style={styles.notSubscribeText}>구독하기</Text>
                   </View>
@@ -176,7 +168,10 @@ const ReaderAuthorProfile = () => {
           </View>
         </View>
         {introSelect ? (
-          <AuthorProfileIntro></AuthorProfileIntro>
+          <AuthorProfileIntro
+            authorInfoData={
+              authorInfoData ? authorInfoData : null
+            }></AuthorProfileIntro>
         ) : (
           <AuthorProfileMail></AuthorProfileMail>
         )}
@@ -268,6 +263,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#FFF',
     includeFontPadding: false,
+  },
+  refreshView: {
+    backgroundColor: '#4562F1',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -5,
+    alignItems: 'center',
   },
 });
 

@@ -24,17 +24,18 @@ import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
 import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
 const STORAGE_KEY = '@recentDataReaderRecommendSearch';
 
 const ReaderRecommendSearch = () => {
+  const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [recentSearch, setRecentSearch] = useState([]);
   const [author, setAuthor] = useState();
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
-  const navigation = useNavigation();
   const {isLoading: authrListLoading, data: authorListData} = useQuery(
     ['AuthorList'],
     ReaderAPI.getWriters,
@@ -49,6 +50,16 @@ const ReaderRecommendSearch = () => {
     if (authorListData) setAuthor([...authorListData]);
     console.log(authorListData);
   }, [authorListData]);
+
+  useEffect(() => {
+    if (query === '') {
+      return;
+    }
+    setSubmit(true);
+    var res = author.filter(item => item.writerInfo.nickName.includes(query));
+    setResult([...res]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [author]);
 
   useEffect(() => {
     if (query === '') setSubmit(false);
@@ -77,6 +88,7 @@ const ReaderRecommendSearch = () => {
     temp.unshift(data);
     setRecentSearch([...temp]);
   };
+
   const onPressDelete = (data, index) => {
     var temp = recentSearch;
     temp.splice(index, 1);
@@ -104,11 +116,25 @@ const ReaderRecommendSearch = () => {
     setRecentSearch([...temp]);
   };
 
-  const onPressAuthorItem = data => {};
-  const setSubscribe = index => {
-    var temp = result;
-    temp[index].subscribe = !temp[index].subscribe;
-    setResult([...temp]);
+  const onPressAuthorItem = data => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAuthorProfile',
+      params: {id: data.writerInfo.id},
+    });
+  };
+
+  //구독하기 버튼 클릭
+  const onPressSubscribe = async writerId => {
+    var result = await ReaderAPI.subscribing({writerId: writerId});
+    console.log(result);
+    if (result) await queryClient.refetchQueries(['AuthorList']);
+  };
+
+  //구독 취소하기 버튼 클릭
+  const onPressCancelSubscribe = async writerId => {
+    var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
+    console.log(result);
+    if (result) await queryClient.refetchQueries(['AuthorList']);
   };
 
   const getRecentSearch = async () => {
@@ -174,13 +200,22 @@ const ReaderRecommendSearch = () => {
             </View>
             {result.length ? (
               result.map((data, index) => (
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   onPress={e => onPressAuthorItem(data)}
                   key={index}>
                   <View key={index} style={styles.bodyItem}>
                     <Image
-                      style={{width: 42, height: 42, marginRight: 10}}
-                      source={AuthorProfileImage}
+                      style={{
+                        width: 42,
+                        height: 42,
+                        marginRight: 10,
+                        borderRadius: 90,
+                      }}
+                      source={
+                        data.writerInfo.imgUrl === ''
+                          ? DefaultProfile
+                          : {uri: data.writerInfo.imgUrl}
+                      }
                     />
                     <View>
                       <Text style={styles.bodyItemName}>
@@ -191,25 +226,29 @@ const ReaderRecommendSearch = () => {
                       </Text>
                     </View>
                     <TouchableOpacity
-                      onPress={() => setSubscribe(index)}
+                      onPress={() =>
+                        data.isSubscribe
+                          ? onPressCancelSubscribe(data.writerInfo.id)
+                          : onPressSubscribe(data.writerInfo.id)
+                      }
                       style={
-                        data.subscribe
+                        data.isSubscribe
                           ? styles.subscribeView
                           : styles.subscribeNotView
                       }>
                       <View>
                         <Text
                           style={
-                            data.subscribe
+                            data.isSubscribe
                               ? styles.subscribeText
                               : styles.subscribeNotText
                           }>
-                          {data.subscribe ? '구독중' : '구독하기'}
+                          {data.isSubscribe ? '구독중' : '구독하기'}
                         </Text>
                       </View>
                     </TouchableOpacity>
                   </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               ))
             ) : (
               <View

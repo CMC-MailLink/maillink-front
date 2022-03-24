@@ -68,21 +68,6 @@ const SignIn = props => {
           socialId: profile.id,
         },
       });
-      // navigation.dispatch(
-      //   CommonActions.reset({
-      //     index: 1,
-      //     routes: [
-      //       {name: 'SignUpStacks'},
-      //       {
-      //         name: 'SelfAuth',
-      //         params: {
-      //           socialType: 'KAKAO',
-      //           socialId: profile.id,
-      //         },
-      //       },
-      //     ],
-      //   }),
-      // );
     }
   };
   const onAppleButtonPress = () => {
@@ -95,7 +80,6 @@ const SignIn = props => {
 
   const onAppleButtonPressIos = async () => {
     try {
-      // performs login request
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
@@ -105,16 +89,11 @@ const SignIn = props => {
         appleAuthRequestResponse.identityToken,
       );
 
-      // get current authentication state for user
-      // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
       const credentialState = await appleAuth.getCredentialStateForUser(
         appleAuthRequestResponse.user,
       );
 
-      console.log(credentialState);
-      // use credentialState response to ensure the user is authenticated
       if (credentialState === appleAuth.State.AUTHORIZED) {
-        // user is authenticated
         var temp = `
         email: ${email}
         email_verified: ${email_verified}
@@ -132,41 +111,16 @@ const SignIn = props => {
   };
 
   async function onAppleButtonPressAndroid() {
-    // Generate secure, random values for state and nonce
     const rawNonce = uuid();
     const state = uuid();
 
     try {
-      // Initialize the module
       appleAuthAndroid.configure({
-        // The Service ID you registered with Apple
         clientId: 'com.mail--link.cmclogin',
-
-        // Return URL added to your Apple dev console. We intercept this redirect, but it must still match
-        // the URL you provided to Apple. It can be an empty route on your backend as it's never called.
         redirectUri: 'https://www.mail-link.co.kr/login/callback',
-
-        // [OPTIONAL]
-        // Scope.ALL (DEFAULT) = 'email name'
-        // Scope.Email = 'email';
-        // Scope.Name = 'name';
         scope: appleAuthAndroid.Scope.ALL,
-
-        // [OPTIONAL]
-        // ResponseType.ALL (DEFAULT) = 'code id_token';
-        // ResponseType.CODE = 'code';
-        // ResponseType.ID_TOKEN = 'id_token';
         responseType: appleAuthAndroid.ResponseType.ALL,
-
-        // [OPTIONAL]
-        // A String value used to associate a client session with an ID token and mitigate replay attacks.
-        // This value will be SHA256 hashed by the library before being sent to Apple.
-        // This is required if you intend to use Firebase to sign in with this credential.
-        // Supply the response.id_token and rawNonce to Firebase OAuthProvider
         nonce: rawNonce,
-
-        // [OPTIONAL]
-        // Unique state value used to prevent CSRF attacks. A UUID will be generated if nothing is provided.
         state,
       });
 

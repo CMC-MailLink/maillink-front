@@ -43,15 +43,16 @@ const ReaderMailBody = () => {
     ['ReaderMail'],
     ReaderAPI.readerMailBox,
   );
+  const {isLoading: readerInfoLoading, data: readerInfoData} = useQuery(
+    ['ReaderInfo'],
+    ReaderAPI.memberInfo,
+  );
 
   useEffect(() => {
-    async function getMemberInfo() {
-      const result = await ReaderAPI.memberInfo();
-      console.log(result);
-      setMemberInfo(result);
+    if (readerInfoData) {
+      setMemberInfo(readerInfoData);
     }
-    getMemberInfo();
-  }, []);
+  }, [readerInfoData]);
 
   useEffect(() => {
     Animated.loop(

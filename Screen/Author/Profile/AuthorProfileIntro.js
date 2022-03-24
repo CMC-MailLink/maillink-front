@@ -304,6 +304,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#828282',
     marginBottom: 5,
+    includeFontPadding: false,
   },
   bodyInterestItemView: {
     paddingHorizontal: 14.6,

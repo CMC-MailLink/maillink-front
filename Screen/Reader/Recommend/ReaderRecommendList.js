@@ -21,19 +21,19 @@ const ReaderRecommendList = () => {
   const queryClient = useQueryClient();
   const [allSelect, setAllSelect] = useState(true);
   const [branch, setBranch] = useState([
-    {category: '시', select: true},
-    {category: '소설', select: true},
-    {category: '에세이', select: true},
+    {name: 'Poetry', category: '시', select: true},
+    {name: 'Novels', category: '소설', select: true},
+    {name: 'Essays', category: '에세이', select: true},
   ]);
   const [vive, setVive] = useState([
-    {category: '편안', select: true},
-    {category: '맑은', select: true},
-    {category: '서정', select: true},
-    {category: '잔잔', select: true},
-    {category: '명랑', select: true},
-    {category: '유쾌', select: true},
-    {category: '달달', select: true},
-    {category: '키치', select: true},
+    {name: 'Comfortable', category: '편안', select: true},
+    {name: 'Clear', category: '맑은', select: true},
+    {name: 'Lyrical', category: '서정', select: true},
+    {name: 'Calm', category: '잔잔', select: true},
+    {name: 'Light', category: '명랑', select: true},
+    {name: 'Cheerful', category: '유쾌', select: true},
+    {name: 'Sweet', category: '달달', select: true},
+    {name: 'Kitsch', category: '키치', select: true},
   ]);
   const [author, setAuthor] = useState([]);
   const [filterAuthor, setFilterAuthor] = useState([]);
@@ -44,25 +44,29 @@ const ReaderRecommendList = () => {
   );
 
   useEffect(() => {
-    if (authorListData) setAuthor([...authorListData]);
+    if (authorListData) {
+      setAuthor([...authorListData]);
+    }
   }, [authorListData]);
 
   useEffect(() => {
-    var temp = author.filter(data => {
+    if (!authorListData) return;
+    var temp = authorListData.filter(data => {
       for (var i = 0; i < 3; i++) {
         if (branch[i].select)
-          if (data.repBranch === branch[i].category) return true;
+          if (data.writerInfo.primaryGenre === branch[i].name) return true;
       }
       return false;
     });
     temp = temp.filter(data => {
       for (var i = 0; i < 8; i++) {
-        if (vive[i].select) if (data.repVive === vive[i].category) return true;
+        if (vive[i].select)
+          if (data.writerInfo.primaryMood === vive[i].name) return true;
       }
       return false;
     });
     setFilterAuthor([...temp]);
-  }, [author, branch, vive]);
+  }, [authorListData, branch, vive]);
 
   //전체목록 선택
   const onPressAll = () => {
@@ -78,20 +82,21 @@ const ReaderRecommendList = () => {
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
     console.log(result);
-    if (result) await await queryClient.refetchQueries(['AuthorList']);
+    if (result) await queryClient.refetchQueries(['AuthorList']);
   };
 
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
     console.log(result);
-    if (result) await await queryClient.refetchQueries(['AuthorList']);
+    if (result) await queryClient.refetchQueries(['AuthorList']);
   };
 
   //작가 선택
-  const onPressAuthor = () => {
+  const onPressAuthor = data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAuthorProfile',
+      params: {id: data.writerInfo.id},
     });
   };
 
@@ -160,10 +165,15 @@ const ReaderRecommendList = () => {
       </View>
       <View style={{marginBottom: 150, minHeight: 400}}>
         {filterAuthor.map((data, index) => (
-          <TouchableOpacity onPress={onPressAuthor} key={index}>
+          <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
             <View style={styles.itemView}>
               <Image
-                style={{width: 42, height: 42, marginRight: 15}}
+                style={{
+                  width: 42,
+                  height: 42,
+                  marginRight: 15,
+                  borderRadius: 90,
+                }}
                 source={{uri: data.writerInfo.imgUrl}}></Image>
               <View>
                 <Text style={styles.itemName}>{data.writerInfo.nickName}</Text>
