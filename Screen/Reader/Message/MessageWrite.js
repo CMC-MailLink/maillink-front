@@ -14,9 +14,11 @@ import {useNavigation} from '@react-navigation/native';
 import ExitMessage from '../../../assets/images/ExitMessage.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 import {MessageAPI} from '../../../API/MessageAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [message, setMessage] = useState('');
   const onPressBack = () => {
     navigation.goBack();
@@ -27,7 +29,10 @@ const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
       partnerId: params.writerId,
       text: message,
     });
-    if (result) onPressBack();
+    if (result) {
+      await queryClient.refetchQueries(['Message']);
+      onPressBack();
+    }
   };
 
   return (

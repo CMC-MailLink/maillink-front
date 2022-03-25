@@ -24,19 +24,20 @@ import RecentSearchMail from '../../../assets/images/RecentSearchMail.png';
 import DeleteMail from '../../../assets/images/DeleteMail.png';
 import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
 const STORAGE_KEY = '@recentDataReaderMailSearch';
 
 const ReaderMailSearch = () => {
+  const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const [recentSearch, setRecentSearch] = useState([]);
   const [query, setQuery] = useState(null);
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
-  const navigation = useNavigation();
   const [mail, setMail] = useState();
   const {isLoading: mailLoading, data: mailListSearchData} = useQuery(
-    ['ReaderMailSearch'],
+    ['ReaderMail'],
     ReaderAPI.readerMailBox,
   );
 
@@ -70,7 +71,14 @@ const ReaderMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = mail.filter(item => item.title.includes(data));
+    console.log(mail);
+    var res = mail.filter(item => {
+      if (
+        item.key !== 'category' &&
+        (item.title.includes(data) || item.writerNickname.includes(data))
+      )
+        return true;
+    });
     setResult([...res]);
 
     var temp = recentSearch;
@@ -91,7 +99,13 @@ const ReaderMailSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = mail.filter(item => item.title.includes(query));
+    var res = mail.filter(item => {
+      if (
+        item.key !== 'category' &&
+        (item.title.includes(query) || item.writerNickname.includes(query))
+      )
+        return true;
+    });
     setResult([...res]);
 
     var temp = recentSearch;
@@ -105,11 +119,12 @@ const ReaderMailSearch = () => {
     setRecentSearch([...temp]);
   };
 
-  const onPressMailItem = data => {
+  const onPressMailItem = async data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
-      params: {item: {...data}},
+      params: {mailId: data.id, writerId: data.writerId},
     });
+    await queryClient.refetchQueries(['ReaderMail']);
   };
 
   const getRecentSearch = async () => {
@@ -184,8 +199,13 @@ const ReaderMailSearch = () => {
                         width: 42,
                         height: 42,
                         opacity: data.isRead ? 0.4 : null,
+                        borderRadius: 90,
                       }}
-                      source={AuthorProfileImage}
+                      source={
+                        data.writerImgUrl === ''
+                          ? DefaultProfile
+                          : {uri: data.writerImgUrl}
+                      }
                     />
                     <View style={styles.itemTextView}>
                       <View
@@ -198,7 +218,7 @@ const ReaderMailSearch = () => {
                             ...styles.itemAuthorText,
                             color: data.isRead ? '#BEBEBE' : '#4562F1',
                           }}>
-                          {data.writerId}
+                          {data.writerNickname}
                         </Text>
                         <Text style={styles.itemDateText}>
                           {data.publishedTime

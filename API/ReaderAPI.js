@@ -265,6 +265,7 @@ export const ReaderAPI = {
   getWriterInfo: async ({queryKey}) => {
     console.log('작가 정보 조회');
     const [_, writerId] = queryKey;
+    console.log(queryKey);
     var token = await getCredentials();
     try {
       const response = await fetch(

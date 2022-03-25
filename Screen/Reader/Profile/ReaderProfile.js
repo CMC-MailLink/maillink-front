@@ -480,7 +480,7 @@ const ReaderProfile = () => {
                 justifyContent: 'space-between',
                 right: 57,
               }}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => setRecentSelect(true)}
                 activeOpacity={1}>
                 <Text
@@ -490,11 +490,11 @@ const ReaderProfile = () => {
                   }}>
                   최신구독순
                 </Text>
-              </TouchableOpacity>
-              <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
+              </TouchableOpacity> */}
+              {/* <Text style={{...styles.bodyHeaderTextOrder, color: '#BEBEBE'}}>
                 ・
-              </Text>
-              <TouchableOpacity
+              </Text> */}
+              {/* <TouchableOpacity
                 onPress={() => setRecentSelect(false)}
                 activeOpacity={1}>
                 <Text
@@ -504,7 +504,7 @@ const ReaderProfile = () => {
                   }}>
                   업데이트순
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </>
