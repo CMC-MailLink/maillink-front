@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCredentials} from '../Credentials';
+import {API_URL} from '@env';
 
 const BASE_URL = 'https://www.maillink-api.com';
 
@@ -237,7 +238,9 @@ export const AuthorAPI = {
       );
       console.log(response);
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
@@ -283,7 +286,9 @@ export const AuthorAPI = {
       });
       console.log(response);
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
@@ -305,7 +310,9 @@ export const AuthorAPI = {
         },
       );
       console.log(response);
-      if (response.status === 200) return true;
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
@@ -326,8 +333,11 @@ export const AuthorAPI = {
         },
       });
       console.log(response);
-      if (response.status === 200) return true;
-      else return false;
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
       return false;

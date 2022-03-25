@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCredentials} from '../Credentials';
+import {API_URL} from '@env';
 
 const BASE_URL = 'https://www.maillink-api.com';
 
@@ -15,6 +16,7 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
+      console.log(response);
       if (response.status === 200) {
         return true;
       } else {
@@ -85,9 +87,10 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibiwrite',
+          socialId: 'bibiwriter',
         }),
       });
+      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;
@@ -139,13 +142,13 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibiwrite1',
+          socialId: 'bibiwriter',
           nickName: '비비작가',
-          imgUrl:
-            'https://mail-link.s3.ap-northeast-2.amazonaws.com/static/164708455610988511.png',
+          imgUrl: imgUrl,
           phoneNumber: '01011111111',
         }),
       });
+      console.log(response);
       let json = await response.json();
       console.log(json);
       if (json.errorCode === 400) {

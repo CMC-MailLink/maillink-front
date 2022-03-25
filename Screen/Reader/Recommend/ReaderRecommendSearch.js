@@ -32,7 +32,6 @@ const ReaderRecommendSearch = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [recentSearch, setRecentSearch] = useState([]);
-  const [author, setAuthor] = useState();
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
@@ -47,19 +46,16 @@ const ReaderRecommendSearch = () => {
   }, []);
 
   useEffect(() => {
-    if (authorListData) setAuthor([...authorListData]);
-    console.log(authorListData);
-  }, [authorListData]);
-
-  useEffect(() => {
     if (query === '') {
       return;
     }
     setSubmit(true);
-    var res = author.filter(item => item.writerInfo.nickName.includes(query));
+    var res = authorListData.filter(item =>
+      item.writerInfo.nickName.includes(query),
+    );
     setResult([...res]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [author]);
+  }, [authorListData]);
 
   useEffect(() => {
     if (query === '') setSubmit(false);
@@ -80,7 +76,9 @@ const ReaderRecommendSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = author.filter(item => item.writerInfo.nickName.includes(data));
+    var res = authorListData.filter(item =>
+      item.writerInfo.nickName.includes(data),
+    );
     setResult([...res]);
 
     var temp = recentSearch;
@@ -102,7 +100,9 @@ const ReaderRecommendSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = author.filter(item => item.writerInfo.nickName.includes(query));
+    var res = authorListData.filter(item =>
+      item.writerInfo.nickName.includes(query),
+    );
     setResult([...res]);
 
     var temp = recentSearch;
@@ -128,6 +128,7 @@ const ReaderRecommendSearch = () => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
     console.log(result);
     if (result) await queryClient.refetchQueries(['AuthorList']);
+    await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
 
   //구독 취소하기 버튼 클릭
@@ -135,6 +136,7 @@ const ReaderRecommendSearch = () => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
     console.log(result);
     if (result) await queryClient.refetchQueries(['AuthorList']);
+    await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
 
   const getRecentSearch = async () => {
@@ -227,23 +229,23 @@ const ReaderRecommendSearch = () => {
                     </View>
                     <TouchableOpacity
                       onPress={() =>
-                        data.isSubscribe
+                        data.subscribeCheck
                           ? onPressCancelSubscribe(data.writerInfo.id)
                           : onPressSubscribe(data.writerInfo.id)
                       }
                       style={
-                        data.isSubscribe
+                        data.subscribeCheck
                           ? styles.subscribeView
                           : styles.subscribeNotView
                       }>
                       <View>
                         <Text
                           style={
-                            data.isSubscribe
+                            data.subscribeCheck
                               ? styles.subscribeText
                               : styles.subscribeNotText
                           }>
-                          {data.isSubscribe ? '구독중' : '구독하기'}
+                          {data.subscribeCheck ? '구독중' : '구독하기'}
                         </Text>
                       </View>
                     </TouchableOpacity>

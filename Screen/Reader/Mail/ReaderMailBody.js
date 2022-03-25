@@ -20,7 +20,7 @@ import NoBookMarkMail from '../../../assets/images/NoBookMarkMail.png';
 import SendMail from '../../../assets/images/SendMail.png';
 import StarMail from '../../../assets/images/StarMail.png';
 import NoStarMail from '../../../assets/images/NoStarMail.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ReaderMail from '../../../assets/images/ReaderMail.png';
 import MailRefresh from '../../../assets/images/MailRefresh.png';
 
@@ -68,39 +68,48 @@ const ReaderMailBody = () => {
   useEffect(() => {
     if (mailData) {
       var temp = mailData;
-      temp.map((data, index) => {
-        data.key = index.toString();
+      if (temp[0].key !== 'category') {
+        temp.map((data, index) => {
+          data.key = index.toString();
+        });
+        temp.unshift({key: 'category'});
+      }
+      var tempMail = temp.slice().sort(function (a, b) {
+        if (a.publishedTime >= b.publishedTime) {
+          return recentSelect ? -1 : 1;
+        } else if (a.publishedTime < b.publishedTime) {
+          return recentSelect ? 1 : -1;
+        }
       });
-      temp.unshift({key: 'category'});
-      setMail([...temp]);
+      setMail([...tempMail]);
     } else {
       setMail([{key: 'category'}]);
     }
-  }, [mailData]);
+  }, [mailData, recentSelect, mailSelect]);
 
-  useEffect(() => {
-    if (mailSelect) {
-      setMail(data =>
-        data.slice().sort(function (a, b) {
-          if (a.publishedTime >= b.publishedTime) {
-            return recentSelect ? -1 : 1;
-          } else if (a.publishedTime < b.publishedTime) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-    } else {
-      setBookmark(data =>
-        data.slice().sort(function (a, b) {
-          if (a.publishedTime >= b.publishedTime) {
-            return recentSelect ? -1 : 1;
-          } else if (a.publishedTime < b.publishedTime) {
-            return recentSelect ? 1 : -1;
-          }
-        }),
-      );
-    }
-  }, [recentSelect, mailSelect]);
+  // useEffect(() => {
+  //   if (mailSelect) {
+  //     setMail(data =>
+  //       data.slice().sort(function (a, b) {
+  //         if (a.publishedTime >= b.publishedTime) {
+  //           return recentSelect ? -1 : 1;
+  //         } else if (a.publishedTime < b.publishedTime) {
+  //           return recentSelect ? 1 : -1;
+  //         }
+  //       }),
+  //     );
+  //   } else {
+  //     setBookmark(data =>
+  //       data.slice().sort(function (a, b) {
+  //         if (a.publishedTime >= b.publishedTime) {
+  //           return recentSelect ? -1 : 1;
+  //         } else if (a.publishedTime < b.publishedTime) {
+  //           return recentSelect ? 1 : -1;
+  //         }
+  //       }),
+  //     );
+  //   }
+  // }, [recentSelect, mailSelect]);
 
   useEffect(() => {
     var temp = mail.filter(item => {
@@ -135,6 +144,8 @@ const ReaderMailBody = () => {
     if (offsetY <= -refreshingHeight && !refreshing) {
       setRefreshing(true);
       await queryClient.refetchQueries(['ReaderMail']);
+      // setMailSelect(true);
+      // setRecentSelect(true);
       setRefreshing(false);
     }
   };
@@ -160,6 +171,7 @@ const ReaderMailBody = () => {
 
   //쪽지 보내기 버튼 클릭
   const sendRow = (rowMap, key, writerId) => {
+    console.log(writerId);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
@@ -193,7 +205,7 @@ const ReaderMailBody = () => {
   const onPressMailItem = async (rowMap, data) => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
-      params: {mailId: data.item.id},
+      params: {mailId: data.item.id, writerId: data.item.writerId},
     });
     await queryClient.refetchQueries(['ReaderMail']);
   };
@@ -211,8 +223,13 @@ const ReaderMailBody = () => {
                 width: 42,
                 height: 42,
                 opacity: data.item.isRead ? 0.4 : null,
+                borderRadius: 90,
               }}
-              source={AuthorProfileImage}
+              source={
+                data.item.writerImgUrl === ''
+                  ? DefaultProfile
+                  : {uri: data.item.writerImgUrl}
+              }
             />
             <View style={styles.itemTextView}>
               <View
@@ -225,7 +242,7 @@ const ReaderMailBody = () => {
                     ...styles.itemAuthorText,
                     color: data.item.isRead ? '#BEBEBE' : '#4562F1',
                   }}>
-                  {data.item.writerId}
+                  {data.item.writerNickname}
                 </Text>
                 <Text style={styles.itemDateText}>
                   {data.item.publishedTime
@@ -245,7 +262,7 @@ const ReaderMailBody = () => {
                   ...styles.itemBodyText,
                   color: data.item.isRead ? '#BEBEBE' : '#828282',
                 }}>
-                {data.item.preView}
+                {data.item.preview}
               </Text>
             </View>
           </View>

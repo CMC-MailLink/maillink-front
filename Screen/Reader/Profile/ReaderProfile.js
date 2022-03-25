@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Modal,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {ReaderAPI} from '../../../API/ReaderAPI';
@@ -33,21 +34,21 @@ const ReaderProfile = () => {
   const queryClient = useQueryClient();
   const [offsetY, setOffsetY] = useState(0);
   const [branch, setBranch] = useState([
-    {category: '시', select: true},
-    {category: '소설', select: true},
-    {category: '에세이', select: true},
+    {name: 'Poetry', category: '시', select: true},
+    {name: 'Novels', category: '소설', select: true},
+    {name: 'Essays', category: '에세이', select: true},
   ]);
   const [vive, setVive] = useState([
-    {category: '편안', select: true},
-    {category: '맑은', select: true},
-    {category: '서정', select: true},
-    {category: '잔잔', select: true},
-    {category: '명랑', select: true},
-    {category: '유쾌', select: true},
-    {category: '달달', select: true},
-    {category: '키치', select: true},
+    {name: 'Comfortable', category: '편안', select: true},
+    {name: 'Clear', category: '맑은', select: true},
+    {name: 'Lyrical', category: '서정', select: true},
+    {name: 'Calm', category: '잔잔', select: true},
+    {name: 'Light', category: '명랑', select: true},
+    {name: 'Cheerful', category: '유쾌', select: true},
+    {name: 'Sweet', category: '달달', select: true},
+    {name: 'Kitsch', category: '키치', select: true},
   ]);
-  const [author, setAuthor] = useState([]);
+  //const [author, setAuthor] = useState([]);
   const [category, setCategory] = useState(false);
   const [recentSelect, setRecentSelect] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -55,6 +56,7 @@ const ReaderProfile = () => {
   const [editName, setEditName] = useState();
   const [imageUri, setImageUri] = useState('');
   const [filterAuthor, setFilterAuthor] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
     useQuery(['SubscribeAuthorList'], ReaderAPI.getSubscribeWriters);
   const {isLoading: readerInfoLoading, data: readerInfoData} = useQuery(
@@ -72,16 +74,8 @@ const ReaderProfile = () => {
   }, [readerInfoData]);
 
   useEffect(() => {
-    console.log(subscribeAuthorListData);
-    if (subscribeAuthorListData) {
-      setAuthor([...subscribeAuthorListData]);
-      setFilterAuthor([...subscribeAuthorListData]);
-    }
-  }, [subscribeAuthorListData]);
-
-  useEffect(() => {
     if (recentSelect) {
-      setAuthor(data =>
+      setFilterAuthor(data =>
         data.slice().sort(function (a, b) {
           if (a.order >= b.order) {
             return 1;
@@ -91,7 +85,7 @@ const ReaderProfile = () => {
         }),
       );
     } else {
-      setAuthor(data =>
+      setFilterAuthor(data =>
         data.slice().sort(function (a, b) {
           if (a.update >= b.update) {
             return 1;
@@ -104,44 +98,47 @@ const ReaderProfile = () => {
   }, [recentSelect]);
 
   useEffect(() => {
-    var temp = author.filter(data => {
-      for (var i = 0; i < 3; i++) {
-        if (branch[i].select) {
-          if (data.repBranch === branch[i].category) {
-            return true;
+    if (subscribeAuthorListData) {
+      var temp = subscribeAuthorListData.filter(data => {
+        console.log('data : ', data);
+        for (var i = 0; i < 3; i++) {
+          if (branch[i].select) {
+            if (data.writerInfo.primaryGenre === branch[i].name) {
+              return true;
+            }
           }
         }
-      }
-      return false;
-    });
-    temp = temp.filter(data => {
-      for (var i = 0; i < 8; i++) {
-        if (vive[i].select) {
-          if (data.repVive === vive[i].category) {
-            return true;
+        return false;
+      });
+      temp = temp.filter(data => {
+        for (var i = 0; i < 8; i++) {
+          if (vive[i].select) {
+            if (data.writerInfo.primaryMood === vive[i].name) {
+              return true;
+            }
           }
         }
-      }
-      return false;
-    });
-    setFilterAuthor([...temp]);
-  }, [branch, vive, author]);
+        return false;
+      });
+      setFilterAuthor([...temp]);
+    }
+  }, [branch, vive, subscribeAuthorListData]);
 
   const onPressAll = () => {
     setBranch([
-      {category: '시', select: true},
-      {category: '소설', select: true},
-      {category: '에세이', select: true},
+      {name: 'Poetry', category: '시', select: true},
+      {name: 'Novels', category: '소설', select: true},
+      {name: 'Essays', category: '에세이', select: true},
     ]);
     setVive([
-      {category: '편안', select: true},
-      {category: '맑은', select: true},
-      {category: '서정', select: true},
-      {category: '잔잔', select: true},
-      {category: '명랑', select: true},
-      {category: '유쾌', select: true},
-      {category: '달달', select: true},
-      {category: '키치', select: true},
+      {name: 'Comfortable', category: '편안', select: true},
+      {name: 'Clear', category: '맑은', select: true},
+      {name: 'Lyrical', category: '서정', select: true},
+      {name: 'Calm', category: '잔잔', select: true},
+      {name: 'Light', category: '명랑', select: true},
+      {name: 'Cheerful', category: '유쾌', select: true},
+      {name: 'Sweet', category: '달달', select: true},
+      {name: 'Kitsch', category: '키치', select: true},
     ]);
   };
 
@@ -190,19 +187,19 @@ const ReaderProfile = () => {
     }
   };
 
-  const setSubscribe = async writerId => {
+  const setSubscribe = async (writerId, index) => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
+    var temp = filterAuthor;
+    temp[index].subscribeCheck = true;
+    setFilterAuthor([...temp]);
     console.log(result);
-    if (result) {
-      await await queryClient.refetchQueries(['subscribeAuthorList']);
-    }
   };
-  const cancelSubscribe = async writerId => {
+  const cancelSubscribe = async (writerId, index) => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
+    var temp = filterAuthor;
+    temp[index].subscribeCheck = false;
+    setFilterAuthor([...temp]);
     console.log(result);
-    if (result) {
-      await await queryClient.refetchQueries(['subscribeAuthorList']);
-    }
   };
 
   function onScroll(event) {
@@ -211,6 +208,20 @@ const ReaderProfile = () => {
     const {y} = contentOffset;
     setOffsetY(y);
   }
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['SubscribeAuthorList']);
+    await queryClient.refetchQueries(['AuthorList']);
+    setRefreshing(false);
+  };
+
+  const onPressAuthorItem = data => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAuthorProfile',
+      params: {id: data.writerInfo.id},
+    });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -243,7 +254,10 @@ const ReaderProfile = () => {
       <ScrollView
         stickyHeaderIndices={[2]}
         onScroll={onScroll}
-        scrollEventThrottle={0}>
+        scrollEventThrottle={0}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
             style={{position: 'absolute', right: 20, bottom: 18}}
@@ -496,33 +510,48 @@ const ReaderProfile = () => {
         </>
         <View style={{paddingBottom: 150}}>
           {filterAuthor.map((data, index) => (
-            <View key={index} style={styles.bodyItem}>
-              <FastImage
-                style={{width: 42, height: 42, marginRight: 10}}
-                source={AuthorProfileImage}
-              />
-              <View>
-                <Text style={styles.bodyItemName}>{data.nickName}</Text>
-                <Text style={styles.bodyItemIntro}>{data.intro}</Text>
+            <TouchableOpacity onPress={e => onPressAuthorItem(data)}>
+              <View key={index} style={styles.bodyItem}>
+                <FastImage
+                  style={{
+                    width: 42,
+                    height: 42,
+                    marginRight: 10,
+                    borderRadius: 90,
+                  }}
+                  source={
+                    data.writerInfo.imgUrl === ''
+                      ? DefaultProfile
+                      : {uri: data.writerInfo.imgUrl}
+                  }
+                />
+                <View>
+                  <Text style={styles.bodyItemName}>
+                    {data.writerInfo.nickName}
+                  </Text>
+                  <Text style={styles.bodyItemIntro}>
+                    {data.writerInfo.introduction}
+                  </Text>
+                </View>
+                {data.subscribeCheck ? (
+                  <TouchableOpacity
+                    style={{position: 'absolute', right: 20}}
+                    onPress={() => cancelSubscribe(data.writerInfo.id, index)}>
+                    <View style={styles.subscribeView}>
+                      <Text style={styles.subscribeText}>구독중</Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={{position: 'absolute', right: 20}}
+                    onPress={() => setSubscribe(data.writerInfo.id, index)}>
+                    <View style={styles.notSubscribeView}>
+                      <Text style={styles.notSubscribeText}>구독하기</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
-              {data.subscribe ? (
-                <TouchableOpacity
-                  style={{position: 'absolute', right: 20}}
-                  onPress={() => cancelSubscribe(index)}>
-                  <View style={styles.subscribeView}>
-                    <Text style={styles.subscribeText}>구독중</Text>
-                  </View>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={{position: 'absolute', right: 20}}
-                  onPress={() => setSubscribe(index)}>
-                  <View style={styles.notSubscribeView}>
-                    <Text style={styles.notSubscribeText}>구독하기</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
