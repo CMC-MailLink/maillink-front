@@ -29,8 +29,8 @@ const AddWebsite = () => {
   const [editInstagram, setEditInstagram] = useState('');
   const [editURL, setEditURL] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalVisible2, setModalVisible2] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
   const [modalConfirm2, setModalConfirm2] = useState(false);
 
   const onPressBack = () => {
@@ -41,12 +41,12 @@ const AddWebsite = () => {
   };
 
   useEffect(() => {
-    if (modalConfirm2) {
-      setModalVisible2(!modalVisible2);
-      setModalVisible(!modalVisible);
+    if (modalConfirm) {
+      setModalVisible2(false);
+      setModalVisible(false);
       myContext.setIsReader('WRITER');
     }
-  }, [modalVisible2, modalVisible, modalConfirm2, myContext]);
+  }, [myContext, modalConfirm]);
 
   return (
     <View style={{flex: 1}}>
@@ -60,11 +60,10 @@ const AddWebsite = () => {
         }}>
         <AuthorSuccessModal
           modalVisible={modalVisible}
-          modalVisible2={setModalVisible2}
           setModalVisible={setModalVisible}
+          modalVisible2={modalVisible2}
           setModalVisible2={setModalVisible2}
           setModalConfirm={setModalConfirm}
-          setModalConfirm2={setModalConfirm2}
         />
       </Modal>
 
@@ -164,7 +163,7 @@ const AddWebsite = () => {
       {/* Footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity
-          onPress={() => setModalVisible(!modalVisible)}
+          onPress={onPressModalConfirm}
           style={styles.buttonAble}>
           <View>
             <Text style={styles.buttonAbleText}>완료</Text>

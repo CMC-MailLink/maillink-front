@@ -12,7 +12,7 @@ import InfoWeb from '../../assets/images/InfoWeb.png';
 import Clipboard from '@react-native-clipboard/clipboard';
 import AppContext from '../../AppContext';
 
-const NoticeModal = ({setModalVisible, modalVisible, setModalConfirm}) => {
+const NoticeModal = ({modalVisible2, setModalConfirm2, setModalConfirm}) => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const onPressCopy = () => {
@@ -23,8 +23,10 @@ const NoticeModal = ({setModalVisible, modalVisible, setModalConfirm}) => {
     Clipboard.setString('www.maillink.com');
   };
   const goNextScreen = () => {
-    // myContext.setIsReader('WRITER');
     setModalConfirm(true);
+  };
+  const goback = () => {
+    navigation.goBack();
   };
 
   return (
@@ -50,6 +52,12 @@ const NoticeModal = ({setModalVisible, modalVisible, setModalConfirm}) => {
           <TouchableOpacity onPress={goNextScreen}>
             <View>
               <Text style={styles.modalConfirm2}>확인</Text>
+            </View>
+          </TouchableOpacity>
+          {/* for test */}
+          <TouchableOpacity onPress={goback}>
+            <View>
+              <Text style={styles.modalConfirm2}>이전</Text>
             </View>
           </TouchableOpacity>
         </View>

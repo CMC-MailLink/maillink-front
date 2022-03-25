@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,25 +10,18 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import NewCheckModal from '../../assets/images/NewCheckModal.png';
 import NoticeModal from './NoticeModal';
-
+import AppContext from '../../AppContext';
 const AuthorSuccessModal = ({
-  setModalConfirm,
-  setModalConfirm2,
   modalVisible,
   setModalVisible,
+  modalVisible2,
+  setModalVisible2,
+  setModalConfirm,
 }) => {
   const onPressModalConfirm2 = () => {
-    setModalVisible(!modalVisible);
     setModalVisible2(!modalVisible2);
   };
-  const [modalVisible2, setModalVisible2] = useState(false);
-  // useEffect(() => {
-  //   if (modalConfirm2) {
-  //     setModalVisible2(!modalVisible2);
-  //     setModalVisible(!modalVisible);
-  //     myContext.setIsReader('WRITER');
-  //   }
-  // }, [setModalVisible, modalVisible2, modalVisible, modalConfirm2, myContext]);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -36,12 +29,12 @@ const AuthorSuccessModal = ({
         transparent={true}
         visible={modalVisible2}
         onRequestClose={() => {
-          setModalVisible(!modalVisible2);
+          setModalVisible2(!modalVisible2);
         }}>
         <NoticeModal
-          modalVisible={modalVisible2}
-          setModalVisible={setModalVisible2}
-          setModalConfirm={setModalConfirm2}
+          modalVisible2={modalVisible2}
+          setModalVisible2={setModalVisible2}
+          setModalConfirm={setModalConfirm}
         />
       </Modal>
       <View style={styles.modalView}>
