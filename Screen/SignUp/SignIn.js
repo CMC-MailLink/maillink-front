@@ -52,6 +52,7 @@ const SignIn = props => {
       const result2 = await SignUpAPI.memberInfo();
       console.log('signIn : ', result2);
       if (result2 === 'Not Decided') {
+        myContext.setIsReader('Not Decided');
         myContext.setIsLogged(true);
       } else if (result2 === 'WRITER') {
         myContext.setIsReader('WRITER');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -13,12 +13,29 @@ import {useNavigation} from '@react-navigation/native';
 
 import ExitMessage from '../../../assets/images/ExitMessage.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
+import {MessageAPI} from '../../../API/MessageAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
-const MessageWrite = () => {
+const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  const [message, setMessage] = useState('');
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  const sendMessage = async () => {
+    var result = await MessageAPI.messageSending({
+      partnerId: params.writerId,
+      text: message,
+    });
+    if (result) {
+      await queryClient.refetchQueries(['Message']);
+      await queryClient.refetchQueries(['MessagePartner']);
+      onPressBack();
+    }
+  };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#F8F8F8'}} />
@@ -31,7 +48,7 @@ const MessageWrite = () => {
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>쪽지보내기</Text>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={sendMessage}>
           <View>
             <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
           </View>
@@ -43,6 +60,8 @@ const MessageWrite = () => {
         placeholder="내용을 입력하세요. (200자 제한)"
         placeholderTextColor="#BEBEBE"
         maxLength={200}
+        value={message}
+        onChangeText={setMessage}
       />
     </View>
   );

@@ -282,10 +282,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     includeFontPadding: false,
   },
-  bodyHeaderBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#4562F1',
-  },
   bodyContainer: {
     backgroundColor: '#FFFFFF',
     flex: 1,

@@ -33,9 +33,9 @@ const MyTheme = {
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState();
   //'Not Decided'
-  const [isReader, setIsReader] = useState('Not Decided');
+  const [isReader, setIsReader] = useState();
   const userSettings = {
     isLogged,
     setIsLogged,
@@ -57,7 +57,7 @@ const App = () => {
     }
 
     loading();
-    SplashScreen.hide();
+    // SplashScreen.hide();
   }, []);
 
   const checkLogged = async () => {
@@ -74,6 +74,7 @@ const App = () => {
       setIsLogged(true);
       const result = await SignUpAPI.memberInfo();
       if (result === 'Not Decided') {
+        setIsReader('Not Decided');
       } else if (result === 'WRITER') {
         setIsReader('WRITER');
       } else if (result === 'READER') {
@@ -81,6 +82,11 @@ const App = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isLogged !== null) SplashScreen.hide();
+    else if (isReader !== null) SplashScreen.hide();
+  }, [isLogged, isReader]);
 
   return (
     <QueryClientProvider client={queryClient}>
