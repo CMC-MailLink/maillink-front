@@ -87,7 +87,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibiwriter',
+          socialId: 'd4',
         }),
       });
       console.log(response);
@@ -142,8 +142,8 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'bibiwriter',
-          nickName: '비비작가',
+          socialId: 'd4',
+          nickName: 'd4',
           imgUrl: imgUrl,
           phoneNumber: '01011111111',
         }),

@@ -24,6 +24,8 @@ const Root = props => {
             name="OnBoardingStacks"
             component={OnBoardingStacks}
           />
+          <AuthorNav.Screen name="AuthorTabs" component={AuthorTabs} />
+          <AuthorNav.Screen name="AuthorStacks" component={AuthorStacks} />
         </RootNav.Group>
       ) : (
         <RootNav.Group>

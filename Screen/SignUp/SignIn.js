@@ -73,8 +73,8 @@ const SignIn = props => {
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
       //for test
-      navigation.navigate('SignUpStacks', {
-        screen: 'Message',
+      navigation.navigate('OnBoardingStacks', {
+        screen: 'AddWebsite',
       });
       // onAppleButtonPressIos();
     } else {

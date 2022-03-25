@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -19,14 +19,19 @@ import URLNone from '../../assets/images/URLNone.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import AppContext from '../../AppContext';
 
 const AddWebsite = () => {
   const navigation = useNavigation();
+  const myContext = useContext(AppContext);
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
   const [editInstagram, setEditInstagram] = useState('');
   const [editURL, setEditURL] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState(false);
+  const [modalConfirm2, setModalConfirm2] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -34,6 +39,14 @@ const AddWebsite = () => {
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
   };
+
+  useEffect(() => {
+    if (modalConfirm2) {
+      setModalVisible2(!modalVisible2);
+      setModalVisible(!modalVisible);
+      myContext.setIsReader('WRITER');
+    }
+  }, [modalVisible2, modalVisible, modalConfirm2, myContext]);
 
   return (
     <View style={{flex: 1}}>
@@ -47,8 +60,11 @@ const AddWebsite = () => {
         }}>
         <AuthorSuccessModal
           modalVisible={modalVisible}
+          modalVisible2={setModalVisible2}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}
+          setModalVisible2={setModalVisible2}
+          setModalConfirm={setModalConfirm}
+          setModalConfirm2={setModalConfirm2}
         />
       </Modal>
 
@@ -148,7 +164,7 @@ const AddWebsite = () => {
       {/* Footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity
-          onPress={onPressModalConfirm}
+          onPress={() => setModalVisible(!modalVisible)}
           style={styles.buttonAble}>
           <View>
             <Text style={styles.buttonAbleText}>완료</Text>
