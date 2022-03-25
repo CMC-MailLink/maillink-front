@@ -159,6 +159,7 @@ const ReaderMailBody = () => {
 
   //쪽지 보내기 버튼 클릭
   const sendRow = (rowMap, key, writerId) => {
+    console.log(writerId);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
@@ -192,7 +193,7 @@ const ReaderMailBody = () => {
   const onPressMailItem = async (rowMap, data) => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
-      params: {mailId: data.item.id},
+      params: {mailId: data.item.id, writerId: data.item.writerId},
     });
     await queryClient.refetchQueries(['ReaderMail']);
   };
@@ -249,7 +250,7 @@ const ReaderMailBody = () => {
                   ...styles.itemBodyText,
                   color: data.item.isRead ? '#BEBEBE' : '#828282',
                 }}>
-                {data.item.preView}
+                {data.item.preview}
               </Text>
             </View>
           </View>

@@ -25,6 +25,8 @@ import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import ChatExitModal from './ChatExitModal';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {MessageAPI} from '../../../API/MessageAPI';
 
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import Report from '../../../assets/images/Report.png';
@@ -35,98 +37,28 @@ const STATUSBAR_HEIGHT = 48;
 
 const Message = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
-  const [sender, setSender] = useState('이작가');
-  const [message, setMessage] = useState([
-    {
-      key: '5',
-      type: '받은 쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context: '아하 감사합니다! 좋은 하루 되세요!',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '4',
-      type: '보낸 쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context:
-        '저는 이렇게 해석했는데, 그렇게 해석될 수 있겠네요! 독자님의 상상력 좋습니다!',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '3',
-      type: '받은 쪽지',
-      sender: '나동현',
-      date: '21. 02. 12',
-      context:
-        '작가님의 글 중에서, ‘피가 광야에서 이는 위하여 없으면,부분을 저는 조금 비관적인 문장으로 해석하였는데, 작가님의 생각은 어떠셨는지 궁금합니다!',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '2',
-      type: '보낸 쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context: '안녕하세요!질문이 뭔가요 독자님?',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '1',
-      type: '받은 쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context:
-        '안녕하세요! 작가님 글 너무 잘보았습니다.혹시 질문 하나 드려도 될까요?',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-    {
-      key: '0',
-      type: '보낸 쪽지',
-      sender: '이작가',
-      date: '21. 02. 12',
-      context: '저도 감사합니다~',
-      localtime: '3:00',
-      daytime: '오후',
-    },
-  ]);
+  const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = React.useState(false);
-  const [send, setSendSelect] = useState(false);
-  const [messageData, setMessageData] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const {isLoading: messageLoading, data: messagePartnerData} = useQuery(
+    ['MessagePartner', params.partnerId],
+    MessageAPI.getMessagePartner,
+  );
 
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-  const onPressSend = () => {
-    setSendSelect(true);
-  };
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressMessageItem = data => {
-    navigation.navigate('Stacks', {
-      screen: 'Message',
-      params: {...data},
-    });
-  };
+
   const onPressReport = data => {
     navigation.navigate('AuthorStacks', {
       screen: 'MessageReport',
     });
   };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
 
-  const renderMessageItem = a => {
-    console.log(a);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['MessagePartner']);
+    setRefreshing(false);
   };
 
   const onPressModalConfirm = () => {
@@ -138,47 +70,44 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       style={{
         backgroundColor: '#FFF',
         paddingTop: 12,
+        paddingHorizontal: 21,
         borderBottomColor: '#EBEBEB',
         borderBottomWidth: 1,
       }}>
       <View
         style={{
-          paddingRight: 70,
+          flexDirection: 'row',
+          width: '100%',
+          justifyContent: 'space-between',
         }}>
         <Text
           style={{
             color: '#3C3C3C',
             fontFamily: 'NotoSansKR-Bold',
             fontSize: 14,
-            left: 22,
+            includeFontPadding: false,
           }}>
-          {data.item.type}
+          {data.item.type === 'SEND' ? '보낸쪽지' : '받은쪽지'}
         </Text>
         <Text
           style={{
-            paddingTop: 22,
-            color: '#828282',
-            fontFamily: 'NotoSansKR-Regular',
-            fontSize: 14,
-            left: 22,
-            right: 10,
-            bottom: 18,
+            color: '#BEBEBE',
+            fontFamily: 'NotoSansKR-Light',
+            fontSize: 12,
+            includeFontPadding: false,
           }}>
-          {data.item.context}
+          {data.item.time ? data.item.time.slice(0, 10) : ''}
         </Text>
       </View>
       <Text
         style={{
-          paddingTop: 15,
-          position: 'absolute',
-          color: '#BEBEBE',
-          fontFamily: 'NotoSansKR-Light',
-          fontSize: 12,
-          right: 20,
+          paddingTop: 6,
+          color: '#828282',
+          fontFamily: 'NotoSansKR-Regular',
+          fontSize: 14,
+          includeFontPadding: false,
         }}>
-        {data.item.date}&nbsp;&nbsp;
-        {data.item.daytime}&nbsp;
-        {data.item.localtime}
+        {data.item.text}
       </Text>
     </View>
   );
@@ -268,17 +197,16 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               left: 56,
               top: 11,
             }}>
-            {params.item.sender}
+            {/* {params.item.sender} */}
           </Text>
         </View>
-        {renderMessageItem(message.sender)}
       </View>
       {/* body */}
       <View>
-        {messageData ? (
+        {messagePartnerData ? (
           <FlatList
             style={styles.bodyContainer}
-            data={message}
+            data={messagePartnerData}
             renderItem={renderItem}
             refreshControl={
               <RefreshControl

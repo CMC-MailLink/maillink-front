@@ -22,12 +22,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import ChatExitModal from './ChatExitModal';
 import {MessageAPI} from '../../../API/MessageAPI';
-import {
-  QueryClient,
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {FloatingAction} from 'react-native-floating-action';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
@@ -43,8 +38,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
-  const [send, setSendSelect] = useState(false);
-  const [message, setMessage] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const {isLoading: messageLoading, data: messagePartnerData} = useQuery(
     ['MessagePartner', params.partnerId],
@@ -212,7 +205,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             {/* {params.item.sender} */}
           </Text>
         </View>
-        {/* {renderMessageItem(message.sender)} */}
       </View>
       {/* body */}
       {messagePartnerData ? (

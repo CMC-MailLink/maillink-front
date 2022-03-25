@@ -182,7 +182,7 @@ const Alarm = () => {
             </Text>
           </View>
           <Text style={styles.itemBodyText}>
-            {data.item.text ? data.item.text : ''}
+            {data.item.text ? data.item.text.slice(0, 40) + '...' : ''}
           </Text>
         </View>
       </View>

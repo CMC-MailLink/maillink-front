@@ -16,27 +16,75 @@ import {WebView} from 'react-native-webview';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import SendMail2 from '../../../assets/images/SendMail2.png';
-import StarMail2 from '../../../assets/images/StarMail2.png';
+import StarMail from '../../../assets/images/StarMail.png';
+import NoStarMail from '../../../assets/images/NoStarMail.png';
 import {useEffect} from 'react/cjs/react.development';
 
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const url = 'https://www.mail-link.co.kr/readingEditor';
   let webRef = useRef();
-  const {isLoading: authrListLoading, data: mailDetailData} = useQuery(
+  const {isLoading: mailDetailLoading, data: mailDetailData} = useQuery(
     ['ReaderMailDetail', params.mailId],
     ReaderAPI.mailReading,
   );
+  const {isLoading: authrInfoLoading, data: authorInfoData} = useQuery(
+    ['AuthorInfo', params.writerId],
+    ReaderAPI.getWriterInfo,
+  );
 
-  const onPressSubscribe = () => {
-    //setSubscribe(!subscribe);
-  };
+  useEffect(() => {
+    queryClient.refetchQueries(['ReaderMail']);
+  }, [queryClient]);
 
   const onPressBack = () => {
     navigation.goBack();
+  };
+
+  const onPressBookmark = async () => {
+    if (!mailDetailData.isSaved) {
+      var result = await ReaderAPI.mailSaving({
+        mailId: mailDetailData.id,
+      });
+      if (result) {
+        await queryClient.refetchQueries(['ReaderMail']);
+        await queryClient.refetchQueries(['ReaderMailDetail']);
+      }
+    } else {
+      var result = await ReaderAPI.mailCancelSaving({
+        mailId: mailDetailData.id,
+      });
+      if (result) {
+        await queryClient.refetchQueries(['ReaderMail']);
+        await queryClient.refetchQueries(['ReaderMailDetail']);
+      }
+    }
+  };
+
+  const onPressSubscribe = async () => {
+    if (authorInfoData.subscribeCheck) {
+      await ReaderAPI.cancelSubscribing({writerId: authorInfoData.id});
+      await queryClient.refetchQueries(['AuthorInfo']);
+      await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
+    } else {
+      await ReaderAPI.subscribing({writerId: authorInfoData.id});
+      await queryClient.refetchQueries(['AuthorInfo']);
+      await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
+    }
+  };
+
+  const onPressSend = async () => {
+    console.log(authorInfoData.writerInfo.id);
+    navigation.navigate('ReaderStacks', {
+      screen: 'MessageWrite',
+      params: {writerId: authorInfoData.writerInfo.id},
+    });
   };
 
   const contentSending = `
@@ -62,16 +110,21 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
           </View>
         </TouchableWithoutFeedback>
-        {mailDetailData && mailDetailData.subscribe ? (
+        {authorInfoData && authorInfoData.subscribeCheck ? (
           <>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => onPressBookmark()}>
               <View style={{position: 'absolute', right: 61}}>
-                <Image
-                  style={{width: 21, height: 20.5}}
-                  source={StarMail2}></Image>
+                {mailDetailData && mailDetailData.isSaved ? (
+                  <Image style={{width: 21, height: 20.5}} source={StarMail} />
+                ) : (
+                  <Image
+                    style={{width: 21, height: 20.5}}
+                    source={NoStarMail}
+                  />
+                )}
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={onPressSend}>
               <View style={{position: 'absolute', right: 22}}>
                 <Image
                   style={{width: 21.54, height: 23.82}}
@@ -91,31 +144,35 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
       </View>
       <View style={styles.authorView}>
         <Image
-          style={{width: 30, height: 30, marginRight: 12}}
-          source={AuthorProfileImage}></Image>
+          style={{width: 30, height: 30, marginRight: 12, borderRadius: 90}}
+          source={
+            !mailDetailData || mailDetailData.writerImgUrl === ''
+              ? DefaultProfile
+              : {uri: mailDetailData.writerImgUrl}
+          }></Image>
         <Text style={styles.authorText}>
-          {mailDetailData ? mailDetailData.writerId : null}
+          {authorInfoData ? authorInfoData.writerInfo.nickName : null}
         </Text>
-        <TouchableOpacity
-          onPress={onPressSubscribe}
+        <View
+          // onPress={onPressSubscribe}
           style={
-            mailDetailData && mailDetailData.subscribe
+            authorInfoData && authorInfoData.subscribeCheck
               ? styles.subscribeView
               : styles.subscribeNotView
           }>
           <View>
             <Text
               style={
-                mailDetailData && mailDetailData.subscribe
+                authorInfoData && authorInfoData.subscribeCheck
                   ? styles.subscribeText
                   : styles.subscribeNotText
               }>
-              {mailDetailData && mailDetailData.subscribe
+              {authorInfoData && authorInfoData.subscribeCheck
                 ? '구독중'
                 : '구독하기'}
             </Text>
           </View>
-        </TouchableOpacity>
+        </View>
       </View>
       <WebView
         automaticallyAdjustContentInsets={false}
