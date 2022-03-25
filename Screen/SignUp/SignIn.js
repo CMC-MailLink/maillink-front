@@ -70,13 +70,13 @@ const SignIn = props => {
       });
     }
   };
-  //for test!!
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
-      navigation.navigate('OnBoardingStacks', {
-        screen: 'Profile',
-      });
-      //onAppleButtonPressIos();
+      //for test
+      //   navigation.navigate('SignUpStacks', {
+      //     screen: 'Message',
+      //   });
+      onAppleButtonPressIos();
     } else {
       onAppleButtonPressAndroid();
     }
