@@ -74,14 +74,6 @@ const ReaderProfile = () => {
   }, [readerInfoData]);
 
   useEffect(() => {
-    console.log(subscribeAuthorListData);
-    if (subscribeAuthorListData) {
-      //setAuthor([...subscribeAuthorListData]);
-      //setFilterAuthor([...subscribeAuthorListData]);
-    }
-  }, [subscribeAuthorListData]);
-
-  useEffect(() => {
     if (recentSelect) {
       setFilterAuthor(data =>
         data.slice().sort(function (a, b) {
@@ -106,22 +98,24 @@ const ReaderProfile = () => {
   }, [recentSelect]);
 
   useEffect(() => {
-    var temp = subscribeAuthorListData.filter(data => {
-      console.log('data : ', data);
-      for (var i = 0; i < 3; i++) {
-        if (branch[i].select)
-          if (data.writerInfo.primaryGenre === branch[i].name) return true;
-      }
-      return false;
-    });
-    temp = temp.filter(data => {
-      for (var i = 0; i < 8; i++) {
-        if (vive[i].select)
-          if (data.writerInfo.primaryMood === vive[i].name) return true;
-      }
-      return false;
-    });
-    setFilterAuthor([...temp]);
+    if (subscribeAuthorListData) {
+      var temp = subscribeAuthorListData.filter(data => {
+        console.log('data : ', data);
+        for (var i = 0; i < 3; i++) {
+          if (branch[i].select)
+            if (data.writerInfo.primaryGenre === branch[i].name) return true;
+        }
+        return false;
+      });
+      temp = temp.filter(data => {
+        for (var i = 0; i < 8; i++) {
+          if (vive[i].select)
+            if (data.writerInfo.primaryMood === vive[i].name) return true;
+        }
+        return false;
+      });
+      setFilterAuthor([...temp]);
+    }
   }, [branch, vive, subscribeAuthorListData]);
 
   const onPressAll = () => {
