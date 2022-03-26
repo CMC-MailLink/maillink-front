@@ -68,7 +68,8 @@ const ReaderMailBody = () => {
   useEffect(() => {
     if (mailData) {
       var temp = mailData;
-      if (temp[0].key !== 'category') {
+      console.log(temp);
+      if (temp || temp[0].key !== 'category') {
         temp.map((data, index) => {
           data.key = index.toString();
         });

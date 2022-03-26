@@ -87,7 +87,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'd8',
+          socialId: 'dongurireader615',
         }),
       });
       console.log(response);
@@ -133,20 +133,20 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   nickName: nickName,
-        //   imgUrl: imgUrl,
-        //   phoneNumber: phoneNumber,
-        // }),
         body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'd8',
-          nickName: 'd8',
+          socialType: socialType,
+          socialId: socialId,
+          nickName: nickName,
           imgUrl: imgUrl,
-          phoneNumber: '01011111111',
+          phoneNumber: phoneNumber,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'KAKAO',
+        //   socialId: 'dongurireader615',
+        //   nickName: '동구리독자615',
+        //   imgUrl: imgUrl,
+        //   phoneNumber: '01011111111',
+        // }),
       });
       console.log(response);
       let json = await response.json();
