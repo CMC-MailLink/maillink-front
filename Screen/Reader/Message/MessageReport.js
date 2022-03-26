@@ -93,7 +93,10 @@ const MessageReport = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        bounces={false}
+        keyboardOpeningTime={0}
+        style={{backgroundColor: '#F8F8F8'}}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
@@ -231,6 +234,7 @@ const MessageReport = () => {
           width: '100%',
           paddingHorizontal: 20,
           marginBottom: 35,
+          backgroundColor: '#F8F8F8',
         }}>
         <TouchableOpacity
           disabled={confirmSuccess ? false : true}
