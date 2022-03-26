@@ -143,7 +143,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               <Text>신고하기</Text>
             </Text>
             <Image
-              style={{width: 22, height: 22, position: 'absolute', left: 178.5}}
+              style={{width: 22, height: 22, position: 'absolute', right: 23.5}}
               source={ReportExclamation}
             />
           </MenuOption>

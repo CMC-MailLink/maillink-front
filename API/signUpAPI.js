@@ -78,6 +78,7 @@ export const SignUpAPI = {
   //로그인
   authLogin: async ({socialType, socialId}) => {
     console.log('authLogin api : ', socialType, socialId);
+    var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
         method: 'post',
@@ -87,7 +88,8 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'donguriwriter615',
+          socialId: 'dongurireader615',
+          fcmDeviceToken: fcmDeviceToken,
         }),
       });
       console.log(response);
@@ -127,6 +129,7 @@ export const SignUpAPI = {
       imgUrl,
       phoneNumber,
     );
+    var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/signup`, {
         method: 'POST',
@@ -139,6 +142,7 @@ export const SignUpAPI = {
           nickName: nickName,
           imgUrl: imgUrl,
           phoneNumber: phoneNumber,
+          fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
         //   socialType: 'KAKAO',
@@ -146,6 +150,7 @@ export const SignUpAPI = {
         //   nickName: '동구리작가615',
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
+        //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
       console.log(response);
