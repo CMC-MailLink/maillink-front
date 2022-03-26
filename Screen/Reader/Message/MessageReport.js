@@ -69,11 +69,11 @@ const MessageReport = () => {
     }
   };
   useEffect(() => {
-    // if (otherReportContent !== null && otherReport) {
-    //   setConfirmSuccess(true);
-    // } else {
-    //   setConfirmSuccess(false);
-    // }
+    if (otherReportContent !== null && otherReport) {
+      setConfirmSuccess(true);
+    } else {
+      setConfirmSuccess(false);
+    }
     setTextCount(otherReportContent.length);
     if (
       moneyReport ||
@@ -97,8 +97,18 @@ const MessageReport = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
+      <StatusBar barStyle="dark-content" />
       <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
-        <StatusBar barStyle="dark-content" />
+        <View style={styles.headerView}>
+          <TouchableWithoutFeedback onPress={onPressBack}>
+            <View style={{left: 24}}>
+              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.headerText}>신고하기</Text>
+        </View>
         <Modal
           animationType="fade"
           transparent={true}
@@ -112,17 +122,6 @@ const MessageReport = () => {
             onPressModalConfirm={onPressModalConfirm}
           />
         </Modal>
-        <View style={styles.headerView}>
-          <TouchableWithoutFeedback onPress={onPressBack}>
-            <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-            </View>
-          </TouchableWithoutFeedback>
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={styles.headerText}>신고하기</Text>
-          </View>
-        </View>
 
         {/* mainHeader */}
         <View style={styles.bodyHeader}>
