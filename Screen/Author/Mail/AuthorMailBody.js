@@ -39,14 +39,14 @@ const AuthorMailBody = () => {
     AuthorAPI.writerGetPublishing,
   );
 
+  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
+    ['AuthorInfo'],
+    AuthorAPI.memberInfo,
+  );
+
   useEffect(() => {
-    async function getMemberInfo() {
-      const result = await AuthorAPI.memberInfo();
-      console.log(result);
-      setMemberInfo(result);
-    }
-    getMemberInfo();
-  }, []);
+    if (authorInfoData) setMemberInfo(authorInfoData);
+  }, [authorInfoData]);
 
   useEffect(() => {
     Animated.loop(
@@ -60,20 +60,29 @@ const AuthorMailBody = () => {
   }, [animation]);
 
   useEffect(() => {
-    if (mailData) setMail([...mailData]);
-  }, [mailData]);
-
-  useEffect(() => {
-    setMail(data =>
-      data.slice().sort(function (a, b) {
+    if (mailData) {
+      var temp = mailData.slice().sort(function (a, b) {
         if (a.publishedTime >= b.publishedTime) {
           return recentSelect ? -1 : 1;
         } else if (a.publishedTime < b.publishedTime) {
           return recentSelect ? 1 : -1;
         }
-      }),
-    );
-  }, [recentSelect]);
+      });
+      setMail([...temp]);
+    }
+  }, [mailData, recentSelect]);
+
+  // useEffect(() => {
+  //   setMail(data =>
+  //     data.slice().sort(function (a, b) {
+  //       if (a.publishedTime >= b.publishedTime) {
+  //         return recentSelect ? -1 : 1;
+  //       } else if (a.publishedTime < b.publishedTime) {
+  //         return recentSelect ? 1 : -1;
+  //       }
+  //     }),
+  //   );
+  // }, [recentSelect]);
 
   //새로고침 스크롤
   function onScroll(event) {

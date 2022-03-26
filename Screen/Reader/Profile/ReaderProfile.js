@@ -505,8 +505,10 @@ const ReaderProfile = () => {
         </>
         <View style={{paddingBottom: 150}}>
           {filterAuthor.map((data, index) => (
-            <TouchableOpacity onPress={e => onPressAuthorItem(data)}>
-              <View key={index} style={styles.bodyItem}>
+            <TouchableOpacity
+              onPress={e => onPressAuthorItem(data)}
+              key={index}>
+              <View style={styles.bodyItem}>
                 <FastImage
                   style={{
                     width: 42,

@@ -177,7 +177,7 @@ const SignIn = props => {
       navigation.navigate('SignUpStacks', {
         screen: 'SelfAuth',
         params: {
-          socialType: 'KAKAO',
+          socialType: 'APPLE',
           socialId: id,
         },
       });

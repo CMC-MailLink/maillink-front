@@ -65,6 +65,7 @@ export const AuthorAPI = {
   //작가 임시저장
   writerPostSaving: async ({title, content, preView}) => {
     console.log('작가 임시저장');
+    console.log('title : ', title, 'content: ', content, 'preView: ', preView);
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/temp`, {
@@ -80,6 +81,7 @@ export const AuthorAPI = {
         }),
       });
       console.log(response);
+      if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -105,6 +107,7 @@ export const AuthorAPI = {
         }),
       });
       console.log(response);
+      if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -131,6 +134,7 @@ export const AuthorAPI = {
         }),
       });
       console.log(response);
+      if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -153,6 +157,7 @@ export const AuthorAPI = {
         },
       );
       console.log(response);
+      if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
     } catch (e) {

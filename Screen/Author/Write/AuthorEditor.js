@@ -89,6 +89,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
+      if (!result) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       navigation.goBack();
     }
@@ -102,6 +103,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
+      if (!result) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
       navigation.goBack();

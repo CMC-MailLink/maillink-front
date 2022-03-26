@@ -14,7 +14,7 @@ import ReaderRecommendModal from './ReaderRecommendModal';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import FilterRecommend from '../../../assets/images/FilterRecommend.png';
-import AuthorProfileRecommend from '../../../assets/images/AuthorProfileRecommend.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
 const ReaderRecommendList = () => {
   const navigation = useNavigation();
@@ -180,7 +180,11 @@ const ReaderRecommendList = () => {
                     marginRight: 15,
                     borderRadius: 90,
                   }}
-                  source={{uri: data.writerInfo.imgUrl}}></Image>
+                  source={
+                    data.writerInfo.imgUrl === ''
+                      ? DefaultProfile
+                      : {uri: data.writerInfo.imgUrl}
+                  }></Image>
                 <View>
                   <Text style={styles.itemName}>
                     {data.writerInfo.nickName}

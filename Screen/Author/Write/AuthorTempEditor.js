@@ -91,6 +91,7 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
+      if (!result) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       navigation.goBack();
     }
@@ -108,6 +109,7 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
       const result2 = await AuthorAPI.writerTempSending({
         tempMailId: params.id,
       });
+      if (!result || !result2) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
       navigation.goBack();

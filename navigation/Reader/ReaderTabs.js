@@ -23,7 +23,11 @@ const ReaderTab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
   <TouchableOpacity onPress={onPress} activeOpacity={1}>
-    <View style={{top: 12, left: -Dimensions.get('window').width / 2}}>
+    <View
+      style={{
+        top: 12,
+        left: -Dimensions.get('window').width / 2,
+      }}>
       <View>{children}</View>
     </View>
   </TouchableOpacity>
@@ -60,29 +64,6 @@ const ReaderTabs = () => {
         }}
       />
       <ReaderTab.Screen
-        style={{justifyContent: 'center', alignItems: 'center'}}
-        name="ReaderProfile"
-        component={ReaderProfile}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View style={styles.iconView}>
-              <Image
-                style={{width: 18, height: 21.27}}
-                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
-              />
-              <Text
-                style={{
-                  ...styles.iconText,
-                  color: focused ? '#4562F1' : '#BEBEBE',
-                }}>
-                프로필
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <ReaderTab.Screen
         name="ReaderMail"
         component={ReaderMail}
         options={{
@@ -96,6 +77,7 @@ const ReaderTabs = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 90,
+                top: -20,
               }}>
               <View
                 style={{
@@ -116,7 +98,30 @@ const ReaderTabs = () => {
               </View>
             </View>
           ),
-          tabBarButton: props => <CustomTabBarButton {...props} />,
+          // tabBarButton: props => <CustomTabBarButton {...props} />,
+        }}
+      />
+      <ReaderTab.Screen
+        style={{justifyContent: 'center', alignItems: 'center'}}
+        name="ReaderProfile"
+        component={ReaderProfile}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={styles.iconView}>
+              <Image
+                style={{width: 18, height: 21.27}}
+                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
+              />
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                프로필
+              </Text>
+            </View>
+          ),
         }}
       />
     </ReaderTab.Navigator>
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
   },
   customButton: {
     top: -21,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     ...Platform.select({
       ios: {
@@ -173,8 +178,9 @@ const styles = StyleSheet.create({
   },
   iconView: {
     alignItems: 'center',
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
+    justifyContent: 'center',
+    // position: 'absolute',
+    // bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
   },
   iconText: {
     color: '#BEBEBE',

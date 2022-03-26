@@ -258,16 +258,22 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
       else if (data.rank === 2) mood2 = colorCategory[data.name].name;
       else if (data.rank === 3) mood3 = colorCategory[data.name].name;
     });
-    const imageData = new FormData();
-    imageData.append('image', {
-      uri: imageUri,
-      name: 'image.png',
-      fileName: 'image',
-      type: 'image/png',
-    });
+
     if (editName === params.writerInfo.nickName) var result1 = true;
     else var result1 = await AuthorAPI.changeNickName({nickName: editName});
-    var result2 = await AuthorAPI.changeProfileImage({image: imageData});
+    if (imageUri) {
+      console.log('imageUri', imageUri);
+      const imageData = new FormData();
+      imageData.append('image', {
+        uri: imageUri,
+        name: 'image.png',
+        fileName: 'image',
+        type: 'image/png',
+      });
+      var result2 = await AuthorAPI.changeProfileImage({image: imageData});
+    } else {
+      var result2 = true;
+    }
     var result3 = await AuthorAPI.infoEditing({
       introduction: editIntro,
       genre1: genre1,
@@ -284,6 +290,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
     console.log(result1, result2, result3);
     if (result1 && result2 && result3) {
       await queryClient.refetchQueries(['AuthorProfile']);
+      await queryClient.refetchQueries(['AuthorInfo']);
       onPressBack();
     }
   };
