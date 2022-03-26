@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
+  Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {keyCode} from 'react-native-keycode';
@@ -18,6 +19,8 @@ import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png'
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
+import ReportSuccessModal from './ReportSuccessModal';
+
 const MessageReport = () => {
   const navigation = useNavigation();
   const [moneyReport, setMoneyReport] = useState(false);
@@ -30,6 +33,7 @@ const MessageReport = () => {
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [enterCount, setenterCount] = useState(0);
   const [textCount, setTextCount] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -61,20 +65,38 @@ const MessageReport = () => {
     }
   };
   const onChangeText = text => setOtherReportContent(text);
+  const onPressModalConfirm = () => {
+    setModalVisible(!modalVisible);
+  };
 
   useEffect(() => {
-    if (otherReportContent !== '') {
+    setTextCount(otherReportContent.length);
+    if (
+      moneyReport ||
+      obsceneReport ||
+      repeatReport ||
+      (otherReportContent !== '' && otherReport)
+    ) {
       setConfirmSuccess(true);
     } else {
       setConfirmSuccess(false);
     }
-    setTextCount(otherReportContent.length);
-  }, [otherReportContent, enterCount]);
+  }, [
+    moneyReport,
+    obsceneReport,
+    repeatReport,
+    otherReport,
+    otherReportContent,
+    enterCount,
+  ]);
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        bounces={false}
+        keyboardOpeningTime={0}
+        style={{backgroundColor: '#F8F8F8'}}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
@@ -84,6 +106,20 @@ const MessageReport = () => {
           </TouchableWithoutFeedback>
           <Text style={styles.headerText}>신고하기</Text>
         </View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <ReportSuccessModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            onPressModalConfirm={onPressModalConfirm}
+          />
+        </Modal>
+
         {/* mainHeader */}
         <View style={styles.bodyHeader}>
           <View style={{paddingLeft: 21, paddingBottom: 17 + 25 - 27}}>
@@ -95,69 +131,28 @@ const MessageReport = () => {
             </Text>
           </View>
         </View>
+
         {/* body */}
         <View style={{flex: 1, backgroundColor: '#F8F8F8'}}>
-          <TouchableWithoutFeedback onPress={onPressMoneyReport}>
-            <View style={{...styles.itemView, marginTop: 6}}>
-              <Text style={styles.itemText}>영리 목적/ 홍보성 글</Text>
-              {!moneyReport ? (
-                <Image style={styles.itemCheckImg} source={ReportCheck} />
-              ) : (
-                <Image
-                  style={styles.itemCheckImg}
-                  source={ReportCheckActivate}
-                />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
+          <View style={{flex: 1}}>
+            <TouchableWithoutFeedback onPress={onPressMoneyReport}>
+              <View style={{...styles.itemView, marginTop: 6}}>
+                <Text style={styles.itemText}>영리 목적/ 홍보성 글</Text>
+                {!moneyReport ? (
+                  <Image style={styles.itemCheckImg} source={ReportCheck} />
+                ) : (
+                  <Image
+                    style={styles.itemCheckImg}
+                    source={ReportCheckActivate}
+                  />
+                )}
+              </View>
+            </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={onPressObsceneReport}>
-            <View style={styles.itemView}>
-              <Text style={styles.itemText}>음란성/선정성</Text>
-              {!obsceneReport ? (
-                <Image style={styles.itemCheckImg} source={ReportCheck} />
-              ) : (
-                <Image
-                  style={styles.itemCheckImg}
-                  source={ReportCheckActivate}
-                />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={onPressRightReport}>
-            <View style={styles.itemView}>
-              <Text style={styles.itemText}>타인의 권리 침해</Text>
-              {!rightReport ? (
-                <Image style={styles.itemCheckImg} source={ReportCheck} />
-              ) : (
-                <Image
-                  style={styles.itemCheckImg}
-                  source={ReportCheckActivate}
-                />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={onPressRepeatReport}>
-            <View style={styles.itemView}>
-              <Text style={styles.itemText}>같은 내용 반복(도배)</Text>
-              {!repeatReport ? (
-                <Image style={styles.itemCheckImg} source={ReportCheck} />
-              ) : (
-                <Image
-                  style={styles.itemCheckImg}
-                  source={ReportCheckActivate}
-                />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
-
-          {!otherReport ? (
-            <TouchableWithoutFeedback onPress={onPressOtherReport}>
+            <TouchableWithoutFeedback onPress={onPressObsceneReport}>
               <View style={styles.itemView}>
-                <Text style={styles.itemText}>기타 사유</Text>
-                {!otherReport ? (
+                <Text style={styles.itemText}>음란성/선정성</Text>
+                {!obsceneReport ? (
                   <Image style={styles.itemCheckImg} source={ReportCheck} />
                 ) : (
                   <Image
@@ -167,77 +162,119 @@ const MessageReport = () => {
                 )}
               </View>
             </TouchableWithoutFeedback>
-          ) : (
-            <TouchableWithoutFeedback onPress={onPressOtherReport}>
-              <View style={styles.itemOtherView}>
-                <Text style={styles.itemText}>기타 사유</Text>
-                {!otherReport ? (
-                  <Image style={styles.itemCheckImg} source={ReportCheck} />
-                ) : (
-                  <Image
-                    style={styles.itemCheckImg}
-                    source={ReportCheckActivate}
-                  />
-                )}
-                <View style={{alignItems: 'center', paddingTop: 26}}>
-                  <TextInput
-                    style={styles.textInput}
-                    value={otherReportContent}
-                    onKeyPress={keyPress(otherReportContent)}
-                    placeholder="(200자 이하)"
-                    placeholderTextColor="#BEBEBE"
-                    returnKeyType="search"
-                    onChangeText={onChangeText}
-                    maxLength={200}
-                    maxHeight={189}
-                    multiline={true}
-                    autoCorrect={false}
-                    autoCapitalize={false}
-                  />
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          )}
 
-          {/* footer */}
-          <View style={!otherReport ? {paddingTop: 245} : {paddingTop: 32}}>
-            <View style={{alignItems: 'center', paddingBottom: 10}}>
-              <Text style={styles.bodyHeaderText}>
-                사용자를 신고해도 메일 발송은 유지됩니다.
-              </Text>
-              <Text style={styles.bodyHeaderText}>
-                해당 사용자와의 쪽지는 비활성화됩니다.
-              </Text>
-            </View>
-            <View
-              style={{
-                position: 'static',
-                width: '100%',
-                paddingHorizontal: 20,
-                paddingTop: 5,
-                marginBottom: 40,
-              }}>
-              <TouchableOpacity
-                disabled={confirmSuccess ? false : true}
-                onPress={confirmSuccess ? null : null}
-                style={
-                  confirmSuccess ? styles.buttonAble : styles.buttonDisable
-                }>
-                <View>
-                  <Text
-                    style={
-                      confirmSuccess
-                        ? styles.buttonAbleText
-                        : styles.buttonDisableText
-                    }>
-                    신고하기
-                  </Text>
+            <TouchableWithoutFeedback onPress={onPressRightReport}>
+              <View style={styles.itemView}>
+                <Text style={styles.itemText}>타인의 권리 침해</Text>
+                {!rightReport ? (
+                  <Image style={styles.itemCheckImg} source={ReportCheck} />
+                ) : (
+                  <Image
+                    style={styles.itemCheckImg}
+                    source={ReportCheckActivate}
+                  />
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback onPress={onPressRepeatReport}>
+              <View style={styles.itemView}>
+                <Text style={styles.itemText}>같은 내용 반복(도배)</Text>
+                {!repeatReport ? (
+                  <Image style={styles.itemCheckImg} source={ReportCheck} />
+                ) : (
+                  <Image
+                    style={styles.itemCheckImg}
+                    source={ReportCheckActivate}
+                  />
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+
+            {!otherReport ? (
+              <TouchableWithoutFeedback onPress={onPressOtherReport}>
+                <View style={styles.itemView}>
+                  <Text style={styles.itemText}>기타 사유</Text>
+                  {!otherReport ? (
+                    <Image style={styles.itemCheckImg} source={ReportCheck} />
+                  ) : (
+                    <Image
+                      style={styles.itemCheckImg}
+                      source={ReportCheckActivate}
+                    />
+                  )}
                 </View>
-              </TouchableOpacity>
-            </View>
+              </TouchableWithoutFeedback>
+            ) : (
+              <TouchableWithoutFeedback onPress={onPressOtherReport}>
+                <View style={styles.itemOtherView}>
+                  <Text style={styles.itemText}>기타 사유</Text>
+                  {!otherReport ? (
+                    <Image style={styles.itemCheckImg} source={ReportCheck} />
+                  ) : (
+                    <Image
+                      style={styles.itemCheckImg}
+                      source={ReportCheckActivate}
+                    />
+                  )}
+                  <View style={{alignItems: 'center', paddingTop: 26}}>
+                    <TextInput
+                      style={styles.textInput}
+                      value={otherReportContent}
+                      onKeyPress={keyPress(otherReportContent)}
+                      placeholder="(200자 이하)"
+                      placeholderTextColor="#BEBEBE"
+                      returnKeyType="search"
+                      onChangeText={onChangeText}
+                      maxLength={200}
+                      maxHeight={189}
+                      multiline={true}
+                      autoCorrect={false}
+                      autoCapitalize={false}
+                    />
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            )}
           </View>
         </View>
       </KeyboardAwareScrollView>
+      {/* footer */}
+      {/* <View style={!otherReport ? {paddingTop: 245} : {paddingTop: 32}}> */}
+      <View style={{backgroundColor: '#F8F8F8'}}>
+        <View style={{alignItems: 'center', paddingBottom: 10}}>
+          <Text style={styles.bodyHeaderText}>
+            사용자를 신고해도 메일 발송은 유지됩니다.
+          </Text>
+          <Text style={styles.bodyHeaderText}>
+            해당 사용자와의 쪽지는 비활성화됩니다.
+          </Text>
+        </View>
+        <View
+          style={{
+            position: 'static',
+            width: '100%',
+            paddingHorizontal: 20,
+            paddingTop: 5,
+            marginBottom: 40,
+          }}>
+          <TouchableOpacity
+            disabled={confirmSuccess ? false : true}
+            onPress={confirmSuccess ? () => setModalVisible(true) : null}
+            style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
+            <View>
+              <Text
+                style={
+                  confirmSuccess
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                신고하기
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -246,8 +283,10 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: 91 - 48,
+    backgroundColor: '#FFF',
     alignItems: 'center',
     flexDirection: 'row',
+    paddingHorizontal: 40,
   },
   headerText: {
     width: '100%',
