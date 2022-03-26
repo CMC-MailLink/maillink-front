@@ -88,7 +88,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'dongurireader615',
+          socialId: 'dongurireader619',
           fcmDeviceToken: fcmDeviceToken,
         }),
       });

@@ -66,15 +66,18 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   //확인 버튼 클릭
   const onCheckName = async () => {
     var result = await SignUpAPI.checkNickName({nickName: name});
+    console.log(result);
     if (!result) {
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
       setMessageVisible(true);
       setNameValid(false);
-    } else if (name.length > 6 && !name) {
+      console.log('이ㅇㅇ름은: ' + result);
+    } else if (name.length > 6) {
+      console.log('이ㅇ름은: ' + result);
       onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);
-    } else if (result && name) {
+    } else if (result) {
       onChangeCheckMessage('사용할 수 있는 이름이에요.');
       setNameValid(true);
       setMessageVisible(true);
