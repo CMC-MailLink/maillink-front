@@ -87,7 +87,7 @@ export const SignUpAPI = {
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'dongurireader615',
+          socialId: 'donguriwriter615',
         }),
       });
       console.log(response);
@@ -142,8 +142,8 @@ export const SignUpAPI = {
         }),
         // body: JSON.stringify({
         //   socialType: 'KAKAO',
-        //   socialId: 'dongurireader615',
-        //   nickName: '동구리독자615',
+        //   socialId: 'donguriwriter615',
+        //   nickName: '동구리작가615',
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
         // }),

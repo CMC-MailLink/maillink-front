@@ -21,7 +21,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
-import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
+import ReportExclamation from '../../../assets/images/ReportExclamation.png';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import ChatExitModal from './ChatExitModal';
@@ -143,17 +143,8 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               <Text>신고하기</Text>
             </Text>
             <Image
-              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
-              source={ReportMenuPage}
-            />
-          </MenuOption>
-          <MenuOption onSelect={onPressModalConfirm}>
-            <Text style={styles.menuText}>
-              <Text>채팅방 나가기</Text>
-            </Text>
-            <Image
-              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
-              source={ReportMenuExit}
+              style={{width: 22, height: 22, position: 'absolute', left: 178.5}}
+              source={ReportExclamation}
             />
           </MenuOption>
         </MenuOptions>
@@ -283,7 +274,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     backgroundColor: '#FFFFFF',
     flex: 1,
-    paddingBottom: 103 - 23.78,
+    paddingBottom: '100%',
   },
   bodyHeader: {
     height: 80,

@@ -12,23 +12,23 @@ import {
 import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
-
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
 import HeartTabsFocused from '../../assets/images/HeartTabsFocused.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
 import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocused.png';
-
 const ReaderTab = createBottomTabNavigator();
-
 const CustomTabBarButton = ({children, onPress}) => (
   <TouchableOpacity onPress={onPress} activeOpacity={1}>
-    <View style={{top: 12, left: -Dimensions.get('window').width / 2}}>
+    <View
+      style={{
+        top: 12,
+        left: -Dimensions.get('window').width / 2,
+      }}>
       <View>{children}</View>
     </View>
   </TouchableOpacity>
 );
-
 const ReaderTabs = () => {
   return (
     <ReaderTab.Navigator
@@ -60,6 +60,44 @@ const ReaderTabs = () => {
         }}
       />
       <ReaderTab.Screen
+        name="ReaderMail"
+        component={ReaderMail}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                width: 88,
+                height: 88,
+                backgroundColor: '#fff',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 90,
+                top: -20,
+              }}>
+              <View
+                style={{
+                  width: 68.58,
+                  height: 68.58,
+                  shadowColor: '#4562F1',
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.314,
+                  shadowRadius: 5,
+                }}>
+                <Image
+                  style={{width: 68.58, height: 68.58}}
+                  source={LogoTabs}
+                />
+              </View>
+            </View>
+          ),
+          // tabBarButton: props => <CustomTabBarButton {...props} />,
+        }}
+      />
+      <ReaderTab.Screen
         style={{justifyContent: 'center', alignItems: 'center'}}
         name="ReaderProfile"
         component={ReaderProfile}
@@ -82,47 +120,9 @@ const ReaderTabs = () => {
           ),
         }}
       />
-      <ReaderTab.Screen
-        name="ReaderMail"
-        component={ReaderMail}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View
-              style={{
-                width: 88,
-                height: 88,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 90,
-              }}>
-              <View
-                style={{
-                  width: 68.58,
-                  height: 68.58,
-                  shadowColor: '#4562F1',
-                  shadowOffset: {
-                    width: 0,
-                    height: 5,
-                  },
-                  shadowOpacity: 0.314,
-                  shadowRadius: 5,
-                }}>
-                <Image
-                  style={{width: 68.58, height: 68.58}}
-                  source={LogoTabs}
-                />
-              </View>
-            </View>
-          ),
-          tabBarButton: props => <CustomTabBarButton {...props} />,
-        }}
-      />
     </ReaderTab.Navigator>
   );
 };
-
 const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   customButton: {
     top: -21,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     ...Platform.select({
       ios: {
@@ -173,8 +173,9 @@ const styles = StyleSheet.create({
   },
   iconView: {
     alignItems: 'center',
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
+    justifyContent: 'center',
+    // position: 'absolute',
+    // bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
   },
   iconText: {
     color: '#BEBEBE',
@@ -184,5 +185,4 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
-
 export default ReaderTabs;

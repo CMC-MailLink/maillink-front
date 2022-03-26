@@ -93,8 +93,9 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
   useEffect(() => {
     setEditName(params.writerInfo.nickName);
     setOriginName(params.writerInfo.nickName);
-    if (params.writerInfo.introduction)
+    if (params.writerInfo.introduction) {
       setEditIntro(params.writerInfo.introduction);
+    }
     setImageUri(params.writerInfo.imgUrl);
     setEditFacebook(params.writerInfo.facebook);
     setEditTwitter(params.writerInfo.twitter);
@@ -167,13 +168,17 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
     } else if (temp[index].rank === 1) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 2 || data.rank === 3) data.rank--;
+        if (data.rank === 2 || data.rank === 3) {
+          data.rank--;
+        }
       });
       setBranchRank(branchRank - 1);
     } else if (temp[index].rank === 2) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 3) data.rank--;
+        if (data.rank === 3) {
+          data.rank--;
+        }
       });
       setBranchRank(branchRank - 1);
     } else if (temp[index].rank === 3) {
@@ -186,19 +191,25 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
   const onPressVive = (item, index) => {
     var temp = vive;
     if (temp[index].rank === 0) {
-      if (viveRank === 3) return;
+      if (viveRank === 3) {
+        return;
+      }
       temp[index].rank = viveRank + 1;
       setViveRank(viveRank + 1);
     } else if (temp[index].rank === 1) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 2 || data.rank === 3) data.rank--;
+        if (data.rank === 2 || data.rank === 3) {
+          data.rank--;
+        }
       });
       setViveRank(viveRank - 1);
     } else if (temp[index].rank === 2) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 3) data.rank--;
+        if (data.rank === 3) {
+          data.rank--;
+        }
       });
       setViveRank(viveRank - 1);
     } else if (temp[index].rank === 3) {
@@ -249,25 +260,42 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
     var mood2 = null;
     var mood3 = null;
     branch.map(data => {
-      if (data.rank === 1) genre1 = colorCategory[data.name].name;
-      else if (data.rank === 2) genre2 = colorCategory[data.name].name;
-      else if (data.rank === 3) genre3 = colorCategory[data.name].name;
+      if (data.rank === 1) {
+        genre1 = colorCategory[data.name].name;
+      } else if (data.rank === 2) {
+        genre2 = colorCategory[data.name].name;
+      } else if (data.rank === 3) {
+        genre3 = colorCategory[data.name].name;
+      }
     });
     vive.map(data => {
-      if (data.rank === 1) mood1 = colorCategory[data.name].name;
-      else if (data.rank === 2) mood2 = colorCategory[data.name].name;
-      else if (data.rank === 3) mood3 = colorCategory[data.name].name;
+      if (data.rank === 1) {
+        mood1 = colorCategory[data.name].name;
+      } else if (data.rank === 2) {
+        mood2 = colorCategory[data.name].name;
+      } else if (data.rank === 3) {
+        mood3 = colorCategory[data.name].name;
+      }
     });
-    const imageData = new FormData();
-    imageData.append('image', {
-      uri: imageUri,
-      name: 'image.png',
-      fileName: 'image',
-      type: 'image/png',
-    });
-    if (editName === params.writerInfo.nickName) var result1 = true;
-    else var result1 = await AuthorAPI.changeNickName({nickName: editName});
-    var result2 = await AuthorAPI.changeProfileImage({image: imageData});
+
+    if (editName === params.writerInfo.nickName) {
+      var result1 = true;
+    } else {
+      var result1 = await AuthorAPI.changeNickName({nickName: editName});
+    }
+    if (imageUri) {
+      console.log('imageUri', imageUri);
+      const imageData = new FormData();
+      imageData.append('image', {
+        uri: imageUri,
+        name: 'image.png',
+        fileName: 'image',
+        type: 'image/png',
+      });
+      var result2 = await AuthorAPI.changeProfileImage({image: imageData});
+    } else {
+      var result2 = true;
+    }
     var result3 = await AuthorAPI.infoEditing({
       introduction: editIntro,
       genre1: genre1,
@@ -284,6 +312,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
     console.log(result1, result2, result3);
     if (result1 && result2 && result3) {
       await queryClient.refetchQueries(['AuthorProfile']);
+      await queryClient.refetchQueries(['AuthorInfo']);
       onPressBack();
     }
   };
@@ -419,7 +448,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
               <Text style={styles.checkMessage}>{checkMessage}</Text>
             </View>
           ) : null}
-          <Text style={styles.inputBottomText}></Text>
+          <Text style={styles.inputBottomText} />
           <Text style={styles.titleText}>소개</Text>
           <View style={styles.introView}>
             <TextInput
