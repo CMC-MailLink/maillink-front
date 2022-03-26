@@ -28,7 +28,7 @@ import {FloatingAction} from 'react-native-floating-action';
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
-import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
+import ReportExclamation from '../../../assets/images/ReportExclamation.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import Report from '../../../assets/images/Report.png';
 
@@ -148,17 +148,13 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               <Text>신고하기</Text>
             </Text>
             <Image
-              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
-              source={ReportMenuPage}
-            />
-          </MenuOption>
-          <MenuOption onSelect={onPressModalConfirm}>
-            <Text style={styles.menuText}>
-              <Text>채팅방 나가기</Text>
-            </Text>
-            <Image
-              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
-              source={ReportMenuExit}
+              style={{
+                width: 22,
+                height: 22,
+                position: 'absolute',
+                right: 23.5,
+              }}
+              source={ReportExclamation}
             />
           </MenuOption>
         </MenuOptions>
