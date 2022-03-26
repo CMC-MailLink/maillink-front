@@ -12,12 +12,12 @@ import {
   TextInput,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import {keyCode} from 'react-native-keycode';
 import ReportCheck from '../../../assets/images/ReportCheck.png';
 import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import FastImage from 'react-native-fast-image';
 const MessageReport = () => {
   const navigation = useNavigation();
   const [moneyReport, setMoneyReport] = useState(false);
@@ -55,6 +55,11 @@ const MessageReport = () => {
   const onPressRepeatReport = () => {
     setRepeatReport(!repeatReport);
   };
+  const keyPress = e => {
+    if (e.key === 'Enter') {
+      setenterCount(enterCount + 1);
+    }
+  };
   const onChangeText = text => setOtherReportContent(text);
 
   useEffect(() => {
@@ -64,10 +69,6 @@ const MessageReport = () => {
       setConfirmSuccess(false);
     }
     setTextCount(otherReportContent.length);
-
-    if (this.keyCode === 13) {
-      setenterCount(enterCount + 1);
-    }
   }, [otherReportContent, enterCount]);
 
   return (
@@ -77,16 +78,12 @@ const MessageReport = () => {
         <StatusBar barStyle="dark-content" />
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
-            <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <View style={{position: 'absolute', left: 24}}>
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
             </View>
           </TouchableWithoutFeedback>
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={styles.headerText}>신고하기</Text>
-          </View>
+          <Text style={styles.headerText}>신고하기</Text>
         </View>
-
         {/* mainHeader */}
         <View style={styles.bodyHeader}>
           <View style={{paddingLeft: 21, paddingBottom: 17 + 25 - 27}}>
@@ -98,7 +95,6 @@ const MessageReport = () => {
             </Text>
           </View>
         </View>
-
         {/* body */}
         <View style={{flex: 1, backgroundColor: '#F8F8F8'}}>
           <TouchableWithoutFeedback onPress={onPressMoneyReport}>
@@ -187,6 +183,7 @@ const MessageReport = () => {
                   <TextInput
                     style={styles.textInput}
                     value={otherReportContent}
+                    onKeyPress={keyPress(otherReportContent)}
                     placeholder="(200자 이하)"
                     placeholderTextColor="#BEBEBE"
                     returnKeyType="search"
@@ -253,9 +250,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerText: {
+    width: '100%',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    textAlign: 'center',
     includeFontPadding: false,
   },
 

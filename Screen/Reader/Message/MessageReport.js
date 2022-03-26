@@ -19,7 +19,7 @@ import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png'
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import ReportSuccessModal from './ReportSuccessModal';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import FastImage from 'react-native-fast-image';
 const MessageReport = () => {
   const navigation = useNavigation();
   const [moneyReport, setMoneyReport] = useState(false);
@@ -62,18 +62,12 @@ const MessageReport = () => {
     setModalVisible(!modalVisible);
   };
   const onChangeText = text => setOtherReportContent(text);
-
   const keyPress = e => {
     if (e.key === 'Enter') {
       setenterCount(enterCount + 1);
     }
   };
   useEffect(() => {
-    if (otherReportContent !== null && otherReport) {
-      setConfirmSuccess(true);
-    } else {
-      setConfirmSuccess(false);
-    }
     setTextCount(otherReportContent.length);
     if (
       moneyReport ||
@@ -83,6 +77,8 @@ const MessageReport = () => {
       (otherReportContent !== '' && otherReport)
     ) {
       setConfirmSuccess(true);
+    } else {
+      setConfirmSuccess(false);
     }
   }, [
     moneyReport,
@@ -97,16 +93,14 @@ const MessageReport = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
-      <StatusBar barStyle="dark-content" />
       <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+        <StatusBar barStyle="dark-content" />
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
-            <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <View style={{position: 'absolute', left: 24}}>
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
             </View>
           </TouchableWithoutFeedback>
-        </View>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={styles.headerText}>신고하기</Text>
         </View>
         <Modal
@@ -122,7 +116,6 @@ const MessageReport = () => {
             onPressModalConfirm={onPressModalConfirm}
           />
         </Modal>
-
         {/* mainHeader */}
         <View style={styles.bodyHeader}>
           <View style={{paddingLeft: 21, paddingBottom: 17 + 25 - 27}}>
@@ -134,7 +127,6 @@ const MessageReport = () => {
             </Text>
           </View>
         </View>
-
         {/* body */}
         <View style={{flex: 1, backgroundColor: '#F8F8F8'}}>
           <TouchableWithoutFeedback onPress={onPressMoneyReport}>
@@ -200,12 +192,12 @@ const MessageReport = () => {
                     style={styles.textInput}
                     value={otherReportContent}
                     onKeyPress={keyPress(otherReportContent)}
-                    placeholder="(300자 이하)"
+                    placeholder="(200자 이하)"
                     placeholderTextColor="#BEBEBE"
                     returnKeyType="search"
                     onChangeText={onChangeText}
-                    maxLength={300}
-                    maxHeight={300}
+                    maxLength={200}
+                    maxHeight={200}
                     multiline={true}
                     autoCorrect={false}
                     autoCapitalize={false}
@@ -230,38 +222,32 @@ const MessageReport = () => {
               )}
             </View>
           </TouchableWithoutFeedback>
-
-          {/* footer */}
-          <View style={!otherReport ? {paddingTop: 293} : {paddingTop: 24}}>
-            <View
-              style={{
-                position: 'static',
-                width: '100%',
-                paddingHorizontal: 20,
-                paddingTop: 5,
-                marginBottom: 40,
-              }}>
-              <TouchableOpacity
-                disabled={confirmSuccess ? false : true}
-                onPress={confirmSuccess ? () => setModalVisible(true) : null}
-                style={
-                  confirmSuccess ? styles.buttonAble : styles.buttonDisable
-                }>
-                <View>
-                  <Text
-                    style={
-                      confirmSuccess
-                        ? styles.buttonAbleText
-                        : styles.buttonDisableText
-                    }>
-                    신고하기
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
         </View>
       </KeyboardAwareScrollView>
+      {/* footer */}
+      <View
+        style={{
+          position: 'static',
+          width: '100%',
+          paddingHorizontal: 20,
+          marginBottom: 35,
+        }}>
+        <TouchableOpacity
+          disabled={confirmSuccess ? false : true}
+          onPress={confirmSuccess ? () => setModalVisible(true) : null}
+          style={confirmSuccess ? styles.buttonAble : styles.buttonDisable}>
+          <View>
+            <Text
+              style={
+                confirmSuccess
+                  ? styles.buttonAbleText
+                  : styles.buttonDisableText
+              }>
+              신고하기
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -270,13 +256,18 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: 91 - 48,
+    backgroundColor: '#FFF',
     alignItems: 'center',
     flexDirection: 'row',
+    paddingHorizontal: 40,
+    marginBottom: 18,
   },
   headerText: {
+    width: '100%',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
+    textAlign: 'center',
     includeFontPadding: false,
   },
   bodyHeader: {
@@ -301,7 +292,7 @@ const styles = StyleSheet.create({
   },
   itemOtherView: {
     backgroundColor: 'white',
-    height: 325,
+    height: 269,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
   },

@@ -375,6 +375,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>프로필 수정</Text>
       </View>
+
       <KeyboardAwareScrollView>
         <View style={{alignItems: 'center', height: 60}}>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
