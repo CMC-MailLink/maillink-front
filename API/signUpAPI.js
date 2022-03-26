@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCredentials} from '../Credentials';
 import {API_URL} from '@env';
 
-const BASE_URL = 'https://www.maillink-api.com';
+const BASE_URL = API_URL;
 
 //회원가입 API
 export const SignUpAPI = {
