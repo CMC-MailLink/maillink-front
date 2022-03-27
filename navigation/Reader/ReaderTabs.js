@@ -84,11 +84,7 @@ const ReaderTabs = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 90,
-<<<<<<< HEAD
-                top: -20,
-=======
                 top: -15,
->>>>>>> bibi
               }}>
               <View
                 style={{
@@ -113,25 +109,17 @@ const ReaderTabs = () => {
         }}
       />
       <ReaderTab.Screen
-<<<<<<< HEAD
-        style={{justifyContent: 'center', alignItems: 'center'}}
-=======
->>>>>>> bibi
         name="ReaderProfile"
         component={ReaderProfile}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-<<<<<<< HEAD
-            <View style={styles.iconView}>
-=======
             <View
               style={{
                 ...styles.iconView,
                 marginTop: insets.bottom / 2,
                 marginRight: Dimensions.get('window').width / 10,
               }}>
->>>>>>> bibi
               <Image
                 style={{width: 18, height: 21.27}}
                 source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
@@ -163,32 +151,8 @@ const styles = StyleSheet.create({
           width: 0,
           height: -2,
         },
-<<<<<<< HEAD
-        shadowOpacity: 0.13,
-        shadowRadius: 29,
-      },
-      android: {
-        elevation: 10,
-      },
-    }),
-  },
-  customButton: {
-    top: -21,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#4562F1',
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowOpacity: 0.314,
-        shadowRadius: 10,
-=======
         shadowOpacity: 0.18,
         shadowRadius: 15,
->>>>>>> bibi
       },
       android: {
         elevation: 10,

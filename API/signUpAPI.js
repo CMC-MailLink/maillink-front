@@ -76,11 +76,7 @@ export const SignUpAPI = {
   },
   //로그인
   authLogin: async ({socialType, socialId}) => {
-<<<<<<< HEAD
-    console.log('authLogin api : ', socialType, socialId);
-=======
     console.log('로그인');
->>>>>>> bibi
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
@@ -88,14 +84,6 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-<<<<<<< HEAD
-        // body: JSON.stringify({socialType: socialType, socialId: socialId}),
-        body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'dongurireader615',
-          fcmDeviceToken: fcmDeviceToken,
-        }),
-=======
         body: JSON.stringify({
           socialType: socialType,
           socialId: socialId,
@@ -106,7 +94,6 @@ export const SignUpAPI = {
         //   socialId: 'bibiwriter8',
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
->>>>>>> bibi
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -136,18 +123,7 @@ export const SignUpAPI = {
   },
   //회원 가입
   authSignUp: async ({socialType, socialId, nickName, imgUrl, phoneNumber}) => {
-<<<<<<< HEAD
-    console.log(
-      'authSignUp api : ',
-      socialType,
-      socialId,
-      nickName,
-      imgUrl,
-      phoneNumber,
-    );
-=======
     console.log('회원가입');
->>>>>>> bibi
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/signup`, {
@@ -165,13 +141,8 @@ export const SignUpAPI = {
         }),
         // body: JSON.stringify({
         //   socialType: 'KAKAO',
-<<<<<<< HEAD
-        //   socialId: 'donguriwriter615',
-        //   nickName: '동구리작가615',
-=======
         //   socialId: 'bibiwriter8',
         //   nickName: '비비작가8',
->>>>>>> bibi
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
         //   fcmDeviceToken: fcmDeviceToken,
@@ -253,7 +224,9 @@ export const SignUpAPI = {
         },
       );
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
