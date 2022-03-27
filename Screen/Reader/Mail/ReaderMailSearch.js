@@ -118,6 +118,7 @@ const ReaderMailSearch = () => {
   };
 
   const onPressMailItem = async data => {
+    console.log(data);
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
       params: {mailId: data.id, writerId: data.writerId},
@@ -143,7 +144,13 @@ const ReaderMailSearch = () => {
         <Text style={styles.headerText}>메일 검색</Text>
         <View style={styles.headerSearchContainer}>
           <TouchableWithoutFeedback onPress={onPressBack}>
-            <View>
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
             </View>
           </TouchableWithoutFeedback>
@@ -235,7 +242,7 @@ const ReaderMailSearch = () => {
                           ...styles.itemBodyText,
                           color: data.isRead ? '#BEBEBE' : '#828282',
                         }}>
-                        {data.preView}
+                        {data.preview}
                       </Text>
                     </View>
                   </View>

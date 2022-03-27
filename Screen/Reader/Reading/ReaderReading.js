@@ -28,6 +28,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const queryClient = useQueryClient();
   const url = 'https://www.mail-link.co.kr/readingEditor';
   let webRef = useRef();
+  const [webviewLoading, setWebviewLoading] = useState(true);
   const {isLoading: mailDetailLoading, data: mailDetailData} = useQuery(
     ['ReaderMailDetail', params.mailId],
     ReaderAPI.mailReading,
@@ -47,11 +48,11 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !webviewLoading) {
       console.log('로딩 끝', mailDetailData);
       webRef.current.injectJavaScript(contentSending);
     }
-  }, [loading, contentSending, mailDetailData]);
+  }, [loading, contentSending, mailDetailData, webviewLoading]);
 
   const onPressBookmark = async () => {
     if (!mailDetailData.isSaved) {
@@ -98,7 +99,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     let div = document.createElement('div');
     div.classList.add('test');
     var textNode = document.createTextNode('${
-      mailDetailData ? mailDetailData.content : ''
+      mailDetailData ? mailDetailData.content : 'aa'
     }');
     div.append(textNode);
     div.style.display="none";
@@ -183,12 +184,12 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </View> */}
       </View>
       <WebView
+        onLoad={() => setWebviewLoading(false)}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}
         hideKeyboardAccessoryView={true}
         ref={webRef}
-        // injectedJavaScript={contentSending}
         menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'

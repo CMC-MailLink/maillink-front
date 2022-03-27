@@ -114,6 +114,7 @@ export const ReaderAPI = {
         },
       });
       let json = await response.json();
+      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
