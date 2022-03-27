@@ -9,7 +9,7 @@ import ReaderMailBody from './ReaderMailBody';
 
 import SearchMail from '../../../assets/images/SearchMail.png';
 import LogoMail from '../../../assets/images/LogoMail.png';
-import AlarmMail from '../../../assets/images/AlarmMail.png';
+import GoMessage from '../../../assets/images/GoMessage.png';
 
 const STATUSBAR_HEIGHT = 48;
 
@@ -36,29 +36,33 @@ const ReaderMail = () => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="light-content" />
-      <View style={{height: 35, backgroundColor: '#4562F1'}}>
+      <View
+        style={{
+          height: 55,
+          backgroundColor: '#4562F1',
+          alignItems: 'center',
+          flexDirection: 'row',
+        }}>
         <Image
           style={{
             position: 'absolute',
-            top: 50 - STATUSBAR_HEIGHT,
             left: 20,
             width: 105,
             height: 20,
           }}
           source={LogoMail}
         />
-        <TouchableOpacity onPress={goToAlarm}>
+        <TouchableOpacity
+          onPress={goToAlarm}
+          style={{position: 'absolute', right: 21}}>
           <Image
             style={{
-              position: 'absolute',
-              top: 50 - STATUSBAR_HEIGHT,
-              right: 21,
-              width: 20,
-              height: 22.75,
+              width: 28.5,
+              height: 28.3,
             }}
-            source={AlarmMail}
+            source={GoMessage}
           />
-          <View
+          {/* <View
             style={{
               position: 'absolute',
               right: 21,
@@ -66,7 +70,7 @@ const ReaderMail = () => {
               width: 4,
               height: 4,
               borderRadius: 90,
-            }}></View>
+            }}></View> */}
         </TouchableOpacity>
       </View>
       <ReaderMailBody></ReaderMailBody>

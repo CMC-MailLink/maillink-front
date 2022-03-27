@@ -18,12 +18,7 @@ export const MessageAPI = {
         },
       });
       let json = await response.json();
-      var result = json.data.filter((message, idx, arr) => {
-        return (
-          arr.findIndex(item => item.partnerId === message.partnerId) === idx
-        );
-      });
-      return result;
+      return json.data;
     } catch (e) {
       console.log(e);
     }

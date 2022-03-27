@@ -49,11 +49,11 @@ const ReaderRecommendSearch = () => {
     if (query === '') {
       return;
     }
-    setSubmit(true);
-    var res = authorListData.filter(item =>
-      item.writerInfo.nickName.includes(query),
-    );
-    setResult([...res]);
+    // setSubmit(true);
+    // var res = authorListData.filter(item =>
+    //   item.writerInfo.nickName.includes(query),
+    // );
+    // setResult([...res]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authorListData]);
 

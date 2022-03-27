@@ -106,7 +106,13 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
         }}></View>
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{position: 'absolute', left: 24}}>
+          <View
+            style={{
+              position: 'absolute',
+              left: 24,
+              width: 20,
+              height: 20,
+            }}>
             <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
           </View>
         </TouchableWithoutFeedback>
