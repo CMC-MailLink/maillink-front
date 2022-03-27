@@ -153,7 +153,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         <Text style={styles.authorText}>
           {authorInfoData ? authorInfoData.writerInfo.nickName : null}
         </Text>
-        <View
+        {/* <View
           // onPress={onPressSubscribe}
           style={
             authorInfoData && authorInfoData.subscribeCheck
@@ -172,7 +172,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
                 : '구독하기'}
             </Text>
           </View>
-        </View>
+        </View> */}
       </View>
       <WebView
         automaticallyAdjustContentInsets={false}

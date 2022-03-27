@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  FlatList,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
@@ -14,13 +13,11 @@ import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import ReaderRecommendModal from './ReaderRecommendModal';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 
-import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
-const ReaderRecommendList = () => {
+const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const [allSelect, setAllSelect] = useState(true);
   const [branch, setBranch] = useState([
     {name: 'Poetry', category: '시', select: true},
     {name: 'Novels', category: '소설', select: true},
@@ -38,7 +35,7 @@ const ReaderRecommendList = () => {
   ]);
   const [author, setAuthor] = useState([]);
   const [filterAuthor, setFilterAuthor] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
+
   const {isLoading: authorListLoading, data: authorListData} = useQuery(
     ['AuthorList'],
     ReaderAPI.getWriters,
@@ -73,16 +70,6 @@ const ReaderRecommendList = () => {
     setFilterAuthor([...temp]);
   }, [author, branch, vive]);
 
-  //전체목록 선택
-  const onPressAll = () => {
-    setAllSelect(true);
-  };
-
-  //관심작가 선택
-  const onPressInterest = () => {
-    setAllSelect(false);
-  };
-
   //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
@@ -107,50 +94,8 @@ const ReaderRecommendList = () => {
     });
   };
 
-  const renderItem = ({data}) => {
-    return (
-      <TouchableOpacity onPress={() => onPressAuthor(data)}>
-        <View style={styles.itemView}>
-          <Image
-            style={{
-              width: 42,
-              height: 42,
-              marginRight: 15,
-              borderRadius: 90,
-            }}
-            source={
-              data.writerInfo.imgUrl === ''
-                ? DefaultProfile
-                : {uri: data.writerInfo.imgUrl}
-            }></Image>
-          <View>
-            <Text style={styles.itemName}>{data.writerInfo.nickName}</Text>
-            <Text style={styles.itemIntro}>{data.writerInfo.introduction}</Text>
-          </View>
-          {data.subscribeCheck ? (
-            <TouchableOpacity
-              style={{position: 'absolute', right: 20}}
-              onPress={() => onPressCancelSubscribe(data.writerInfo.id)}>
-              <View style={styles.subscribeView}>
-                <Text style={styles.subscribeText}>구독중</Text>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={{position: 'absolute', right: 20}}
-              onPress={() => onPressSubscribe(data.writerInfo.id)}>
-              <View style={styles.notSubscribeView}>
-                <Text style={styles.notSubscribeText}>구독하기</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   return (
-    <View style={{flex: 1}}>
+    <View>
       <Modal
         animationType="fade"
         transparent={true}
@@ -166,58 +111,56 @@ const ReaderRecommendList = () => {
           filterAuthor={filterAuthor}
           setFilterAuthor={setFilterAuthor}></ReaderRecommendModal>
       </Modal>
-      <View style={styles.headerView}>
-        <Text style={styles.headerText}>전체 메일링크 작가</Text>
-        <TouchableOpacity
-          style={{position: 'absolute', right: 20}}
-          onPress={() => setModalVisible(true)}>
-          <Image
-            style={{
-              width: 21,
-              height: 17,
-            }}
-            source={FilterRecommend}></Image>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.bodyHeader}>
-        <View
-          style={{
-            width: 128,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View style={allSelect ? styles.bodyHeaderBorder : null}>
-            <TouchableOpacity onPress={onPressAll}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: allSelect ? '#3C3C3C' : '#BEBEBE',
-                }}>
-                전체목록
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={allSelect ? null : styles.bodyHeaderBorder}>
-            <TouchableOpacity onPress={onPressInterest}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: allSelect ? '#BEBEBE' : '#3C3C3C',
-                }}>
-                관심작가
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+
       <View style={{minHeight: 400}}>
-        <FlatList data={filterAuthor} renderItem={renderItem}></FlatList>
         {filterAuthor && filterAuthor.length ? (
-          <View style={{backgroundColor: 'pink'}}>
-            <View style={{height: 200, backgroundColor: 'white'}}>
-              <Text>dkjfksjkdf</Text>
-            </View>
+          <View>
+            {filterAuthor.map((data, index) => (
+              <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
+                <View style={styles.itemView}>
+                  <Image
+                    style={{
+                      width: 42,
+                      height: 42,
+                      marginRight: 15,
+                      borderRadius: 90,
+                    }}
+                    source={
+                      data.writerInfo.imgUrl === ''
+                        ? DefaultProfile
+                        : {uri: data.writerInfo.imgUrl}
+                    }></Image>
+                  <View>
+                    <Text style={styles.itemName}>
+                      {data.writerInfo.nickName}
+                    </Text>
+                    <Text style={styles.itemIntro}>
+                      {data.writerInfo.introduction}
+                    </Text>
+                  </View>
+                  {data.subscribeCheck ? (
+                    <TouchableOpacity
+                      style={{position: 'absolute', right: 20}}
+                      onPress={() =>
+                        onPressCancelSubscribe(data.writerInfo.id)
+                      }>
+                      <View style={styles.subscribeView}>
+                        <Text style={styles.subscribeText}>구독중</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={{position: 'absolute', right: 20}}
+                      onPress={() => onPressSubscribe(data.writerInfo.id)}>
+                      <View style={styles.notSubscribeView}>
+                        <Text style={styles.notSubscribeText}>구독하기</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </TouchableOpacity>
+            ))}
+            <View style={{height: 200, backgroundColor: 'white'}}></View>
           </View>
         ) : (
           <View
@@ -242,38 +185,6 @@ const ReaderRecommendList = () => {
 };
 
 const styles = StyleSheet.create({
-  headerView: {
-    borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerText: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 16,
-    color: '#3C3C3C',
-    includeFontPadding: false,
-  },
-  bodyHeader: {
-    paddingHorizontal: 20,
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EBEBEB',
-    justifyContent: 'center',
-  },
-  bodyHeaderBorder: {
-    height: 40,
-    borderBottomWidth: 2,
-    borderBottomColor: '#4562F1',
-    justifyContent: 'center',
-  },
-  bodyHeaderText: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 14,
-    includeFontPadding: false,
-  },
   itemView: {
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,

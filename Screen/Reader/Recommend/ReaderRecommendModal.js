@@ -56,7 +56,15 @@ const ReaderRecommendModal = ({
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={styles.modalText}>필터</Text>
           <TouchableOpacity
-            style={{position: 'absolute', right: 20}}
+            style={{
+              position: 'absolute',
+              right: 12,
+              top: -6,
+              width: 30,
+              height: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
             onPress={() => setModalVisible(false)}>
             <Image
               style={{width: 14, height: 14}}

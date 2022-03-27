@@ -20,6 +20,7 @@ import {ReaderAPI} from '../../../API/ReaderAPI';
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
 import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
+import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 import {useNavigation} from '@react-navigation/native';
 
 const colorCategory = {
@@ -38,6 +39,8 @@ const ReaderRecommend = () => {
   const queryClient = useQueryClient();
   const [name, setName] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [allSelect, setAllSelect] = useState(true);
   const [recommend, setRecommend] = useState([
     {
       key: 0,
@@ -88,6 +91,16 @@ const ReaderRecommend = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAnalyze',
     });
+  };
+
+  //전체목록 선택
+  const onPressAll = () => {
+    setAllSelect(true);
+  };
+
+  //관심작가 선택
+  const onPressInterest = () => {
+    setAllSelect(false);
   };
 
   const onRefresh = async () => {
@@ -155,7 +168,6 @@ const ReaderRecommend = () => {
         <Text style={styles.headerText}>작가찾기</Text>
       </View>
       <ScrollView
-        style={{flex: 1}}
         stickyHeaderIndices={[3]}
         refreshControl={
           <RefreshControl
@@ -196,7 +208,7 @@ const ReaderRecommend = () => {
             data={recommend}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{paddingHorizontal: 30}}
+            contentContainerStyle={{paddingHorizontal: 20}}
             renderItem={renderItem}></FlatList>
         </View>
         <View style={styles.testPageView}>
@@ -209,7 +221,57 @@ const ReaderRecommend = () => {
               source={TestPageRecommend}></Image>
           </TouchableOpacity>
         </View>
-        <ReaderRecommendList></ReaderRecommendList>
+        <View>
+          <View style={styles.headerMiddleView}>
+            <Text style={styles.headerMiddleText}>전체 메일링크 작가</Text>
+            <TouchableOpacity
+              style={{position: 'absolute', right: 20}}
+              onPress={() => setModalVisible(true)}>
+              <Image
+                style={{
+                  width: 21,
+                  height: 17,
+                }}
+                source={FilterRecommend}></Image>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bodyHeader}>
+            <View
+              style={{
+                width: 128,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <View style={allSelect ? styles.bodyHeaderBorder : null}>
+                <TouchableOpacity onPress={onPressAll}>
+                  <Text
+                    style={{
+                      ...styles.bodyHeaderText,
+                      color: allSelect ? '#3C3C3C' : '#BEBEBE',
+                    }}>
+                    전체목록
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={allSelect ? null : styles.bodyHeaderBorder}>
+                <TouchableOpacity onPress={onPressInterest}>
+                  <Text
+                    style={{
+                      ...styles.bodyHeaderText,
+                      color: allSelect ? '#BEBEBE' : '#3C3C3C',
+                    }}>
+                    관심작가
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+        <ReaderRecommendList
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          allSelect={allSelect}></ReaderRecommendList>
       </ScrollView>
     </View>
   );
@@ -291,6 +353,40 @@ const styles = StyleSheet.create({
   itemCategoryText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
+    includeFontPadding: false,
+  },
+  bodyHeader: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
+    justifyContent: 'center',
+  },
+  bodyHeaderBorder: {
+    height: 40,
+    borderBottomWidth: 2,
+    borderBottomColor: '#4562F1',
+    justifyContent: 'center',
+  },
+  bodyHeaderText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 14,
+    includeFontPadding: false,
+  },
+  headerMiddleView: {
+    backgroundColor: '#fff',
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerMiddleText: {
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 16,
+    color: '#3C3C3C',
     includeFontPadding: false,
   },
 });

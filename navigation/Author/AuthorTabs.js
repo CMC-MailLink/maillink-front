@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
           width: 0,
           height: -2,
         },
-        shadowOpacity: 0.13,
-        shadowRadius: 29,
+        shadowOpacity: 0.18,
+        shadowRadius: 15,
       },
       android: {
         elevation: 10,

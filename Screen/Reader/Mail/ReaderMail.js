@@ -3,6 +3,7 @@ import {Image, View, TouchableOpacity, StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import ReaderMailBody from './ReaderMailBody';
 
@@ -13,6 +14,7 @@ import AlarmMail from '../../../assets/images/AlarmMail.png';
 const STATUSBAR_HEIGHT = 48;
 
 const ReaderMail = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   //메일 검색 클릭
@@ -88,7 +90,7 @@ const ReaderMail = () => {
         color="#FFF"
         overlayColor="rgba(255,255,255, 0.9)"
         tintColor={null}
-        distanceToEdge={{vertical: 95, horizontal: 17}}
+        distanceToEdge={{vertical: 95 + insets.bottom / 2, horizontal: 17}}
         buttonSize={50}
         shadow={{
           shadowOpacity: 0.12,
