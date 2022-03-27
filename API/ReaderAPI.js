@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCredentials} from '../Credentials';
-import {API_URL} from '@env';
 
-const BASE_URL = API_URL;
+const BASE_URL = 'https://www.maillink-api.com';
 
 //Reader API
 export const ReaderAPI = {
@@ -265,7 +264,6 @@ export const ReaderAPI = {
   getWriterInfo: async ({queryKey}) => {
     console.log('작가 정보 조회');
     const [_, writerId] = queryKey;
-    console.log(queryKey);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -280,54 +278,6 @@ export const ReaderAPI = {
       let json = await response.json();
       console.log('작가 정보 : ', json.data);
       return json.data;
-    } catch (e) {
-      console.log(e);
-    }
-    return false;
-  },
-  //작가 관심하기
-  interesting: async ({writerId}) => {
-    console.log('독자 작가 관심하기');
-    var token = await getCredentials();
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/reader/interest?writerId=${writerId}`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token.access}`,
-          },
-        },
-      );
-      console.log(response);
-      if (response.status === 200) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      console.log(e);
-    }
-    return false;
-  },
-  //작가 관심취소하기
-  cancelInteresting: async ({writerId}) => {
-    console.log('독자 작가 관심 취소하기');
-    var token = await getCredentials();
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/reader/interest?writerId=${writerId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token.access}`,
-          },
-        },
-      );
-      console.log(response);
-      if (response.status === 200) {
-        return true;
-      }
-      return false;
     } catch (e) {
       console.log(e);
     }

@@ -48,7 +48,6 @@ const ReaderMailSearch = () => {
 
   useEffect(() => {
     if (mailListSearchData) setMail([...mailListSearchData]);
-    console.log('mailListSearchData : ', mailListSearchData);
   }, [mailListSearchData]);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ const ReaderMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    console.log(mail);
     var res = mail.filter(item => {
       if (
         item.key !== 'category' &&
@@ -120,6 +118,7 @@ const ReaderMailSearch = () => {
   };
 
   const onPressMailItem = async data => {
+    console.log(data);
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderReading',
       params: {mailId: data.id, writerId: data.writerId},
@@ -130,7 +129,6 @@ const ReaderMailSearch = () => {
   const getRecentSearch = async () => {
     try {
       const value = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log('getRecentSearch : ', JSON.parse(value));
       JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
     } catch (e) {
       //error
@@ -146,7 +144,13 @@ const ReaderMailSearch = () => {
         <Text style={styles.headerText}>메일 검색</Text>
         <View style={styles.headerSearchContainer}>
           <TouchableWithoutFeedback onPress={onPressBack}>
-            <View>
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
             </View>
           </TouchableWithoutFeedback>
@@ -238,7 +242,7 @@ const ReaderMailSearch = () => {
                           ...styles.itemBodyText,
                           color: data.isRead ? '#BEBEBE' : '#828282',
                         }}>
-                        {data.preView}
+                        {data.preview}
                       </Text>
                     </View>
                   </View>

@@ -26,39 +26,47 @@ import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const ProfileInterest = () => {
+const colorCategory = {
+  편안: {
+    name: 'Comfortable',
+    back: '#E2FAE2',
+    font: '#00402D',
+    num: '#7FCE7F',
+  },
+  맑은: {name: 'Clear', back: '#DDF9FF', font: '#002C36', num: '#6BD0E6'},
+  서정: {name: 'Lyrical', back: '#E6DDFF', font: '#1E0072', num: '#AE92FF'},
+  잔잔: {name: 'Calm', back: '#C5F0E3', font: '#00573D', num: '#5ECEAC'},
+  명랑: {name: 'Light', back: '#FFF2AD', font: '#5D4300', num: '#FFC839'},
+  유쾌: {name: 'Cheerful', back: '#FFDDDD', font: '#370000', num: '#FF8E8E'},
+  달달: {name: 'Sweet', back: '#FFE8FB', font: '#3E0035', num: '#FFACDE'},
+  키치: {name: 'Kitsch', back: '#FFE6B7', font: '#432C00', num: '#FFAD62'},
+  시: {name: 'Poetry', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  소설: {name: 'Novels', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  에세이: {name: 'Essays', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+};
+
+const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [modalOpen, setModalOpen] = useState(false);
-  const [category, setCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [branchRanking, setBranchRanking] = useState(0);
-  const [viveRanking, setViveRanking] = useState(0);
+  const [branchRank, setBranchRank] = useState(0);
+  const [viveRank, setViveRank] = useState(0);
 
-  const colorCategory = {
-    편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
-    맑은: {back: '#DDF9FF', font: '#002C36', heart: '#6BD0E6'},
-    서정: {back: '#E6DDFF', font: '#1E0072', heart: '#AE92FF'},
-    잔잔: {back: '#C5F0E3', font: '#00573D', heart: '#5ECEAC'},
-    명랑: {back: '#FFF2AD', font: '#5D4300', heart: '#FFC839'},
-    유쾌: {back: '#FFDDDD', font: '#370000', heart: '#FF8E8E'},
-    달달: {back: '#FFE8FB', font: '#3E0035', heart: '#FFACDE'},
-    키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
-  };
   const [branch, setBranch] = useState([
-    {name: '시', select: false, rep: 0},
-    {name: '소설', select: false, rep: 0},
-    {name: '에세이', select: false, rep: 0},
+    {name: '시', rank: 0},
+    {name: '소설', rank: 0},
+    {name: '에세이', rank: 0},
   ]);
   const [vive, setVive] = useState([
-    {name: '편안', select: false, rep: 0},
-    {name: '맑은', select: false, rep: 0},
-    {name: '서정', select: false, rep: 0},
-    {name: '잔잔', select: false, rep: 0},
-    {name: '명랑', select: false, rep: 0},
-    {name: '유쾌', select: false, rep: 0},
-    {name: '달달', select: false, rep: 0},
-    {name: '키치', select: false, rep: 0},
+    {name: '편안', rank: 0},
+    {name: '맑은', rank: 0},
+    {name: '서정', rank: 0},
+    {name: '잔잔', rank: 0},
+    {name: '명랑', rank: 0},
+    {name: '유쾌', rank: 0},
+    {name: '달달', rank: 0},
+    {name: '키치', rank: 0},
   ]);
 
   const onPressModalConfirm = () => {
@@ -70,8 +78,33 @@ const ProfileInterest = () => {
   };
 
   const goNextScreen = () => {
+    var genre1 = null;
+    var genre2 = null;
+    var genre3 = null;
+    var mood1 = null;
+    var mood2 = null;
+    var mood3 = null;
+    branch.map(data => {
+      if (data.rank === 1) genre1 = colorCategory[data.name].name;
+      else if (data.rank === 2) genre2 = colorCategory[data.name].name;
+      else if (data.rank === 3) genre3 = colorCategory[data.name].name;
+    });
+    vive.map(data => {
+      if (data.rank === 1) mood1 = colorCategory[data.name].name;
+      else if (data.rank === 2) mood2 = colorCategory[data.name].name;
+      else if (data.rank === 3) mood3 = colorCategory[data.name].name;
+    });
     navigation.navigate('OnBoardingStacks', {
       screen: 'AddWebsite',
+      params: {
+        ...params,
+        genre1: genre1,
+        genre2: genre2,
+        genre3: genre3,
+        mood1: mood1,
+        mood2: mood2,
+        mood3: mood3,
+      },
     });
   };
 
@@ -120,42 +153,49 @@ const ProfileInterest = () => {
 
   const onPressBranch = (item, index) => {
     var temp = branch;
-    if (!temp[index].select) {
-      console.log('랭킹 올라가는 기능 켜짐');
-      temp[index].rep = branchRanking + 1;
-      setBranchRanking(temp[index].rep);
-      temp[index].select = true;
-    } else {
-      temp.map(item => {
-        if (item.rep > temp[index].rep) {
-          item.rep -= 1;
-        }
+    if (temp[index].rank === 0) {
+      temp[index].rank = branchRank + 1;
+      setBranchRank(branchRank + 1);
+    } else if (temp[index].rank === 1) {
+      temp[index].rank = 0;
+      temp.map(data => {
+        if (data.rank === 2 || data.rank === 3) data.rank--;
       });
-      temp[index].rep = branchRanking - 1;
-      setBranchRanking(temp[index].rep);
-      temp[index].select = false;
-      temp[index].rep = 0;
+      setBranchRank(branchRank - 1);
+    } else if (temp[index].rank === 2) {
+      temp[index].rank = 0;
+      temp.map(data => {
+        if (data.rank === 3) data.rank--;
+      });
+      setBranchRank(branchRank - 1);
+    } else if (temp[index].rank === 3) {
+      temp[index].rank = 0;
+      setBranchRank(branchRank - 1);
     }
-
     setBranch([...temp]);
   };
 
   const onPressVive = (item, index) => {
     var temp = vive;
-    if (!temp[index].select && viveRanking < 3) {
-      temp[index].rep = viveRanking + 1;
-      setViveRanking(temp[index].rep);
-      temp[index].select = true;
-    } else if (temp[index].select) {
-      temp.map(item => {
-        if (item.rep > temp[index].rep) {
-          item.rep -= 1;
-        }
+    if (temp[index].rank === 0) {
+      if (viveRank === 3) return;
+      temp[index].rank = viveRank + 1;
+      setViveRank(viveRank + 1);
+    } else if (temp[index].rank === 1) {
+      temp[index].rank = 0;
+      temp.map(data => {
+        if (data.rank === 2 || data.rank === 3) data.rank--;
       });
-      temp[index].rep = viveRanking - 1;
-      setViveRanking(temp[index].rep);
-      temp[index].select = false;
-      temp[index].rep = 0;
+      setViveRank(viveRank - 1);
+    } else if (temp[index].rank === 2) {
+      temp[index].rank = 0;
+      temp.map(data => {
+        if (data.rank === 3) data.rank--;
+      });
+      setViveRank(viveRank - 1);
+    } else if (temp[index].rank === 3) {
+      temp[index].rank = 0;
+      setViveRank(viveRank - 1);
     }
     setVive([...temp]);
   };
@@ -240,23 +280,25 @@ const ProfileInterest = () => {
                   <View
                     style={{
                       ...styles.itemView,
-                      backgroundColor: item.select ? '#E8EBFF' : '#FFF',
-                      borderColor: item.select ? '#E8EBFF' : '#BEBEBE',
-                      paddingHorizontal: item.select ? 15.7 : 22,
+                      backgroundColor: item.rank ? '#E8EBFF' : '#FFF',
+                      borderColor: item.rank
+                        ? colorCategory[item.name].back
+                        : '#BEBEBE',
+                      paddingHorizontal: item.rank ? 14.6 : 22,
                     }}>
                     <Text
                       style={{
                         ...styles.itemText,
-                        color: item.select ? '#0021C6' : '#828282',
+                        color: item.rank ? '#0021C6' : '#828282',
                       }}>
-                      {item.select ? (
+                      {item.rank ? (
                         <Text
                           style={{
-                            ...styles.itemText,
+                            fontFamily: 'NotoSansKR-BLACK',
+                            fontSize: 12,
                             color: '#4562F1',
-                            fontFamily: 'NotoSansKR-Black',
                           }}>
-                          {item.rep}&nbsp;&nbsp;
+                          {item.rank}&nbsp;&nbsp;&nbsp;
                         </Text>
                       ) : null}
                       {item.name}
@@ -278,29 +320,29 @@ const ProfileInterest = () => {
                     <View
                       style={{
                         ...styles.itemView,
-                        backgroundColor: item.select
+                        backgroundColor: item.rank
                           ? colorCategory[item.name].back
                           : '#FFF',
-                        borderColor: item.select
+                        borderColor: item.rank
                           ? colorCategory[item.name].back
                           : '#BEBEBE',
-                        paddingHorizontal: item.rep ? 15.7 : 22,
+                        paddingHorizontal: item.rank ? 14.6 : 22,
                       }}>
                       <Text
                         style={{
                           ...styles.itemText,
-                          color: item.select
+                          color: item.rank
                             ? colorCategory[item.name].font
                             : '#828282',
                         }}>
-                        {item.rep ? (
+                        {item.rank ? (
                           <Text
                             style={{
-                              ...styles.itemText,
-                              color: colorCategory[item.name].heart,
-                              fontFamily: 'NotoSansKR-Black',
+                              fontFamily: 'NotoSansKR-BLACK',
+                              fontSize: 12,
+                              color: colorCategory[item.name].num,
                             }}>
-                            {item.rep}&nbsp;&nbsp;
+                            {item.rank}&nbsp;&nbsp;&nbsp;
                           </Text>
                         ) : null}
                         {item.name}
@@ -321,29 +363,29 @@ const ProfileInterest = () => {
                     <View
                       style={{
                         ...styles.itemView,
-                        backgroundColor: item.select
+                        backgroundColor: item.rank
                           ? colorCategory[item.name].back
                           : '#FFF',
-                        borderColor: item.select
+                        borderColor: item.rank
                           ? colorCategory[item.name].back
                           : '#BEBEBE',
-                        paddingHorizontal: item.rep ? 15.7 : 22,
+                        paddingHorizontal: item.rank ? 14.6 : 22,
                       }}>
                       <Text
                         style={{
                           ...styles.itemText,
-                          color: item.select
+                          color: item.rank
                             ? colorCategory[item.name].font
                             : '#828282',
                         }}>
-                        {item.rep ? (
+                        {item.rank ? (
                           <Text
                             style={{
-                              ...styles.itemText,
-                              color: colorCategory[item.name].heart,
-                              fontFamily: 'NotoSansKR-Black',
+                              fontFamily: 'NotoSansKR-BLACK',
+                              fontSize: 12,
+                              color: colorCategory[item.name].num,
                             }}>
-                            {item.rep}&nbsp;&nbsp;
+                            {item.rank}&nbsp;&nbsp;&nbsp;
                           </Text>
                         ) : null}
                         {item.name}
@@ -360,19 +402,19 @@ const ProfileInterest = () => {
       {/* footer: Button pass */}
       <View style={styles.footer}>
         <TouchableOpacity
-          disabled={branchRanking && viveRanking ? false : true}
+          disabled={viveRank === 0 || branchRank === 0}
           onPress={goNextScreen}
           style={
-            branchRanking && viveRanking
-              ? styles.buttonAble
-              : styles.buttonDisable
+            viveRank === 0 || branchRank === 0
+              ? styles.buttonDisable
+              : styles.buttonAble
           }>
           <View>
             <Text
               style={
-                branchRanking && viveRanking
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
+                viveRank === 0 || branchRank === 0
+                  ? styles.buttonDisableText
+                  : styles.buttonAbleText
               }>
               완료
             </Text>
@@ -406,11 +448,10 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 26,
     borderColor: '#BEBEBE',
-    borderWidth: 1,
-    paddingHorizontal: 22,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 11,
+    borderWidth: 1,
   },
   itemText: {
     fontFamily: 'NotoSansKR-Regular',

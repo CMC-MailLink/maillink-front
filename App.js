@@ -33,9 +33,9 @@ const MyTheme = {
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState();
   //'Not Decided'
-  const [isReader, setIsReader] = useState('Not Decided');
+  const [isReader, setIsReader] = useState();
   const userSettings = {
     isLogged,
     setIsLogged,
@@ -58,23 +58,21 @@ const App = () => {
     }
 
     loading();
-    SplashScreen.hide();
+    // SplashScreen.hide();
   }, []);
 
   const checkLogged = async () => {
     var token = await getCredentials(); //jwt token 불러오기
     if (!token) {
       //토큰없으면 login 실패
-      console.log('로그인 불가');
       //AsyncStorage.removeItem('keys');
       setIsLogged(false);
     } else {
       //토큰있으면 login 성공
-      console.log('token : ', token);
-      console.log('로그인 성공');
       setIsLogged(true);
       const result = await SignUpAPI.memberInfo();
       if (result === 'Not Decided') {
+        setIsReader('Not Decided');
       } else if (result === 'WRITER') {
         setIsReader('WRITER');
       } else if (result === 'READER') {
@@ -82,6 +80,11 @@ const App = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isLogged !== null) SplashScreen.hide();
+    else if (isReader !== null) SplashScreen.hide();
+  }, [isLogged, isReader]);
 
   return (
     <QueryClientProvider client={queryClient}>

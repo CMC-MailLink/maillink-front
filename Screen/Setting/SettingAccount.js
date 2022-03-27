@@ -24,17 +24,6 @@ const SettingAccount = () => {
   const [memberInfo, setMemberInfo] = useState();
   const [isKakao, setIsKakao] = useState(true);
 
-  // useEffect(() => {
-  //   async function getMemberInfo() {
-  //     const result = await AuthorAPI.memberInfo();
-  //     //console.log(result);
-  //     setMemberInfo(result);
-  //     if (result.socialType === 'KAKAO') setIsKakao(true);
-  //     else setIsKakao(false);
-  //   }
-  //   getMemberInfo();
-  // }, []);
-
   const onPressBack = () => {
     navigation.goBack();
   };

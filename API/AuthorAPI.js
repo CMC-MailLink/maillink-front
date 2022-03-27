@@ -35,7 +35,6 @@ export const AuthorAPI = {
         },
       });
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -53,9 +52,7 @@ export const AuthorAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -79,7 +76,9 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      console.log(response);
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -104,7 +103,9 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      console.log(response);
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -130,7 +131,9 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      console.log(response);
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -152,7 +155,9 @@ export const AuthorAPI = {
           },
         },
       );
-      console.log(response);
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -174,7 +179,6 @@ export const AuthorAPI = {
           },
         },
       );
-      console.log(response);
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -194,7 +198,6 @@ export const AuthorAPI = {
         },
       });
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -204,7 +207,6 @@ export const AuthorAPI = {
   //프로필 이미지 업로드
   profileEditing: async ({image}) => {
     console.log('작가 프로필 이미지 업로드');
-    console.log('profileEditing api : ', image);
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/signup/profile/img/`,
@@ -236,7 +238,6 @@ export const AuthorAPI = {
           method: 'post',
         },
       );
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;
@@ -261,7 +262,7 @@ export const AuthorAPI = {
     instagram,
     etc,
   }) => {
-    console.log('작가 프로필 수정', introduction);
+    console.log('작가 프로필 수정');
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
@@ -284,7 +285,6 @@ export const AuthorAPI = {
           etc: etc,
         }),
       });
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;
@@ -309,7 +309,6 @@ export const AuthorAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) {
         return true;
       }
@@ -332,7 +331,6 @@ export const AuthorAPI = {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response);
       if (response.status === 200) {
         return true;
       } else {

@@ -31,6 +31,7 @@ const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
     });
     if (result) {
       await queryClient.refetchQueries(['Message']);
+      await queryClient.refetchQueries(['MessagePartner']);
       onPressBack();
     }
   };

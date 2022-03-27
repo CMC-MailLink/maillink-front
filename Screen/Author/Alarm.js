@@ -16,7 +16,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {MessageAPI} from '../../API/MessageAPI';
 
 import AuthorProfileImage from '../../assets/images/AuthorProfileImage.png';

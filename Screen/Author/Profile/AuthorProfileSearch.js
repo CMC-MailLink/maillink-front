@@ -152,7 +152,6 @@ const AuthorMailSearch = () => {
   const getRecentSearch = async () => {
     try {
       const value = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log('getRecentSearch : ', JSON.parse(value));
       JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
     } catch (e) {
       //error

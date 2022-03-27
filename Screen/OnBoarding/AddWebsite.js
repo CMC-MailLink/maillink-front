@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -19,19 +19,14 @@ import URLNone from '../../assets/images/URLNone.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import AppContext from '../../AppContext';
 
 const AddWebsite = () => {
   const navigation = useNavigation();
-  const myContext = useContext(AppContext);
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
   const [editInstagram, setEditInstagram] = useState('');
   const [editURL, setEditURL] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalConfirm, setModalConfirm] = useState(false);
-  const [modalVisible2, setModalVisible2] = useState(false);
-  const [modalConfirm2, setModalConfirm2] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -39,14 +34,6 @@ const AddWebsite = () => {
   const onPressModalConfirm = () => {
     setModalVisible(!modalVisible);
   };
-
-  useEffect(() => {
-    if (modalConfirm) {
-      setModalVisible2(false);
-      setModalVisible(false);
-      myContext.setIsReader('WRITER');
-    }
-  }, [myContext, modalConfirm]);
 
   return (
     <View style={{flex: 1}}>
@@ -61,9 +48,7 @@ const AddWebsite = () => {
         <AuthorSuccessModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          modalVisible2={modalVisible2}
-          setModalVisible2={setModalVisible2}
-          setModalConfirm={setModalConfirm}
+          onPressModalConfirm={onPressModalConfirm}
         />
       </Modal>
 
@@ -111,8 +96,6 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editFacebook}
                 onChangeText={setEditFacebook}
-                autoCorrect={false}
-                autoCapitalize={false}
               />
             </View>
             <View style={styles.websiteView}>
@@ -125,8 +108,6 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editTwitter}
                 onChangeText={setEditTwitter}
-                autoCorrect={false}
-                autoCapitalize={false}
               />
             </View>
             <View style={styles.websiteView}>
@@ -139,8 +120,6 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editInstagram}
                 onChangeText={setEditInstagram}
-                autoCorrect={false}
-                autoCapitalize={false}
               />
             </View>
             <View style={styles.websiteView}>
@@ -152,8 +131,6 @@ const AddWebsite = () => {
                 style={styles.websiteTextInput}
                 value={editURL}
                 onChangeText={setEditURL}
-                autoCorrect={false}
-                autoCapitalize={false}
               />
             </View>
           </View>
@@ -270,9 +247,8 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   websiteTextInput: {
-    width: 215,
     padding: 0,
-    // width: '100%',
+    width: '100%',
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#3C3C3C',

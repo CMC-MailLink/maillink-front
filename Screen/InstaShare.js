@@ -20,7 +20,6 @@ import LogoBlackInstaShare from '../assets/images/LogoBlackInstaShare.png';
 import ColorSelectInstaShare from '../assets/images/ColorSelectInstaShare.png';
 
 const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
-  console.log(params);
   const navigation = useNavigation();
   const viewRef = useRef();
   const [colorSelect, setColorSelect] = useState('#FFFFFF');
@@ -45,7 +44,6 @@ const InstaShare = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
-  console.log(params);
 
   const shareDummyImage2 = async () => {
     try {

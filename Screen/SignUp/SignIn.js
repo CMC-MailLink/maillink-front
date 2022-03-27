@@ -50,8 +50,8 @@ const SignIn = props => {
     });
     if (result) {
       const result2 = await SignUpAPI.memberInfo();
-      console.log('signIn : ', result2);
       if (result2 === 'Not Decided') {
+        myContext.setIsReader('Not Decided');
         myContext.setIsLogged(true);
       } else if (result2 === 'WRITER') {
         myContext.setIsReader('WRITER');
@@ -103,7 +103,6 @@ const SignIn = props => {
         email_verified: ${email_verified}
         is_private_email: ${is_private_email}
         sub: ${sub}`;
-        console.log(temp);
         SignInApple(sub);
       }
     } catch (error) {
@@ -180,7 +179,7 @@ const SignIn = props => {
       navigation.navigate('SignUpStacks', {
         screen: 'SelfAuth',
         params: {
-          socialType: 'KAKAO',
+          socialType: 'APPLE',
           socialId: id,
         },
       });

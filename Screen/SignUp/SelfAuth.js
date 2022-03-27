@@ -102,7 +102,6 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
       target: phone,
       code: number,
     });
-    console.log(result);
     if (result) {
       // Alert.alert('인증 되었습니다.', {
       //   text: '확인',

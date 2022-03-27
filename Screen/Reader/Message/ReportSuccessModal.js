@@ -24,7 +24,7 @@ const ReportSuccessModal = ({
         />
         <Text style={styles.modalText}>신고 접수 완료</Text>
         <Text style={styles.modalText2}>
-          한 번 나간 채팅은 복구되지 않습니다.
+          신고 내용이 메일링크 팀으로 전달되었습니다.
         </Text>
         <View style={styles.modalButtonView}>
           <TouchableOpacity onPress={goNextScreen}>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: 330,
-    height: 296,
+    height: 240,
     borderRadius: 15,
     backgroundColor: 'white',
     alignItems: 'center',

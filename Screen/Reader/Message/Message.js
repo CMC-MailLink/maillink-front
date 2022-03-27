@@ -22,13 +22,18 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import ChatExitModal from './ChatExitModal';
 import {MessageAPI} from '../../../API/MessageAPI';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {
+  QueryClient,
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 import {FloatingAction} from 'react-native-floating-action';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
-import ReportExclamation from '../../../assets/images/ReportExclamation.png';
+import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import Report from '../../../assets/images/Report.png';
 
@@ -38,6 +43,8 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
+  const [send, setSendSelect] = useState(false);
+  const [message, setMessage] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const {isLoading: messageLoading, data: messagePartnerData} = useQuery(
     ['MessagePartner', params.partnerId],
@@ -148,13 +155,17 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               <Text>신고하기</Text>
             </Text>
             <Image
-              style={{
-                width: 22,
-                height: 22,
-                position: 'absolute',
-                right: 23.5,
-              }}
-              source={ReportExclamation}
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuPage}
+            />
+          </MenuOption>
+          <MenuOption onSelect={onPressModalConfirm}>
+            <Text style={styles.menuText}>
+              <Text>채팅방 나가기</Text>
+            </Text>
+            <Image
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuExit}
             />
           </MenuOption>
         </MenuOptions>
@@ -201,6 +212,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             {/* {params.item.sender} */}
           </Text>
         </View>
+        {/* {renderMessageItem(message.sender)} */}
       </View>
       {/* body */}
       {messagePartnerData ? (

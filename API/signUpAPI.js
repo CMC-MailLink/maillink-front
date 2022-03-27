@@ -8,7 +8,7 @@ const BASE_URL = API_URL;
 export const SignUpAPI = {
   //휴대폰 문자 인증 코드 발송
   codeSending: async ({target}) => {
-    console.log('codeSending api : ', target);
+    console.log('휴대폰 문자 인증 코드 발송');
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/code/send/${target}`,
@@ -16,7 +16,6 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
-      console.log(response);
       if (response.status === 200) {
         return true;
       } else {
@@ -29,7 +28,7 @@ export const SignUpAPI = {
   },
   //휴대폰 문자 인증 코드 인증
   codeChecking: async ({target, code}) => {
-    console.log('codeChecking api : ', target, code);
+    console.log('휴대폰 문자 인증 코드인증');
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/code/check/${target}?code=${code}`,
@@ -54,7 +53,7 @@ export const SignUpAPI = {
   },
   //프로필 이미지 업로드
   profileEditing: async ({image}) => {
-    console.log('profileEditing api : ', image);
+    console.log('프로필 이미지 업로드');
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/signup/profile/img/`,
@@ -77,7 +76,11 @@ export const SignUpAPI = {
   },
   //로그인
   authLogin: async ({socialType, socialId}) => {
+<<<<<<< HEAD
     console.log('authLogin api : ', socialType, socialId);
+=======
+    console.log('로그인');
+>>>>>>> bibi
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
@@ -85,14 +88,26 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
+<<<<<<< HEAD
         // body: JSON.stringify({socialType: socialType, socialId: socialId}),
         body: JSON.stringify({
           socialType: 'KAKAO',
           socialId: 'dongurireader615',
           fcmDeviceToken: fcmDeviceToken,
         }),
+=======
+        body: JSON.stringify({
+          socialType: socialType,
+          socialId: socialId,
+          fcmDeviceToken: fcmDeviceToken,
+        }),
+        // body: JSON.stringify({
+        //   socialType: 'KAKAO',
+        //   socialId: 'bibiwriter8',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
+>>>>>>> bibi
       });
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;
@@ -121,6 +136,7 @@ export const SignUpAPI = {
   },
   //회원 가입
   authSignUp: async ({socialType, socialId, nickName, imgUrl, phoneNumber}) => {
+<<<<<<< HEAD
     console.log(
       'authSignUp api : ',
       socialType,
@@ -129,6 +145,9 @@ export const SignUpAPI = {
       imgUrl,
       phoneNumber,
     );
+=======
+    console.log('회원가입');
+>>>>>>> bibi
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/signup`, {
@@ -146,21 +165,23 @@ export const SignUpAPI = {
         }),
         // body: JSON.stringify({
         //   socialType: 'KAKAO',
+<<<<<<< HEAD
         //   socialId: 'donguriwriter615',
         //   nickName: '동구리작가615',
+=======
+        //   socialId: 'bibiwriter8',
+        //   nickName: '비비작가8',
+>>>>>>> bibi
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
-      console.log(response);
       let json = await response.json();
-      console.log(json);
       if (json.errorCode === 400) {
         return false;
       }
       if (json.data) {
-        console.log(json.data);
         async function addToken() {
           try {
             await AsyncStorage.setItem(
@@ -184,6 +205,7 @@ export const SignUpAPI = {
   },
   //유저 정보 조회
   memberInfo: async () => {
+    console.log('유저정보조회');
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/info`, {
@@ -193,7 +215,6 @@ export const SignUpAPI = {
         },
       });
       let json = await response.json();
-      console.log(json);
       return json.data.userType;
     } catch (e) {
       console.log(e);
@@ -202,6 +223,7 @@ export const SignUpAPI = {
   },
   //유저타입변경
   memberType: async ({userType}) => {
+    console.log('유저타입변경');
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -214,7 +236,6 @@ export const SignUpAPI = {
         },
       );
       let json = await response.json();
-      console.log(json);
       return json.data.userType;
     } catch (e) {
       console.log(e);
@@ -231,7 +252,51 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
-      console.log(response);
+      let json = await response.json();
+      if (json.errorCode === 400) return false;
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //작가 정보 저장
+  setAuthorInfo: async ({
+    introduction,
+    genre1,
+    genre2,
+    genre3,
+    mood1,
+    mood2,
+    mood3,
+    facebook,
+    twitter,
+    instagram,
+    etc,
+  }) => {
+    console.log('작가 정보 저장');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          introduction: introduction,
+          genre1: genre1,
+          genre2: genre2,
+          genre3: genre3,
+          mood1: mood1,
+          mood2: mood2,
+          mood3: mood3,
+          facebook: facebook,
+          twitter: twitter,
+          instagram: instagram,
+          etc: etc,
+        }),
+      });
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;

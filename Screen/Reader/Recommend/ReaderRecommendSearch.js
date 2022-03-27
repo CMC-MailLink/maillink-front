@@ -49,11 +49,11 @@ const ReaderRecommendSearch = () => {
     if (query === '') {
       return;
     }
-    setSubmit(true);
-    var res = authorListData.filter(item =>
-      item.writerInfo.nickName.includes(query),
-    );
-    setResult([...res]);
+    // setSubmit(true);
+    // var res = authorListData.filter(item =>
+    //   item.writerInfo.nickName.includes(query),
+    // );
+    // setResult([...res]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authorListData]);
 
@@ -126,7 +126,7 @@ const ReaderRecommendSearch = () => {
   //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
-    console.log(result);
+
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
@@ -134,7 +134,7 @@ const ReaderRecommendSearch = () => {
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
-    console.log(result);
+
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
@@ -142,7 +142,6 @@ const ReaderRecommendSearch = () => {
   const getRecentSearch = async () => {
     try {
       const value = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log('getRecentSearch : ', JSON.parse(value));
       JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
     } catch (e) {
       //error
@@ -158,7 +157,13 @@ const ReaderRecommendSearch = () => {
         <Text style={styles.headerText}>작가 검색</Text>
         <View style={styles.headerSearchContainer}>
           <TouchableWithoutFeedback onPress={onPressBack}>
-            <View>
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
             </View>
           </TouchableWithoutFeedback>
@@ -291,14 +296,22 @@ const ReaderRecommendSearch = () => {
                     <Text style={styles.recentSearchText}>{data}</Text>
                     <TouchableWithoutFeedback
                       onPress={e => onPressDelete(data, index)}>
-                      <Image
+                      <View
                         style={{
                           position: 'absolute',
-                          width: 12,
-                          height: 12,
-                          right: 28,
-                        }}
-                        source={DeleteMail}></Image>
+                          right: 20,
+                          width: 30,
+                          height: 30,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          style={{
+                            width: 12,
+                            height: 12,
+                          }}
+                          source={DeleteMail}></Image>
+                      </View>
                     </TouchableWithoutFeedback>
                   </View>
                 </TouchableOpacity>
@@ -354,7 +367,7 @@ const styles = StyleSheet.create({
     width: 322,
     height: 44,
     borderRadius: 43,
-    marginLeft: 15,
+    marginLeft: 10,
     justifyContent: 'center',
     paddingLeft: 20,
     paddingRight: 44,

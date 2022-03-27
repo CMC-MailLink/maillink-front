@@ -44,21 +44,28 @@ const AuthorWrite = () => {
       temp.map((data, index) => {
         data.key = index.toString();
       });
-      setFilterStorage([...temp]);
-    }
-  }, [storageData]);
-
-  useEffect(() => {
-    setFilterStorage(data =>
-      data.slice().sort(function (a, b) {
+      var tempStorage = temp.slice().sort(function (a, b) {
         if (a.tempSaveTime >= b.tempSaveTime) {
           return recentSelect ? -1 : 1;
         } else if (a.tempSaveTime < b.tempSaveTime) {
           return recentSelect ? 1 : -1;
         }
-      }),
-    );
-  }, [recentSelect]);
+      });
+      setFilterStorage([...tempStorage]);
+    }
+  }, [storageData, recentSelect]);
+
+  // useEffect(() => {
+  //   setFilterStorage(data =>
+  //     data.slice().sort(function (a, b) {
+  //       if (a.tempSaveTime >= b.tempSaveTime) {
+  //         return recentSelect ? -1 : 1;
+  //       } else if (a.tempSaveTime < b.tempSaveTime) {
+  //         return recentSelect ? 1 : -1;
+  //       }
+  //     }),
+  //   );
+  // }, [recentSelect]);
 
   const onPressRecent = () => {
     setRecentSelect(true);
@@ -82,7 +89,6 @@ const AuthorWrite = () => {
   };
 
   const deleteRow = (rowMap, key, data) => {
-    console.log(data);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }

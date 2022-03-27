@@ -9,6 +9,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import AuthorWrite from '../../Screen/Author/Write/AuthorWrite';
 import AuthorMail from '../../Screen/Author/Mail/AuthorMail';
 import AuthorProfile from '../../Screen/Author/Profile/AuthorProfile';
@@ -30,20 +31,27 @@ const CustomTabBarButton = ({children, onPress}) => (
 );
 
 const AuthorTabs = () => {
+  const insets = useSafeAreaInsets();
   return (
     <AuthorTab.Navigator
       initialRouteName="AuthorMail"
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarStyle: styles.navigator,
-      }}>
+        tabBarStyle: {...styles.navigator, height: insets.bottom / 2 + 76},
+      }}
+      backBehavior="none">
       <AuthorTab.Screen
         name="AuthorWrite"
         component={AuthorWrite}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View style={styles.iconView}>
+            <View
+              style={{
+                ...styles.iconView,
+                marginTop: insets.bottom / 2,
+                marginLeft: Dimensions.get('window').width / 10,
+              }}>
               <Image
                 style={{width: 21, height: 21}}
                 source={focused ? WriteTabsFocused : WriteTabs}
@@ -60,30 +68,6 @@ const AuthorTabs = () => {
         }}
       />
       <AuthorTab.Screen
-        style={{justifyContent: 'center', alignItems: 'center'}}
-        name="AuthorProfile"
-        component={AuthorProfile}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View style={styles.iconView}>
-              <Image
-                style={{width: 18, height: 21.27}}
-                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
-              />
-              <Text
-                style={{
-                  ...styles.iconText,
-                  color: focused ? '#4562F1' : '#BEBEBE',
-                }}>
-                프로필
-              </Text>
-            </View>
-          ),
-        }}
-        tabBarActiveTintColor="#4562F1"
-      />
-      <AuthorTab.Screen
         name="AuthorMail"
         component={AuthorMail}
         options={{
@@ -97,6 +81,7 @@ const AuthorTabs = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 90,
+                top: -15,
               }}>
               <View
                 style={{
@@ -117,8 +102,36 @@ const AuthorTabs = () => {
               </View>
             </View>
           ),
-          tabBarButton: props => <CustomTabBarButton {...props} />,
+          // tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
+      />
+      <AuthorTab.Screen
+        name="AuthorProfile"
+        component={AuthorProfile}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                ...styles.iconView,
+                marginTop: insets.bottom / 2,
+                marginRight: Dimensions.get('window').width / 10,
+              }}>
+              <Image
+                style={{width: 18, height: 21.27}}
+                source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
+              />
+              <Text
+                style={{
+                  ...styles.iconText,
+                  color: focused ? '#4562F1' : '#BEBEBE',
+                }}>
+                프로필
+              </Text>
+            </View>
+          ),
+        }}
+        tabBarActiveTintColor="#4562F1"
       />
     </AuthorTab.Navigator>
   );
@@ -127,11 +140,9 @@ const AuthorTabs = () => {
 const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    // height: 103 - 23.78,
-    height: 76,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
@@ -139,33 +150,34 @@ const styles = StyleSheet.create({
           width: 0,
           height: -2,
         },
-        shadowOpacity: 0.13,
-        shadowRadius: 29,
+        shadowOpacity: 0.18,
+        shadowRadius: 15,
       },
       android: {
         elevation: 10,
       },
     }),
-  },
-  customButton: {
-    top: -21,
-    justifyContent: 'center',
     alignItems: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#4562F1',
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowOpacity: 0.314,
-        shadowRadius: 10,
-      },
-      android: {
-        elevation: 10,
-      },
-    }),
+    justifyContent: 'center',
   },
+  // customButton: {
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   ...Platform.select({
+  //     ios: {
+  //       shadowColor: '#4562F1',
+  //       shadowOffset: {
+  //         width: 0,
+  //         height: 5,
+  //       },
+  //       shadowOpacity: 0.314,
+  //       shadowRadius: 10,
+  //     },
+  //     android: {
+  //       elevation: 10,
+  //     },
+  //   }),
+  // },
   customView: {
     width: 64,
     height: 64,
@@ -174,10 +186,12 @@ const styles = StyleSheet.create({
   },
   iconView: {
     alignItems: 'center',
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
+    justifyContent: 'center',
+    // position: 'absolute',
+    // bottom: Platform.OS === 'ios' ? 3 - 15.36 : 15.36,
   },
   iconText: {
+    color: '#BEBEBE',
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 10,
     marginTop: 5,

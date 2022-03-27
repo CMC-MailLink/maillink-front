@@ -16,7 +16,8 @@ const OnBoardingNav = createNativeStackNavigator();
 
 const Root = props => {
   return (
-    <RootNav.Navigator screenOptions={{headerShown: false}}>
+    <RootNav.Navigator
+      screenOptions={{headerShown: false, presentation: 'card'}}>
       {!props.isLogged ? (
         <RootNav.Group>
           <SignUpNav.Screen name="SignUpStacks" component={SignUpStacks} />

@@ -13,7 +13,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -28,14 +28,16 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const queryClient = useQueryClient();
   const url = 'https://www.mail-link.co.kr/readingEditor';
   let webRef = useRef();
+  const [webviewLoading, setWebviewLoading] = useState(true);
   const {isLoading: mailDetailLoading, data: mailDetailData} = useQuery(
     ['ReaderMailDetail', params.mailId],
     ReaderAPI.mailReading,
   );
-  const {isLoading: authrInfoLoading, data: authorInfoData} = useQuery(
+  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
     ['AuthorInfo', params.writerId],
     ReaderAPI.getWriterInfo,
   );
+  const loading = mailDetailLoading || authorInfoLoading;
 
   useEffect(() => {
     queryClient.refetchQueries(['ReaderMail']);
@@ -44,6 +46,13 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    if (!loading && !webviewLoading) {
+      console.log('로딩 끝', mailDetailData);
+      webRef.current.injectJavaScript(contentSending);
+    }
+  }, [loading, contentSending, mailDetailData, webviewLoading]);
 
   const onPressBookmark = async () => {
     if (!mailDetailData.isSaved) {
@@ -80,7 +89,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   const onPressSend = async () => {
-    console.log(authorInfoData.writerInfo.id);
     navigation.navigate('ReaderStacks', {
       screen: 'MessageWrite',
       params: {writerId: authorInfoData.writerInfo.id},
@@ -91,11 +99,12 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     let div = document.createElement('div');
     div.classList.add('test');
     var textNode = document.createTextNode('${
-      mailDetailData ? mailDetailData.content : ''
+      mailDetailData ? mailDetailData.content : 'aa'
     }');
     div.append(textNode);
     div.style.display="none";
     document.body.appendChild(div);
+    document.getElementById('loadingButton').click();
     true;
   `;
 
@@ -153,7 +162,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         <Text style={styles.authorText}>
           {authorInfoData ? authorInfoData.writerInfo.nickName : null}
         </Text>
-        <View
+        {/* <View
           // onPress={onPressSubscribe}
           style={
             authorInfoData && authorInfoData.subscribeCheck
@@ -172,22 +181,20 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
                 : '구독하기'}
             </Text>
           </View>
-        </View>
+        </View> */}
       </View>
       <WebView
+        onLoad={() => setWebviewLoading(false)}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}
         hideKeyboardAccessoryView={true}
         ref={webRef}
-        onMessage={event => {}}
-        injectedJavaScript={contentSending}
         menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
-          console.log(selectedText);
           navigation.navigate('ReaderStacks', {
             screen: 'InstaShare',
             params: {

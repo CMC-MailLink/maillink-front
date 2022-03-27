@@ -39,14 +39,16 @@ const AuthorMailBody = () => {
     AuthorAPI.writerGetPublishing,
   );
 
+  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
+    ['AuthorInfo'],
+    AuthorAPI.memberInfo,
+  );
+
   useEffect(() => {
-    async function getMemberInfo() {
-      const result = await AuthorAPI.memberInfo();
-      console.log(result);
-      setMemberInfo(result);
+    if (authorInfoData) {
+      setMemberInfo(authorInfoData);
     }
-    getMemberInfo();
-  }, []);
+  }, [authorInfoData]);
 
   useEffect(() => {
     Animated.loop(
@@ -61,21 +63,28 @@ const AuthorMailBody = () => {
 
   useEffect(() => {
     if (mailData) {
-      setMail([...mailData]);
-    }
-  }, [mailData]);
-
-  useEffect(() => {
-    setMail(data =>
-      data.slice().sort(function (a, b) {
+      var temp = mailData.slice().sort(function (a, b) {
         if (a.publishedTime >= b.publishedTime) {
           return recentSelect ? -1 : 1;
         } else if (a.publishedTime < b.publishedTime) {
           return recentSelect ? 1 : -1;
         }
-      }),
-    );
-  }, [recentSelect]);
+      });
+      setMail([...temp]);
+    }
+  }, [mailData, recentSelect]);
+
+  // useEffect(() => {
+  //   setMail(data =>
+  //     data.slice().sort(function (a, b) {
+  //       if (a.publishedTime >= b.publishedTime) {
+  //         return recentSelect ? -1 : 1;
+  //       } else if (a.publishedTime < b.publishedTime) {
+  //         return recentSelect ? 1 : -1;
+  //       }
+  //     }),
+  //   );
+  // }, [recentSelect]);
 
   //새로고침 스크롤
   function onScroll(event) {
@@ -130,7 +139,7 @@ const AuthorMailBody = () => {
           style={{
             justifyContent: 'center',
           }}>
-          <Text style={styles.bodyHeaderText}>메일함</Text>
+          <Text style={styles.bodyHeaderText}>보낸 메일함</Text>
         </View>
         <View
           style={{
@@ -299,7 +308,6 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     height: '100%',
-    paddingBottom: 150,
   },
   bodyHeader: {
     height: 41.63,

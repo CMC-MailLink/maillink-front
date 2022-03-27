@@ -27,7 +27,6 @@ import AuthorProfileMail from './ReaderAuthorProfileMail';
 const refreshingHeight = 100;
 
 const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
-  console.log(params);
   const queryClient = useQueryClient();
   const navigation = useNavigation();
   const [introSelect, setIntroSelect] = useState(true);
@@ -59,7 +58,6 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
-    console.log(result);
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
@@ -70,7 +68,6 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
   //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
-    console.log(result);
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
@@ -81,7 +78,6 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
   //관심 버튼 클릭
   const onPressInterest = async writerId => {
     var result = await ReaderAPI.interesting({writerId: writerId});
-    console.log(result);
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
@@ -92,7 +88,6 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
   //관심 취소하기 버튼 클릭
   const onPressCancelInterest = async writerId => {
     var result = await ReaderAPI.cancelInteresting({writerId: writerId});
-    console.log(result);
     if (result) {
       await queryClient.refetchQueries(['AuthorInfo']);
       await queryClient.refetchQueries(['AuthorList']);
@@ -111,7 +106,13 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
         }}></View>
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{position: 'absolute', left: 24}}>
+          <View
+            style={{
+              position: 'absolute',
+              left: 24,
+              width: 20,
+              height: 20,
+            }}>
             <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
           </View>
         </TouchableWithoutFeedback>

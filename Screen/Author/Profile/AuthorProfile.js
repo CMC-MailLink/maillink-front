@@ -40,7 +40,6 @@ const AuthorProfile = () => {
 
   useEffect(() => {
     if (authorProfileData) {
-      console.log(authorProfileData);
       setWriterInfo(authorProfileData);
       setName(authorProfileData.nickName);
       setImageUri(authorProfileData.imageUrl);

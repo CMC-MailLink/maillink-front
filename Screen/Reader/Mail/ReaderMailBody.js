@@ -68,7 +68,6 @@ const ReaderMailBody = () => {
   useEffect(() => {
     if (mailData) {
       var temp = mailData;
-      console.log(temp);
       if (!temp.length) {
         temp.map((data, index) => {
           data.key = index.toString();
@@ -150,15 +149,12 @@ const ReaderMailBody = () => {
     if (offsetY <= -refreshingHeight && !refreshing) {
       setRefreshing(true);
       await queryClient.refetchQueries(['ReaderMail']);
-      // setMailSelect(true);
-      // setRecentSelect(true);
       setRefreshing(false);
     }
   };
 
   //저장하기 버튼 클릭
   const bookmarkRow = async (rowMap, key, item) => {
-    console.log(item);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
@@ -177,7 +173,6 @@ const ReaderMailBody = () => {
 
   //쪽지 보내기 버튼 클릭
   const sendRow = (rowMap, key, writerId) => {
-    console.log(writerId);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }
@@ -213,7 +208,6 @@ const ReaderMailBody = () => {
       screen: 'ReaderReading',
       params: {mailId: data.item.id, writerId: data.item.writerId},
     });
-    await queryClient.refetchQueries(['ReaderMail']);
   };
 
   //메일 아이템 render

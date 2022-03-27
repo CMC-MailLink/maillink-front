@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
@@ -30,20 +31,30 @@ const CustomTabBarButton = ({children, onPress}) => (
   </TouchableOpacity>
 );
 const ReaderTabs = () => {
+  const insets = useSafeAreaInsets();
   return (
     <ReaderTab.Navigator
       initialRouteName="ReaderMail"
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarStyle: styles.navigator,
-      }}>
+        tabBarStyle: {
+          ...styles.navigator,
+          height: insets.bottom / 2 + 76,
+        },
+      }}
+      backBehavior="none">
       <ReaderTab.Screen
         name="recommend"
         component={ReaderRecommend}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View style={styles.iconView}>
+            <View
+              style={{
+                ...styles.iconView,
+                marginTop: insets.bottom / 2,
+                marginLeft: Dimensions.get('window').width / 10,
+              }}>
               <Image
                 style={{width: 20.2, height: 18}}
                 source={focused ? HeartTabsFocused : HeartTabs}
@@ -73,7 +84,11 @@ const ReaderTabs = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 90,
+<<<<<<< HEAD
                 top: -20,
+=======
+                top: -15,
+>>>>>>> bibi
               }}>
               <View
                 style={{
@@ -98,13 +113,25 @@ const ReaderTabs = () => {
         }}
       />
       <ReaderTab.Screen
+<<<<<<< HEAD
         style={{justifyContent: 'center', alignItems: 'center'}}
+=======
+>>>>>>> bibi
         name="ReaderProfile"
         component={ReaderProfile}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
+<<<<<<< HEAD
             <View style={styles.iconView}>
+=======
+            <View
+              style={{
+                ...styles.iconView,
+                marginTop: insets.bottom / 2,
+                marginRight: Dimensions.get('window').width / 10,
+              }}>
+>>>>>>> bibi
               <Image
                 style={{width: 18, height: 21.27}}
                 source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
@@ -126,11 +153,9 @@ const ReaderTabs = () => {
 const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    // height: 103 - 23.78,
-    height: 76,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
@@ -138,6 +163,7 @@ const styles = StyleSheet.create({
           width: 0,
           height: -2,
         },
+<<<<<<< HEAD
         shadowOpacity: 0.13,
         shadowRadius: 29,
       },
@@ -159,12 +185,35 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.314,
         shadowRadius: 10,
+=======
+        shadowOpacity: 0.18,
+        shadowRadius: 15,
+>>>>>>> bibi
       },
       android: {
         elevation: 10,
       },
     }),
   },
+  // customButton: {
+  //   top: -21,
+  //   justifyContent: 'flex-start',
+  //   alignItems: 'center',
+  //   ...Platform.select({
+  //     ios: {
+  //       shadowColor: '#4562F1',
+  //       shadowOffset: {
+  //         width: 0,
+  //         height: 5,
+  //       },
+  //       shadowOpacity: 0.314,
+  //       shadowRadius: 10,
+  //     },
+  //     android: {
+  //       elevation: 10,
+  //     },
+  //   }),
+  // },
   customView: {
     width: 64,
     height: 64,

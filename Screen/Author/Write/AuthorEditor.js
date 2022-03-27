@@ -37,7 +37,6 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   };
   const handleOnMessage = async ({nativeEvent: {data}}) => {
     if (data === 'image') {
-      console.log('!!');
       //이미지 선택
       const onPressEditImage = async () => {
         ImagePicker.openPicker({
@@ -45,7 +44,6 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
           height: 400,
           cropping: true,
         }).then(image => {
-          console.log(image);
           imageUpload(image.path);
         });
       };
@@ -61,7 +59,6 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         });
 
         const result = await SignUpAPI.profileEditing({image: imageData});
-        console.log(result);
         if (result) {
           webRef.current.postMessage(JSON.stringify({imageURL: result}));
           setImageCount(imageCount + 1);
@@ -82,13 +79,13 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       const temp = await JSON.parse(data);
       const contents = temp.contents;
       const text = temp.text;
-      console.log(contents, text);
       const preView = text.replace(/\n/g, ' ').slice(0, 44) + '...';
       const result = await AuthorAPI.writerPostSaving({
         title: title,
         content: contents,
         preView: preView,
       });
+      if (!result) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       navigation.goBack();
     }
@@ -102,6 +99,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
+      if (!result) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
       navigation.goBack();

@@ -65,11 +65,18 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
     setModalVisible(!modalVisible);
   };
 
+  const onPressWritingPage = () => {
+    navigation.navigate('AuthorStacks', {
+      screen: 'MessageWrite',
+      params: {writerId: params.partnerId},
+    });
+  };
+
   const renderItem = data => (
     <View
       style={{
         backgroundColor: '#FFF',
-        paddingTop: 12,
+        paddingVertical: 12,
         paddingHorizontal: 21,
         borderBottomColor: '#EBEBEB',
         borderBottomWidth: 1,
@@ -193,33 +200,31 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         </View>
       </View>
       {/* body */}
-      <View>
-        {messagePartnerData ? (
-          <FlatList
-            style={styles.bodyContainer}
-            data={messagePartnerData}
-            renderItem={renderItem}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                style={styles.refresh}
-                tintColor="#4562F1"
-              />
-            }
-            //keyExtractor={item => item.id}
-          />
-        ) : (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFFFFF',
-              flex: 1,
-            }}
-          />
-        )}
-      </View>
+      {messagePartnerData ? (
+        <FlatList
+          style={styles.bodyContainer}
+          data={messagePartnerData}
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              style={styles.refresh}
+              tintColor="#4562F1"
+            />
+          }
+          //keyExtractor={item => item.id}
+        />
+      ) : (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#FFFFFF',
+            flex: 1,
+          }}
+        />
+      )}
       <FloatingAction
         actions={[
           {
@@ -232,13 +237,13 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
                 source={PenceilWriting}
               />
             ),
-            name: 'bt_write',
+            name: 'bt_search',
             position: 1,
             buttonSize: 50,
           },
         ]}
         color="#FFF"
-        distanceToEdge={{vertical: 110, horizontal: 17}}
+        distanceToEdge={{vertical: 56, horizontal: 17}}
         buttonSize={50}
         shadow={{
           shadowOpacity: 0.12,
@@ -247,6 +252,9 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         }}
         overrideWithAction={true}
         animated={false}
+        onPressItem={() => {
+          onPressWritingPage();
+        }}
       />
     </View>
   );
@@ -266,10 +274,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#FFFFFF',
     includeFontPadding: false,
-  },
-  bodyHeaderBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#4562F1',
   },
   bodyContainer: {
     backgroundColor: '#FFFFFF',

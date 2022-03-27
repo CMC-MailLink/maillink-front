@@ -16,7 +16,6 @@ import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 
 const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
-  console.log(params);
   let webRef = useRef();
   const navigation = useNavigation();
   const url = 'https://www.mail-link.co.kr/readingEditor';
@@ -79,7 +78,6 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
-          console.log(selectedText);
           navigation.navigate('AuthorStacks', {
             screen: 'InstaShare',
             params: {
