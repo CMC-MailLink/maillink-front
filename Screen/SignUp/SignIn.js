@@ -73,12 +73,16 @@ const SignIn = props => {
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
       //for test
-      navigation.navigate('OnBoardingStacks', {
-        screen: 'AddWebsite',
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelfAuth',
       });
       // onAppleButtonPressIos();
     } else {
-      onAppleButtonPressAndroid();
+      //for test
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelfAuth',
+      });
+      //onAppleButtonPressAndroid();
     }
   };
 

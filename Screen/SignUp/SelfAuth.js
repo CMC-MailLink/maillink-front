@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -148,6 +149,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
       screen: 'SetProfile',
       params: {...params, phoneNumber: phone},
     });
+  };
+
+  const onPressServiceTerms = () => {
+    Linking.openURL(
+      'https://makeus-challenge.notion.site/4e02a43255b14fd8a8f24208d925f8a0',
+    );
   };
 
   return (
@@ -347,7 +354,9 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           <Text style={styles.rulesText}>
             메일링크 가입 약관에 모두 동의합니다
           </Text>
-          <Text style={styles.example}>보기</Text>
+          <TouchableOpacity onPress={onPressServiceTerms}>
+            <Text style={styles.example}>보기</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
       {/* footer: Button */}
@@ -509,7 +518,7 @@ const styles = StyleSheet.create({
   },
   example: {
     position: 'absolute',
-    left: 296 + 23,
+    right: 21,
     bottom: 0,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,

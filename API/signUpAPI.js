@@ -84,16 +84,16 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          socialType: socialType,
-          socialId: socialId,
-          fcmDeviceToken: fcmDeviceToken,
-        }),
         // body: JSON.stringify({
-        //   socialType: 'KAKAO',
-        //   socialId: 'bibiwriter8',
+        //   socialType: socialType,
+        //   socialId: socialId,
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
+        body: JSON.stringify({
+          socialType: 'KAKAO',
+          socialId: 'donguriwriter615',
+          fcmDeviceToken: fcmDeviceToken,
+        }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {

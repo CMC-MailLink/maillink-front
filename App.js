@@ -82,8 +82,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (isLogged !== null) SplashScreen.hide();
-    else if (isReader !== null) SplashScreen.hide();
+    if (isLogged !== null) {
+      SplashScreen.hide();
+    } else if (isReader !== null) {
+      SplashScreen.hide();
+    }
   }, [isLogged, isReader]);
 
   return (
