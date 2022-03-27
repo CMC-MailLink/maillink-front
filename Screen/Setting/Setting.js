@@ -6,11 +6,11 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableWithoutFeedback,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../AppContext';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../assets/images/BackMail.png';
 import AlarmSetting from '../../assets/images/AlarmSetting.png';
@@ -50,32 +50,34 @@ const Setting = () => {
       <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{position: 'absolute', left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail}></FastImage>
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>설정</Text>
       </View>
       <TouchableOpacity onPress={onPressAlarm}>
         <View style={styles.menuView}>
-          <Image
+          <FastImage
             style={{width: 19, height: 22.51, marginRight: 20}}
-            source={AlarmSetting}></Image>
+            source={AlarmSetting}></FastImage>
           <Text style={styles.menuText}>알림 설정</Text>
-          <Image
+          <FastImage
             style={{width: 7, height: 15, position: 'absolute', right: 21}}
-            source={NextSetting}></Image>
+            source={NextSetting}></FastImage>
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={onPressAccount}>
         <View style={styles.menuView}>
-          <Image
+          <FastImage
             style={{width: 19, height: 22.51, marginRight: 20}}
-            source={AccountSetting}></Image>
+            source={AccountSetting}></FastImage>
           <Text style={styles.menuText}>계정</Text>
-          <Image
+          <FastImage
             style={{width: 7, height: 15, position: 'absolute', right: 21}}
-            source={NextSetting}></Image>
+            source={NextSetting}></FastImage>
         </View>
       </TouchableOpacity>
     </View>

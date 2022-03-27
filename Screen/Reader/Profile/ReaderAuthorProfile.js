@@ -4,18 +4,16 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
 
-import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail from '../../../assets/images/BackMail.png';
 import HeartProfile from '../../../assets/images/HeartProfile.png';
@@ -113,7 +111,9 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
               width: 20,
               height: 20,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail}></FastImage>
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>작가프로필</Text>
@@ -127,23 +127,23 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
             <TouchableOpacity
               style={{position: 'absolute', right: 20, bottom: 18}}
               onPress={() => onPressCancelInterest(params.id)}>
-              <Image
+              <FastImage
                 style={{
                   width: 22,
                   height: 20.17,
                 }}
-                source={HeartProfile}></Image>
+                source={HeartProfile}></FastImage>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={{position: 'absolute', right: 20, bottom: 18}}
               onPress={() => onPressInterest(params.id)}>
-              <Image
+              <FastImage
                 style={{
                   width: 22,
                   height: 20.17,
                 }}
-                source={NotHeartProfile}></Image>
+                source={NotHeartProfile}></FastImage>
             </TouchableOpacity>
           )}
         </View>
@@ -155,13 +155,13 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
               width: 160,
             }}>
             <View>
-              <Image
+              <FastImage
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={
                   !authorInfoData || authorInfoData.writerInfo.imgUrl === ''
                     ? DefaultProfile
                     : {uri: authorInfoData.writerInfo.imgUrl}
-                }></Image>
+                }></FastImage>
             </View>
             <View style={{alignItems: 'center', top: 5}}>
               <Text style={styles.profileName}>

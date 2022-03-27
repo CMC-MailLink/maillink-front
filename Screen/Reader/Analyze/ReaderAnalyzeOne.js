@@ -6,7 +6,6 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Platform,
 } from 'react-native';
@@ -34,7 +33,9 @@ const ReaderAnalyzeOne = () => {
               marginLeft: 24,
               marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail2}></FastImage>
           </View>
         </TouchableWithoutFeedback>
       ) : null}

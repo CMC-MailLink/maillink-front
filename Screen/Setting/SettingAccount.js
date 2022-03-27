@@ -6,13 +6,12 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableWithoutFeedback,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../AppContext';
-import {AuthorAPI} from '../../API/AuthorAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../assets/images/BackMail.png';
 import KakaoSetting from '../../assets/images/KakaoSetting.png';
@@ -40,8 +39,10 @@ const SettingAccount = () => {
       <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{position: 'absolute', left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail}></FastImage>
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>계정</Text>
@@ -49,9 +50,9 @@ const SettingAccount = () => {
       <View style={styles.accountView}>
         <Text style={styles.accountText}>나의 계정 정보</Text>
         <View style={{flexDirection: 'row', marginTop: 15}}>
-          <Image
+          <FastImage
             style={{width: 29, height: 29, marginRight: 13}}
-            source={isKakao ? KakaoSetting : AppleSetting}></Image>
+            source={isKakao ? KakaoSetting : AppleSetting}></FastImage>
           <View>
             <Text style={styles.accountCategoryText}>
               {isKakao ? '카카오 계정 회원' : 'Apple 계정 회원'}

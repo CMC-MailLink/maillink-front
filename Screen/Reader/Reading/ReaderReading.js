@@ -3,18 +3,15 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   StatusBar,
-  Platform,
-  AccessibilityInfo,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
 import {useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -116,7 +113,9 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail2}></FastImage>
           </View>
         </TouchableWithoutFeedback>
         {authorInfoData && authorInfoData.subscribeCheck ? (
@@ -124,9 +123,12 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             <TouchableWithoutFeedback onPress={() => onPressBookmark()}>
               <View style={{position: 'absolute', right: 61}}>
                 {mailDetailData && mailDetailData.isSaved ? (
-                  <Image style={{width: 21, height: 20.5}} source={StarMail} />
+                  <FastImage
+                    style={{width: 21, height: 20.5}}
+                    source={StarMail}
+                  />
                 ) : (
-                  <Image
+                  <FastImage
                     style={{width: 21, height: 20.5}}
                     source={NoStarMail}
                   />
@@ -135,9 +137,9 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressSend}>
               <View style={{position: 'absolute', right: 22}}>
-                <Image
+                <FastImage
                   style={{width: 21.54, height: 23.82}}
-                  source={SendMail2}></Image>
+                  source={SendMail2}></FastImage>
               </View>
             </TouchableWithoutFeedback>
           </>
@@ -152,13 +154,13 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </Text>
       </View>
       <View style={styles.authorView}>
-        <Image
+        <FastImage
           style={{width: 30, height: 30, marginRight: 12, borderRadius: 90}}
           source={
             !mailDetailData || mailDetailData.writerImgUrl === ''
               ? DefaultProfile
               : {uri: mailDetailData.writerImgUrl}
-          }></Image>
+          }></FastImage>
         <Text style={styles.authorText}>
           {authorInfoData ? authorInfoData.writerInfo.nickName : null}
         </Text>
@@ -184,6 +186,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </View> */}
       </View>
       <WebView
+        startInLoadingState={true}
         onLoad={() => setWebviewLoading(false)}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}

@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   FlatList,
   RefreshControl,
@@ -24,6 +23,7 @@ import ChatExitModal from './ChatExitModal';
 import {MessageAPI} from '../../../API/MessageAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {FloatingAction} from 'react-native-floating-action';
+import FastImage from 'react-native-fast-image';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
@@ -144,7 +144,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Image style={{width: 3, height: 17}} source={Report} />
+            <FastImage style={{width: 3, height: 17}} source={Report} />
           </View>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
@@ -158,7 +158,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.menuText}>
               <Text>신고하기</Text>
             </Text>
-            <Image
+            <FastImage
               style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
               source={ReportMenuPage}
             />
@@ -185,7 +185,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -196,7 +196,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image
+          <FastImage
             style={{
               width: 42,
               height: 42,
@@ -253,7 +253,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         actions={[
           {
             icon: (
-              <Image
+              <FastImage
                 style={{
                   width: 22,
                   height: 22,

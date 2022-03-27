@@ -6,11 +6,11 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import AppContext from '../../../AppContext';
+import FastImage from 'react-native-fast-image';
 
 import AnalyzeStart from '../../../assets/images/AnalyzeStart.png';
 
@@ -47,7 +47,7 @@ const ReaderAnalyze = () => {
           alignItems: 'center',
           marginTop: 30,
         }}>
-        <Image style={{width: 390, height: 367}} source={AnalyzeStart} />
+        <FastImage style={{width: 390, height: 367}} source={AnalyzeStart} />
       </View>
       <View style={styles.bottomView}>
         <TouchableOpacity onPress={onPressStart}>

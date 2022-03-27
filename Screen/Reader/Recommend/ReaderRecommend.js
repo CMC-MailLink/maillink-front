@@ -5,7 +5,6 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
-  Image,
   TouchableOpacity,
   FlatList,
   Dimensions,
@@ -16,6 +15,7 @@ import {
 import ReaderRecommendList from './ReaderRecommendList';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
 
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
@@ -152,9 +152,9 @@ const ReaderRecommend = () => {
               </View>
             </View>
           </View>
-          <Image
+          <FastImage
             style={{width: 56, height: 56, position: 'absolute', top: 10}}
-            source={AuthorRecommend}></Image>
+            source={AuthorRecommend}></FastImage>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -195,12 +195,12 @@ const ReaderRecommend = () => {
               })
             }
             style={{position: 'absolute', right: 20, bottom: 5}}>
-            <Image
+            <FastImage
               style={{
                 width: 19,
                 height: 20,
               }}
-              source={SearchRecommend}></Image>
+              source={SearchRecommend}></FastImage>
           </TouchableOpacity>
         </View>
         <View style={styles.recView}>
@@ -213,12 +213,12 @@ const ReaderRecommend = () => {
         </View>
         <View style={styles.testPageView}>
           <TouchableOpacity onPress={onPressAnalyze}>
-            <Image
+            <FastImage
               style={{
                 width: Dimensions.get('window').width,
                 height: (Dimensions.get('window').width * 131) / 390,
               }}
-              source={TestPageRecommend}></Image>
+              source={TestPageRecommend}></FastImage>
           </TouchableOpacity>
         </View>
         <View>
@@ -227,12 +227,12 @@ const ReaderRecommend = () => {
             <TouchableOpacity
               style={{position: 'absolute', right: 20}}
               onPress={() => setModalVisible(true)}>
-              <Image
+              <FastImage
                 style={{
                   width: 21,
                   height: 17,
                 }}
-                source={FilterRecommend}></Image>
+                source={FilterRecommend}></FastImage>
             </TouchableOpacity>
           </View>
           <View style={styles.bodyHeader}>

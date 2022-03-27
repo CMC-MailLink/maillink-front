@@ -1,17 +1,11 @@
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import ReaderRecommendModal from './ReaderRecommendModal';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
@@ -115,7 +109,7 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
             {filterAuthor.map((data, index) => (
               <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
                 <View style={styles.itemView}>
-                  <Image
+                  <FastImage
                     style={{
                       width: 42,
                       height: 42,
@@ -126,13 +120,15 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
                       data.writerInfo.imgUrl === ''
                         ? DefaultProfile
                         : {uri: data.writerInfo.imgUrl}
-                    }></Image>
+                    }></FastImage>
                   <View>
                     <Text style={styles.itemName}>
                       {data.writerInfo.nickName}
                     </Text>
                     <Text style={styles.itemIntro}>
-                      {data.writerInfo.introduction}
+                      {data.writerInfo.introduction
+                        ? data.writerInfo.introduction.slice(0, 20)
+                        : ''}
                     </Text>
                   </View>
                   {data.subscribeCheck ? (
@@ -198,6 +194,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemIntro: {
+    width: 200,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

@@ -6,7 +6,6 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -37,7 +36,9 @@ const ReaderAnalyzeTwo = () => {
               marginLeft: 24,
               marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail2}></FastImage>
           </View>
         </TouchableWithoutFeedback>
       ) : null}

@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   StatusBar,
   TouchableWithoutFeedback,
@@ -14,6 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FastImage from 'react-native-fast-image';
 
 import ReportCheck from '../../../assets/images/ReportCheck.png';
 import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png';
@@ -113,7 +113,7 @@ const MessageReport = () => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
 
@@ -132,9 +132,12 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>영리 목적/ 홍보성 글</Text>
             {!moneyReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -143,9 +146,12 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>음란성/선정성</Text>
             {!dateReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -154,9 +160,12 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>타인의 권리 침해</Text>
             {!rightReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -164,16 +173,19 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>같은 내용 반복(도배)</Text>
             {!sameReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={onPressOtherReport}>
           <View style={{...styles.itemView}}>
             <Text style={styles.itemText}>기타 사유</Text>
-            <Image
+            <FastImage
               style={styles.itemCheckImg}
               source={!otherReport ? ReportCheck : ReportCheckActivate}
             />
@@ -185,6 +197,7 @@ const MessageReport = () => {
               alignItems: 'center',
               paddingVertical: 18,
               paddingHorizontal: 21,
+              backgroundColor: '#fff',
             }}>
             <View
               style={{
@@ -202,8 +215,6 @@ const MessageReport = () => {
                 maxLength={300}
                 maxHeight={300}
                 multiline={true}
-                autoCorrect={false}
-                autoCapitalize={false}
               />
             </View>
           </View>
@@ -219,9 +230,12 @@ const MessageReport = () => {
             }}>
             <Text style={styles.itemText}>해당 작가의 구독을 취소합니다.</Text>
             {!subscribeCancel ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>

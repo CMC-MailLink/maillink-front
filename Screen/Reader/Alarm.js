@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   FlatList,
   RefreshControl,
@@ -16,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {MessageAPI} from '../../API/MessageAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
@@ -61,7 +61,7 @@ const Alarm = () => {
       <View style={styles.itemView}>
         <View style={styles.itemTextView}>
           {/* <View style={styles.itemNewView} /> */}
-          <Image
+          <FastImage
             style={{
               position: 'absolute',
               width: 42,
@@ -105,7 +105,7 @@ const Alarm = () => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>쪽지함</Text>

@@ -1,9 +1,10 @@
 import React from 'react';
-import {Image, View, TouchableOpacity, StatusBar} from 'react-native';
+import {View, TouchableOpacity, StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import FastImage from 'react-native-fast-image';
 
 import ReaderMailBody from './ReaderMailBody';
 
@@ -43,7 +44,7 @@ const ReaderMail = () => {
           alignItems: 'center',
           flexDirection: 'row',
         }}>
-        <Image
+        <FastImage
           style={{
             position: 'absolute',
             left: 20,
@@ -55,7 +56,7 @@ const ReaderMail = () => {
         <TouchableOpacity
           onPress={goToAlarm}
           style={{position: 'absolute', right: 21}}>
-          <Image
+          <FastImage
             style={{
               width: 28.5,
               height: 28.3,
@@ -78,7 +79,7 @@ const ReaderMail = () => {
         actions={[
           {
             icon: (
-              <Image
+              <FastImage
                 style={{
                   width: 22,
                   height: 22.11,

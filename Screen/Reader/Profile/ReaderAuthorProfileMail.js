@@ -1,18 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
-import MenuProfile from '../../../assets/images/MenuProfile.png';
-import MenuItemProfile1 from '../../../assets/images/MenuItemProfile1.png';
-import MenuItemProfile2 from '../../../assets/images/MenuItemProfile2.png';
-import MenuItemProfile3 from '../../../assets/images/MenuItemProfile3.png';
-import SearchAuthorProfile from '../../../assets/images/SearchAuthorProfile.png';
 
 const ReaderAuthorProfileMail = () => {
   const navigation = useNavigation();

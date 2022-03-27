@@ -8,10 +8,10 @@ import {
   StyleSheet,
   Platform,
   TouchableWithoutFeedback,
-  Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../../AppContext';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import ExitResult from '../../../assets/images/ExitResult.png';
@@ -69,7 +69,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
             top: -25 - 88,
           }}>
           <View style={styles.itemView}>
-            <Image
+            <FastImage
               style={{
                 width: 8,
                 height: 15,
@@ -77,10 +77,10 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
                 right: 20,
                 top: 18,
               }}
-              source={GoRecommend}></Image>
-            <Image
+              source={GoRecommend}></FastImage>
+            <FastImage
               style={{width: 77.56, height: 77.56}}
-              source={AuthorRecommend}></Image>
+              source={AuthorRecommend}></FastImage>
             <Text style={styles.itemName}>{item.name}</Text>
             <Text style={styles.itemAuthor}>작가님</Text>
             <Text style={styles.itemIntro}>{item.intro}</Text>
@@ -134,18 +134,18 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           {Platform.OS === 'ios' ? (
             <TouchableWithoutFeedback onPress={onPressBack}>
               <View style={{position: 'absolute', left: 24}}>
-                <Image
+                <FastImage
                   style={{width: 9.5, height: 19}}
-                  source={BackMail}></Image>
+                  source={BackMail}></FastImage>
               </View>
             </TouchableWithoutFeedback>
           ) : null}
           <Text style={styles.headerText}>취향 분석 결과</Text>
           <TouchableWithoutFeedback onPress={onPressExit}>
             <View style={{position: 'absolute', right: 24}}>
-              <Image
+              <FastImage
                 style={{width: 14.5, height: 14.5}}
-                source={ExitResult}></Image>
+                source={ExitResult}></FastImage>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -199,9 +199,9 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           style={{position: 'absolute', bottom: 45, right: 23}}
           onPress={() => navigation.popToTop()}>
           <View style={styles.againView}>
-            <Image
+            <FastImage
               style={{width: 18, height: 14, marginRight: 7}}
-              source={AgainRecommend}></Image>
+              source={AgainRecommend}></FastImage>
             <Text style={styles.againText}>다시하기</Text>
           </View>
         </TouchableOpacity>

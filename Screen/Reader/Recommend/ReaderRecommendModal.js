@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import CloseRecommend from '../../../assets/images/CloseRecommend.png';
 import RefreshAllRecommend from '../../../assets/images/RefreshAllRecommend.png';
@@ -66,9 +67,9 @@ const ReaderRecommendModal = ({
               alignItems: 'center',
             }}
             onPress={() => setModalVisible(false)}>
-            <Image
+            <FastImage
               style={{width: 14, height: 14}}
-              source={CloseRecommend}></Image>
+              source={CloseRecommend}></FastImage>
           </TouchableOpacity>
         </View>
         <View style={styles.branchView}>
@@ -162,9 +163,9 @@ const ReaderRecommendModal = ({
         </View>
         <View style={{paddingHorizontal: 20, flexDirection: 'row'}}>
           <TouchableOpacity style={{marginRight: 6}} onPress={onPressAll}>
-            <Image
+            <FastImage
               style={{width: 52, height: 52}}
-              source={RefreshAllRecommend}></Image>
+              source={RefreshAllRecommend}></FastImage>
           </TouchableOpacity>
           <TouchableOpacity onPress={submit}>
             <View

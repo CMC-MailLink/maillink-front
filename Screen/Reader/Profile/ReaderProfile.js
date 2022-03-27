@@ -322,6 +322,7 @@ const ReaderProfile = () => {
               onPress={() =>
                 navigation.navigate('ReaderStacks', {
                   screen: 'ReaderProfileSearch',
+                  params: {subscribeAuthorListData: subscribeAuthorListData},
                 })
               }>
               <FastImage
@@ -521,7 +522,9 @@ const ReaderProfile = () => {
                     {data.writerInfo.nickName}
                   </Text>
                   <Text style={styles.bodyItemIntro}>
-                    {data.writerInfo.introduction}
+                    {data.writerInfo.introduction
+                      ? data.writerInfo.introduction.slice(0, 20)
+                      : ''}
                   </Text>
                 </View>
                 {data.subscribeCheck ? (

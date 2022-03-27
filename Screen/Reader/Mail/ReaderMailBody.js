@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -14,6 +13,7 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import SubscribeMail from '../../../assets/images/SubscribeMail.png';
 import NoBookMarkMail from '../../../assets/images/NoBookMarkMail.png';
@@ -206,7 +206,7 @@ const ReaderMailBody = () => {
       return (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
           <View style={styles.itemView}>
-            <Image
+            <FastImage
               style={{
                 width: 42,
                 height: 42,
@@ -266,15 +266,15 @@ const ReaderMailBody = () => {
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => bookmarkRow(rowMap, data.item.key, data.item)}>
         {data.item.isSaved ? (
-          <Image style={{width: 21, height: 20.5}} source={StarMail} />
+          <FastImage style={{width: 21, height: 20.5}} source={StarMail} />
         ) : (
-          <Image style={{width: 21, height: 20.5}} source={NoStarMail} />
+          <FastImage style={{width: 21, height: 20.5}} source={NoStarMail} />
         )}
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => sendRow(rowMap, data.item.key, data.item.writerId)}>
-        <Image style={{width: 21.54, height: 23.82}} source={SendMail} />
+        <FastImage style={{width: 21.54, height: 23.82}} source={SendMail} />
       </TouchableOpacity>
     </View>
   );
@@ -391,7 +391,7 @@ const ReaderMailBody = () => {
           ListHeaderComponent={
             <View>
               <View style={styles.header}>
-                <Image
+                <FastImage
                   style={{
                     position: 'absolute',
                     top: 0,
@@ -459,7 +459,7 @@ const ReaderMailBody = () => {
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 261,
                     height: 211,
@@ -476,7 +476,7 @@ const ReaderMailBody = () => {
                   justifyContent: 'center',
                   backgroundColor: '#FFF',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 160,
                     height: 16,
