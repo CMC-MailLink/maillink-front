@@ -50,6 +50,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       //   screen: 'OnBoarding',
       // });
       myContext.setIsLogged(true);
+      myContext.setIsReader('Not Decided');
     }
   }, [modalConfirm, modalVisible, myContext]);
 

@@ -19,8 +19,10 @@ import URLNone from '../../assets/images/URLNone.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {SignUpAPI} from '../../API/SignUpAPI';
 
-const AddWebsite = () => {
+const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
+  console.log(params);
   const navigation = useNavigation();
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
@@ -31,7 +33,16 @@ const AddWebsite = () => {
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressModalConfirm = () => {
+  const onPressModalConfirm = async () => {
+    var result = await SignUpAPI.setAuthorInfo({
+      ...params,
+      facebook: editFacebook,
+      twitter: editTwitter,
+      instagram: editInstagram,
+      etc: editURL,
+    });
+    console.log(result);
+
     setModalVisible(!modalVisible);
   };
 

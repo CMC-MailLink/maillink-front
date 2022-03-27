@@ -13,7 +13,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';

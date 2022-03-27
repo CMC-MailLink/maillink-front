@@ -137,7 +137,7 @@ const AuthorMailBody = () => {
           style={{
             justifyContent: 'center',
           }}>
-          <Text style={styles.bodyHeaderText}>메일함</Text>
+          <Text style={styles.bodyHeaderText}>보낸 메일함</Text>
         </View>
         <View
           style={{
@@ -305,7 +305,6 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     height: '100%',
-    paddingBottom: 150,
   },
   bodyHeader: {
     height: 41.63,

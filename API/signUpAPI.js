@@ -78,16 +78,22 @@ export const SignUpAPI = {
   //로그인
   authLogin: async ({socialType, socialId}) => {
     console.log('authLogin api : ', socialType, socialId);
+    var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({socialType: socialType, socialId: socialId}),
+        body: JSON.stringify({
+          socialType: socialType,
+          socialId: socialId,
+          fcmDeviceToken: fcmDeviceToken,
+        }),
         // body: JSON.stringify({
         //   socialType: 'KAKAO',
-        //   socialId: 'bibireader4',
+        //   socialId: 'bibiwriter8',
+        //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
       console.log(response);
@@ -127,6 +133,7 @@ export const SignUpAPI = {
       imgUrl,
       phoneNumber,
     );
+    var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/signup`, {
         method: 'POST',
@@ -139,13 +146,15 @@ export const SignUpAPI = {
           nickName: nickName,
           imgUrl: imgUrl,
           phoneNumber: phoneNumber,
+          fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
         //   socialType: 'KAKAO',
-        //   socialId: 'bibireader4',
-        //   nickName: '비비독자4',
+        //   socialId: 'bibiwriter8',
+        //   nickName: '비비작가8',
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
+        //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
       console.log(response);
@@ -226,6 +235,52 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
+      console.log(response);
+      let json = await response.json();
+      if (json.errorCode === 400) return false;
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //작가 정보 저장
+  setAuthorInfo: async ({
+    introduction,
+    genre1,
+    genre2,
+    genre3,
+    mood1,
+    mood2,
+    mood3,
+    facebook,
+    twitter,
+    instagram,
+    etc,
+  }) => {
+    console.log('작가 정보 저장', facebook, twitter, instagram, etc);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          introduction: introduction,
+          genre1: genre1,
+          genre2: genre2,
+          genre3: genre3,
+          mood1: mood1,
+          mood2: mood2,
+          mood3: mood3,
+          facebook: facebook,
+          twitter: twitter,
+          instagram: instagram,
+          etc: etc,
+        }),
+      });
       console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) return false;

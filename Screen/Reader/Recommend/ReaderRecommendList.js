@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  FlatList,
 } from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
@@ -106,6 +107,48 @@ const ReaderRecommendList = () => {
     });
   };
 
+  const renderItem = ({data}) => {
+    return (
+      <TouchableOpacity onPress={() => onPressAuthor(data)}>
+        <View style={styles.itemView}>
+          <Image
+            style={{
+              width: 42,
+              height: 42,
+              marginRight: 15,
+              borderRadius: 90,
+            }}
+            source={
+              data.writerInfo.imgUrl === ''
+                ? DefaultProfile
+                : {uri: data.writerInfo.imgUrl}
+            }></Image>
+          <View>
+            <Text style={styles.itemName}>{data.writerInfo.nickName}</Text>
+            <Text style={styles.itemIntro}>{data.writerInfo.introduction}</Text>
+          </View>
+          {data.subscribeCheck ? (
+            <TouchableOpacity
+              style={{position: 'absolute', right: 20}}
+              onPress={() => onPressCancelSubscribe(data.writerInfo.id)}>
+              <View style={styles.subscribeView}>
+                <Text style={styles.subscribeText}>구독중</Text>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{position: 'absolute', right: 20}}
+              onPress={() => onPressSubscribe(data.writerInfo.id)}>
+              <View style={styles.notSubscribeView}>
+                <Text style={styles.notSubscribeText}>구독하기</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={{flex: 1}}>
       <Modal
@@ -168,51 +211,14 @@ const ReaderRecommendList = () => {
           </View>
         </View>
       </View>
-      <View style={{marginBottom: 150, minHeight: 400}}>
+      <View style={{minHeight: 400}}>
+        <FlatList data={filterAuthor} renderItem={renderItem}></FlatList>
         {filterAuthor && filterAuthor.length ? (
-          filterAuthor.map((data, index) => (
-            <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
-              <View style={styles.itemView}>
-                <Image
-                  style={{
-                    width: 42,
-                    height: 42,
-                    marginRight: 15,
-                    borderRadius: 90,
-                  }}
-                  source={
-                    data.writerInfo.imgUrl === ''
-                      ? DefaultProfile
-                      : {uri: data.writerInfo.imgUrl}
-                  }></Image>
-                <View>
-                  <Text style={styles.itemName}>
-                    {data.writerInfo.nickName}
-                  </Text>
-                  <Text style={styles.itemIntro}>
-                    {data.writerInfo.introduction}
-                  </Text>
-                </View>
-                {data.subscribeCheck ? (
-                  <TouchableOpacity
-                    style={{position: 'absolute', right: 20}}
-                    onPress={() => onPressCancelSubscribe(data.writerInfo.id)}>
-                    <View style={styles.subscribeView}>
-                      <Text style={styles.subscribeText}>구독중</Text>
-                    </View>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={{position: 'absolute', right: 20}}
-                    onPress={() => onPressSubscribe(data.writerInfo.id)}>
-                    <View style={styles.notSubscribeView}>
-                      <Text style={styles.notSubscribeText}>구독하기</Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </View>
-            </TouchableOpacity>
-          ))
+          <View style={{backgroundColor: 'pink'}}>
+            <View style={{height: 200, backgroundColor: 'white'}}>
+              <Text>dkjfksjkdf</Text>
+            </View>
+          </View>
         ) : (
           <View
             style={{

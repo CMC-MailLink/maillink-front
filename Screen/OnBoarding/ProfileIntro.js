@@ -38,6 +38,9 @@ const ProfileIntro = () => {
   const goNextScreen = () => {
     navigation.navigate('OnBoardingStacks', {
       screen: 'ProfileInterest',
+      params: {
+        introduction: introText,
+      },
     });
   };
 
