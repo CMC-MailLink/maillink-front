@@ -32,10 +32,11 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     ['ReaderMailDetail', params.mailId],
     ReaderAPI.mailReading,
   );
-  const {isLoading: authrInfoLoading, data: authorInfoData} = useQuery(
+  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
     ['AuthorInfo', params.writerId],
     ReaderAPI.getWriterInfo,
   );
+  const loading = mailDetailLoading || authorInfoLoading;
 
   useEffect(() => {
     queryClient.refetchQueries(['ReaderMail']);
@@ -44,6 +45,13 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    if (!loading) {
+      console.log('로딩 끝', mailDetailData);
+      webRef.current.injectJavaScript(contentSending);
+    }
+  }, [loading, contentSending, mailDetailData]);
 
   const onPressBookmark = async () => {
     if (!mailDetailData.isSaved) {
@@ -80,7 +88,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   const onPressSend = async () => {
-    console.log(authorInfoData.writerInfo.id);
     navigation.navigate('ReaderStacks', {
       screen: 'MessageWrite',
       params: {writerId: authorInfoData.writerInfo.id},
@@ -96,6 +103,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     div.append(textNode);
     div.style.display="none";
     document.body.appendChild(div);
+    document.getElementById('loadingButton').click();
     true;
   `;
 
@@ -180,14 +188,12 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         scrollEnabled={true}
         hideKeyboardAccessoryView={true}
         ref={webRef}
-        onMessage={event => {}}
-        injectedJavaScript={contentSending}
+        // injectedJavaScript={contentSending}
         menuItems={[{label: '인스타 공유', key: 'shareinstagram'}]}
         onCustomMenuSelection={webViewEvent => {
           const {label} = webViewEvent.nativeEvent; // The name of the menu item, i.e. 'Tweet'
           const {key} = webViewEvent.nativeEvent; // The key of the menu item, i.e. 'tweet'
           const {selectedText} = webViewEvent.nativeEvent; // Text highlighted
-          console.log(selectedText);
           navigation.navigate('ReaderStacks', {
             screen: 'InstaShare',
             params: {

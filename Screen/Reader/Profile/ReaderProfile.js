@@ -66,7 +66,6 @@ const ReaderProfile = () => {
 
   useEffect(() => {
     if (readerInfoData) {
-      console.log('readerInfoData : ', readerInfoData);
       setName(readerInfoData.nickName);
       setEditName(readerInfoData.nickName);
       setImageUri(readerInfoData.imgUrl);
@@ -100,7 +99,6 @@ const ReaderProfile = () => {
   useEffect(() => {
     if (subscribeAuthorListData) {
       var temp = subscribeAuthorListData.filter(data => {
-        console.log('data : ', data);
         for (var i = 0; i < 3; i++) {
           if (branch[i].select)
             if (data.writerInfo.primaryGenre === branch[i].name) return true;
@@ -157,7 +155,6 @@ const ReaderProfile = () => {
       height: 300,
       cropping: true,
     }).then(image => {
-      console.log(image);
       imageUpload(image.path);
     });
   };
@@ -173,7 +170,6 @@ const ReaderProfile = () => {
     });
 
     const result = await ReaderAPI.changeProfileImage({image: imageData});
-    console.log(result);
     if (result) {
       await queryClient.refetchQueries(['ReaderInfo']);
     } else {
@@ -186,14 +182,12 @@ const ReaderProfile = () => {
     var temp = filterAuthor;
     temp[index].subscribeCheck = true;
     setFilterAuthor([...temp]);
-    console.log(result);
   };
   const cancelSubscribe = async (writerId, index) => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
     var temp = filterAuthor;
     temp[index].subscribeCheck = false;
     setFilterAuthor([...temp]);
-    console.log(result);
   };
 
   function onScroll(event) {

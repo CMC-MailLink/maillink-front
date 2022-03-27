@@ -36,7 +36,6 @@ const CustomTabBarButton = ({children, onPress}) => (
 
 const ReaderTabs = () => {
   const insets = useSafeAreaInsets();
-  console.log(insets.bottom);
   return (
     <ReaderTab.Navigator
       initialRouteName="ReaderMail"

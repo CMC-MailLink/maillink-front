@@ -48,7 +48,6 @@ const ReaderMailSearch = () => {
 
   useEffect(() => {
     if (mailListSearchData) setMail([...mailListSearchData]);
-    console.log('mailListSearchData : ', mailListSearchData);
   }, [mailListSearchData]);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ const ReaderMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    console.log(mail);
     var res = mail.filter(item => {
       if (
         item.key !== 'category' &&
@@ -130,7 +128,6 @@ const ReaderMailSearch = () => {
   const getRecentSearch = async () => {
     try {
       const value = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log('getRecentSearch : ', JSON.parse(value));
       JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
     } catch (e) {
       //error

@@ -56,7 +56,6 @@ const colorCategory = {
 };
 
 const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
-  console.log(params);
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [imageUri, setImageUri] = useState('');
@@ -154,7 +153,6 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image);
       setImageUri(image.path);
     });
   };
@@ -262,7 +260,6 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
     if (editName === params.writerInfo.nickName) var result1 = true;
     else var result1 = await AuthorAPI.changeNickName({nickName: editName});
     if (imageUri) {
-      console.log('imageUri', imageUri);
       const imageData = new FormData();
       imageData.append('image', {
         uri: imageUri,
@@ -287,7 +284,6 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
       instagram: editInstagram,
       etc: editURL,
     });
-    console.log(result1, result2, result3);
     if (result1 && result2 && result3) {
       await queryClient.refetchQueries(['AuthorProfile']);
       await queryClient.refetchQueries(['AuthorInfo']);

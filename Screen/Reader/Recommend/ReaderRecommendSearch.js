@@ -126,7 +126,7 @@ const ReaderRecommendSearch = () => {
   //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
-    console.log(result);
+
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
@@ -134,7 +134,7 @@ const ReaderRecommendSearch = () => {
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
-    console.log(result);
+
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
@@ -142,7 +142,6 @@ const ReaderRecommendSearch = () => {
   const getRecentSearch = async () => {
     try {
       const value = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log('getRecentSearch : ', JSON.parse(value));
       JSON.parse(value) !== null ? setRecentSearch(JSON.parse(value)) : null;
     } catch (e) {
       //error

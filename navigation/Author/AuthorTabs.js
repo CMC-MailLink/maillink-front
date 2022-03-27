@@ -32,7 +32,6 @@ const CustomTabBarButton = ({children, onPress}) => (
 
 const AuthorTabs = () => {
   const insets = useSafeAreaInsets();
-  console.log(insets.bottom);
   return (
     <AuthorTab.Navigator
       initialRouteName="AuthorMail"

@@ -89,7 +89,6 @@ const AuthorWrite = () => {
   };
 
   const deleteRow = (rowMap, key, data) => {
-    console.log(data);
     if (rowMap[key]) {
       rowMap[key].closeRow();
     }

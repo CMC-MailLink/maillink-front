@@ -22,7 +22,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {SignUpAPI} from '../../API/SignUpAPI';
 
 const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
-  console.log(params);
   const navigation = useNavigation();
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
@@ -41,7 +40,6 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
       instagram: editInstagram,
       etc: editURL,
     });
-    console.log(result);
 
     setModalVisible(!modalVisible);
   };

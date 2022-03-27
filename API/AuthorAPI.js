@@ -35,7 +35,6 @@ export const AuthorAPI = {
         },
       });
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -53,9 +52,7 @@ export const AuthorAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -65,7 +62,6 @@ export const AuthorAPI = {
   //작가 임시저장
   writerPostSaving: async ({title, content, preView}) => {
     console.log('작가 임시저장');
-    console.log('title : ', title, 'content: ', content, 'preView: ', preView);
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/temp`, {
@@ -80,7 +76,6 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      console.log(response);
       if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
@@ -106,7 +101,6 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      console.log(response);
       if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
@@ -133,7 +127,6 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      console.log(response);
       if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
@@ -156,7 +149,6 @@ export const AuthorAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status !== 200) return false;
       let json = await response.json();
       return json.data;
@@ -179,7 +171,6 @@ export const AuthorAPI = {
           },
         },
       );
-      console.log(response);
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -199,7 +190,6 @@ export const AuthorAPI = {
         },
       });
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -209,7 +199,6 @@ export const AuthorAPI = {
   //프로필 이미지 업로드
   profileEditing: async ({image}) => {
     console.log('작가 프로필 이미지 업로드');
-    console.log('profileEditing api : ', image);
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/signup/profile/img/`,
@@ -241,7 +230,6 @@ export const AuthorAPI = {
           method: 'post',
         },
       );
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) return false;
       return true;
@@ -264,7 +252,7 @@ export const AuthorAPI = {
     instagram,
     etc,
   }) => {
-    console.log('작가 프로필 수정', introduction);
+    console.log('작가 프로필 수정');
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
@@ -287,7 +275,6 @@ export const AuthorAPI = {
           etc: etc,
         }),
       });
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) return false;
       return true;
@@ -310,7 +297,6 @@ export const AuthorAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -331,7 +317,6 @@ export const AuthorAPI = {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response);
       if (response.status === 200) return true;
       else return false;
     } catch (e) {

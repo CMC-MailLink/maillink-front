@@ -46,7 +46,6 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
       var temp = authorListData.filter(data => {
         if (data.interestedCheck) return true;
       });
-      console.log('temp : ', temp);
       setAuthor([...temp]);
     } else if (authorListData) setAuthor([...authorListData]);
   }, [authorListData, allSelect]);
@@ -73,7 +72,6 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
   //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
     var result = await ReaderAPI.subscribing({writerId: writerId});
-    console.log(result);
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);
   };
@@ -81,7 +79,6 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
-    console.log(result);
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);
   };

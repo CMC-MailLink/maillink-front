@@ -8,7 +8,7 @@ const BASE_URL = API_URL;
 export const SignUpAPI = {
   //휴대폰 문자 인증 코드 발송
   codeSending: async ({target}) => {
-    console.log('codeSending api : ', target);
+    console.log('휴대폰 문자 인증 코드 발송');
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/code/send/${target}`,
@@ -16,7 +16,6 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
-      console.log(response);
       if (response.status === 200) {
         return true;
       } else {
@@ -29,7 +28,7 @@ export const SignUpAPI = {
   },
   //휴대폰 문자 인증 코드 인증
   codeChecking: async ({target, code}) => {
-    console.log('codeChecking api : ', target, code);
+    console.log('휴대폰 문자 인증 코드인증');
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/code/check/${target}?code=${code}`,
@@ -54,7 +53,7 @@ export const SignUpAPI = {
   },
   //프로필 이미지 업로드
   profileEditing: async ({image}) => {
-    console.log('profileEditing api : ', image);
+    console.log('프로필 이미지 업로드');
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/member/auth/signup/profile/img/`,
@@ -77,7 +76,7 @@ export const SignUpAPI = {
   },
   //로그인
   authLogin: async ({socialType, socialId}) => {
-    console.log('authLogin api : ', socialType, socialId);
+    console.log('로그인');
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
@@ -96,7 +95,6 @@ export const SignUpAPI = {
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) {
         return false;
@@ -125,14 +123,7 @@ export const SignUpAPI = {
   },
   //회원 가입
   authSignUp: async ({socialType, socialId, nickName, imgUrl, phoneNumber}) => {
-    console.log(
-      'authSignUp api : ',
-      socialType,
-      socialId,
-      nickName,
-      imgUrl,
-      phoneNumber,
-    );
+    console.log('회원가입');
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/signup`, {
@@ -157,14 +148,11 @@ export const SignUpAPI = {
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
-      console.log(response);
       let json = await response.json();
-      console.log(json);
       if (json.errorCode === 400) {
         return false;
       }
       if (json.data) {
-        console.log(json.data);
         async function addToken() {
           try {
             await AsyncStorage.setItem(
@@ -188,6 +176,7 @@ export const SignUpAPI = {
   },
   //유저 정보 조회
   memberInfo: async () => {
+    console.log('유저정보조회');
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/info`, {
@@ -197,7 +186,6 @@ export const SignUpAPI = {
         },
       });
       let json = await response.json();
-      console.log(json);
       return json.data.userType;
     } catch (e) {
       console.log(e);
@@ -206,6 +194,7 @@ export const SignUpAPI = {
   },
   //유저타입변경
   memberType: async ({userType}) => {
+    console.log('유저타입변경');
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -218,7 +207,6 @@ export const SignUpAPI = {
         },
       );
       let json = await response.json();
-      console.log(json);
       return json.data.userType;
     } catch (e) {
       console.log(e);
@@ -235,7 +223,6 @@ export const SignUpAPI = {
           method: 'post',
         },
       );
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) return false;
       return true;
@@ -258,7 +245,7 @@ export const SignUpAPI = {
     instagram,
     etc,
   }) => {
-    console.log('작가 정보 저장', facebook, twitter, instagram, etc);
+    console.log('작가 정보 저장');
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
@@ -281,7 +268,6 @@ export const SignUpAPI = {
           etc: etc,
         }),
       });
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) return false;
       return true;

@@ -36,7 +36,6 @@ export const ReaderAPI = {
         },
       });
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -57,7 +56,6 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -96,7 +94,6 @@ export const ReaderAPI = {
           method: 'post',
         },
       );
-      console.log(response);
       let json = await response.json();
       if (json.errorCode === 400) return false;
       return true;
@@ -116,9 +113,7 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -139,7 +134,6 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -161,7 +155,6 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -181,9 +174,7 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -201,7 +192,6 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -220,7 +210,6 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -250,7 +239,6 @@ export const ReaderAPI = {
   getWriterInfo: async ({queryKey}) => {
     console.log('작가 정보 조회');
     const [_, writerId] = queryKey;
-    console.log(queryKey);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -263,7 +251,6 @@ export const ReaderAPI = {
         },
       );
       let json = await response.json();
-      console.log('작가 정보 : ', json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -284,7 +271,6 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -306,7 +292,6 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {

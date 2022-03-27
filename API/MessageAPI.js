@@ -23,7 +23,6 @@ export const MessageAPI = {
           arr.findIndex(item => item.partnerId === message.partnerId) === idx
         );
       });
-      console.log(result);
       return result;
     } catch (e) {
       console.log(e);
@@ -46,7 +45,6 @@ export const MessageAPI = {
           text: text,
         }),
       });
-      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -58,7 +56,6 @@ export const MessageAPI = {
   getMessagePartner: async ({queryKey}) => {
     console.log('상대방과의 메세지 내역 조회');
     const [_, partnerId] = queryKey;
-    console.log(partnerId);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -71,7 +68,6 @@ export const MessageAPI = {
         },
       );
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);

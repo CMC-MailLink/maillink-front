@@ -90,7 +90,6 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image);
       imageUpload(image.path);
     });
   };
@@ -106,7 +105,6 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
     });
 
     const result = await SignUpAPI.profileEditing({image: imageData});
-    console.log(result);
     if (result) {
       setImageUri(result);
     } else {
@@ -122,7 +120,6 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       imgUrl: imageUri,
       phoneNumber: params.phoneNumber,
     });
-    console.log(result);
     if (result) {
       setModalVisible(true);
     } else {
