@@ -238,10 +238,11 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
 const styles = StyleSheet.create({
   headerView: {
     width: '100%',
-    height: 78 - 48,
+    height: 55,
     backgroundColor: '#4562F1',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   headerText: {
     fontFamily: 'NotoSansKR-Bold',

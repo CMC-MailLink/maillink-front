@@ -12,12 +12,14 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import AnalyzeOne from '../../assets/images/AnalyzeOne.png';
 
 const ReaderAnalyzeOne = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -83,7 +85,7 @@ const ReaderAnalyzeOne = () => {
           <View
             style={{
               ...styles.bottomViewTwo,
-              paddingBottom: Platform.OS === 'ios' ? 17 : 0,
+              paddingBottom: insets.bottom,
             }}>
             <Text style={styles.bottomText}>
               한번 펼치면 쉽게 헤어나올 수 없는&nbsp;

@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Platform,
+  Dimensions,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -39,7 +40,7 @@ const ReaderAnalyzeEight = () => {
           <View
             style={{
               marginLeft: 24,
-              marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
+              marginTop: insets.top + 22,
             }}>
             <FastImage
               style={{width: 9.5, height: 19}}
@@ -68,8 +69,9 @@ const ReaderAnalyzeEight = () => {
           }>
           <FastImage
             style={{
-              width: 222.87,
-              height: 354.47,
+              width: Dimensions.get('window').width / 1.85,
+              height:
+                ((Dimensions.get('window').width / 1.85) * 354.47) / 222.87,
               position: 'absolute',
               right: 0,
               top: 30,
@@ -85,8 +87,8 @@ const ReaderAnalyzeEight = () => {
           }>
           <FastImage
             style={{
-              width: 363.93,
-              height: 293.8,
+              width: Dimensions.get('window').width / 1.1,
+              height: ((Dimensions.get('window').width / 1.1) * 293.8) / 363.93,
               position: 'absolute',
               left: 26,
               bottom: -30 + insets.bottom,

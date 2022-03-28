@@ -77,6 +77,7 @@ export const SignUpAPI = {
   //로그인
   authLogin: async ({socialType, socialId}) => {
     console.log('로그인');
+    console.log(socialType, socialId);
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
@@ -90,8 +91,8 @@ export const SignUpAPI = {
           fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
-        //   socialType: 'KAKAO',
-        //   socialId: 'bibiwriter8',
+        //   socialType: 'APPLE',
+        //   socialId: '000377.210d0665123b4c6c86724db107a33a21.0609',
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });

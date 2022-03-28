@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -15,6 +14,9 @@ import {
   Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {AuthorAPI} from '../../../API/AuthorAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -25,65 +27,27 @@ import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
 
 const STORAGE_KEY = '@recentDataAuthorProfileSearch';
 
-const AuthorMailSearch = () => {
+const AuthorProfileSearch = () => {
   const [recentSearch, setRecentSearch] = useState([]);
-  const [mail, setMail] = useState([
-    {
-      key: '0',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 13',
-    },
-    {
-      key: '1',
-      title: '별 헤는 밤',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 12',
-    },
-    {
-      key: '2',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '3',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-    {
-      key: '4',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '5',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-    {
-      key: '6',
-      title: '청춘예찬',
-      body: '하나에 경, 우는 이국 그리워 파란 애기듯 합니다.오는 잔디가 밤이 봅니다. 말같',
-      date: '21. 02. 11',
-    },
-    {
-      key: '7',
-      title: '파란 하늘',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부 하게 심장의 영락과 곳으로 것이다. 끝',
-      date: '21. 02. 10',
-    },
-  ]);
+  const [memberInfo, setMemberInfo] = useState();
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
   const navigation = useNavigation();
+  const {isLoading: mailLoading, data: mailData} = useQuery(
+    ['AuthorMail'],
+    AuthorAPI.writerGetPublishing,
+  );
 
   useEffect(() => {
     getRecentSearch();
+
+    async function getMemberInfo() {
+      const result = await AuthorAPI.memberInfo();
+      setMemberInfo(result);
+    }
+
+    getMemberInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -107,7 +71,7 @@ const AuthorMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = mail.filter(item => item.title.includes(data));
+    var res = mailData.mailList.filter(item => item.title.includes(data));
     setResult([...res]);
 
     var temp = recentSearch;
@@ -128,7 +92,7 @@ const AuthorMailSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = mail.filter(item => item.title.includes(query));
+    var res = mailData.mailList.filter(item => item.title.includes(query));
     setResult([...res]);
 
     var temp = recentSearch;
@@ -145,7 +109,7 @@ const AuthorMailSearch = () => {
   const onPressMailItem = data => {
     navigation.navigate('AuthorStacks', {
       screen: 'AuthorReading',
-      params: {item: {...data}},
+      params: {data, memberInfo},
     });
   };
 
@@ -173,7 +137,9 @@ const AuthorMailSearch = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+              <FastImage
+                style={{width: 9.5, height: 19}}
+                source={BackMail}></FastImage>
             </View>
           </TouchableWithoutFeedback>
           <View>
@@ -188,7 +154,7 @@ const AuthorMailSearch = () => {
                 onSubmitEditing={onSubmit}></TextInput>
               <TouchableWithoutFeedback onPress={onSubmit}>
                 <View style={styles.searchView}>
-                  <Image
+                  <FastImage
                     style={{
                       width: 19,
                       height: 20,
@@ -220,9 +186,11 @@ const AuthorMailSearch = () => {
                   onPress={e => onPressMailItem(data)}
                   key={index}>
                   <View style={styles.itemView}>
-                    <Text style={styles.itemDateText}>{data.date}</Text>
+                    <Text style={styles.itemDateText}>
+                      {data.publishedTime.slice(0, 10)}
+                    </Text>
                     <Text style={styles.itemTitleText}>{data.title}</Text>
-                    <Text style={styles.itemBodyText}>{data.body}</Text>
+                    <Text style={styles.itemBodyText}>{data.preView}</Text>
                   </View>
                 </TouchableWithoutFeedback>
               ))
@@ -233,12 +201,12 @@ const AuthorMailSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoSearchDataMail}></Image>
+                  source={NoSearchDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -259,9 +227,9 @@ const AuthorMailSearch = () => {
                   onPress={e => onPressRecentSearch(data, index)}
                   key={index}>
                   <View style={styles.recentSearch}>
-                    <Image
+                    <FastImage
                       style={{width: 35, height: 35}}
-                      source={RecentSearchMail}></Image>
+                      source={RecentSearchMail}></FastImage>
                     <Text style={styles.recentSearchText}>{data}</Text>
                     <TouchableWithoutFeedback
                       onPress={e => onPressDelete(data, index)}>
@@ -274,12 +242,12 @@ const AuthorMailSearch = () => {
                           justifyContent: 'center',
                           alignItems: 'center',
                         }}>
-                        <Image
+                        <FastImage
                           style={{
                             width: 12,
                             height: 12,
                           }}
-                          source={DeleteMail}></Image>
+                          source={DeleteMail}></FastImage>
                       </View>
                     </TouchableWithoutFeedback>
                   </View>
@@ -292,12 +260,12 @@ const AuthorMailSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoRecentDataMail}></Image>
+                  source={NoRecentDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -417,4 +385,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthorMailSearch;
+export default AuthorProfileSearch;

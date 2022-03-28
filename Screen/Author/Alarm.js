@@ -89,10 +89,8 @@ const Alarm = () => {
                 : ''}
             </Text>
           </View>
-          <Text style={styles.itemBodyText}>
-            {data.item.message.text
-              ? data.item.message.text.slice(0, 40) + '...'
-              : ''}
+          <Text style={styles.itemBodyText} numberOfLines={2}>
+            {data.item.message.text ? data.item.message.text : ''}
           </Text>
         </View>
       </View>

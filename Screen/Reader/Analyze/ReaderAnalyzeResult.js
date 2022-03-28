@@ -151,7 +151,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
             </View>
           </TouchableWithoutFeedback>
         </View>
-        <View style={{marginTop: 19 + 62, marginLeft: 20}}>
+        <View style={{marginTop: 40, marginLeft: 20}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View style={styles.itemCategoryView}>
               <Text

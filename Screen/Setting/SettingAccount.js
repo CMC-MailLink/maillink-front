@@ -12,6 +12,8 @@ import {useNavigation, CommonActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../AppContext';
 import FastImage from 'react-native-fast-image';
+import {SignUpAPI} from '../../API/SignUpAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import BackMail from '../../assets/images/BackMail.png';
 import KakaoSetting from '../../assets/images/KakaoSetting.png';
@@ -20,8 +22,11 @@ import AppleSetting from '../../assets/images/AppleSetting.png';
 const SettingAccount = () => {
   const navigation = useNavigation();
   const myContext = useContext(AppContext);
-  const [memberInfo, setMemberInfo] = useState();
   const [isKakao, setIsKakao] = useState(true);
+  const {isLoading: memberInfoLoading, data: memberInfoData} = useQuery([
+    'MemberInfo',
+    SignUpAPI.memberInfo,
+  ]);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -49,15 +54,21 @@ const SettingAccount = () => {
       </View>
       <View style={styles.accountView}>
         <Text style={styles.accountText}>나의 계정 정보</Text>
-        <View style={{flexDirection: 'row', marginTop: 15}}>
+        <View
+          style={{flexDirection: 'row', marginTop: 15, alignItems: 'center'}}>
           <FastImage
             style={{width: 29, height: 29, marginRight: 13}}
-            source={isKakao ? KakaoSetting : AppleSetting}></FastImage>
+            source={
+              memberInfoData && memberInfoData.socialType === 'KAKAO'
+                ? KakaoSetting
+                : AppleSetting
+            }></FastImage>
           <View>
             <Text style={styles.accountCategoryText}>
-              {isKakao ? '카카오 계정 회원' : 'Apple 계정 회원'}
+              {memberInfoData && memberInfoData.socialType === 'KAKAO'
+                ? '카카오 계정 회원'
+                : 'Apple 계정 회원'}
             </Text>
-            <Text style={styles.emailText}>...</Text>
           </View>
         </View>
       </View>

@@ -18,20 +18,28 @@ import {ReaderAPI} from '../../../API/ReaderAPI';
 import FastImage from 'react-native-fast-image';
 
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
-import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
 import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 import {useNavigation} from '@react-navigation/native';
 
 const colorCategory = {
-  편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
-  맑은: {back: '#DDF9FF', font: '#002C36', heart: '#6BD0E6'},
-  서정: {back: '#E6DDFF', font: '#1E0072', heart: '#AE92FF'},
-  잔잔: {back: '#C5F0E3', font: '#00573D', heart: '#5ECEAC'},
-  명랑: {back: '#FFF2AD', font: '#5D4300', heart: '#FFC839'},
-  유쾌: {back: '#FFDDDD', font: '#370000', heart: '#FF8E8E'},
-  달달: {back: '#FFE8FB', font: '#3E0035', heart: '#FFACDE'},
-  키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
+  Comfortable: {
+    name: '편안',
+    back: '#E2FAE2',
+    font: '#00402D',
+    num: '#7FCE7F',
+  },
+  Clear: {name: '맑은', back: '#DDF9FF', font: '#002C36', num: '#6BD0E6'},
+  Lyrical: {name: '서정', back: '#E6DDFF', font: '#1E0072', num: '#AE92FF'},
+  Calm: {name: '잔잔', back: '#C5F0E3', font: '#00573D', num: '#5ECEAC'},
+  Light: {name: '명랑', back: '#FFF2AD', font: '#5D4300', num: '#FFC839'},
+  Cheerful: {name: '유쾌', back: '#FFDDDD', font: '#370000', num: '#FF8E8E'},
+  Sweet: {name: '달달', back: '#FFE8FB', font: '#3E0035', num: '#FFACDE'},
+  Kitsch: {name: '키치', back: '#FFE6B7', font: '#432C00', num: '#FFAD62'},
+  Poetry: {name: '시', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  Novels: {name: '소설', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  Essays: {name: '에세이', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
 };
 
 const ReaderRecommend = () => {
@@ -41,39 +49,13 @@ const ReaderRecommend = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [allSelect, setAllSelect] = useState(true);
-  const [recommend, setRecommend] = useState([
-    {
-      key: 0,
-      name: '희희낙락',
-      intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      repBranch: '소설',
-      repVive: '명랑',
-    },
-    {
-      key: 1,
-      name: '주주',
-      intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      repBranch: '에세이',
-      repVive: '키치',
-    },
-    {
-      key: 2,
-      name: '주주1',
-      intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      repBranch: '소설',
-      repVive: '잔잔',
-    },
-    {
-      key: 3,
-      name: '주주2',
-      intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-      repBranch: '시',
-      repVive: '달달',
-    },
-  ]);
   const {isLoading: readerInfoLoading, data: readerInfoData} = useQuery(
     ['ReaderInfo'],
     ReaderAPI.memberInfo,
+  );
+  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
+    ['AuthorInfo', 1],
+    ReaderAPI.getWriterInfo,
   );
 
   useEffect(() => {
@@ -82,9 +64,10 @@ const ReaderRecommend = () => {
     }
   }, [readerInfoData]);
 
-  const onPressAuthor = () => {
+  const onPressAuthor = data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAuthorProfile',
+      params: {id: data.writerInfo.id},
     });
   };
   const onPressAnalyze = () => {
@@ -110,13 +93,16 @@ const ReaderRecommend = () => {
   };
 
   const renderItem = ({item}) => {
+    console.log(item);
     return (
-      <TouchableWithoutFeedback onPress={onPressAuthor}>
+      <TouchableWithoutFeedback onPress={() => onPressAuthor(item)}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View style={styles.itemView}>
-            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemName}>{item.writerInfo.nickName}</Text>
             <Text style={styles.itemAuthor}>작가님</Text>
-            <Text style={styles.itemIntro}>{item.intro}</Text>
+            <Text style={styles.itemIntro} numberOfLines={2}>
+              {item.writerInfo.introduction}
+            </Text>
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <View style={{...styles.itemCategoryView, marginRight: 10}}>
                 <Text
@@ -124,37 +110,37 @@ const ReaderRecommend = () => {
                     ...styles.itemCategoryText,
                     color: '#0021C6',
                   }}>
-                  <Text style={{...styles.itemCategoryText, color: '#4562F1'}}>
-                    ♥&nbsp;
-                  </Text>
-                  {item.repBranch}
+                  {colorCategory[item.writerInfo.genre1].name}
                 </Text>
               </View>
               <View
                 style={{
                   ...styles.itemCategoryView,
-                  backgroundColor: colorCategory[item.repVive].back,
+                  backgroundColor: colorCategory[item.writerInfo.mood1].back,
                 }}>
                 <Text
                   style={{
                     ...styles.itemCategoryText,
-                    color: colorCategory[item.repVive].font,
+                    color: colorCategory[item.writerInfo.mood1].font,
                   }}>
-                  <Text
-                    style={{
-                      ...styles.itemCategoryText,
-                      color: colorCategory[item.repVive].heart,
-                    }}>
-                    ♥&nbsp;
-                  </Text>
-                  {item.repVive}
+                  {colorCategory[item.writerInfo.mood1].name}
                 </Text>
               </View>
             </View>
           </View>
           <FastImage
-            style={{width: 56, height: 56, position: 'absolute', top: 10}}
-            source={AuthorRecommend}></FastImage>
+            style={{
+              width: 56,
+              height: 56,
+              position: 'absolute',
+              top: 10,
+              borderRadius: 90,
+            }}
+            source={
+              !item || item.writerInfo.imgUrl === ''
+                ? DefaultProfile
+                : {uri: item.writerInfo.imgUrl}
+            }></FastImage>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -205,7 +191,7 @@ const ReaderRecommend = () => {
         </View>
         <View style={styles.recView}>
           <FlatList
-            data={recommend}
+            data={authorInfoData ? [authorInfoData] : null}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{paddingHorizontal: 20}}
@@ -343,8 +329,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 6,
   },
   itemCategoryView: {
-    width: 53,
-    height: 24,
+    paddingHorizontal: 14.6,
+    height: 30,
     borderRadius: 26,
     backgroundColor: '#E8EBFF',
     justifyContent: 'center',
