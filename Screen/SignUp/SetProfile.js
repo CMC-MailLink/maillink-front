@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
@@ -13,15 +12,12 @@ import {
   Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {
-  useNavigation,
-  CommonActions,
-  useLinkProps,
-} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import SuccessModal from './SuccessModal';
 import {SignUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
+import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep2 from '../../assets/images/SignUpStep2.png';
@@ -152,13 +148,13 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
             </View>
           </TouchableWithoutFeedback>
         </View>
 
         {/* mainHeader */}
-        <Image
+        <FastImage
           style={{width: 48.18, height: 32.4, marginTop: 24, marginLeft: 25}}
           source={SignUpStep2}
         />
@@ -180,14 +176,14 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           }}>
           <View style={{alignItems: 'center', width: 115.47}} />
           <TouchableWithoutFeedback onPress={onPressEditImage}>
-            <Image
+            <FastImage
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
               defaultSource={DefaultProfile}
               source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
-            <Image
+            <FastImage
               style={{
                 width: 40.07,
                 height: 40.07,
@@ -234,7 +230,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
               autoCorrect={false}
             />
             <TouchableWithoutFeedback onPress={onPressErase}>
-              <Image style={styles.eraseButton} source={EraseNickname} />
+              <FastImage style={styles.eraseButton} source={EraseNickname} />
             </TouchableWithoutFeedback>
             <TouchableOpacity
               onPress={onCheckName}

@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import {MessageAPI} from '../../../API/MessageAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import ExitMessage from '../../../assets/images/ExitMessage.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
-import {MessageAPI} from '../../../API/MessageAPI';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();

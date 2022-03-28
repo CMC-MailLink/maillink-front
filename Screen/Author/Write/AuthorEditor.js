@@ -5,9 +5,7 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
-  Platform,
   TextInput,
   Alert,
 } from 'react-native';
@@ -16,6 +14,7 @@ import {WebView} from 'react-native-webview';
 import ImagePicker from 'react-native-image-crop-picker';
 import {SignUpAPI} from '../../../API/SignUpAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
@@ -154,7 +153,10 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 14.5, height: 14.5}} source={ExitWriting} />
+            <FastImage
+              style={{width: 14.5, height: 14.5}}
+              source={ExitWriting}
+            />
           </View>
         </TouchableWithoutFeedback>
         <View
@@ -184,7 +186,10 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
             ・
           </Text>
           <TouchableWithoutFeedback onPress={onPressSend}>
-            <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
+            <FastImage
+              style={{width: 21.05, height: 25.43}}
+              source={SendWriting}
+            />
           </TouchableWithoutFeedback>
         </View>
       </View>

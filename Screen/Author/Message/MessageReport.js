@@ -18,6 +18,7 @@ import FastImage from 'react-native-fast-image';
 import ReportCheck from '../../../assets/images/ReportCheck.png';
 import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
+
 import ReportSuccessModal from './ReportSuccessModal';
 
 const MessageReport = () => {

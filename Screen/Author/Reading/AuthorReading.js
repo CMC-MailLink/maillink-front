@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
   StatusBar,
   Platform,
@@ -11,6 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
+import FastImage from 'react-native-fast-image';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -46,7 +46,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -57,13 +57,13 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         </Text>
       </View>
       <View style={styles.authorView}>
-        <Image
+        <FastImage
           style={{width: 30, height: 30, marginRight: 12, borderRadius: 90}}
           source={
             params.memberInfo.imgUrl == ''
               ? DefaultProfile
               : {uri: params.memberInfo.imgUrl}
-          }></Image>
+          }></FastImage>
         <Text style={styles.authorText}>{params.memberInfo.nickName}</Text>
       </View>
       <WebView

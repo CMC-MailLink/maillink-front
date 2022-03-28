@@ -7,7 +7,6 @@ import {
   StatusBar,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Image,
   Modal,
   RefreshControl,
   ScrollView,
@@ -18,6 +17,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {AuthorAPI} from '../../../API/AuthorAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import LinkAuthorWrite from '../../../assets/images/LinkAuthorWrite.png';
@@ -128,9 +128,9 @@ const AuthorWrite = () => {
       <TouchableOpacity
         style={styles.backRightBtn}
         onPress={() => deleteRow(rowMap, rowKey, data)}>
-        <Image
+        <FastImage
           style={{width: 18, height: 21}}
-          source={DeleteAuthorWrite}></Image>
+          source={DeleteAuthorWrite}></FastImage>
       </TouchableOpacity>
     </View>
   );
@@ -142,7 +142,9 @@ const AuthorWrite = () => {
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image style={{width: 60, height: 60}} source={DeleteModal}></Image>
+            <FastImage
+              style={{width: 60, height: 60}}
+              source={DeleteModal}></FastImage>
             <Text style={styles.modalTitleText}>삭제하시겠습니까?</Text>
             <Text style={styles.modalBodyText}>
               삭제된 글은 복구가 불가능합니다.
@@ -229,9 +231,9 @@ const AuthorWrite = () => {
                       클릭하여 링크복사하기
                     </Text>
                   </View>
-                  <Image
+                  <FastImage
                     style={{width: 134, height: 92}}
-                    source={LinkAuthorWrite}></Image>
+                    source={LinkAuthorWrite}></FastImage>
                 </View>
               </TouchableOpacity>
             }
@@ -281,9 +283,9 @@ const AuthorWrite = () => {
                   </View>
                   <Text style={styles.LinkCopyText}>클릭하여 링크복사하기</Text>
                 </View>
-                <Image
+                <FastImage
                   style={{width: 134, height: 92}}
-                  source={LinkAuthorWrite}></Image>
+                  source={LinkAuthorWrite}></FastImage>
               </View>
             </TouchableOpacity>
             <View
@@ -308,7 +310,7 @@ const AuthorWrite = () => {
         actions={[
           {
             icon: (
-              <Image
+              <FastImage
                 style={{
                   width: 22,
                   height: 22,

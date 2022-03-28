@@ -1,13 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  Alert,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import {
   KakaoOAuthToken,
@@ -26,6 +18,7 @@ import {v4 as uuid} from 'uuid';
 import jwt_decode from 'jwt-decode';
 import {SignUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
+import FastImage from 'react-native-fast-image';
 
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
@@ -188,7 +181,7 @@ const SignIn = props => {
         flex: 1,
         backgroundColor: '#fff',
       }}>
-      <Image
+      <FastImage
         style={{
           width: 62.86,
           height: 49,
@@ -226,13 +219,13 @@ const SignIn = props => {
             />
           </TouchableOpacity> */}
           <TouchableOpacity onPress={signInWithKakao}>
-            <Image
+            <FastImage
               style={{width: 312, height: 52, marginBottom: 18}}
               source={KakaoLogin}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => onAppleButtonPress()}>
-            <Image
+            <FastImage
               style={{width: 312, height: 52, marginBottom: 18}}
               source={AppleLogin}
             />

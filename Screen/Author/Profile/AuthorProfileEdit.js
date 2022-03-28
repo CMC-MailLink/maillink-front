@@ -27,7 +27,6 @@ import {AuthorAPI} from '../../../API/AuthorAPI';
 import BackMail3 from '../../../assets/images/BackMail3.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
-import ClearTextInput from '../../../assets/images/ClearTextInput.png';
 import InfoAuthorProfile from '../../../assets/images/InfoAuthorProfile.png';
 import FacebookNone from '../../../assets/images/FacebookNone.png';
 import TwitterNone from '../../../assets/images/TwitterNone.png';

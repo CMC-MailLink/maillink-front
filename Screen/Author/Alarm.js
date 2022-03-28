@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
+// import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {useQuery, useQueryClient} from 'react-query';
 import {MessageAPI} from '../../API/MessageAPI';
 import FastImage from 'react-native-fast-image';
@@ -50,13 +50,13 @@ const Alarm = () => {
     setRefreshingMessage(false);
   };
 
-  const handleNotification = () => {
-    PushNotification.localNotification({
-      channelId: 'test-channel',
-      title: 'You clicked Alarm Test!!!!',
-      message: 'This is Test!',
-    });
-  };
+  // const handleNotification = () => {
+  //   PushNotification.localNotification({
+  //     channelId: 'test-channel',
+  //     title: 'You clicked Alarm Test!!!!',
+  //     message: 'This is Test!',
+  //   });
+  // };
 
   const renderMessageItem = (data, rowMap) => (
     <TouchableOpacity onPress={e => onPressMessageItem(data)}>

@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
+import {View, Text, StyleSheet, TouchableOpacity, Linking} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import Facebook from '../../../assets/images/Facebook.png';
 import Twitter from '../../../assets/images/Twitter.png';
@@ -226,28 +219,28 @@ const AuthorProfileIntro = ({writerInfo}) => {
                   `https://www.facebook.com/${writerInfo.facebook}`,
                 )
               }>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={Facebook}></Image>
+                source={Facebook}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={FacebookNone}></Image>
+              source={FacebookNone}></FastImage>
           )}
           {writerInfo && writerInfo.twitter ? (
             <TouchableOpacity
               onPress={() =>
                 onPressTwitter(`https://twitter.com/${writerInfo.twitter}`)
               }>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={Twitter}></Image>
+                source={Twitter}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={TwitterNone}></Image>
+              source={TwitterNone}></FastImage>
           )}
           {writerInfo && writerInfo.instagram ? (
             <TouchableOpacity
@@ -256,26 +249,26 @@ const AuthorProfileIntro = ({writerInfo}) => {
                   `https://www.instagram.com/${writerInfo.instagram}`,
                 )
               }>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={Instagram}></Image>
+                source={Instagram}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={InstagramNone}></Image>
+              source={InstagramNone}></FastImage>
           )}
           {writerInfo && writerInfo.etc ? (
             <TouchableOpacity
               onPress={() => onPressURL(`https://${writerInfo.etc}`)}>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={URL}></Image>
+                source={URL}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={URLNone}></Image>
+              source={URLNone}></FastImage>
           )}
         </View>
       </View>

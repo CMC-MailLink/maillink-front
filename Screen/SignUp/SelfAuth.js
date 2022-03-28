@@ -5,7 +5,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
@@ -17,8 +16,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {SignUpAPI} from '../../API/SignUpAPI';
-// import Timer from './Timer';
-// import CheckBox from 'react-native-check-box';
+import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
@@ -159,13 +157,13 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
             </View>
           </TouchableWithoutFeedback>
         </View>
 
         {/* mainHeader */}
-        <Image
+        <FastImage
           style={{width: 48, height: 32.28, marginTop: 24, marginLeft: 25}}
           source={SignUpStep1}
         />
@@ -339,11 +337,14 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           /> */}
           {checkbox ? (
             <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
-              <Image style={{width: 23, height: 23}} source={CheckSelfAuth} />
+              <FastImage
+                style={{width: 23, height: 23}}
+                source={CheckSelfAuth}
+              />
             </TouchableWithoutFeedback>
           ) : (
             <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
-              <Image
+              <FastImage
                 style={{width: 23, height: 23}}
                 source={CheckDisabledSelfAuth}
               />

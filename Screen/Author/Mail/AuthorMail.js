@@ -13,8 +13,6 @@ import SearchMail from '../../../assets/images/SearchMail.png';
 import LogoMail from '../../../assets/images/LogoMail.png';
 import GoMessage from '../../../assets/images/GoMessage.png';
 
-const STATUSBAR_HEIGHT = 48;
-
 const AuthorMail = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();

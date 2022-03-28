@@ -18,9 +18,6 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useNavigation} from '@react-navigation/native';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
-import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
-import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import ChatExitModal from './ChatExitModal';
@@ -32,8 +29,7 @@ import BackMail2 from '../../../assets/images/BackMail2.png';
 import Report from '../../../assets/images/Report.png';
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
-
-const STATUSBAR_HEIGHT = 48;
+import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 
 const Message = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
