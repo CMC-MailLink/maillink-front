@@ -1,32 +1,28 @@
 import React from 'react';
-import {View, Image, TouchableOpacity, StatusBar} from 'react-native';
+import {View, TouchableOpacity, StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
+import FastImage from 'react-native-fast-image';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // import AuthorMailHeader from './AuthorMailHeader';
 import AuthorMailBody from './AuthorMailBody';
 
 import SearchMail from '../../../assets/images/SearchMail.png';
 import LogoMail from '../../../assets/images/LogoMail.png';
-import AlarmMail from '../../../assets/images/AlarmMail.png';
+import GoMessage from '../../../assets/images/GoMessage.png';
 
 const STATUSBAR_HEIGHT = 48;
 
 const AuthorMail = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const [refreshing, setRefreshing] = React.useState(false);
 
   const onPressSearchPage = () => {
     navigation.navigate('AuthorStacks', {
       screen: 'AuthorMailSearch',
     });
-  };
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    //refresh
-    setRefreshing(false);
   };
 
   const goToAlarm = () => {
@@ -40,29 +36,33 @@ const AuthorMail = () => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="light-content" />
-      <View style={{height: 35, backgroundColor: '#4562F1'}}>
-        <Image
+      <View
+        style={{
+          height: 55,
+          backgroundColor: '#4562F1',
+          alignItems: 'center',
+          flexDirection: 'row',
+        }}>
+        <FastImage
           style={{
             position: 'absolute',
-            top: 50 - STATUSBAR_HEIGHT,
             left: 20,
             width: 105,
             height: 20,
           }}
           source={LogoMail}
         />
-        <TouchableOpacity onPress={goToAlarm}>
-          <Image
+        <TouchableOpacity
+          onPress={goToAlarm}
+          style={{position: 'absolute', right: 21}}>
+          <FastImage
             style={{
-              position: 'absolute',
-              top: 50 - STATUSBAR_HEIGHT,
-              right: 21,
-              width: 20,
-              height: 22.75,
+              width: 28.5,
+              height: 28.3,
             }}
-            source={AlarmMail}
+            source={GoMessage}
           />
-          <View
+          {/* <View
             style={{
               position: 'absolute',
               right: 21,
@@ -70,7 +70,7 @@ const AuthorMail = () => {
               width: 4,
               height: 4,
               borderRadius: 90,
-            }}></View>
+            }}></View> */}
         </TouchableOpacity>
       </View>
       <AuthorMailBody></AuthorMailBody>
@@ -78,9 +78,9 @@ const AuthorMail = () => {
         actions={[
           {
             icon: (
-              <Image
+              <FastImage
                 style={{
-                  width: 21,
+                  width: 22,
                   height: 22.11,
                 }}
                 source={SearchMail}
@@ -94,7 +94,7 @@ const AuthorMail = () => {
         color="#FFF"
         overlayColor="rgba(255,255,255, 0.9)"
         tintColor={null}
-        distanceToEdge={{vertical: 95, horizontal: 17}}
+        distanceToEdge={{vertical: 95 + insets.bottom / 2, horizontal: 17}}
         buttonSize={50}
         shadow={{
           shadowOpacity: 0.12,

@@ -34,6 +34,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
     div.append(textNode);
     div.style.display="none";
     document.body.appendChild(div);
+    document.getElementById('loadingButton').click();
     true;
   `;
 
@@ -44,7 +45,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
             <Image style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
@@ -66,6 +67,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         <Text style={styles.authorText}>{params.memberInfo.nickName}</Text>
       </View>
       <WebView
+        startInLoadingState={true}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}

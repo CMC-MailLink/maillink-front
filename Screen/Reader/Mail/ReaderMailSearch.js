@@ -289,14 +289,22 @@ const ReaderMailSearch = () => {
                     <Text style={styles.recentSearchText}>{data}</Text>
                     <TouchableWithoutFeedback
                       onPress={e => onPressDelete(data, index)}>
-                      <FastImage
+                      <View
                         style={{
                           position: 'absolute',
-                          width: 12,
-                          height: 12,
-                          right: 28,
-                        }}
-                        source={DeleteMail}></FastImage>
+                          right: 20,
+                          width: 30,
+                          height: 30,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <FastImage
+                          style={{
+                            width: 12,
+                            height: 12,
+                          }}
+                          source={DeleteMail}></FastImage>
+                      </View>
                     </TouchableWithoutFeedback>
                   </View>
                 </TouchableOpacity>

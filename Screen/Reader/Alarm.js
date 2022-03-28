@@ -10,6 +10,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
@@ -26,7 +27,6 @@ const Alarm = () => {
   const queryClient = useQueryClient();
   //refreshing 기능
   const [refreshingMessage, setRefreshingMessage] = useState(false);
-  const [refreshingAlarm, setRefreshingAlarm] = useState(false);
   const {isLoading: messageLoading, data: messageData} = useQuery(
     ['Message'],
     MessageAPI.getMessageList,
@@ -125,21 +125,31 @@ const Alarm = () => {
           }
         />
       ) : (
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 1,
-          }}>
-          <Text
+        <ScrollView
+          style={{flex: 1}}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshingMessage}
+              onRefresh={onRefreshMessage}
+              style={styles.refresh}
+              tintColor="#4562F1"
+            />
+          }>
+          <View
             style={{
-              fontFamily: 'NotoSansKR-Regular',
-              color: '#3C3C3C',
-              includeFontPadding: false,
+              top: 100,
+              alignItems: 'center',
             }}>
-            메세지가 없습니다.
-          </Text>
-        </View>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Regular',
+                color: '#3C3C3C',
+                includeFontPadding: false,
+              }}>
+              메세지가 없습니다.
+            </Text>
+          </View>
+        </ScrollView>
       )}
     </View>
   );

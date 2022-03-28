@@ -28,10 +28,8 @@ const MessageReport = () => {
   const [sameReport, setSameReport] = useState(false);
   const [otherReport, setOtherReport] = useState(false);
   const [otherReportContent, setOtherReportContent] = useState('');
-  const [reportTypesData, setReportTypesData] = useState([]);
   const [confirmSuccess, setConfirmSuccess] = useState(true);
   const [enterCount, setenterCount] = useState(0);
-  const [textCount, setTextCount] = useState(0);
   const [subscribeCancel, setSubscribeCancel] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -68,7 +66,6 @@ const MessageReport = () => {
     } else {
       setConfirmSuccess(false);
     }
-    setTextCount(otherReportContent.length);
     if (this.keyCode === 13) {
       setenterCount(enterCount + 1);
     }
@@ -122,8 +119,8 @@ const MessageReport = () => {
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
         <Text style={styles.bodyHeaderText}>
-          해당 사용자를 신고하시겠습니까? {'\n'}사용자를 신고하는 사유를
-          선택해주세요. (중복가능)
+          해당 작가를 신고하는 이유를 선택해주세요. (중복가능){'\n'}해당
+          사용자와의 쪽지는 비활성화됩니다.
         </Text>
       </View>
       <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
@@ -169,6 +166,7 @@ const MessageReport = () => {
             )}
           </View>
         </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback onPress={onPressSameReport}>
           <View style={styles.itemView}>
             <Text style={styles.itemText}>같은 내용 반복(도배)</Text>
@@ -182,6 +180,7 @@ const MessageReport = () => {
             )}
           </View>
         </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback onPress={onPressOtherReport}>
           <View style={{...styles.itemView}}>
             <Text style={styles.itemText}>기타 사유</Text>
@@ -306,12 +305,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  itemOtherView: {
-    backgroundColor: 'white',
-    height: 325,
-    borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
   },
   textInput: {
     width: '100%',

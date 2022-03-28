@@ -112,7 +112,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
             <FastImage
               style={{width: 9.5, height: 19}}
               source={BackMail2}></FastImage>

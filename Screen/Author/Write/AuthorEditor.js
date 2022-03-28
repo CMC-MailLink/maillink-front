@@ -153,7 +153,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 22.5}}>
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
             <Image style={{width: 14.5, height: 14.5}} source={ExitWriting} />
           </View>
         </TouchableWithoutFeedback>
@@ -204,6 +204,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         value={title}
         onChangeText={setTitle}></TextInput>
       <WebView
+        startInLoadingState={true}
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}

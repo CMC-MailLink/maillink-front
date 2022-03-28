@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
   Dimensions,
   Platform,
@@ -13,6 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import AuthorWrite from '../../Screen/Author/Write/AuthorWrite';
 import AuthorMail from '../../Screen/Author/Mail/AuthorMail';
 import AuthorProfile from '../../Screen/Author/Profile/AuthorProfile';
+import FastImage from 'react-native-fast-image';
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
@@ -22,13 +22,13 @@ import WriteTabsFocused from '../../assets/images/WriteTabsFocused.png';
 
 const AuthorTab = createBottomTabNavigator();
 
-const CustomTabBarButton = ({children, onPress}) => (
-  <TouchableOpacity onPress={onPress} activeOpacity={1}>
-    <View style={{top: 12, left: -Dimensions.get('window').width / 2}}>
-      <View>{children}</View>
-    </View>
-  </TouchableOpacity>
-);
+// const CustomTabBarButton = ({children, onPress}) => (
+//   <TouchableOpacity onPress={onPress} activeOpacity={1}>
+//     <View style={{top: 12, left: -Dimensions.get('window').width / 2}}>
+//       <View>{children}</View>
+//     </View>
+//   </TouchableOpacity>
+// );
 
 const AuthorTabs = () => {
   const insets = useSafeAreaInsets();
@@ -37,7 +37,10 @@ const AuthorTabs = () => {
       initialRouteName="AuthorMail"
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarStyle: {...styles.navigator, height: insets.bottom / 2 + 76},
+        tabBarStyle: {
+          ...styles.navigator,
+          height: insets.bottom / 2 + 76,
+        },
       }}
       backBehavior="none">
       <AuthorTab.Screen
@@ -52,7 +55,7 @@ const AuthorTabs = () => {
                 marginTop: insets.bottom / 2,
                 marginLeft: Dimensions.get('window').width / 10,
               }}>
-              <Image
+              <FastImage
                 style={{width: 21, height: 21}}
                 source={focused ? WriteTabsFocused : WriteTabs}
               />
@@ -95,7 +98,7 @@ const AuthorTabs = () => {
                   shadowOpacity: 0.314,
                   shadowRadius: 5,
                 }}>
-                <Image
+                <FastImage
                   style={{width: 68.58, height: 68.58}}
                   source={LogoTabs}
                 />
@@ -117,7 +120,7 @@ const AuthorTabs = () => {
                 marginTop: insets.bottom / 2,
                 marginRight: Dimensions.get('window').width / 10,
               }}>
-              <Image
+              <FastImage
                 style={{width: 18, height: 21.27}}
                 source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
               />
@@ -157,8 +160,6 @@ const styles = StyleSheet.create({
         elevation: 10,
       },
     }),
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   // customButton: {
   //   justifyContent: 'center',

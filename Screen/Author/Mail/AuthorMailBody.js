@@ -5,8 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ScrollView,
-  RefreshControl,
   FlatList,
   Dimensions,
   Animated,
@@ -203,6 +201,7 @@ const AuthorMailBody = () => {
         onScroll={onScroll}
         onResponderRelease={onRelease}
         stickyHeaderIndices={[1]}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.header}>
             <FastImage
@@ -299,7 +298,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: 'NotoSansKR-Light',
-    fontSize: 25,
+    fontSize: 24,
     color: '#FFFFFF',
     includeFontPadding: false,
   },
@@ -328,10 +327,9 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemView: {
-    height: 100,
+    width: '100%',
     backgroundColor: '#FFF',
-    paddingTop: 12,
-    paddingBottom: 17,
+    paddingVertical: 15,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     paddingHorizontal: 20,
