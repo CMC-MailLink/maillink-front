@@ -71,7 +71,6 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   const renderItem = data => {
-    console.log(data);
     return (
       <View
         style={{
