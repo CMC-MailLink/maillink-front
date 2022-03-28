@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -71,6 +71,10 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
   const [confirmSuccess, setConfirmSuccess] = useState(false); //닉네임 확인 성공 유무
   const [branchRank, setBranchRank] = useState(0);
   const [viveRank, setViveRank] = useState(0);
+  const facebookRef = useRef();
+  const twitterRef = useRef();
+  const instagramRef = useRef();
+  const urlRef = useRef();
 
   const [branch, setBranch] = useState([
     {name: '시', rank: 0},
@@ -585,8 +589,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={FacebookNone}
               />
-              <Text style={styles.websiteText}>facebook.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => facebookRef.current.focus()}>
+                <Text style={styles.websiteText}>facebook.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={facebookRef}
                 style={styles.websiteTextInput}
                 value={editFacebook}
                 onChangeText={setEditFacebook}
@@ -597,8 +606,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={TwitterNone}
               />
-              <Text style={styles.websiteText}>twitter.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => twitterRef.current.focus()}>
+                <Text style={styles.websiteText}>twitter.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={twitterRef}
                 style={styles.websiteTextInput}
                 value={editTwitter}
                 onChangeText={setEditTwitter}
@@ -609,8 +623,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={InstagramNone}
               />
-              <Text style={styles.websiteText}>instagram.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => instagramRef.current.focus()}>
+                <Text style={styles.websiteText}>instagram.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={instagramRef}
                 style={styles.websiteTextInput}
                 value={editInstagram}
                 onChangeText={setEditInstagram}
@@ -621,8 +640,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={URLNone}
               />
-              <Text style={styles.websiteText}>https://</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => urlRef.current.focus()}>
+                <Text style={styles.websiteText}>https://</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={urlRef}
                 style={styles.websiteTextInput}
                 value={editURL}
                 onChangeText={setEditURL}
@@ -630,21 +654,22 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
             </View>
           </View>
         </View>
+
+        <TouchableOpacity
+          onPress={onPressSave}
+          disabled={viveRank === 0 || branchRank === 0 || !confirmSuccess}>
+          <View
+            style={{
+              ...styles.buttonView,
+              backgroundColor:
+                viveRank === 0 || branchRank === 0 || !confirmSuccess
+                  ? '#BEBEBE'
+                  : '#4562F1',
+            }}>
+            <Text style={styles.buttonText}>저장</Text>
+          </View>
+        </TouchableOpacity>
       </KeyboardAwareScrollView>
-      <TouchableOpacity
-        onPress={onPressSave}
-        disabled={viveRank === 0 || branchRank === 0 || !confirmSuccess}>
-        <View
-          style={{
-            ...styles.buttonView,
-            backgroundColor:
-              viveRank === 0 || branchRank === 0 || !confirmSuccess
-                ? '#BEBEBE'
-                : '#4562F1',
-          }}>
-          <Text style={styles.buttonText}>저장</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };
