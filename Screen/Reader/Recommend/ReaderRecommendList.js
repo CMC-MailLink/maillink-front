@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Dimensions,
+} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
@@ -125,9 +132,9 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
                     <Text style={styles.itemName}>
                       {data.writerInfo.nickName}
                     </Text>
-                    <Text style={styles.itemIntro}>
+                    <Text style={styles.itemIntro} numberOfLines={2}>
                       {data.writerInfo.introduction
-                        ? data.writerInfo.introduction.slice(0, 20)
+                        ? data.writerInfo.introduction
                         : ''}
                     </Text>
                   </View>
@@ -194,7 +201,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemIntro: {
-    width: 200,
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

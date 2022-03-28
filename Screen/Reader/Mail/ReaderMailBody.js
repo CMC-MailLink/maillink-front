@@ -9,7 +9,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
@@ -199,11 +199,16 @@ const ReaderMailBody = () => {
   };
 
   //메일 아이템 render
-  const renderItem = (data, rowMap, rowKey) => {
-    if (data.item.key === 'category') {
-      return <RenderCategory />;
-    } else {
-      return (
+  const renderItem = (data, rowMap) => (
+    <SwipeRow
+      rightOpenValue={-150}
+      stopRightSwipe={-150}
+      disableRightSwipe={true}
+      disableLeftSwipe={data.item.key === 'category' ? true : false}>
+      <RenderHiddenItem data={data} rowMap={rowMap} />
+      {data.item.key === 'category' ? (
+        <RenderCategory />
+      ) : (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
           <View style={styles.itemView}>
             <FastImage
@@ -255,12 +260,12 @@ const ReaderMailBody = () => {
             </View>
           </View>
         </TouchableWithoutFeedback>
-      );
-    }
-  };
+      )}
+    </SwipeRow>
+  );
 
   //메일아이템 swipe render
-  const renderHiddenItem = (data, rowMap) => (
+  const RenderHiddenItem = ({data, rowMap}) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
@@ -443,12 +448,9 @@ const ReaderMailBody = () => {
             </View>
           }
           data={mailSelect ? mail : bookmark}
-          renderItem={renderItem}
-          renderHiddenItem={renderHiddenItem}
-          rightOpenValue={-150}
-          stopRightSwipe={-150}
-          disableRightSwipe={true}
           closeOnScroll={true}
+          renderItem={renderItem}
+          // renderHiddenItem={renderHiddenItem}
           ListFooterComponent={
             mail.length === 1 ? (
               <View

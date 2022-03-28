@@ -12,6 +12,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../../AppContext';
 import FastImage from 'react-native-fast-image';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import ExitResult from '../../../assets/images/ExitResult.png';
@@ -31,6 +32,7 @@ const colorCategory = {
 };
 
 const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
+  const insets = useSafeAreaInsets();
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
@@ -171,7 +173,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
         </View>
       </View>
 
-      <View style={{flex: 1, backgroundColor: '#FFF', top: -25}}>
+      <View style={{flex: 1, backgroundColor: '#FFF', top: 10 - insets.bottom}}>
         <RenderItem
           item={{
             key: 0,
@@ -196,7 +198,11 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           )}
         </View>
         <TouchableOpacity
-          style={{position: 'absolute', bottom: 45, right: 23}}
+          style={{
+            position: 'absolute',
+            bottom: 40,
+            right: 23,
+          }}
           onPress={() => navigation.popToTop()}>
           <View style={styles.againView}>
             <FastImage

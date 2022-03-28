@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import AnalyzeSix from '../../../assets/images/AnalyzeSix.png';
@@ -17,6 +18,7 @@ import AnalyzeEight_1 from '../../../assets/images/AnalyzeEight_1.png';
 import AnalyzeEight_2 from '../../../assets/images/AnalyzeEight_2.png';
 
 const ReaderAnalyzeEight = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
@@ -69,7 +71,7 @@ const ReaderAnalyzeEight = () => {
             height: 354.47,
             position: 'absolute',
             right: 0,
-            top: 290,
+            top: 30,
           }}
           source={AnalyzeEight_1}></FastImage>
       </TouchableWithoutFeedback>
@@ -86,7 +88,7 @@ const ReaderAnalyzeEight = () => {
             height: 293.8,
             position: 'absolute',
             left: 26,
-            bottom: 20,
+            bottom: -30 + insets.bottom,
           }}
           source={AnalyzeEight_2}></FastImage>
       </TouchableWithoutFeedback>

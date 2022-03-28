@@ -49,12 +49,14 @@ const ReaderRecommendSearch = () => {
     if (query === '') {
       return;
     }
-    // setSubmit(true);
-    // var res = authorListData.filter(item =>
-    //   item.writerInfo.nickName.includes(query),
-    // );
-    // setResult([...res]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSubmit(true);
+    if (authorListData) {
+      var res = authorListData.filter(item =>
+        item.writerInfo.nickName.includes(query),
+      );
+      setResult([...res]);
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authorListData]);
 
   useEffect(() => {
@@ -217,7 +219,7 @@ const ReaderRecommendSearch = () => {
                       style={{
                         width: 42,
                         height: 42,
-                        marginRight: 10,
+                        marginRight: 15,
                         borderRadius: 90,
                       }}
                       source={
@@ -230,32 +232,31 @@ const ReaderRecommendSearch = () => {
                       <Text style={styles.bodyItemName}>
                         {data.writerInfo.nickName}
                       </Text>
-                      <Text style={styles.bodyItemIntro}>
-                        {data.writerInfo.introduction}
+                      <Text style={styles.bodyItemIntro} numberOfLines={2}>
+                        {data.writerInfo.introduction
+                          ? data.writerInfo.introduction
+                          : ''}
                       </Text>
                     </View>
-                    <TouchableOpacity
-                      onPress={() =>
-                        data.subscribeCheck
-                          ? onPressCancelSubscribe(data.writerInfo.id)
-                          : onPressSubscribe(data.writerInfo.id)
-                      }
-                      style={
-                        data.subscribeCheck
-                          ? styles.subscribeView
-                          : styles.subscribeNotView
-                      }>
-                      <View>
-                        <Text
-                          style={
-                            data.subscribeCheck
-                              ? styles.subscribeText
-                              : styles.subscribeNotText
-                          }>
-                          {data.subscribeCheck ? '구독중' : '구독하기'}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                    {data.subscribeCheck ? (
+                      <TouchableOpacity
+                        style={{position: 'absolute', right: 20}}
+                        onPress={() =>
+                          onPressCancelSubscribe(data.writerInfo.id)
+                        }>
+                        <View style={styles.subscribeView}>
+                          <Text style={styles.subscribeText}>구독중</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{position: 'absolute', right: 20}}
+                        onPress={() => onPressSubscribe(data.writerInfo.id)}>
+                        <View style={styles.notSubscribeView}>
+                          <Text style={styles.notSubscribeText}>구독하기</Text>
+                        </View>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </TouchableOpacity>
               ))
@@ -417,53 +418,51 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItem: {
-    height: 68,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
     alignItems: 'center',
-    paddingLeft: 20,
   },
   bodyItemName: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',
+    marginBottom: 3,
     includeFontPadding: false,
   },
   bodyItemIntro: {
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
     includeFontPadding: false,
   },
   subscribeView: {
-    position: 'absolute',
-    right: 20,
     width: 75,
     height: 30,
-    borderRadius: 15,
     borderColor: '#BEBEBE',
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  subscribeNotView: {
-    position: 'absolute',
-    right: 20,
-    width: 75,
-    height: 30,
     borderRadius: 15,
-    backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
   },
   subscribeText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
-    color: '#828282',
+    color: '#BEBEBE',
     includeFontPadding: false,
   },
-  subscribeNotText: {
+  notSubscribeView: {
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4562F1',
+  },
+  notSubscribeText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',

@@ -228,7 +228,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
               authorInfoData ? authorInfoData.writerInfo : null
             }></AuthorProfileIntro>
         ) : (
-          <AuthorProfileMail></AuthorProfileMail>
+          <AuthorProfileMail id={params.id}></AuthorProfileMail>
         )}
       </ScrollView>
     </View>

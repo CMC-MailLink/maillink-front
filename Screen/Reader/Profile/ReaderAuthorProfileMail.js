@@ -1,162 +1,70 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import {ReaderAPI} from '../../../API/ReaderAPI';
 
-const ReaderAuthorProfileMail = () => {
+const ReaderAuthorProfileMail = ({id}) => {
   const navigation = useNavigation();
   const [recentSelect, setRecentSelect] = useState(true);
+  const [mail, setMail] = useState(); //메일 데이터
   const onPressRecent = () => {
     setRecentSelect(true);
   };
   const onPressOld = () => {
     setRecentSelect(false);
   };
-  const [repMailKey, setRepMailKey] = useState(null);
-  const [repMail, setRepMail] = useState(null);
-  const [mail, setMail] = useState([
-    {
-      key: '0',
-      author: '이작가',
-      title: '청춘예찬2',
-      body: '피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의',
-      date: '21. 02. 13',
-      show: true,
-      rep: true,
-    },
-    {
-      key: '1',
-      author: '김작가',
-      title: '청춘예찬1',
-      body: '그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의',
-      date: '21. 02. 12',
-      show: true,
-      rep: false,
-    },
-    {
-      key: '2',
-      author: '이작가',
-      title: '청춘예찬0',
-      body: '그들은 광야에서 얼마나 무엇을 때문이다. 인생을 것은 같으며, 것이다. 발휘하기 굳세게 인생의 설산에',
-      date: '21. 02. 11',
-      show: true,
-      rep: false,
-    },
-    {
-      key: '3',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-      show: true,
-      rep: false,
-    },
-    {
-      key: '4',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-      show: true,
-      rep: false,
-    },
-    {
-      key: '5',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-      show: true,
-      rep: false,
-    },
-    {
-      key: '6',
-      author: '최작가',
-      title: '청춘예찬',
-      body: '두손을 석가는 미인을 풀이 생명을 구하지 스며들어 인간의 위하여 운다. 청춘에서만 인생을 힘차게 내',
-      date: '21. 02. 10',
-      show: true,
-      rep: false,
-    },
-  ]);
+  const {isLoading: authorMailListLoading, data: authorMailListData} = useQuery(
+    ['AuthorMailList', id],
+    ReaderAPI.getWriterPublishList,
+  );
+
   useEffect(() => {
-    setMail(data =>
-      data.slice().sort(function (a, b) {
-        if (a.date >= b.date) {
+    if (authorMailListData) {
+      var tempMail = authorMailListData.slice().sort(function (a, b) {
+        if (a.publishedTime >= b.publishedTime) {
           return recentSelect ? -1 : 1;
-        } else if (a.date < b.date) {
+        } else if (a.publishedTime < b.publishedTime) {
           return recentSelect ? 1 : -1;
         }
-      }),
-    );
-  }, [recentSelect]);
-
-  const cancelRep = key => {
-    if (key === repMailKey) {
-      var temp = mail;
-      temp.map(item => {
-        if (item.key === key) {
-          item.rep = false;
-          setRepMail(null);
-          setRepMailKey(null);
-        }
       });
-      setMail([...temp]);
+      setMail([...tempMail]);
     }
-  };
-
-  const setRep = key => {
-    if (repMailKey === null) {
-      var temp = mail;
-      temp.map(item => {
-        if (item.key === key) {
-          item.rep = true;
-          setRepMail(item);
-          setRepMailKey(item.key);
-        }
-      });
-      setMail([...temp]);
-    }
-  };
-  const cancelShow = key => {
-    var temp = mail;
-    temp.map(item => {
-      if (item.key === key) item.show = false;
-    });
-    setMail([...temp]);
-  };
-  const setShow = key => {
-    var temp = mail;
-    temp.map(item => {
-      if (item.key === key) item.show = true;
-    });
-    setMail([...temp]);
-  };
+  }, [recentSelect, authorMailListData]);
 
   const RenderItem = ({data}) => {
     return (
-      <View
-        style={{
-          ...styles.mailItemView,
-          borderBottomColor: '#EBEBEB',
-          borderBottomWidth: 1,
-          paddingHorizontal: 20,
-          paddingVertical: 13,
-          marginTop: 0,
-        }}>
-        <Text style={styles.mailItemTitle}>{data.title}</Text>
-        <Text style={styles.mailItemBody}>{data.body}</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.mailItemDate}>{data.date}</Text>
+      <TouchableOpacity>
+        <View
+          style={{
+            ...styles.mailItemView,
+            borderBottomColor: '#EBEBEB',
+            borderBottomWidth: 1,
+            paddingHorizontal: 20,
+            paddingVertical: 13,
+            marginTop: 0,
+          }}>
+          <Text style={styles.mailItemTitle} numberOfLines={1}>
+            {data.title}
+          </Text>
+          <Text style={styles.mailItemBody} numberOfLines={2}>
+            {data.preView}
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.mailItemDate}>
+              {data.publishedTime.slice(0, 10)}
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <View style={{flex: 1, marginBottom: 150}}>
+    <View style={{flex: 1, marginBottom: 150, backgroundColor: '#fff'}}>
       <View style={styles.refView}>
         <Text style={styles.refText}>대표글</Text>
-        {repMail !== null ? (
+        {/* {repMail !== null ? (
           <View style={styles.mailItemView}>
             <Text style={styles.mailItemTitle}>{repMail.title}</Text>
             <Text style={styles.mailItemBody}>{repMail.body}</Text>
@@ -168,7 +76,7 @@ const ReaderAuthorProfileMail = () => {
           <View>
             <Text>설정한 대표글이 없습니다.</Text>
           </View>
-        )}
+        )} */}
       </View>
       <View style={styles.publishView}>
         <View style={{flexDirection: 'row'}}>
@@ -176,7 +84,8 @@ const ReaderAuthorProfileMail = () => {
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.publishText}>
-            총&nbsp;<Text style={{color: '#3C3C3C'}}>{mail.length}</Text>편
+            총&nbsp;
+            <Text style={{color: '#3C3C3C'}}>{mail ? mail.length : ''}</Text>편
           </Text>
           <View
             style={{
@@ -211,10 +120,11 @@ const ReaderAuthorProfileMail = () => {
           </View>
         </View>
       </View>
-      {mail.map((data, index) => {
-        if (data.show === true)
-          return <RenderItem data={data} key={data.key}></RenderItem>;
-      })}
+      {mail
+        ? mail.map((data, index) => (
+            <RenderItem data={data} key={data.id}></RenderItem>
+          ))
+        : null}
     </View>
   );
 };

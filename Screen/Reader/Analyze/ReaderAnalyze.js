@@ -9,12 +9,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import AppContext from '../../../AppContext';
 import FastImage from 'react-native-fast-image';
 
 import AnalyzeStart from '../../../assets/images/AnalyzeStart.png';
 
 const ReaderAnalyze = () => {
+  const insets = useSafeAreaInsets();
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
 
@@ -49,7 +51,7 @@ const ReaderAnalyze = () => {
         }}>
         <FastImage style={{width: 390, height: 367}} source={AnalyzeStart} />
       </View>
-      <View style={styles.bottomView}>
+      <View style={{...styles.bottomView, bottom: insets.bottom + 10}}>
         <TouchableOpacity onPress={onPressStart}>
           <View style={styles.startView}>
             <Text style={styles.startText}>시작</Text>
@@ -84,7 +86,6 @@ const styles = StyleSheet.create({
   bottomView: {
     width: '100%',
     position: 'absolute',
-    bottom: 80,
   },
   startView: {
     marginHorizontal: 20,

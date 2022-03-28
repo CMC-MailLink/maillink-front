@@ -300,4 +300,29 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //작가 공개 메일 리스트 조회
+  getWriterPublishList: async ({queryKey}) => {
+    console.log('작가 공개 메일 리스트 조회');
+    const [_, writerId] = queryKey;
+    console.log(writerId);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/publish/${writerId}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
+      let json = await response.json();
+      console.log(json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };
