@@ -8,9 +8,11 @@ import {
   StyleSheet,
   Image,
   Platform,
+  Dimensions,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import BackMail from '../../assets/images/BackMail.png';
 import AnalyzeSix from '../../assets/images/AnalyzeSix.png';
@@ -18,6 +20,7 @@ import AnalyzeSix_1 from '../../assets/images/AnalyzeSix_1.png';
 import AnalyzeSix_2 from '../../assets/images/AnalyzeSix_2.png';
 
 const ReaderAnalyzeSix = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const onPressBack = () => {
     navigation.goBack();
@@ -38,9 +41,11 @@ const ReaderAnalyzeSix = () => {
           <View
             style={{
               marginLeft: 24,
-              marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
+              marginTop: insets.top + 22,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail}></FastImage>
           </View>
         </TouchableWithoutFeedback>
       ) : null}
@@ -55,40 +60,43 @@ const ReaderAnalyzeSix = () => {
           다음 중 더 마음이 가는{'\n'}시의 구절은?
         </Text>
       </View>
-      <TouchableWithoutFeedback
-        onPress={() =>
-          navigation.navigate('OnBoardingStacks', {
-            screen: 'ReaderAnalyzeResult',
-            params: '편안',
-          })
-        }>
-        <FastImage
-          style={{
-            width: 222.87,
-            height: 354.47,
-            position: 'absolute',
-            right: 0,
-            top: 290,
-          }}
-          source={AnalyzeSix_1}></FastImage>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
-        onPress={() =>
-          navigation.navigate('OnBoardingStacks', {
-            screen: 'ReaderAnalyzeResult',
-            params: '맑음',
-          })
-        }>
-        <FastImage
-          style={{
-            width: 363.93,
-            height: 293.8,
-            position: 'absolute',
-            left: 26,
-            bottom: 20,
-          }}
-          source={AnalyzeSix_2}></FastImage>
-      </TouchableWithoutFeedback>
+      <View style={{flex: 1}}>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.navigate('OnBoardingStacks', {
+              screen: 'ReaderAnalyzeResult',
+              params: '편안',
+            })
+          }>
+          <FastImage
+            style={{
+              width: Dimensions.get('window').width / 1.85,
+              height:
+                ((Dimensions.get('window').width / 1.85) * 354.47) / 222.87,
+              position: 'absolute',
+              right: 0,
+              top: 30,
+            }}
+            source={AnalyzeSix_1}></FastImage>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.navigate('OnBoardingStacks', {
+              screen: 'ReaderAnalyzeResult',
+              params: '맑은',
+            })
+          }>
+          <FastImage
+            style={{
+              width: Dimensions.get('window').width / 1.1,
+              height: ((Dimensions.get('window').width / 1.1) * 293.8) / 363.93,
+              position: 'absolute',
+              left: 26,
+              bottom: -30 + insets.bottom,
+            }}
+            source={AnalyzeSix_2}></FastImage>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 };

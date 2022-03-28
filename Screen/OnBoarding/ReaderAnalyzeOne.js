@@ -6,7 +6,6 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Platform,
 } from 'react-native';
@@ -25,75 +24,83 @@ const ReaderAnalyzeOne = () => {
   };
   return (
     <View style={{flex: 1}}>
-      <StatusBar barStyle="dark-content" />
-      <FastImage
-        style={{position: 'absolute', width: '100%', height: '100%'}}
-        source={AnalyzeOne}></FastImage>
-      {Platform.OS === 'ios' ? (
-        <TouchableWithoutFeedback onPress={onPressBack}>
-          <View
-            style={{
-              marginLeft: 24,
-              marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
-            }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={{flex: 1, backgroundColor: '#4562F1'}}>
+        <StatusBar barStyle="dark-content" />
+        <FastImage
+          style={{position: 'absolute', width: '100%', height: '100%'}}
+          source={AnalyzeOne}></FastImage>
+        {Platform.OS === 'ios' ? (
+          <TouchableWithoutFeedback onPress={onPressBack}>
+            <View
+              style={{
+                marginLeft: 24,
+                marginTop: 22,
+              }}>
+              <FastImage
+                style={{width: 9.5, height: 19}}
+                source={BackMail2}></FastImage>
+            </View>
+          </TouchableWithoutFeedback>
+        ) : null}
+        <View style={styles.progressContainer}>
+          <View style={styles.progressView}>
+            <View style={styles.progressBar}></View>
           </View>
-        </TouchableWithoutFeedback>
-      ) : null}
-      <View style={styles.progressContainer}>
-        <View style={styles.progressView}>
-          <View style={styles.progressBar}></View>
         </View>
-      </View>
-      <View style={styles.quizView}>
-        <Text style={styles.numText}>Q1</Text>
-        <Text style={styles.quizText}>
-          긴&nbsp;
-          <Text style={{fontFamily: 'NotoSansKR-Medium'}}>기차여행</Text>을
-          준비하는 당신,{'\n'}열차에서&nbsp;
-          <Text style={{fontFamily: 'NotoSansKR-Medium'}}>
-            읽기 위해 챙겨든 책
+        <View style={styles.quizView}>
+          <Text style={styles.numText}>Q1</Text>
+          <Text style={styles.quizText}>
+            긴&nbsp;
+            <Text style={{fontFamily: 'NotoSansKR-Medium'}}>기차여행</Text>을
+            준비하는 당신,{'\n'}열차에서&nbsp;
+            <Text style={{fontFamily: 'NotoSansKR-Medium'}}>
+              읽기 위해 챙겨든 책
+            </Text>
+            은?
           </Text>
-          은?
-        </Text>
-      </View>
-      <View style={{width: '100%', position: 'absolute', bottom: 0}}>
-        <TouchableWithoutFeedback
-          onPress={() =>
-            navigation.navigate('OnBoardingStacks', {
-              screen: 'ReaderAnalyzeTwo',
-            })
-          }>
-          <View
-            style={{
-              ...styles.bottomViewOne,
-              borderBottomColor: '#FFFFFF',
-              borderBottomWidth: 1,
-            }}>
-            <Text style={styles.bottomText}>
-              통통 튀는 이야기가 가득한&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>생활 에세이집</Text>
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback
-          onPress={() =>
-            navigation.navigate('OnBoardingStacks', {
-              screen: 'ReaderAnalyzeTwo',
-            })
-          }>
-          <View
-            style={{
-              ...styles.bottomViewTwo,
-              paddingBottom: insets.bottom,
-            }}>
-            <Text style={styles.bottomText}>
-              한번 펼치면 쉽게 헤어나올 수 없는&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>장편소설</Text>
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+        </View>
+        <View
+          style={{width: '100%', position: 'absolute', bottom: insets.bottom}}>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              navigation.navigate('OnBoardingStacks', {
+                screen: 'ReaderAnalyzeTwo',
+              })
+            }>
+            <View
+              style={{
+                ...styles.bottomViewOne,
+                borderBottomColor: '#FFFFFF',
+                borderBottomWidth: 1,
+              }}>
+              <Text style={styles.bottomText}>
+                통통 튀는 이야기가 가득한&nbsp;
+                <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
+                  생활 에세이집
+                </Text>
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              navigation.navigate('OnBoardingStacks', {
+                screen: 'ReaderAnalyzeTwo',
+              })
+            }>
+            <View
+              style={{
+                ...styles.bottomViewOne,
+                // marginBottom: insets.bottom,
+              }}>
+              <Text style={styles.bottomText}>
+                한번 펼치면 쉽게 헤어나올 수 없는&nbsp;
+                <Text style={{fontFamily: 'NotoSansKR-Bold'}}>장편소설</Text>
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </SafeAreaView>
     </View>
   );
 };

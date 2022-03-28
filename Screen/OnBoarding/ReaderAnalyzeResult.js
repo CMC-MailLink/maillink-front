@@ -8,10 +8,13 @@ import {
   StyleSheet,
   Platform,
   TouchableWithoutFeedback,
-  Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../AppContext';
+import FastImage from 'react-native-fast-image';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ReaderAPI} from '../../API/ReaderAPI';
+import {useQuery, useQueryClient} from 'react-query';
 
 import BackMail from '../../assets/images/BackMail.png';
 import ExitResult from '../../assets/images/ExitResult.png';
@@ -20,20 +23,33 @@ import GoRecommend from '../../assets/images/GoRecommend.png';
 import AgainRecommend from '../../assets/images/AgainRecommend.png';
 
 const colorCategory = {
-  편안: {back: '#E2FAE2', font: '#00402D', heart: '#7FCE7F'},
-  맑은: {back: '#DDF9FF', font: '#002C36', heart: '#6BD0E6'},
-  서정: {back: '#E6DDFF', font: '#1E0072', heart: '#AE92FF'},
-  잔잔: {back: '#C5F0E3', font: '#00573D', heart: '#5ECEAC'},
-  명랑: {back: '#FFF2AD', font: '#5D4300', heart: '#FFC839'},
-  유쾌: {back: '#FFDDDD', font: '#370000', heart: '#FF8E8E'},
-  달달: {back: '#FFE8FB', font: '#3E0035', heart: '#FFACDE'},
-  키치: {back: '#FFE6B7', font: '#432C00', heart: '#FFAD62'},
+  편안: {
+    name: 'Comfortable',
+    back: '#E2FAE2',
+    font: '#00402D',
+    num: '#7FCE7F',
+  },
+  맑은: {name: 'Clear', back: '#DDF9FF', font: '#002C36', num: '#6BD0E6'},
+  서정: {name: 'Lyrical', back: '#E6DDFF', font: '#1E0072', num: '#AE92FF'},
+  잔잔: {name: 'Calm', back: '#C5F0E3', font: '#00573D', num: '#5ECEAC'},
+  명랑: {name: 'Light', back: '#FFF2AD', font: '#5D4300', num: '#FFC839'},
+  유쾌: {name: 'Cheerful', back: '#FFDDDD', font: '#370000', num: '#FF8E8E'},
+  달달: {name: 'Sweet', back: '#FFE8FB', font: '#3E0035', num: '#FFACDE'},
+  키치: {name: 'Kitsch', back: '#FFE6B7', font: '#432C00', num: '#FFAD62'},
+  시: {name: 'Poetry', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  소설: {name: 'Novels', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  에세이: {name: 'Essays', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
 };
 
 const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
   const myContext = useContext(AppContext);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
+  const {isLoading: analyzeResultLoading, data: analyzeResultData} = useQuery(
+    ['AnalyzeResult', colorCategory[params].name],
+    ReaderAPI.getAnalyzeResult,
+  );
 
   const onPressBack = () => {
     navigation.goBack();
@@ -58,66 +74,57 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
 
   const RenderItem = ({item}) => {
     return (
-      <TouchableWithoutFeedback onPress={onPressAuthor}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            top: -25 - 88,
-          }}>
-          <View style={styles.itemView}>
-            <Image
-              style={{
-                width: 8,
-                height: 15,
-                position: 'absolute',
-                right: 20,
-                top: 18,
-              }}
-              source={GoRecommend}></Image>
-            <Image
-              style={{width: 77.56, height: 77.56}}
-              source={AuthorRecommend}></Image>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemAuthor}>작가님</Text>
-            <Text style={styles.itemIntro}>{item.intro}</Text>
-            <View style={{flexDirection: 'row', marginTop: 21}}>
-              <View style={{...styles.itemCategoryView, marginRight: 10}}>
-                <Text
-                  style={{
-                    ...styles.itemCategoryText,
-                    color: '#0021C6',
-                  }}>
-                  <Text style={{...styles.itemCategoryText, color: '#4562F1'}}>
-                    ♥&nbsp;
-                  </Text>
-                  {item.repBranch}
-                </Text>
-              </View>
-              <View
-                style={{
-                  ...styles.itemCategoryView,
-                  backgroundColor: colorCategory[item.repVive].back,
-                }}>
-                <Text
-                  style={{
-                    ...styles.itemCategoryText,
-                    color: colorCategory[item.repVive].font,
-                  }}>
-                  <Text
-                    style={{
-                      ...styles.itemCategoryText,
-                      color: colorCategory[item.repVive].heart,
-                    }}>
-                    ♥&nbsp;
-                  </Text>
-                  {item.repVive}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+      <View></View>
+      // <TouchableWithoutFeedback onPress={onPressAuthor}>
+      //   <View
+      //     style={{
+      //       justifyContent: 'center',
+      //       alignItems: 'center',
+      //       top: -25 - 88,
+      //     }}>
+      //     <View style={styles.itemView}>
+      //       <FastImage
+      //         style={{
+      //           width: 8,
+      //           height: 15,
+      //           position: 'absolute',
+      //           right: 20,
+      //           top: 18,
+      //         }}
+      //         source={GoRecommend}></FastImage>
+      //       <FastImage
+      //         style={{width: 77.56, height: 77.56}}
+      //         source={AuthorRecommend}></FastImage>
+      //       <Text style={styles.itemName}>{item.writerInfo.nickName}</Text>
+      //       <Text style={styles.itemAuthor}>작가님</Text>
+      //       <Text style={styles.itemIntro}>{item.writerInfp.introduction}</Text>
+      //       <View style={{flexDirection: 'row', marginTop: 10}}>
+      //         <View style={{...styles.itemCategoryView, marginRight: 10}}>
+      //           <Text
+      //             style={{
+      //               ...styles.itemCategoryText,
+      //               color: '#0021C6',
+      //             }}>
+      //             {colorCategory[item.writerInfo.genre1].name}
+      //           </Text>
+      //         </View>
+      //         <View
+      //           style={{
+      //             ...styles.itemCategoryView,
+      //             backgroundColor: colorCategory[item.writerInfo.mood1].back,
+      //           }}>
+      //           <Text
+      //             style={{
+      //               ...styles.itemCategoryText,
+      //               color: colorCategory[item.writerInfo.mood1].font,
+      //             }}>
+      //             {colorCategory[item.writerInfo.mood1].name}
+      //           </Text>
+      //         </View>
+      //       </View>
+      //     </View>
+      //   </View>
+      // </TouchableWithoutFeedback>
     );
   };
 
@@ -131,33 +138,34 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           {Platform.OS === 'ios' ? (
             <TouchableWithoutFeedback onPress={onPressBack}>
               <View style={{position: 'absolute', left: 24}}>
-                <Image
+                <FastImage
                   style={{width: 9.5, height: 19}}
-                  source={BackMail}></Image>
+                  source={BackMail}></FastImage>
               </View>
             </TouchableWithoutFeedback>
           ) : null}
           <Text style={styles.headerText}>취향 분석 결과</Text>
           <TouchableWithoutFeedback onPress={onPressExit}>
             <View style={{position: 'absolute', right: 24}}>
-              <Image
+              <FastImage
                 style={{width: 14.5, height: 14.5}}
-                source={ExitResult}></Image>
+                source={ExitResult}></FastImage>
             </View>
           </TouchableWithoutFeedback>
         </View>
-        <View style={{marginTop: 19 + 62, marginLeft: 20}}>
+        <View style={{marginTop: 40, marginLeft: 20}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={styles.itemCategoryView}>
+            <View
+              style={{
+                ...styles.itemCategoryView,
+                backgroundColor: colorCategory[params].back,
+              }}>
               <Text
                 style={{
                   ...styles.itemCategoryText,
-                  color: '#0021C6',
+                  color: colorCategory[params].font,
                 }}>
-                <Text style={{...styles.itemCategoryText, color: '#4562F1'}}>
-                  ♥&nbsp;
-                </Text>
-                서정
+                {params}
               </Text>
             </View>
             <Text style={styles.titleFeelText}>느낌의</Text>
@@ -168,15 +176,9 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
         </View>
       </View>
 
-      <View style={{flex: 1, backgroundColor: '#FFF', top: -25}}>
+      <View style={{flex: 1, backgroundColor: '#FFF', top: 10 - insets.bottom}}>
         <RenderItem
-          item={{
-            key: 0,
-            name: '희희낙락',
-            intro: '최대글자수입니다소개앞부분까지보이게함니당…',
-            repBranch: '소설',
-            repVive: '명랑',
-          }}></RenderItem>
+          item={analyzeResultData ? [analyzeResultData] : []}></RenderItem>
         <View style={{top: -25 - 88 + 26, alignItems: 'center'}}>
           {subscribe ? (
             <TouchableOpacity onPress={() => setSubscribe(false)}>
@@ -193,12 +195,16 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           )}
         </View>
         <TouchableOpacity
-          style={{position: 'absolute', bottom: 45, right: 23}}
-          onPress={() => navigation.pop(6)}>
+          style={{
+            position: 'absolute',
+            bottom: 40,
+            right: 23,
+          }}
+          onPress={() => navigation.popToTop()}>
           <View style={styles.againView}>
-            <Image
+            <FastImage
               style={{width: 18, height: 14, marginRight: 7}}
-              source={AgainRecommend}></Image>
+              source={AgainRecommend}></FastImage>
             <Text style={styles.againText}>다시하기</Text>
           </View>
         </TouchableOpacity>
@@ -258,10 +264,9 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemCategoryView: {
-    width: 53,
+    paddingHorizontal: 14.6,
     height: 24,
     borderRadius: 26,
-    backgroundColor: '#E8EBFF',
     justifyContent: 'center',
     alignItems: 'center',
   },

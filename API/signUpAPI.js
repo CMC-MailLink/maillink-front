@@ -92,7 +92,7 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'APPLE',
-          socialId: 'bibitest6',
+          socialId: 'bibitest7',
           fcmDeviceToken: fcmDeviceToken,
         }),
       });
@@ -142,8 +142,8 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'APPLE',
-          socialId: 'bibitest6',
-          nickName: '비비테스트6',
+          socialId: 'bibitest7',
+          nickName: '비비테스트7',
           imgUrl: imgUrl,
           phoneNumber: '01011111111',
           fcmDeviceToken: fcmDeviceToken,

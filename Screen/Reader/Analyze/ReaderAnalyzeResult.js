@@ -18,8 +18,6 @@ import {useQuery, useQueryClient} from 'react-query';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import ExitResult from '../../../assets/images/ExitResult.png';
-import AuthorRecommend from '../../../assets/images/AuthorRecommend.png';
-import GoRecommend from '../../../assets/images/GoRecommend.png';
 import AgainRecommend from '../../../assets/images/AgainRecommend.png';
 
 const colorCategory = {
@@ -160,13 +158,17 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
         </View>
         <View style={{marginTop: 40, marginLeft: 20}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={styles.itemCategoryView}>
+            <View
+              style={{
+                ...styles.itemCategoryView,
+                backgroundColor: colorCategory[params].back,
+              }}>
               <Text
                 style={{
                   ...styles.itemCategoryText,
-                  color: '#0021C6',
+                  color: colorCategory[params].font,
                 }}>
-                서정
+                {params}
               </Text>
             </View>
             <Text style={styles.titleFeelText}>느낌의</Text>
@@ -268,7 +270,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14.6,
     height: 24,
     borderRadius: 26,
-    backgroundColor: '#E8EBFF',
     justifyContent: 'center',
     alignItems: 'center',
   },

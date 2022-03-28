@@ -64,7 +64,7 @@ const ReaderAnalyzeNine = () => {
           onPress={() =>
             navigation.navigate('ReaderStacks', {
               screen: 'ReaderAnalyzeResult',
-              params: '달콤',
+              params: '달달',
             })
           }>
           <FastImage

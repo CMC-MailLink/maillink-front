@@ -82,7 +82,7 @@ const ReaderAnalyzeSix = () => {
           onPress={() =>
             navigation.navigate('ReaderStacks', {
               screen: 'ReaderAnalyzeResult',
-              params: '맑음',
+              params: '맑은',
             })
           }>
           <FastImage
