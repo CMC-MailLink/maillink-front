@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Modal,
+  Dimensions,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {useNavigation} from '@react-navigation/native';
 import SignUpAuthorProfile from '../../assets/images/SignUpAuthorProfile.png';
@@ -18,6 +20,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Profile = () => {
   const myContext = useContext(AppContext);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const onPressModalConfirm = () => {
@@ -50,29 +53,31 @@ const Profile = () => {
         />
       </Modal>
 
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
-        {/* mainHeader */}
+      {/* mainHeader */}
+      <View style={{marginTop: 80, marginLeft: 20}}>
         <Text style={styles.IntroSub}>
           독자들과 연결되도록 나를 소개해보세요.
         </Text>
-        <View style={{top: 20 + 15.22, left: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.NameTitle}>작가 프로필</Text>
-            <Text style={styles.IntroTitle}>을</Text>
-          </View>
-          <Text style={styles.IntroTitle}>생성해보세요!</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.NameTitle}>작가 프로필</Text>
+          <Text style={styles.IntroTitle}>을</Text>
         </View>
+        <Text style={styles.IntroTitle}>생성해보세요!</Text>
+      </View>
 
-        {/* Body: ProfileName */}
-        <View style={{top: 100}}>
-          <Image
-            style={{width: 392, height: 369}}
-            source={SignUpAuthorProfile}
-          />
-        </View>
-      </KeyboardAwareScrollView>
+      {/* Body: ProfileName */}
+      <View style={{marginTop: 30, alignItems: 'center'}}>
+        <Image
+          style={{
+            width: ((Dimensions.get('window').height / 2) * 369) / 392,
+            height: Dimensions.get('window').height / 2,
+          }}
+          source={SignUpAuthorProfile}
+        />
+      </View>
+
       {/* footer: Button, Pass*/}
-      <View style={styles.footer}>
+      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
         {/* footer: Button*/}
         <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
           <View>
@@ -93,41 +98,30 @@ const Profile = () => {
 const styles = StyleSheet.create({
   NameTitle: {
     includeFontPadding: false,
-    top: 47,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
   },
   IntroTitle: {
     includeFontPadding: false,
-    top: 47,
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
   },
   IntroSub: {
-    left: 20,
-    top: 76,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
   },
-  buttonDisable: {
-    width: '100%',
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: '#BEBEBE',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   buttonAble: {
-    width: '100%',
-    height: 52,
-    borderRadius: 26,
+    marginHorizontal: 20,
     backgroundColor: '#4562F1',
-    justifyContent: 'center',
+    borderRadius: 26,
+    height: 52,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
   },
   buttonAbleText: {
     includeFontPadding: false,
@@ -135,20 +129,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
-  footer: {
-    position: 'static',
+  bottomView: {
     width: '100%',
-    paddingHorizontal: 20,
-    marginBottom: 40,
-    paddingTop: 5,
-    alignItems: 'center',
+    position: 'absolute',
   },
   footerPassText: {
-    marginTop: 15,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
+    textAlign: 'center',
     textDecorationLine: 'underline',
+    includeFontPadding: false,
   },
 });
 

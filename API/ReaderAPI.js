@@ -302,7 +302,7 @@ export const ReaderAPI = {
   },
   //작가 공개 메일 리스트 조회
   getWriterPublishList: async ({queryKey}) => {
-    console.log('작가 공개 메일 리스트 조회');
+    console.log('독자 작가 공개 메일 리스트 조회');
     const [_, writerId] = queryKey;
     console.log(writerId);
     var token = await getCredentials();
@@ -316,9 +316,32 @@ export const ReaderAPI = {
           },
         },
       );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //취향분석
+  getAnalyzeResult: async ({queryKey}) => {
+    console.log('독자 취향분석 결과');
+    const [_, mood] = queryKey;
+    console.log(mood);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/reader/recommendation?mood=${mood}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
       console.log(response);
       let json = await response.json();
-      console.log(json.data);
+      console.log('result : ', json.data);
       return json.data;
     } catch (e) {
       console.log(e);

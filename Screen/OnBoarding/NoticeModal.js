@@ -12,20 +12,16 @@ import InfoWeb from '../../assets/images/InfoWeb.png';
 import Clipboard from '@react-native-clipboard/clipboard';
 import AppContext from '../../AppContext';
 
-const NoticeModal = ({
-  onPressModalConfirm2,
-  modalVisible2,
-  setModalVisible2,
-}) => {
+const NoticeModal = ({setModalVisible2, setModalConfirm2}) => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
-  const onPressCopy = () => {
-    Clipboard.setString('www.maillink.com');
-    Alert.alert('링크가 복사 되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
-  };
+  // const onPressCopy = () => {
+  //   Clipboard.setString('www.maillink.com');
+  //   Alert.alert('링크가 복사 되었습니다.', {
+  //     text: '확인',
+  //     style: 'cancel',
+  //   });
+  // };
 
   return (
     <View style={styles.centeredView}>
@@ -50,8 +46,8 @@ const NoticeModal = ({
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              myContext.setIsReader('WRITER');
-              onPressModalConfirm2();
+              setModalVisible2(false);
+              setModalConfirm2(true);
             }}>
             <View>
               <Text style={styles.modalConfirm2}>확인</Text>

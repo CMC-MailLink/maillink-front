@@ -12,6 +12,7 @@ import {
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import {SignUpAPI} from '../../API/SignUpAPI';
 import AppContext from '../../AppContext';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import AuthorHover from '../../assets/images/AuthorHover.png';
 import AuthorHoverSelected from '../../assets/images/AuthorHoverSelected.png';
@@ -21,6 +22,7 @@ import ReaderHoverSelected from '../../assets/images/ReaderHoverSelected.png';
 const SelectUserType = props => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const [authorSelect, setAuthorSelect] = useState(false);
   const [readerSelect, setReaderSelect] = useState(false);
   const onPressAuthorSelect = () => {
@@ -49,44 +51,20 @@ const SelectUserType = props => {
   };
   const goAuthorProfile = async () => {
     const result = await SignUpAPI.memberType({userType: 'WRITER'});
-    // myContext.setIsReader('WRITER');
     navigation.navigate('OnBoardingStacks', {screen: 'Profile'});
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [
-    //       {name: 'OnBoardingStacks'},
-    //       {
-    //         name: 'Profile',
-    //       },
-    //     ],
-    //   }),
-    // );
   };
+
   const goTasteAnalysisProfile = async () => {
     const result = await SignUpAPI.memberType({userType: 'READER'});
-    // myContext.setIsReader('READER');
     navigation.navigate('OnBoardingStacks', {screen: 'ReaderAnalyze'});
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [
-    //       {name: 'OnBoardingStacks'},
-    //       {
-    //         name: 'ReaderAnalyze',
-    //       },
-    //     ],
-    //   }),
-    // );
   };
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
-
       {/* Header: main */}
-      <Text style={styles.IntroSub}>메일링크에 오신걸 환영합니다!</Text>
-      <View style={{top: 20 + 15.22, left: 20}}>
+      <View style={{marginTop: 80, marginLeft: 20}}>
+        <Text style={styles.IntroSub}>메일링크에 오신걸 환영합니다!</Text>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.NameTitle}>메일링크</Text>
           <Text style={styles.IntroTitle}>에서</Text>
@@ -95,7 +73,12 @@ const SelectUserType = props => {
       </View>
 
       {/* Body: ProfileName */}
-      <View style={{top: 150, left: 20, flexDirection: 'row'}}>
+      <View
+        style={{
+          marginTop: 60,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
         <TouchableWithoutFeedback
           onPress={onPressReaderSelect}
           style={readerSelect ? styles.select : null}>
@@ -115,8 +98,17 @@ const SelectUserType = props => {
       </View>
 
       {/* Footer: Button */}
-      <View style={{left: 22, bottom: -293 + 111}}>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          paddingHorizontal: 20,
+          marginBottom: 40,
+          paddingTop: 5,
+        }}>
         <TouchableOpacity
+          disabled={readerSelect || authorSelect ? false : true}
           onPress={
             readerSelect || authorSelect
               ? readerSelect
@@ -157,30 +149,24 @@ const styles = StyleSheet.create({
   },
   NameTitle: {
     includeFontPadding: false,
-    top: 47,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
   },
   IntroTitle: {
     includeFontPadding: false,
-    top: 47,
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
   },
   IntroSub: {
-    left: 20,
-    top: 76,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
   },
   buttonDisable: {
-    position: 'absolute',
-    top: 90,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#BEBEBE',
@@ -194,10 +180,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   buttonAble: {
-    position: 'absolute',
-    top: 90,
-    right: 21 + 20,
-    width: 350,
+    width: '100%',
     height: 52,
     borderRadius: 26,
     backgroundColor: '#4562F1',

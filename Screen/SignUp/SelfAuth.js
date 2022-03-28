@@ -322,7 +322,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           </View>
         </View>
         {/* Body: number */}
-        <View style={{marginTop: 25, marginLeft: 22}}>
+        <View
+          style={{
+            marginTop: 25,
+            paddingHorizontal: 22,
+            flexDirection: 'row',
+          }}>
           {/* <CheckBox
             disabled={false}
             onClick={onPressCheckBox}
@@ -353,7 +358,8 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               Linking.openURL(
                 'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
               )
-            }>
+            }
+            style={{position: 'absolute', right: 22}}>
             <Text style={styles.example}>보기</Text>
           </TouchableOpacity>
         </View>
@@ -368,7 +374,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           paddingTop: 5,
         }}>
         <TouchableOpacity
-          disabled={!confirmSuccess && !checkbox}
+          // disabled={!confirmSuccess && !checkbox}
           onPress={goNextScreen}
           style={
             confirmSuccess && checkbox
@@ -507,18 +513,13 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   rulesText: {
-    position: 'absolute',
-    left: 37,
-    bottom: 1,
+    marginLeft: 14,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
     includeFontPadding: false,
   },
   example: {
-    position: 'absolute',
-    left: 296 + 23,
-    bottom: 0,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',

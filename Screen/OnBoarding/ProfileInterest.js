@@ -17,6 +17,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import InfoAuthorProfile from '../../assets/images/InfoAuthorProfile.png';
@@ -52,6 +53,7 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [branchRank, setBranchRank] = useState(0);
   const [viveRank, setViveRank] = useState(0);
+  const insets = useSafeAreaInsets();
 
   const [branch, setBranch] = useState([
     {name: '시', rank: 0},
@@ -110,38 +112,38 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
 
   const RenderInfoItem = ({item}) => {
     return (
-      <Menu style={{...styles.menuView, marginTop: -100}}>
-        <MenuTrigger style={{...styles.menuTriggerView}}>
+      <Menu style={styles.menuView}>
+        <MenuTrigger style={styles.menuTriggerView}>
           <Image style={{width: 30, height: 30}} source={InfoAuthorProfile} />
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           <MenuOption>
-            <Text style={{...styles.menuText, marginBottom: 7}}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>선택한&nbsp;
+            <Text style={{...styles.menuText, marginBottom: 12}}>
+              <Text style={{color: '#C4C4C4'}}>・</Text>
+              선택한&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>순서</Text>
               대로&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>순위</Text>가
-              결정됩니다.
-            </Text>
-            <Text style={{...styles.menuText}}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>갈래</Text>와&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>{' '}
-              각각&nbsp;
-              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>
-                1-3순위까지&nbsp;
-              </Text>
-            </Text>
-            <Text style={{...styles.menuText, marginBottom: 7}}>
-              <Text style={{color: '#FFF'}}>・</Text>
-              선택이 가능합니다.
-            </Text>
-            <Text style={{...styles.menuText}}>
-              <Text style={{color: '#C4C4C4'}}>・</Text>
-              선택한 관심사는 독자가 작가를
+              설정됩니다.
             </Text>
             <Text style={styles.menuText}>
-              <Text style={{color: '#FFF'}}>・</Text>검색할때 &nbsp;
+              <Text style={{color: '#C4C4C4'}}>・</Text>
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>갈래</Text>와&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>
+              &nbsp;각각&nbsp;
+              <Text style={{fontFamily: 'NotoSansKR-Bold'}}>1-3순위</Text>
+              &nbsp;선택이
+            </Text>
+            <Text style={{...styles.menuText, marginBottom: 12}}>
+              <Text style={{color: '#FFF'}}>・</Text>
+              가능합니다.
+            </Text>
+            <Text style={styles.menuText}>
+              <Text style={{color: '#C4C4C4'}}>・</Text>
+              선택한 관심사는 독자가 작가를 검색할 때
+            </Text>
+            <Text style={styles.menuText}>
+              <Text style={{color: '#FFF'}}>・</Text>
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>필터의 기준</Text>이
               되어줍니다.
             </Text>
@@ -240,7 +242,18 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.nameTitle}>관심사</Text>
             <Text style={styles.introTitle}>를</Text>
           </View>
-          <Text style={styles.introTitle}>설정해주세요.</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingRight: 20,
+            }}>
+            <Text style={styles.introTitle}>설정해주세요.</Text>
+            <TouchableWithoutFeedback>
+              <RenderInfoItem />
+            </TouchableWithoutFeedback>
+          </View>
           <Text style={styles.introSub}>주로 어떤 글을 쓰는 작가인가요?</Text>
         </View>
         <Modal
@@ -266,9 +279,6 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
               justifyContent: 'space-between',
             }}>
             <Text style={styles.titleText}>갈래</Text>
-            <TouchableWithoutFeedback>
-              <RenderInfoItem />
-            </TouchableWithoutFeedback>
           </View>
           {/* 갈래 */}
           <View style={{flexDirection: 'row', marginTop: 21, marginBottom: 32}}>
@@ -400,7 +410,7 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
       </KeyboardAwareScrollView>
 
       {/* footer: Button pass */}
-      <View style={styles.footer}>
+      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
         <TouchableOpacity
           disabled={viveRank === 0 || branchRank === 0}
           onPress={goNextScreen}
@@ -416,7 +426,7 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
                   ? styles.buttonDisableText
                   : styles.buttonAbleText
               }>
-              완료
+              다음
             </Text>
           </View>
         </TouchableOpacity>
@@ -469,17 +479,20 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   introTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   introSub: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
+    includeFontPadding: false,
   },
   input: {
     fontFamily: 'NotoSansKR-Regular',
@@ -487,36 +500,35 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     paddingTop: 14,
     paddingRight: 40,
+    includeFontPadding: false,
   },
-  footer: {
-    position: 'static',
+  bottomView: {
     width: '100%',
-    paddingHorizontal: 20,
-    marginBottom: 40,
-    paddingTop: 5,
-    alignItems: 'center',
+    position: 'absolute',
   },
   buttonDisable: {
-    width: '100%',
-    height: 52,
-    borderRadius: 26,
+    marginHorizontal: 20,
     backgroundColor: '#BEBEBE',
-    justifyContent: 'center',
+    borderRadius: 26,
+    height: 52,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
   },
   buttonAble: {
-    width: '100%',
-    height: 52,
-    borderRadius: 26,
+    marginHorizontal: 20,
     backgroundColor: '#4562F1',
-    justifyContent: 'center',
+    borderRadius: 26,
+    height: 52,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
   },
-
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+    includeFontPadding: false,
   },
   buttonDisableText: {
     fontFamily: 'NotoSansKR-Medium',
@@ -525,21 +537,28 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   footerPassText: {
-    marginTop: 15,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
+    textAlign: 'center',
     textDecorationLine: 'underline',
+    includeFontPadding: false,
+  },
+  menuText: {
+    fontFamily: 'NotoSansKR-Light',
+    fontSize: 11,
+    color: '#3C3C3C',
+    includeFontPadding: false,
   },
 });
 
 const optionsStyles = {
   optionsContainer: {
     backgroundColor: 'white',
-    borderRadius: 15,
+    borderRadius: 10,
     shadowColor: '#000000',
     shadowOpacity: 0.1,
-    shadowRadius: 15,
+    shadowRadius: 10,
     width: 228,
   },
   optionWrapper: {

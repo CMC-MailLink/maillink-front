@@ -93,7 +93,6 @@ const ReaderRecommend = () => {
   };
 
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <TouchableWithoutFeedback onPress={() => onPressAuthor(item)}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -191,7 +190,7 @@ const ReaderRecommend = () => {
         </View>
         <View style={styles.recView}>
           <FlatList
-            data={authorInfoData ? [authorInfoData] : null}
+            data={authorInfoData ? [authorInfoData] : []}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{paddingHorizontal: 20}}

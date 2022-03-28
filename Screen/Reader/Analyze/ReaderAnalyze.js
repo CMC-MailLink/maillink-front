@@ -51,7 +51,7 @@ const ReaderAnalyze = () => {
         }}>
         <FastImage style={{width: 390, height: 367}} source={AnalyzeStart} />
       </View>
-      <View style={{...styles.bottomView, bottom: insets.bottom + 10}}>
+      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
         <TouchableOpacity onPress={onPressStart}>
           <View style={styles.startView}>
             <Text style={styles.startText}>시작</Text>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     height: 52,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   startText: {
     fontFamily: 'NotoSansKR-Medium',
