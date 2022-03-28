@@ -8,6 +8,7 @@ const ReaderAuthorProfileMail = ({id}) => {
   const navigation = useNavigation();
   const [recentSelect, setRecentSelect] = useState(true);
   const [mail, setMail] = useState(); //메일 데이터
+  const [repMail, setRepMail] = useState();
   const onPressRecent = () => {
     setRecentSelect(true);
   };
@@ -21,20 +22,33 @@ const ReaderAuthorProfileMail = ({id}) => {
 
   useEffect(() => {
     if (authorMailListData) {
-      var tempMail = authorMailListData.slice().sort(function (a, b) {
-        if (a.publishedTime >= b.publishedTime) {
-          return recentSelect ? -1 : 1;
-        } else if (a.publishedTime < b.publishedTime) {
-          return recentSelect ? 1 : -1;
-        }
-      });
+      var tempMail = authorMailListData.publicMailList
+        .slice()
+        .sort(function (a, b) {
+          if (a.publishedTime >= b.publishedTime) {
+            return recentSelect ? -1 : 1;
+          } else if (a.publishedTime < b.publishedTime) {
+            return recentSelect ? 1 : -1;
+          }
+        });
       setMail([...tempMail]);
+      if (authorMailListData.represent)
+        setRepMail(authorMailListData.represent);
     }
   }, [recentSelect, authorMailListData]);
 
+  //메일 아이템 클릭
+  const onPressMailItem = async data => {
+    console.log(data.id, data.writerId);
+    navigation.navigate('ReaderStacks', {
+      screen: 'ReaderAuthorReading',
+      params: {mailId: data.id, writerId: data.writerId},
+    });
+  };
+
   const RenderItem = ({data}) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onPressMailItem(data)}>
         <View
           style={{
             ...styles.mailItemView,
@@ -64,19 +78,31 @@ const ReaderAuthorProfileMail = ({id}) => {
     <View style={{flex: 1, marginBottom: 150, backgroundColor: '#fff'}}>
       <View style={styles.refView}>
         <Text style={styles.refText}>대표글</Text>
-        {/* {repMail !== null ? (
-          <View style={styles.mailItemView}>
-            <Text style={styles.mailItemTitle}>{repMail.title}</Text>
-            <Text style={styles.mailItemBody}>{repMail.body}</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.mailItemDate}>{repMail.date}</Text>
+        {repMail && repMail.isPublic ? (
+          <TouchableOpacity onPress={() => onPressMailItem(repMail)}>
+            <View style={styles.mailItemView}>
+              <Text style={styles.mailItemTitle}>{repMail.title}</Text>
+              <Text style={styles.mailItemBody}>{repMail.preView}</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={styles.mailItemDate}>
+                  {repMail.publishedTime.slice(0, 10)}
+                </Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ) : (
           <View>
-            <Text>설정한 대표글이 없습니다.</Text>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Light',
+                fontSize: 14,
+                color: '#828282',
+                includeFontPadding: false,
+              }}>
+              설정한 대표글이 없습니다.
+            </Text>
           </View>
-        )} */}
+        )}
       </View>
       <View style={styles.publishView}>
         <View style={{flexDirection: 'row'}}>
@@ -92,7 +118,6 @@ const ReaderAuthorProfileMail = ({id}) => {
               width: 92,
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: 12,
               position: 'absolute',
               right: 0,
             }}>
@@ -121,9 +146,11 @@ const ReaderAuthorProfileMail = ({id}) => {
         </View>
       </View>
       {mail
-        ? mail.map((data, index) => (
-            <RenderItem data={data} key={data.id}></RenderItem>
-          ))
+        ? mail.map((data, index) =>
+            data.isPublic ? (
+              <RenderItem data={data} key={data.id}></RenderItem>
+            ) : null,
+          )
         : null}
     </View>
   );
@@ -141,6 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     includeFontPadding: false,
+    height: 30,
   },
   mailItemView: {marginTop: 15},
   mailItemTitle: {
@@ -186,7 +214,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EBEBEB',
   },
   publishText: {
-    marginTop: 12,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

@@ -59,7 +59,7 @@ const AuthorMailBody = () => {
 
   useEffect(() => {
     if (mailData) {
-      var temp = mailData.slice().sort(function (a, b) {
+      var temp = mailData.mailList.slice().sort(function (a, b) {
         if (a.publishedTime >= b.publishedTime) {
           return recentSelect ? -1 : 1;
         } else if (a.publishedTime < b.publishedTime) {

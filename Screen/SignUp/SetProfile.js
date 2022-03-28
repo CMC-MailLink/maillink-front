@@ -71,7 +71,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
       setMessageVisible(true);
       setNameValid(false);
-    } else if (name.length > 6 && !name) {
+    } else if (name.length > 6 || !name) {
       onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);

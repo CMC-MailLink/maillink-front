@@ -24,6 +24,7 @@ import ReaderAnalyzeResult from '../../Screen/Reader/Analyze/ReaderAnalyzeResult
 import MessageWrite from '../../Screen/Reader/Message/MessageWrite';
 import MessageReport from '../../Screen/Reader/Message/MessageReport';
 import ReaderRecommendSearch from '../../Screen/Reader/Recommend/ReaderRecommendSearch.js';
+import ReaderAuthorReading from '../../Screen/Reader/Profile/ReaderAuthorReading.js';
 
 const ReaderStack = createNativeStackNavigator();
 const ReaderStacks = () => (
@@ -155,6 +156,11 @@ const ReaderStacks = () => (
     <ReaderStack.Screen
       name="ReaderRecommendSearch"
       component={ReaderRecommendSearch}
+      options={{headerTitle: ''}}
+    />
+    <ReaderStack.Screen
+      name="ReaderAuthorReading"
+      component={ReaderAuthorReading}
       options={{headerTitle: ''}}
     />
   </ReaderStack.Navigator>

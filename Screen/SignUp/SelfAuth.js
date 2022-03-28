@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -347,7 +348,14 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           <Text style={styles.rulesText}>
             메일링크 가입 약관에 모두 동의합니다
           </Text>
-          <Text style={styles.example}>보기</Text>
+          <TouchableOpacity
+            onPress={async () =>
+              Linking.openURL(
+                'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
+              )
+            }>
+            <Text style={styles.example}>보기</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
       {/* footer: Button */}
@@ -360,7 +368,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           paddingTop: 5,
         }}>
         <TouchableOpacity
-          // disabled={!confirmSuccess && !checkbox}
+          disabled={!confirmSuccess && !checkbox}
           onPress={goNextScreen}
           style={
             confirmSuccess && checkbox

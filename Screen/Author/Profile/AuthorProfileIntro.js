@@ -56,7 +56,11 @@ const AuthorProfileIntro = ({writerInfo}) => {
       <View style={styles.bodyIntroView}>
         <Text style={styles.bodyIntroHeadText}>소개</Text>
         <Text style={styles.bodyIntroText}>
-          {writerInfo ? writerInfo.introduction : ''}
+          {writerInfo
+            ? writerInfo.introduction
+              ? writerInfo.introduction
+              : '작성된 소개글이 없습니다.'
+            : ''}
         </Text>
       </View>
       <View style={styles.bodyInterestView}>
@@ -84,7 +88,11 @@ const AuthorProfileIntro = ({writerInfo}) => {
                 {colorCategory[writerInfo.genre1].name}
               </Text>
             </View>
-          ) : null}
+          ) : (
+            <Text style={styles.bodyInterestHeadText}>
+              설정된 갈래가 없습니다.
+            </Text>
+          )}
           {writerInfo && writerInfo.genre2 ? (
             <View
               style={{
@@ -153,7 +161,11 @@ const AuthorProfileIntro = ({writerInfo}) => {
                 {colorCategory[writerInfo.mood1].name}
               </Text>
             </View>
-          ) : null}
+          ) : (
+            <Text style={styles.bodyInterestHeadText}>
+              설정된 분위기가 없습니다.
+            </Text>
+          )}
           {writerInfo && writerInfo.mood2 ? (
             <View
               style={{

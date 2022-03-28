@@ -256,7 +256,7 @@ export const AuthorAPI = {
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/info`, {
-        method: 'put',
+        method: 'post',
         headers: {
           Authorization: `Bearer ${token.access}`,
           'Content-Type': 'application/json',
@@ -317,6 +317,92 @@ export const AuthorAPI = {
           'Content-Type': 'multipart/form-data',
         },
       });
+      if (response.status === 200) return true;
+      else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //대표글설정하기
+  setRepresent: async ({mailId}) => {
+    console.log('작가 대표글 설정하기');
+    console.log(mailId);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/represent?mailId=${mailId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) return true;
+      else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //대표글설정 취소 ㄴ하기
+  cancelRepresent: async ({mailId}) => {
+    console.log('작가 대표글 설정 취소하기');
+    console.log(mailId);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/represent?mailId=${mailId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) return true;
+      else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //메일 비공개하기
+  cancelPublic: async ({mailId}) => {
+    console.log('작가 메일 비공개하기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/mail/private?mailId=${mailId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) return true;
+      else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  //메일 공개하기
+  setPublic: async ({mailId}) => {
+    console.log('작가 메일 공개하기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/mail/private?mailId=${mailId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
       if (response.status === 200) return true;
       else return false;
     } catch (e) {

@@ -58,40 +58,42 @@ const ReaderAnalyzeNine = () => {
           다음 중 더 마음이 가는{'\n'}시의 구절은?
         </Text>
       </View>
-      <TouchableWithoutFeedback
-        onPress={() =>
-          navigation.navigate('ReaderStacks', {
-            screen: 'ReaderAnalyzeResult',
-            params: '달콤',
-          })
-        }>
-        <FastImage
-          style={{
-            width: 222.87,
-            height: 354.47,
-            position: 'absolute',
-            right: 0,
-            top: 30,
-          }}
-          source={AnalyzeNine_1}></FastImage>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
-        onPress={() =>
-          navigation.navigate('ReaderStacks', {
-            screen: 'ReaderAnalyzeResult',
-            params: '키치',
-          })
-        }>
-        <FastImage
-          style={{
-            width: 363.93,
-            height: 293.8,
-            position: 'absolute',
-            left: 26,
-            bottom: -30 + insets.bottom,
-          }}
-          source={AnalyzeNine_2}></FastImage>
-      </TouchableWithoutFeedback>
+      <View style={{flex: 1}}>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.navigate('ReaderStacks', {
+              screen: 'ReaderAnalyzeResult',
+              params: '달콤',
+            })
+          }>
+          <FastImage
+            style={{
+              width: 222.87,
+              height: 354.47,
+              position: 'absolute',
+              right: 0,
+              top: 30,
+            }}
+            source={AnalyzeNine_1}></FastImage>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.navigate('ReaderStacks', {
+              screen: 'ReaderAnalyzeResult',
+              params: '키치',
+            })
+          }>
+          <FastImage
+            style={{
+              width: 363.93,
+              height: 293.8,
+              position: 'absolute',
+              left: 26,
+              bottom: -30 + insets.bottom,
+            }}
+            source={AnalyzeNine_2}></FastImage>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 };

@@ -6,7 +6,6 @@ import {
   StatusBar,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -221,7 +220,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
       setMessageVisible(true);
       setNameValid(false);
       setConfirmSuccess(false);
-    } else if (!editName && editName.length > 6) {
+    } else if (!editName || editName.length > 6) {
       onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);
@@ -314,7 +313,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
               <Text style={{color: '#C4C4C4'}}>・</Text>
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>갈래</Text>와&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>
-              &nbsp;각각
+              &nbsp;각각&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>1-3순위</Text>
               &nbsp;선택이
             </Text>
