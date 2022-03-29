@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   StatusBar,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
@@ -45,15 +46,19 @@ const ReaderAuthorReading = ({navigation: {setOptions}, route: {params}}) => {
     navigation.goBack();
   };
 
-  // useEffect(() => {
-  //   const userDidScreenshot = () => {
-  //     console.log('User took screenshot');
-  //   };
-  //   const unsubscribe = addScreenshotListener(userDidScreenshot);
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const userDidScreenshot = () => {
+      Alert.alert(
+        '작품을 지켜주세요!',
+        '작품을 캡쳐한 스크린샷을 온/오프라인에 유포/공유할 경우 법적인 제재를 받을 수 있습니다.',
+        [{text: '확인', onPress: () => console.log('OK Pressed')}],
+      );
+    };
+    const unsubscribe = addScreenshotListener(userDidScreenshot);
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (!loading && !webviewLoading) {

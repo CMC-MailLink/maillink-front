@@ -63,6 +63,7 @@ export const SignUpAPI = {
           headers: {'Content-Type': 'multipart/form-data'},
         },
       );
+      console.log(response);
       if (response.ok) {
         let json = await response.json();
         return json.data;
@@ -92,7 +93,7 @@ export const SignUpAPI = {
         }),
         // body: JSON.stringify({
         //   socialType: 'APPLE',
-        //   socialId: 'bibitest7',
+        //   socialId: 'bibitest8',
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
@@ -142,8 +143,8 @@ export const SignUpAPI = {
         }),
         // body: JSON.stringify({
         //   socialType: 'APPLE',
-        //   socialId: 'bibitest7',
-        //   nickName: '비비테스트7',
+        //   socialId: 'bibitest8',
+        //   nickName: '비비테스트8',
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
         //   fcmDeviceToken: fcmDeviceToken,
@@ -186,10 +187,8 @@ export const SignUpAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log('유저정보조회');
-      console.log(response);
       let json = await response.json();
-      return json.data.userType;
+      return json.data;
     } catch (e) {
       console.log(e);
     }
@@ -274,6 +273,28 @@ export const SignUpAPI = {
       let json = await response.json();
       if (json.errorCode === 400) return false;
       return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //탈퇴하기
+  secession: async () => {
+    console.log('유저 탈퇴');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/member/account`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
     }

@@ -43,13 +43,13 @@ const SignIn = props => {
     });
     if (result) {
       const result2 = await SignUpAPI.memberInfo();
-      if (result2 === 'Not Decided') {
+      if (result2.userType === 'Not Decided') {
         myContext.setIsReader('Not Decided');
         myContext.setIsLogged(true);
-      } else if (result2 === 'WRITER') {
+      } else if (result2.userType === 'WRITER') {
         myContext.setIsReader('WRITER');
         myContext.setIsLogged(true);
-      } else if (result2 === 'READER') {
+      } else if (result2.userType === 'READER') {
         myContext.setIsReader('READER');
         myContext.setIsLogged(true);
       }
@@ -155,12 +155,12 @@ const SignIn = props => {
     if (result) {
       const result2 = await SignUpAPI.memberInfo();
       console.log('signIn : ', result2);
-      if (result2 === 'Not Decided') {
+      if (result2.userType === 'Not Decided') {
         myContext.setIsLogged(true);
-      } else if (result2 === 'WRITER') {
+      } else if (result2.userType === 'WRITER') {
         myContext.setIsReader('WRITER');
         myContext.setIsLogged(true);
-      } else if (result2 === 'READER') {
+      } else if (result2.userType === 'READER') {
         myContext.setIsReader('READER');
         myContext.setIsLogged(true);
       }

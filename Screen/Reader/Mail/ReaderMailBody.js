@@ -369,7 +369,7 @@ const ReaderMailBody = () => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Animated.Image
+          {/* <Animated.Image
             style={{
               width: 14.67,
               height: 10.67,
@@ -384,13 +384,14 @@ const ReaderMailBody = () => {
               ],
             }}
             source={MailRefresh}></Animated.Image>
-          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text>
+          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text> */}
         </View>
       </View>
       <View style={styles.bodyContainer}>
         <SwipeListView
           onScroll={onScroll}
           onResponderRelease={onRelease}
+          scrollEventThrottle={1}
           stickyHeaderIndices={[1]}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={

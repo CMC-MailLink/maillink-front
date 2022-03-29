@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,21 +10,19 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import AppContext from '../../AppContext';
 
 import BackMail from '../../assets/images/BackMail.png';
 
 const SettingAlarm = () => {
   const navigation = useNavigation();
-  const [isReader, setIsReader] = useState(true);
+  const myContext = useContext(AppContext);
   const [isEnabledMail, setIsEnabledMail] = useState(false);
-  const [isEnabledSubscribeDone, setIsEnabledSubscribeDone] = useState(false);
   const [isEnabledNewSubscribe, setIsEnabledNewSubscribe] = useState(false);
   const [isEnabledMessage, setIsEnabledMessage] = useState(false);
 
   const toggleSwitchMail = () =>
     setIsEnabledMail(previousState => !previousState);
-  const toggleSwitchSubscribeDone = () =>
-    setIsEnabledSubscribeDone(previousState => !previousState);
   const toggleSwitchNewSubscribe = () =>
     setIsEnabledNewSubscribe(previousState => !previousState);
   const toggleSwitchMessage = () =>
@@ -47,7 +45,7 @@ const SettingAlarm = () => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>알림 설정</Text>
       </View>
-      {isReader ? (
+      {myContext.isReader ? (
         <View style={styles.menuView}>
           <Text style={styles.menuText}>새 글 알림</Text>
           <Switch
@@ -60,20 +58,7 @@ const SettingAlarm = () => {
           />
         </View>
       ) : null}
-      {isReader ? (
-        <View style={styles.menuView}>
-          <Text style={styles.menuText}>구독 완료 알림</Text>
-          <Switch
-            style={{width: 52, height: 28}}
-            trackColor={{false: '#EBEBEB', true: '#4562F1'}}
-            thumbColor="#FFFFFF"
-            ios_backgroundColor="#EBEBEB"
-            onValueChange={toggleSwitchSubscribeDone}
-            value={isEnabledSubscribeDone}
-          />
-        </View>
-      ) : null}
-      {!isReader ? (
+      {!myContext.isReader ? (
         <View style={styles.menuView}>
           <Text style={styles.menuText}>새 구독 알림</Text>
           <Switch

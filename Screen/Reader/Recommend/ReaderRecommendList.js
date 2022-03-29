@@ -113,53 +113,57 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
       <View style={{minHeight: 400}}>
         {filterAuthor && filterAuthor.length ? (
           <View>
-            {filterAuthor.map((data, index) => (
-              <TouchableOpacity onPress={() => onPressAuthor(data)} key={index}>
-                <View style={styles.itemView}>
-                  <FastImage
-                    style={{
-                      width: 42,
-                      height: 42,
-                      marginRight: 15,
-                      borderRadius: 90,
-                    }}
-                    source={
-                      data.writerInfo.imgUrl === ''
-                        ? DefaultProfile
-                        : {uri: data.writerInfo.imgUrl}
-                    }></FastImage>
-                  <View>
-                    <Text style={styles.itemName}>
-                      {data.writerInfo.nickName}
-                    </Text>
-                    <Text style={styles.itemIntro} numberOfLines={2}>
-                      {data.writerInfo.introduction
-                        ? data.writerInfo.introduction
-                        : ''}
-                    </Text>
+            {filterAuthor.map((data, index) =>
+              data.writerInfo.nickName === '탈퇴한 회원 입니다.' ? null : (
+                <TouchableOpacity
+                  onPress={() => onPressAuthor(data)}
+                  key={index}>
+                  <View style={styles.itemView}>
+                    <FastImage
+                      style={{
+                        width: 42,
+                        height: 42,
+                        marginRight: 15,
+                        borderRadius: 90,
+                      }}
+                      source={
+                        data.writerInfo.imgUrl === ''
+                          ? DefaultProfile
+                          : {uri: data.writerInfo.imgUrl}
+                      }></FastImage>
+                    <View>
+                      <Text style={styles.itemName}>
+                        {data.writerInfo.nickName}
+                      </Text>
+                      <Text style={styles.itemIntro} numberOfLines={2}>
+                        {data.writerInfo.introduction
+                          ? data.writerInfo.introduction
+                          : ''}
+                      </Text>
+                    </View>
+                    {data.subscribeCheck ? (
+                      <TouchableOpacity
+                        style={{position: 'absolute', right: 20}}
+                        onPress={() =>
+                          onPressCancelSubscribe(data.writerInfo.id)
+                        }>
+                        <View style={styles.subscribeView}>
+                          <Text style={styles.subscribeText}>구독중</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{position: 'absolute', right: 20}}
+                        onPress={() => onPressSubscribe(data.writerInfo.id)}>
+                        <View style={styles.notSubscribeView}>
+                          <Text style={styles.notSubscribeText}>구독하기</Text>
+                        </View>
+                      </TouchableOpacity>
+                    )}
                   </View>
-                  {data.subscribeCheck ? (
-                    <TouchableOpacity
-                      style={{position: 'absolute', right: 20}}
-                      onPress={() =>
-                        onPressCancelSubscribe(data.writerInfo.id)
-                      }>
-                      <View style={styles.subscribeView}>
-                        <Text style={styles.subscribeText}>구독중</Text>
-                      </View>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      style={{position: 'absolute', right: 20}}
-                      onPress={() => onPressSubscribe(data.writerInfo.id)}>
-                      <View style={styles.notSubscribeView}>
-                        <Text style={styles.notSubscribeText}>구독하기</Text>
-                      </View>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
+                </TouchableOpacity>
+              ),
+            )}
             <View style={{height: 200, backgroundColor: 'white'}}></View>
           </View>
         ) : (

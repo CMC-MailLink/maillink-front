@@ -325,7 +325,6 @@ export const ReaderAPI = {
   },
   //취향분석
   getAnalyzeResult: async ({queryKey}) => {
-    console.log('독자 취향분석 결과');
     const [_, mood] = queryKey;
     console.log(mood);
     var token = await getCredentials();
@@ -339,6 +338,7 @@ export const ReaderAPI = {
           },
         },
       );
+      console.log('독자 취향분석 결과');
       console.log(response);
       let json = await response.json();
       console.log('result : ', json.data);

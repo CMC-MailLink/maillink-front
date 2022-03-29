@@ -59,9 +59,9 @@ const App = () => {
 
   setCustomText(customTextProps);
   useEffect(() => {
-    if (Platform.OS === 'android') requestUserPermission();
+    requestUserPermission();
     notificationListener();
-    requestPermission();
+    if (Platform.OS === 'android') requestPermission();
 
     //Check if keys is set or not
     //If not then send for Authentication
@@ -85,11 +85,11 @@ const App = () => {
       //토큰있으면 login 성공
       setIsLogged(true);
       const result = await SignUpAPI.memberInfo();
-      if (result === 'Not Decided') {
+      if (result.userType === 'Not Decided') {
         setIsReader('Not Decided');
-      } else if (result === 'WRITER') {
+      } else if (result.userType === 'WRITER') {
         setIsReader('WRITER');
-      } else if (result === 'READER') {
+      } else if (result.userType === 'READER') {
         setIsReader('READER');
       }
     }

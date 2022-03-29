@@ -6,11 +6,16 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   Platform,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
 import FastImage from 'react-native-fast-image';
+import {
+  addScreenshotListener,
+  removeScreenshotListener,
+} from 'react-native-detector';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -37,6 +42,20 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
     document.getElementById('loadingButton').click();
     true;
   `;
+
+  useEffect(() => {
+    const userDidScreenshot = () => {
+      Alert.alert(
+        '작품을 지켜주세요!',
+        '작품을 캡쳐한 스크린샷을 온/오프라인에 유포/공유할 경우 법적인 제재를 받을 수 있습니다.',
+        [{text: '확인', onPress: () => console.log('OK Pressed')}],
+      );
+    };
+    const unsubscribe = addScreenshotListener(userDidScreenshot);
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <View style={{flex: 1}}>
