@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   FlatList,
   RefreshControl,
@@ -19,21 +18,18 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useNavigation} from '@react-navigation/native';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
-import ReportMenuExit from '../../../assets/images/ReportMenuExit.png';
-import ReportExclamation from '../../../assets/images/ReportExclamation.png';
 import {SafeAreaView} from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import ChatExitModal from './ChatExitModal';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {MessageAPI} from '../../../API/MessageAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import Report from '../../../assets/images/Report.png';
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
-// import MessageData from '../assets/data/Message';
-
-const STATUSBAR_HEIGHT = 48;
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
+import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 
 const Message = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
@@ -121,7 +117,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
 
   const RenderInfoItem = ({item}) => {
     return (
-      <Menu style={{...styles.menuView, marginTop: -50}}>
+      <Menu style={{justifyContent: 'center'}}>
         <Modal
           animationType="fade"
           transparent={true}
@@ -136,7 +132,15 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           />
         </Modal>
         <MenuTrigger>
-          <Image style={{width: 3, height: 17}} source={Report} />
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <FastImage style={{width: 3, height: 17}} source={Report} />
+          </View>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           <MenuOption
@@ -149,11 +153,20 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.menuText}>
               <Text>신고하기</Text>
             </Text>
-            <Image
-              style={{width: 22, height: 22, position: 'absolute', right: 23.5}}
-              source={ReportExclamation}
+            <FastImage
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuPage}
             />
           </MenuOption>
+          {/* <MenuOption onSelect={onPressModalConfirm}>
+            <Text style={styles.menuText}>
+              <Text>채팅방 나가기</Text>
+            </Text>
+            <Image
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuExit}
+            />
+          </MenuOption> */}
         </MenuOptions>
       </Menu>
     );
@@ -166,44 +179,51 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
       </View>
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
-        <View style={{left: 364}}>
-          <TouchableWithoutFeedback>
-            <RenderInfoItem />
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={{left: 22, marginBottom: 45}}>
-          <Image
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <FastImage
             style={{
-              position: 'absolute',
               width: 42,
               height: 42,
+              borderRadius: 90,
+              marginRight: 14,
             }}
-            source={AuthorProfileImage}
+            source={
+              !messagePartnerData || messagePartnerData.partnerImgUrl === ''
+                ? DefaultProfile
+                : {uri: messagePartnerData.partnerImgUrl}
+            }
           />
           <Text
             style={{
               fontFamily: 'NotoSansKR-Bold',
               color: '#3C3C3C',
-              fontSize: 14,
-              left: 56,
-              top: 11,
+              fontSize: 16,
+              includeFontPadding: false,
             }}>
-            {/* {params.item.sender} */}
+            {messagePartnerData ? messagePartnerData.partnerNickname : ''}
           </Text>
         </View>
+        <TouchableWithoutFeedback>
+          <RenderInfoItem />
+        </TouchableWithoutFeedback>
       </View>
       {/* body */}
       {messagePartnerData ? (
         <FlatList
           style={styles.bodyContainer}
-          data={messagePartnerData}
+          data={messagePartnerData.message}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl
@@ -229,7 +249,7 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
         actions={[
           {
             icon: (
-              <Image
+              <FastImage
                 style={{
                   width: 22,
                   height: 22,
@@ -261,19 +281,12 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    height: 261 - STATUSBAR_HEIGHT,
-    backgroundColor: '#4562F1',
-  },
   headerView: {
     width: '100%',
+    height: 55,
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
-  },
-  headerText: {
-    fontSize: 25,
-    color: '#FFFFFF',
-    includeFontPadding: false,
   },
   bodyContainer: {
     backgroundColor: '#FFFFFF',
@@ -281,18 +294,13 @@ const styles = StyleSheet.create({
     paddingBottom: '100%',
   },
   bodyHeader: {
-    height: 80,
-    backgroundColor: '#FFFFFF',
+    paddingBottom: 17,
+    paddingHorizontal: 22,
+    backgroundColor: '#fff',
     borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
+    borderBottomWidth: 3,
     flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  bodyHeaderText: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#BEBEBE',
-    paddingBottom: 8,
+    justifyContent: 'space-between',
   },
   menuText: {
     left: 13,

@@ -15,12 +15,9 @@ import FastImage from 'react-native-fast-image';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
-import SendMail2 from '../../../assets/images/SendMail2.png';
-import StarMail from '../../../assets/images/StarMail.png';
-import NoStarMail from '../../../assets/images/NoStarMail.png';
 import {useEffect} from 'react/cjs/react.development';
 
-const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
+const ReaderAuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const url = 'https://www.mail-link.co.kr/readingEditor';
@@ -51,47 +48,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     }
   }, [loading, contentSending, mailDetailData, webviewLoading]);
 
-  const onPressBookmark = async () => {
-    if (!mailDetailData.isSaved) {
-      var result = await ReaderAPI.mailSaving({
-        mailId: mailDetailData.id,
-      });
-      if (result) {
-        await queryClient.refetchQueries(['ReaderMail']);
-        await queryClient.refetchQueries(['ReaderMailDetail']);
-      }
-    } else {
-      var result = await ReaderAPI.mailCancelSaving({
-        mailId: mailDetailData.id,
-      });
-      if (result) {
-        await queryClient.refetchQueries(['ReaderMail']);
-        await queryClient.refetchQueries(['ReaderMailDetail']);
-      }
-    }
-  };
-
-  const onPressSubscribe = async () => {
-    if (authorInfoData.subscribeCheck) {
-      await ReaderAPI.cancelSubscribing({writerId: authorInfoData.id});
-      await queryClient.refetchQueries(['AuthorInfo']);
-      await queryClient.refetchQueries(['AuthorList']);
-      await queryClient.refetchQueries(['SubscribeAuthorList']);
-    } else {
-      await ReaderAPI.subscribing({writerId: authorInfoData.id});
-      await queryClient.refetchQueries(['AuthorInfo']);
-      await queryClient.refetchQueries(['AuthorList']);
-      await queryClient.refetchQueries(['SubscribeAuthorList']);
-    }
-  };
-
-  const onPressSend = async () => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'MessageWrite',
-      params: {writerId: authorInfoData.writerInfo.id},
-    });
-  };
-
   const contentSending = `
     let div = document.createElement('div');
     div.classList.add('test');
@@ -118,32 +74,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
               source={BackMail2}></FastImage>
           </View>
         </TouchableWithoutFeedback>
-        {authorInfoData && authorInfoData.subscribeCheck ? (
-          <>
-            <TouchableWithoutFeedback onPress={() => onPressBookmark()}>
-              <View style={{position: 'absolute', right: 61}}>
-                {mailDetailData && mailDetailData.isSaved ? (
-                  <FastImage
-                    style={{width: 21, height: 20.5}}
-                    source={StarMail}
-                  />
-                ) : (
-                  <FastImage
-                    style={{width: 21, height: 20.5}}
-                    source={NoStarMail}
-                  />
-                )}
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={onPressSend}>
-              <View style={{position: 'absolute', right: 22}}>
-                <FastImage
-                  style={{width: 21.54, height: 23.82}}
-                  source={SendMail2}></FastImage>
-              </View>
-            </TouchableWithoutFeedback>
-          </>
-        ) : null}
       </View>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>
@@ -164,26 +94,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         <Text style={styles.authorText}>
           {authorInfoData ? authorInfoData.writerInfo.nickName : null}
         </Text>
-        {/* <View
-          // onPress={onPressSubscribe}
-          style={
-            authorInfoData && authorInfoData.subscribeCheck
-              ? styles.subscribeView
-              : styles.subscribeNotView
-          }>
-          <View>
-            <Text
-              style={
-                authorInfoData && authorInfoData.subscribeCheck
-                  ? styles.subscribeText
-                  : styles.subscribeNotText
-              }>
-              {authorInfoData && authorInfoData.subscribeCheck
-                ? '구독중'
-                : '구독하기'}
-            </Text>
-          </View>
-        </View> */}
       </View>
       <WebView
         startInLoadingState={true}
@@ -297,4 +207,4 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
-export default ReaderReading;
+export default ReaderAuthorReading;

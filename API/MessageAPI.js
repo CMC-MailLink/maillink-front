@@ -18,7 +18,14 @@ export const MessageAPI = {
         },
       });
       let json = await response.json();
-      return json.data;
+      var result = await json.data.slice().sort(function (a, b) {
+        if (a.message.time >= b.message.time) {
+          return -1;
+        } else if (a.message.time < b.message.time) {
+          return 1;
+        }
+      });
+      return result;
     } catch (e) {
       console.log(e);
     }
@@ -65,7 +72,18 @@ export const MessageAPI = {
         },
       );
       let json = await response.json();
-      return json.data;
+      var result = await json.data.message.slice().sort(function (a, b) {
+        if (a.time >= b.time) {
+          return -1;
+        } else if (a.time < b.time) {
+          return 1;
+        }
+      });
+      return {
+        message: result,
+        partnerImgUrl: json.data.partnerImgUrl,
+        partnerNickname: json.data.partnerNickname,
+      };
     } catch (e) {
       console.log(e);
     }

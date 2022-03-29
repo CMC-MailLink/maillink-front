@@ -77,6 +77,7 @@ export const SignUpAPI = {
   //로그인
   authLogin: async ({socialType, socialId}) => {
     console.log('로그인');
+    console.log(socialType, socialId);
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
@@ -84,16 +85,16 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          socialType: socialType,
-          socialId: socialId,
-          fcmDeviceToken: fcmDeviceToken,
-        }),
         // body: JSON.stringify({
-        //   socialType: 'KAKAO',
-        //   socialId: 'bibiwriter8',
+        //   socialType: socialType,
+        //   socialId: socialId,
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
+        body: JSON.stringify({
+          socialType: 'APPLE',
+          socialId: 'bibitest7',
+          fcmDeviceToken: fcmDeviceToken,
+        }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -131,22 +132,22 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          socialType: socialType,
-          socialId: socialId,
-          nickName: nickName,
-          imgUrl: imgUrl,
-          phoneNumber: phoneNumber,
-          fcmDeviceToken: fcmDeviceToken,
-        }),
         // body: JSON.stringify({
-        //   socialType: 'KAKAO',
-        //   socialId: 'bibiwriter8',
-        //   nickName: '비비작가8',
+        //   socialType: socialType,
+        //   socialId: socialId,
+        //   nickName: nickName,
         //   imgUrl: imgUrl,
-        //   phoneNumber: '01011111111',
+        //   phoneNumber: phoneNumber,
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
+        body: JSON.stringify({
+          socialType: 'APPLE',
+          socialId: 'bibitest7',
+          nickName: '비비테스트7',
+          imgUrl: imgUrl,
+          phoneNumber: '01011111111',
+          fcmDeviceToken: fcmDeviceToken,
+        }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {

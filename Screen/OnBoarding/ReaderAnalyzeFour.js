@@ -6,20 +6,22 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import BackMail from '../../assets/images/BackMail.png';
 import AnalyzeFour from '../../assets/images/AnalyzeFour.png';
 
 const ReaderAnalyzeFour = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const onPressBack = () => {
     navigation.goBack();
   };
+
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="light-content" />
@@ -35,9 +37,11 @@ const ReaderAnalyzeFour = () => {
           <View
             style={{
               marginLeft: 24,
-              marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
+              marginTop: insets.top + 22,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail}></FastImage>
           </View>
         </TouchableWithoutFeedback>
       ) : null}
@@ -87,8 +91,8 @@ const ReaderAnalyzeFour = () => {
           }>
           <View
             style={{
-              ...styles.bottomViewTwo,
-              paddingBottom: Platform.OS === 'ios' ? 17 : 0,
+              ...styles.bottomViewOne,
+              marginBottom: insets.bottom,
             }}>
             <Text style={styles.bottomText}>
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>털장갑</Text>을 찾아

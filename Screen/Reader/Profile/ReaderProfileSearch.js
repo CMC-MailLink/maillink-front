@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -28,15 +28,14 @@ import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
 const STORAGE_KEY = '@recentDataReaderProfileSearch';
 
-const ReaderProfileSearch = () => {
+const ReaderProfileSearch = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [recentSearch, setRecentSearch] = useState([]);
   const [query, setQuery] = useState('');
   const [submit, setSubmit] = useState(false);
   const [result, setResult] = useState([]);
-  const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
-    useQuery(['SubscribeAuthorList'], ReaderAPI.getSubscribeWriters);
+  const subscribeAuthorListData = params.subscribeAuthorListData;
 
   useEffect(() => {
     getRecentSearch();
@@ -47,11 +46,11 @@ const ReaderProfileSearch = () => {
     if (query === '') {
       return;
     }
-    setSubmit(true);
-    var res = subscribeAuthorListData.filter(item =>
-      item.writerInfo.nickName.includes(query),
-    );
-    setResult([...res]);
+    // setSubmit(true);
+    // var res = subscribeAuthorListData.filter(item =>
+    //   item.writerInfo.nickName.includes(query),
+    // );
+    // setResult([...res]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscribeAuthorListData]);
 
@@ -74,10 +73,12 @@ const ReaderProfileSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = subscribeAuthorListData.filter(item =>
-      item.writerInfo.nickName.includes(data),
-    );
-    setResult([...res]);
+    if (subscribeAuthorListData) {
+      var res = subscribeAuthorListData.filter(item =>
+        item.writerInfo.nickName.includes(data),
+      );
+      setResult([...res]);
+    }
 
     var temp = recentSearch;
     temp.splice(index, 1);
@@ -96,10 +97,12 @@ const ReaderProfileSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = subscribeAuthorListData.filter(item =>
-      item.writerInfo.nickName.includes(query),
-    );
-    setResult([...res]);
+    if (subscribeAuthorListData) {
+      var res = subscribeAuthorListData.filter(item =>
+        item.writerInfo.nickName.includes(query),
+      );
+      setResult([...res]);
+    }
 
     var temp = recentSearch;
     if (temp.length) {
@@ -153,8 +156,16 @@ const ReaderProfileSearch = () => {
         <Text style={styles.headerText}>작가 검색</Text>
         <View style={styles.headerSearchContainer}>
           <TouchableWithoutFeedback onPress={onPressBack}>
-            <View>
-              <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <FastImage
+                style={{width: 9.5, height: 19}}
+                source={BackMail}></FastImage>
             </View>
           </TouchableWithoutFeedback>
           <View>
@@ -169,7 +180,7 @@ const ReaderProfileSearch = () => {
                 onSubmitEditing={onSubmit}></TextInput>
               <TouchableWithoutFeedback onPress={onSubmit}>
                 <View style={styles.searchView}>
-                  <Image
+                  <FastImage
                     style={{
                       width: 19,
                       height: 20,
@@ -201,7 +212,7 @@ const ReaderProfileSearch = () => {
                   onPress={e => onPressAuthorItem(data)}
                   key={index}>
                   <View key={index} style={styles.bodyItem}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 42,
                         height: 42,
@@ -218,7 +229,7 @@ const ReaderProfileSearch = () => {
                       <Text style={styles.bodyItemName}>
                         {data.writerInfo.nickName}
                       </Text>
-                      <Text style={styles.bodyItemIntro}>
+                      <Text style={styles.bodyItemIntro} numberOfLines={2}>
                         {data.writerInfo.introduction}
                       </Text>
                     </View>
@@ -254,12 +265,12 @@ const ReaderProfileSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoSearchDataMail}></Image>
+                  source={NoSearchDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -280,20 +291,20 @@ const ReaderProfileSearch = () => {
                   onPress={e => onPressRecentSearch(data, index)}
                   key={index}>
                   <View style={styles.recentSearch}>
-                    <Image
+                    <FastImage
                       style={{width: 35, height: 35}}
-                      source={RecentSearchMail}></Image>
+                      source={RecentSearchMail}></FastImage>
                     <Text style={styles.recentSearchText}>{data}</Text>
                     <TouchableWithoutFeedback
                       onPress={e => onPressDelete(data, index)}>
-                      <Image
+                      <FastImage
                         style={{
                           position: 'absolute',
                           width: 12,
                           height: 12,
                           right: 28,
                         }}
-                        source={DeleteMail}></Image>
+                        source={DeleteMail}></FastImage>
                     </TouchableWithoutFeedback>
                   </View>
                 </TouchableOpacity>
@@ -305,12 +316,12 @@ const ReaderProfileSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoRecentDataMail}></Image>
+                  source={NoRecentDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -397,12 +408,12 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItem: {
-    height: 68,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
   },
   bodyItemName: {
     fontFamily: 'NotoSansKR-Bold',
@@ -411,6 +422,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItemIntro: {
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

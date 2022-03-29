@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -151,7 +151,9 @@ const ReaderMailSearch = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+              <FastImage
+                style={{width: 9.5, height: 19}}
+                source={BackMail}></FastImage>
             </View>
           </TouchableWithoutFeedback>
           <View>
@@ -166,7 +168,7 @@ const ReaderMailSearch = () => {
                 onSubmitEditing={onSubmit}></TextInput>
               <TouchableWithoutFeedback onPress={onSubmit}>
                 <View style={styles.searchView}>
-                  <Image
+                  <FastImage
                     style={{
                       width: 19,
                       height: 20,
@@ -198,7 +200,7 @@ const ReaderMailSearch = () => {
                   key={index}
                   onPress={e => onPressMailItem(data)}>
                   <View style={styles.itemView}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 42,
                         height: 42,
@@ -255,12 +257,12 @@ const ReaderMailSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoSearchDataMail}></Image>
+                  source={NoSearchDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -281,20 +283,28 @@ const ReaderMailSearch = () => {
                   onPress={e => onPressRecentSearch(data, index)}
                   key={index}>
                   <View style={styles.recentSearch}>
-                    <Image
+                    <FastImage
                       style={{width: 35, height: 35}}
-                      source={RecentSearchMail}></Image>
+                      source={RecentSearchMail}></FastImage>
                     <Text style={styles.recentSearchText}>{data}</Text>
                     <TouchableWithoutFeedback
                       onPress={e => onPressDelete(data, index)}>
-                      <Image
+                      <View
                         style={{
                           position: 'absolute',
-                          width: 12,
-                          height: 12,
-                          right: 28,
-                        }}
-                        source={DeleteMail}></Image>
+                          right: 20,
+                          width: 30,
+                          height: 30,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <FastImage
+                          style={{
+                            width: 12,
+                            height: 12,
+                          }}
+                          source={DeleteMail}></FastImage>
+                      </View>
                     </TouchableWithoutFeedback>
                   </View>
                 </TouchableOpacity>
@@ -306,12 +316,12 @@ const ReaderMailSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoRecentDataMail}></Image>
+                  source={NoRecentDataMail}></FastImage>
               </View>
             )}
           </View>

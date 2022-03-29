@@ -12,6 +12,7 @@ import {
   Modal,
   Keyboard,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import {useNavigation} from '@react-navigation/native';
@@ -21,6 +22,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ProfileIntro = () => {
   const myContext = useContext(AppContext);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [introText, onChangeIntroText] = useState('');
   const [confirmSuccess, setConfirmSuccess] = useState(false);
@@ -78,59 +80,55 @@ const ProfileIntro = () => {
       </Modal>
 
       {/* upperHeader */}
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
-        <View style={styles.headerView}>
-          <TouchableWithoutFeedback onPress={onPressBack}>
-            <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-
-        {/* mainHeader */}
-        <Image
-          style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
-          source={SignUpStep1}
-        />
-        <View style={{marginTop: 10, marginLeft: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.nameTitle}>자신</Text>
-            <Text style={styles.introTitle}>을</Text>
+      <View style={styles.headerView}>
+        <TouchableWithoutFeedback onPress={onPressBack}>
+          <View style={{left: 24}}>
+            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
-          <Text style={styles.introTitle}>소개해주세요.</Text>
-          <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
-        </View>
+        </TouchableWithoutFeedback>
+      </View>
 
-        {/* Body: Input */}
-        <View
-          style={{
-            marginTop: 34,
-            marginLeft: 20,
-            marginRight: 20,
-          }}>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeIntroText}
-            value={introText}
-            placeholder="소개를 입력해주세요."
-            maxLength={160}
-            //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
-            maxHeight={200}
-            multiline={introText > 160 && enterCount > 5 ? false : true}
-            autoCorrect={false}
-            autoCapitalize={false}
-          />
-          <Text style={styles.textCount}> {textCount}/ 160자</Text>
+      {/* mainHeader */}
+      <Image
+        style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
+        source={SignUpStep1}
+      />
+      <View style={{marginTop: 10, marginLeft: 20}}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.nameTitle}>자신</Text>
+          <Text style={styles.introTitle}>을</Text>
         </View>
-      </KeyboardAwareScrollView>
+        <Text style={styles.introTitle}>소개해주세요.</Text>
+        <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
+      </View>
+
+      {/* Body: Input */}
+      <View
+        style={{
+          marginTop: 34,
+          marginLeft: 20,
+          marginRight: 20,
+        }}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeIntroText}
+          value={introText}
+          placeholder="소개를 입력해주세요."
+          maxLength={160}
+          //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
+          maxHeight={200}
+          multiline={introText > 160 && enterCount > 5 ? false : true}
+        />
+        <Text style={styles.textCount}> {textCount}/ 160자</Text>
+      </View>
       {/* footer: Button pass */}
-      <View style={styles.footer}>
+      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
+        {/* footer: Button*/}
         <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
           <View>
             <Text style={styles.buttonAbleText}>다음</Text>
           </View>
         </TouchableOpacity>
-
         {/* footer: Pass*/}
         <TouchableWithoutFeedback onPress={onPressSkip}>
           <View>
@@ -182,33 +180,32 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
   },
-  footer: {
-    position: 'static',
-    width: '100%',
-    paddingHorizontal: 20,
-    marginBottom: 40,
-    paddingTop: 5,
-    alignItems: 'center',
-  },
   buttonAble: {
-    width: '100%',
-    height: 52,
-    borderRadius: 26,
+    marginHorizontal: 20,
     backgroundColor: '#4562F1',
-    justifyContent: 'center',
+    borderRadius: 26,
+    height: 52,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
   },
   buttonAbleText: {
+    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
   },
+  bottomView: {
+    width: '100%',
+    position: 'absolute',
+  },
   footerPassText: {
-    marginTop: 15,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#3C3C3C',
+    textAlign: 'center',
     textDecorationLine: 'underline',
+    includeFontPadding: false,
   },
 });
 

@@ -4,18 +4,19 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   FlatList,
   RefreshControl,
   StatusBar,
   TouchableWithoutFeedback,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {MessageAPI} from '../../API/MessageAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
@@ -26,7 +27,6 @@ const Alarm = () => {
   const queryClient = useQueryClient();
   //refreshing 기능
   const [refreshingMessage, setRefreshingMessage] = useState(false);
-  const [refreshingAlarm, setRefreshingAlarm] = useState(false);
   const {isLoading: messageLoading, data: messageData} = useQuery(
     ['Message'],
     MessageAPI.getMessageList,
@@ -61,7 +61,7 @@ const Alarm = () => {
       <View style={styles.itemView}>
         <View style={styles.itemTextView}>
           {/* <View style={styles.itemNewView} /> */}
-          <Image
+          <FastImage
             style={{
               position: 'absolute',
               width: 42,
@@ -88,10 +88,8 @@ const Alarm = () => {
                 : ''}
             </Text>
           </View>
-          <Text style={styles.itemBodyText}>
-            {data.item.message.text
-              ? data.item.message.text.slice(0, 40) + '...'
-              : ''}
+          <Text style={styles.itemBodyText} numberOfLines={2}>
+            {data.item.message.text ? data.item.message.text : ''}
           </Text>
         </View>
       </View>
@@ -105,7 +103,7 @@ const Alarm = () => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>쪽지함</Text>
@@ -125,21 +123,31 @@ const Alarm = () => {
           }
         />
       ) : (
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 1,
-          }}>
-          <Text
+        <ScrollView
+          style={{flex: 1}}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshingMessage}
+              onRefresh={onRefreshMessage}
+              style={styles.refresh}
+              tintColor="#4562F1"
+            />
+          }>
+          <View
             style={{
-              fontFamily: 'NotoSansKR-Regular',
-              color: '#3C3C3C',
-              includeFontPadding: false,
+              top: 100,
+              alignItems: 'center',
             }}>
-            메세지가 없습니다.
-          </Text>
-        </View>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Regular',
+                color: '#3C3C3C',
+                includeFontPadding: false,
+              }}>
+              메세지가 없습니다.
+            </Text>
+          </View>
+        </ScrollView>
       )}
     </View>
   );
