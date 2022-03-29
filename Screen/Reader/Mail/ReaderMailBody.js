@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,14 @@ import {
   Dimensions,
   Animated,
   Easing,
+  RefreshControl,
 } from 'react-native';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import FastImage from 'react-native-fast-image';
+import AppContext from '../../../AppContext';
 
 import SubscribeMail from '../../../assets/images/SubscribeMail.png';
 import NoBookMarkMail from '../../../assets/images/NoBookMarkMail.png';
@@ -28,6 +30,7 @@ const STATUSBAR_HEIGHT = 48;
 const refreshingHeight = 100;
 
 const ReaderMailBody = () => {
+  const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [memberInfo, setMemberInfo] = useState(); //유저 정보
@@ -126,7 +129,8 @@ const ReaderMailBody = () => {
       if (item.isRead === false) tempCount++;
     });
     setCount(tempCount);
-  }, [mail]);
+    myContext.setAlarmCount(tempCount);
+  }, [mail, myContext]);
 
   //새로고침 스크롤
   function onScroll(event) {
@@ -137,12 +141,10 @@ const ReaderMailBody = () => {
   }
 
   //새로고침 이벤트
-  const onRelease = async () => {
-    if (offsetY <= -refreshingHeight && !refreshing) {
-      setRefreshing(true);
-      await queryClient.refetchQueries(['ReaderMail']);
-      setRefreshing(false);
-    }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['ReaderMail']);
+    setRefreshing(false);
   };
 
   //저장하기 버튼 클릭
@@ -196,6 +198,7 @@ const ReaderMailBody = () => {
       screen: 'ReaderReading',
       params: {mailId: data.item.id, writerId: data.item.writerId},
     });
+    await queryClient.refetchQueries(['ReaderMail']);
   };
 
   //메일 아이템 render
@@ -390,8 +393,14 @@ const ReaderMailBody = () => {
       </View>
       <View style={styles.bodyContainer}>
         <SwipeListView
-          onScroll={onScroll}
-          onResponderRelease={onRelease}
+          // onScroll={onScroll}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor="#fff"
+            />
+          }
           scrollEventThrottle={1}
           stickyHeaderIndices={[1]}
           showsVerticalScrollIndicator={false}

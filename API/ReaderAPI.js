@@ -251,7 +251,6 @@ export const ReaderAPI = {
         },
       );
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -304,7 +303,6 @@ export const ReaderAPI = {
   getWriterPublishList: async ({queryKey}) => {
     console.log('독자 작가 공개 메일 리스트 조회');
     const [_, writerId] = queryKey;
-    console.log(writerId);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -325,8 +323,9 @@ export const ReaderAPI = {
   },
   //취향분석
   getAnalyzeResult: async ({queryKey}) => {
+    console.log('독자 취향분석 결과');
+
     const [_, mood] = queryKey;
-    console.log(mood);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -338,10 +337,7 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log('독자 취향분석 결과');
-      console.log(response);
       let json = await response.json();
-      console.log('result : ', json.data);
       return json.data;
     } catch (e) {
       console.log(e);

@@ -9,6 +9,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AuthorAPI} from '../../../API/AuthorAPI';
@@ -72,21 +73,11 @@ const AuthorProfile = () => {
     setOffsetY(y);
   }
 
-  //새로고침 스크롤
-  function onScroll(event) {
-    const {nativeEvent} = event;
-    const {contentOffset} = nativeEvent;
-    const {y} = contentOffset;
-    setOffsetY(y);
-  }
-
   //새로고침 이벤트
-  const onRelease = async () => {
-    if (offsetY <= -refreshingHeight && !refreshing) {
-      setRefreshing(true);
-      await queryClient.refetchQueries(['AuthorProfile']);
-      setRefreshing(false);
-    }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['AuthorProfile']);
+    setRefreshing(false);
   };
 
   return (
@@ -104,7 +95,12 @@ const AuthorProfile = () => {
       <ScrollView
         onScroll={onScroll}
         scrollEventThrottle={0}
-        onResponderRelease={onRelease}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#fff"></RefreshControl>
+        }
         stickyHeaderIndices={[2]}>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity

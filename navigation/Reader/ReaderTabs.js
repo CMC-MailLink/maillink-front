@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   StyleSheet,
@@ -13,6 +13,7 @@ import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
 import FastImage from 'react-native-fast-image';
+import AppContext from '../../AppContext';
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
@@ -35,8 +36,8 @@ const ReaderTab = createBottomTabNavigator();
 // );
 
 const ReaderTabs = () => {
+  const myContext = useContext(AppContext);
   const insets = useSafeAreaInsets();
-  console.log(insets.bottom);
   return (
     <ReaderTab.Navigator
       initialRouteName="ReaderMail"
@@ -117,6 +118,7 @@ const ReaderTabs = () => {
                   width: 150,
                   height: insets.bottom / 2 + 76,
                 }}></View>
+
               <View
                 style={{
                   position: 'absolute',
@@ -136,6 +138,29 @@ const ReaderTabs = () => {
                   source={LogoTabs}
                 />
               </View>
+              {myContext.alarmCount === 0 ? null : (
+                <View
+                  style={{
+                    position: 'absolute',
+                    bottom: 75,
+                    left: 55,
+                    backgroundColor: '#FF9B9B',
+                    width: 24,
+                    height: 24,
+                    borderRadius: 90,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: 'NotoSansKR-Bold',
+                      fontSize: 11,
+                      color: '#F5F8FF',
+                    }}>
+                    {myContext.alarmCount > 99 ? '99+' : myContext.alarmCount}
+                  </Text>
+                </View>
+              )}
             </View>
           ),
           // tabBarButton: props => <CustomTabBarButton {...props} />,

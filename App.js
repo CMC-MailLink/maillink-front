@@ -50,11 +50,14 @@ const App = () => {
   const [isLogged, setIsLogged] = useState();
   //'Not Decided'
   const [isReader, setIsReader] = useState();
+  const [alarmCount, setAlarmCount] = useState();
   const userSettings = {
     isLogged,
     setIsLogged,
     isReader,
     setIsReader,
+    alarmCount,
+    setAlarmCount,
   };
 
   setCustomText(customTextProps);

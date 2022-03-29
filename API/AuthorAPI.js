@@ -327,7 +327,6 @@ export const AuthorAPI = {
   //대표글설정하기
   setRepresent: async ({mailId}) => {
     console.log('작가 대표글 설정하기');
-    console.log(mailId);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -349,7 +348,6 @@ export const AuthorAPI = {
   //대표글설정 취소 ㄴ하기
   cancelRepresent: async ({mailId}) => {
     console.log('작가 대표글 설정 취소하기');
-    console.log(mailId);
     var token = await getCredentials();
     try {
       const response = await fetch(

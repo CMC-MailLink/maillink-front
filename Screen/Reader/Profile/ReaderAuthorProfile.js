@@ -9,6 +9,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
@@ -29,6 +30,7 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const [introSelect, setIntroSelect] = useState(true);
   const [offsetY, setOffsetY] = useState(0);
+  const [refreshing, setRefreshing] = useState(false); //새로고침 상태
   const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
     ['AuthorInfo', params.id],
     ReaderAPI.getWriterInfo,
@@ -52,6 +54,13 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
     const {y} = contentOffset;
     setOffsetY(y);
   }
+
+  //새로고침 이벤트
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['AuthorInfo']);
+    setRefreshing(false);
+  };
 
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
@@ -121,7 +130,14 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
       <ScrollView
         stickyHeaderIndices={[2]}
         onScroll={onScroll}
-        scrollEventThrottle={0}>
+        scrollEventThrottle={0}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#fff"
+          />
+        }>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           {authorInfoData && authorInfoData.interestedCheck ? (
             <TouchableOpacity

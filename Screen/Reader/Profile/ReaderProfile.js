@@ -247,7 +247,8 @@ const ReaderProfile = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={onRefresh}></RefreshControl>
+            onRefresh={onRefresh}
+            tintColor="#fff"></RefreshControl>
         }>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity

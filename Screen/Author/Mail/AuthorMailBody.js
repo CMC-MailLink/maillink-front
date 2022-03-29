@@ -9,6 +9,7 @@ import {
   Dimensions,
   Animated,
   Easing,
+  RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AuthorAPI} from '../../../API/AuthorAPI';
@@ -91,12 +92,10 @@ const AuthorMailBody = () => {
   }
 
   //새로고침 이벤트
-  const onRelease = async () => {
-    if (offsetY <= -refreshingHeight && !refreshing) {
-      setRefreshing(true);
-      await queryClient.refetchQueries(['AuthorMail']);
-      setRefreshing(false);
-    }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['AuthorMail']);
+    setRefreshing(false);
   };
 
   const onPressRecent = () => {
@@ -181,7 +180,7 @@ const AuthorMailBody = () => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Animated.Image
+          {/* <Animated.Image
             style={{
               width: 14.67,
               height: 10.67,
@@ -196,12 +195,18 @@ const AuthorMailBody = () => {
               ],
             }}
             source={MailRefresh}></Animated.Image>
-          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text>
+          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text> */}
         </View>
       </View>
       <FlatList
         onScroll={onScroll}
-        onResponderRelease={onRelease}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#fff"
+          />
+        }
         stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
