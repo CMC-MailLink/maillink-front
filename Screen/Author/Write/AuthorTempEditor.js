@@ -86,7 +86,9 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
-      if (!result) return;
+      if (!result) {
+        return;
+      }
       await queryClient.refetchQueries(['AuthorStorage']);
       navigation.goBack();
     }
@@ -104,7 +106,9 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
       const result2 = await AuthorAPI.writerTempSending({
         tempMailId: params.id,
       });
-      if (!result || !result2) return;
+      if (!result || !result2) {
+        return;
+      }
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
       navigation.goBack();
@@ -213,7 +217,8 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
         placeholder="제목을 입력해주세요."
         placeholderTextColor="#BFBFBF"
         value={title}
-        onChangeText={setTitle}></TextInput>
+        onChangeText={setTitle}
+      />
       <WebView
         startInLoadingState={true}
         automaticallyAdjustContentInsets={false}

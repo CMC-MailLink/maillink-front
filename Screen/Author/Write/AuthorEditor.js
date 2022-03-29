@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Alert,
+  Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
@@ -16,6 +17,7 @@ import {SignUpAPI} from '../../../API/SignUpAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import FastImage from 'react-native-fast-image';
 
+import WriteConfirmModal from './WriteConfirmModal.js';
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 import {AuthorAPI} from '../../../API/AuthorAPI';
@@ -30,6 +32,8 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   const [send, setSend] = useState(false);
   const [title, setTitle] = useState(params ? params.title : '');
   const [imageCount, setImageCount] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState(false);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -84,7 +88,9 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
-      if (!result) return;
+      if (!result) {
+        return;
+      }
       await queryClient.refetchQueries(['AuthorStorage']);
       navigation.goBack();
     }
@@ -98,7 +104,9 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         content: contents,
         preView: preView,
       });
-      if (!result) return;
+      if (!result) {
+        return;
+      }
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
       navigation.goBack();
@@ -125,30 +133,46 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
     setSave(true);
   };
 
+  const onPressSend = () => {
+    setModalVisible(!modalVisible);
+  };
   const onPressSend2 = async () => {
     await webRef.current.injectJavaScript(runFirst);
     setSend(true);
   };
 
-  const onPressSend = () => {
-    Alert.alert('발행하기', '발행 후 수정이 불가합니다. 발행하시겠습니까?', [
-      {
-        text: '취소',
-        onPress: () => console.log('Cancel Pressed'),
-      },
-      {
-        text: '확인',
-        onPress: () => {
-          onPressSend2();
-        },
-      },
-    ]);
-  };
+  // const onPressSend = () => {
+  //   Alert.alert('발행하기', '발행 후 수정이 불가합니다. 발행하시겠습니까?', [
+  //     {
+  //       text: '취소',
+  //       onPress: () => console.log('Cancel Pressed'),
+  //     },
+  //     {
+  //       text: '확인',
+  //       onPress: () => {
+  //         onPressSend2();
+  //       },
+  //     },
+  //   ]);
+  // };
 
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <WriteConfirmModal
+          setModalVisible={setModalVisible}
+          setModalConfirm={setModalConfirm}
+          onPressSend2={onPressSend2}
+        />
+      </Modal>
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
@@ -207,7 +231,8 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         placeholder="제목을 입력해주세요."
         placeholderTextColor="#BFBFBF"
         value={title}
-        onChangeText={setTitle}></TextInput>
+        onChangeText={setTitle}
+      />
       <WebView
         startInLoadingState={true}
         automaticallyAdjustContentInsets={false}
