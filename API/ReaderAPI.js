@@ -348,4 +348,28 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //독자알림설정
+  setAlarm: async ({mailAlarm, messageAlarm}) => {
+    console.log('독자 알림 설정');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/alarm/reader?mailAlarm=${mailAlarm}&messageAlarm=${messageAlarm}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

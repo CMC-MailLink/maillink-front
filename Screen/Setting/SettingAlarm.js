@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,15 @@ import FastImage from 'react-native-fast-image';
 import AppContext from '../../AppContext';
 
 import BackMail from '../../assets/images/BackMail.png';
+import {AuthorAPI} from '../../API/AuthorAPI';
+import {ReaderAPI} from '../../API/ReaderAPI';
 
 const SettingAlarm = () => {
   const navigation = useNavigation();
   const myContext = useContext(AppContext);
-  const [isEnabledMail, setIsEnabledMail] = useState(false);
-  const [isEnabledNewSubscribe, setIsEnabledNewSubscribe] = useState(false);
-  const [isEnabledMessage, setIsEnabledMessage] = useState(false);
+  const [isEnabledMail, setIsEnabledMail] = useState(true);
+  const [isEnabledNewSubscribe, setIsEnabledNewSubscribe] = useState(true);
+  const [isEnabledMessage, setIsEnabledMessage] = useState(true);
 
   const toggleSwitchMail = () =>
     setIsEnabledMail(previousState => !previousState);
@@ -31,6 +33,24 @@ const SettingAlarm = () => {
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    if (myContext.isReader === 'READER') {
+      ///reader
+      ReaderAPI.setAlarm({
+        mailAlarm: isEnabledMail,
+        messageAlarm: isEnabledMessage,
+      });
+    } else {
+      ///writer
+      AuthorAPI.setAlarm({
+        subscribeAlarm: isEnabledNewSubscribe,
+        messageAlarm: isEnabledMessage,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEnabledMail, isEnabledNewSubscribe, isEnabledMessage, myContext]);
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
@@ -45,7 +65,7 @@ const SettingAlarm = () => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>알림 설정</Text>
       </View>
-      {myContext.isReader ? (
+      {myContext.isReader === 'READER' ? (
         <View style={styles.menuView}>
           <Text style={styles.menuText}>새 글 알림</Text>
           <Switch
@@ -58,7 +78,7 @@ const SettingAlarm = () => {
           />
         </View>
       ) : null}
-      {!myContext.isReader ? (
+      {myContext.isReader !== 'READER' ? (
         <View style={styles.menuView}>
           <Text style={styles.menuText}>새 구독 알림</Text>
           <Switch
