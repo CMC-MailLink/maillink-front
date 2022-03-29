@@ -6,17 +6,18 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   StyleSheet,
-  Image,
   Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import AnalyzeTwo from '../../../assets/images/AnalyzeTwo.png';
 
 const ReaderAnalyzeTwo = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -35,9 +36,11 @@ const ReaderAnalyzeTwo = () => {
           <View
             style={{
               marginLeft: 24,
-              marginTop: Platform.OS === 'ios' ? 70 : 70 - 48,
+              marginTop: insets.top + 22,
             }}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2}></Image>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail2}></FastImage>
           </View>
         </TouchableWithoutFeedback>
       ) : null}
@@ -88,8 +91,8 @@ const ReaderAnalyzeTwo = () => {
           }>
           <View
             style={{
-              ...styles.bottomViewTwo,
-              paddingBottom: Platform.OS === 'ios' ? 17 : 0,
+              ...styles.bottomViewOne,
+              marginBottom: insets.bottom,
             }}>
             <Text style={styles.bottomText}>
               자욱한&nbsp;

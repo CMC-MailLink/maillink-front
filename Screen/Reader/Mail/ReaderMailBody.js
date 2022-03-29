@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -10,10 +9,11 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import {useNavigation} from '@react-navigation/native';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import SubscribeMail from '../../../assets/images/SubscribeMail.png';
 import NoBookMarkMail from '../../../assets/images/NoBookMarkMail.png';
@@ -211,14 +211,19 @@ const ReaderMailBody = () => {
   };
 
   //메일 아이템 render
-  const renderItem = (data, rowMap, rowKey) => {
-    if (data.item.key === 'category') {
-      return <RenderCategory />;
-    } else {
-      return (
+  const renderItem = (data, rowMap) => (
+    <SwipeRow
+      rightOpenValue={-150}
+      stopRightSwipe={-150}
+      disableRightSwipe={true}
+      disableLeftSwipe={data.item.key === 'category' ? true : false}>
+      <RenderHiddenItem data={data} rowMap={rowMap} />
+      {data.item.key === 'category' ? (
+        <RenderCategory />
+      ) : (
         <TouchableWithoutFeedback onPress={e => onPressMailItem(rowMap, data)}>
           <View style={styles.itemView}>
-            <Image
+            <FastImage
               style={{
                 width: 42,
                 height: 42,
@@ -267,26 +272,26 @@ const ReaderMailBody = () => {
             </View>
           </View>
         </TouchableWithoutFeedback>
-      );
-    }
-  };
+      )}
+    </SwipeRow>
+  );
 
   //메일아이템 swipe render
-  const renderHiddenItem = (data, rowMap) => (
+  const RenderHiddenItem = ({data, rowMap}) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => bookmarkRow(rowMap, data.item.key, data.item)}>
         {data.item.isSaved ? (
-          <Image style={{width: 21, height: 20.5}} source={StarMail} />
+          <FastImage style={{width: 21, height: 20.5}} source={StarMail} />
         ) : (
-          <Image style={{width: 21, height: 20.5}} source={NoStarMail} />
+          <FastImage style={{width: 21, height: 20.5}} source={NoStarMail} />
         )}
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => sendRow(rowMap, data.item.key, data.item.writerId)}>
-        <Image style={{width: 21.54, height: 23.82}} source={SendMail} />
+        <FastImage style={{width: 21.54, height: 23.82}} source={SendMail} />
       </TouchableOpacity>
     </View>
   );
@@ -404,7 +409,7 @@ const ReaderMailBody = () => {
           ListHeaderComponent={
             <View>
               <View style={styles.header}>
-                <Image
+                <FastImage
                   style={{
                     position: 'absolute',
                     top: 0,
@@ -456,12 +461,9 @@ const ReaderMailBody = () => {
             </View>
           }
           data={mailSelect ? mail : bookmark}
-          renderItem={renderItem}
-          renderHiddenItem={renderHiddenItem}
-          rightOpenValue={-150}
-          stopRightSwipe={-150}
-          disableRightSwipe={true}
           closeOnScroll={true}
+          renderItem={renderItem}
+          // renderHiddenItem={renderHiddenItem}
           ListFooterComponent={
             mail.length === 1 ? (
               <View
@@ -472,7 +474,7 @@ const ReaderMailBody = () => {
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 261,
                     height: 211,
@@ -489,7 +491,7 @@ const ReaderMailBody = () => {
                   justifyContent: 'center',
                   backgroundColor: '#FFF',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 160,
                     height: 16,

@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../../assets/images/BackMail.png';
 import SearchMail2 from '../../../assets/images/SearchMail2.png';
@@ -49,12 +49,14 @@ const ReaderRecommendSearch = () => {
     if (query === '') {
       return;
     }
-    // setSubmit(true);
-    // var res = authorListData.filter(item =>
-    //   item.writerInfo.nickName.includes(query),
-    // );
-    // setResult([...res]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSubmit(true);
+    if (authorListData) {
+      var res = authorListData.filter(item =>
+        item.writerInfo.nickName.includes(query),
+      );
+      setResult([...res]);
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authorListData]);
 
   useEffect(() => {
@@ -164,7 +166,9 @@ const ReaderRecommendSearch = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+              <FastImage
+                style={{width: 9.5, height: 19}}
+                source={BackMail}></FastImage>
             </View>
           </TouchableWithoutFeedback>
           <View>
@@ -179,7 +183,7 @@ const ReaderRecommendSearch = () => {
                 onSubmitEditing={onSubmit}></TextInput>
               <TouchableWithoutFeedback onPress={onSubmit}>
                 <View style={styles.searchView}>
-                  <Image
+                  <FastImage
                     style={{
                       width: 19,
                       height: 20,
@@ -211,11 +215,11 @@ const ReaderRecommendSearch = () => {
                   onPress={e => onPressAuthorItem(data)}
                   key={index}>
                   <View key={index} style={styles.bodyItem}>
-                    <Image
+                    <FastImage
                       style={{
                         width: 42,
                         height: 42,
-                        marginRight: 10,
+                        marginRight: 15,
                         borderRadius: 90,
                       }}
                       source={
@@ -228,32 +232,31 @@ const ReaderRecommendSearch = () => {
                       <Text style={styles.bodyItemName}>
                         {data.writerInfo.nickName}
                       </Text>
-                      <Text style={styles.bodyItemIntro}>
-                        {data.writerInfo.introduction}
+                      <Text style={styles.bodyItemIntro} numberOfLines={2}>
+                        {data.writerInfo.introduction
+                          ? data.writerInfo.introduction
+                          : ''}
                       </Text>
                     </View>
-                    <TouchableOpacity
-                      onPress={() =>
-                        data.subscribeCheck
-                          ? onPressCancelSubscribe(data.writerInfo.id)
-                          : onPressSubscribe(data.writerInfo.id)
-                      }
-                      style={
-                        data.subscribeCheck
-                          ? styles.subscribeView
-                          : styles.subscribeNotView
-                      }>
-                      <View>
-                        <Text
-                          style={
-                            data.subscribeCheck
-                              ? styles.subscribeText
-                              : styles.subscribeNotText
-                          }>
-                          {data.subscribeCheck ? '구독중' : '구독하기'}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                    {data.subscribeCheck ? (
+                      <TouchableOpacity
+                        style={{position: 'absolute', right: 20}}
+                        onPress={() =>
+                          onPressCancelSubscribe(data.writerInfo.id)
+                        }>
+                        <View style={styles.subscribeView}>
+                          <Text style={styles.subscribeText}>구독중</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{position: 'absolute', right: 20}}
+                        onPress={() => onPressSubscribe(data.writerInfo.id)}>
+                        <View style={styles.notSubscribeView}>
+                          <Text style={styles.notSubscribeText}>구독하기</Text>
+                        </View>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </TouchableOpacity>
               ))
@@ -264,12 +267,12 @@ const ReaderRecommendSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoSearchDataMail}></Image>
+                  source={NoSearchDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -290,9 +293,9 @@ const ReaderRecommendSearch = () => {
                   onPress={e => onPressRecentSearch(data, index)}
                   key={index}>
                   <View style={styles.recentSearch}>
-                    <Image
+                    <FastImage
                       style={{width: 35, height: 35}}
-                      source={RecentSearchMail}></Image>
+                      source={RecentSearchMail}></FastImage>
                     <Text style={styles.recentSearchText}>{data}</Text>
                     <TouchableWithoutFeedback
                       onPress={e => onPressDelete(data, index)}>
@@ -305,12 +308,12 @@ const ReaderRecommendSearch = () => {
                           justifyContent: 'center',
                           alignItems: 'center',
                         }}>
-                        <Image
+                        <FastImage
                           style={{
                             width: 12,
                             height: 12,
                           }}
-                          source={DeleteMail}></Image>
+                          source={DeleteMail}></FastImage>
                       </View>
                     </TouchableWithoutFeedback>
                   </View>
@@ -323,12 +326,12 @@ const ReaderRecommendSearch = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image
+                <FastImage
                   style={{
                     width: 390,
                     height: 78,
                   }}
-                  source={NoRecentDataMail}></Image>
+                  source={NoRecentDataMail}></FastImage>
               </View>
             )}
           </View>
@@ -415,53 +418,51 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItem: {
-    height: 68,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
     alignItems: 'center',
-    paddingLeft: 20,
   },
   bodyItemName: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',
+    marginBottom: 3,
     includeFontPadding: false,
   },
   bodyItemIntro: {
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
     includeFontPadding: false,
   },
   subscribeView: {
-    position: 'absolute',
-    right: 20,
     width: 75,
     height: 30,
-    borderRadius: 15,
     borderColor: '#BEBEBE',
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  subscribeNotView: {
-    position: 'absolute',
-    right: 20,
-    width: 75,
-    height: 30,
     borderRadius: 15,
-    backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
   },
   subscribeText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
-    color: '#828282',
+    color: '#BEBEBE',
     includeFontPadding: false,
   },
-  subscribeNotText: {
+  notSubscribeView: {
+    width: 75,
+    height: 30,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4562F1',
+  },
+  notSubscribeText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 12,
     color: '#FFF',

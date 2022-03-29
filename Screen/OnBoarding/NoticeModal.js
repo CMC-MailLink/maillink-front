@@ -12,22 +12,16 @@ import InfoWeb from '../../assets/images/InfoWeb.png';
 import Clipboard from '@react-native-clipboard/clipboard';
 import AppContext from '../../AppContext';
 
-const NoticeModal = ({modalVisible2, setModalConfirm2, setModalConfirm}) => {
+const NoticeModal = ({setModalVisible2, setModalConfirm2}) => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
-  const onPressCopy = () => {
-    Alert.alert('링크가 복사 되었습니다.', {
-      text: '확인',
-      style: 'cancel',
-    });
-    Clipboard.setString('www.maillink.com');
-  };
-  const goNextScreen = () => {
-    setModalConfirm(true);
-  };
-  const goback = () => {
-    navigation.goBack();
-  };
+  // const onPressCopy = () => {
+  //   Clipboard.setString('www.maillink.com');
+  //   Alert.alert('링크가 복사 되었습니다.', {
+  //     text: '확인',
+  //     style: 'cancel',
+  //   });
+  // };
 
   return (
     <View style={styles.centeredView}>
@@ -44,20 +38,19 @@ const NoticeModal = ({modalVisible2, setModalConfirm2, setModalConfirm}) => {
         </Text>
         <Text style={styles.modalText4}>https://www.mail-link.co.kr</Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={onPressCopy}>
+          <TouchableOpacity
+            onPress={() => Clipboard.setString('https://www.mail-link.co.kr')}>
             <View style={{marginRight: 26}}>
               <Text style={styles.modalConfirm}>링크복사</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={goNextScreen}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible2(false);
+              setModalConfirm2(true);
+            }}>
             <View>
               <Text style={styles.modalConfirm2}>확인</Text>
-            </View>
-          </TouchableOpacity>
-          {/* for test */}
-          <TouchableOpacity onPress={goback}>
-            <View>
-              <Text style={styles.modalConfirm2}>이전</Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 import ChatExitModalExclamMark from '../../../assets/images/ChatExitModalExclamMark.png';
 
 const ChatExitModal = ({
@@ -16,7 +17,7 @@ const ChatExitModal = ({
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Image
+        <FastImage
           style={{width: 60, height: 60, top: -78 + 53}}
           source={ChatExitModalExclamMark}
         />

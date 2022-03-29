@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   StatusBar,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -28,7 +27,6 @@ import {AuthorAPI} from '../../../API/AuthorAPI';
 import BackMail3 from '../../../assets/images/BackMail3.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
-import ClearTextInput from '../../../assets/images/ClearTextInput.png';
 import InfoAuthorProfile from '../../../assets/images/InfoAuthorProfile.png';
 import FacebookNone from '../../../assets/images/FacebookNone.png';
 import TwitterNone from '../../../assets/images/TwitterNone.png';
@@ -72,6 +70,10 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
   const [confirmSuccess, setConfirmSuccess] = useState(false); //닉네임 확인 성공 유무
   const [branchRank, setBranchRank] = useState(0);
   const [viveRank, setViveRank] = useState(0);
+  const facebookRef = useRef();
+  const twitterRef = useRef();
+  const instagramRef = useRef();
+  const urlRef = useRef();
 
   const [branch, setBranch] = useState([
     {name: '시', rank: 0},
@@ -232,7 +234,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
       setMessageVisible(true);
       setNameValid(false);
       setConfirmSuccess(false);
-    } else if (!editName && editName.length > 6) {
+    } else if (!editName || editName.length > 6) {
       onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);
@@ -336,7 +338,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
               <Text style={{color: '#C4C4C4'}}>・</Text>
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>갈래</Text>와&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>관심사</Text>
-              &nbsp;각각
+              &nbsp;각각&nbsp;
               <Text style={{fontFamily: 'NotoSansKR-Bold'}}>1-3순위</Text>
               &nbsp;선택이
             </Text>
@@ -609,8 +611,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={FacebookNone}
               />
-              <Text style={styles.websiteText}>facebook.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => facebookRef.current.focus()}>
+                <Text style={styles.websiteText}>facebook.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={facebookRef}
                 style={styles.websiteTextInput}
                 value={editFacebook}
                 onChangeText={setEditFacebook}
@@ -621,8 +628,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={TwitterNone}
               />
-              <Text style={styles.websiteText}>twitter.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => twitterRef.current.focus()}>
+                <Text style={styles.websiteText}>twitter.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={twitterRef}
                 style={styles.websiteTextInput}
                 value={editTwitter}
                 onChangeText={setEditTwitter}
@@ -633,8 +645,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={InstagramNone}
               />
-              <Text style={styles.websiteText}>instagram.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => instagramRef.current.focus()}>
+                <Text style={styles.websiteText}>instagram.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={instagramRef}
                 style={styles.websiteTextInput}
                 value={editInstagram}
                 onChangeText={setEditInstagram}
@@ -645,8 +662,13 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={URLNone}
               />
-              <Text style={styles.websiteText}>https://</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => urlRef.current.focus()}>
+                <Text style={styles.websiteText}>https://</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={urlRef}
                 style={styles.websiteTextInput}
                 value={editURL}
                 onChangeText={setEditURL}
@@ -654,21 +676,22 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
             </View>
           </View>
         </View>
+
+        <TouchableOpacity
+          onPress={onPressSave}
+          disabled={viveRank === 0 || branchRank === 0 || !confirmSuccess}>
+          <View
+            style={{
+              ...styles.buttonView,
+              backgroundColor:
+                viveRank === 0 || branchRank === 0 || !confirmSuccess
+                  ? '#BEBEBE'
+                  : '#4562F1',
+            }}>
+            <Text style={styles.buttonText}>저장</Text>
+          </View>
+        </TouchableOpacity>
       </KeyboardAwareScrollView>
-      <TouchableOpacity
-        onPress={onPressSave}
-        disabled={viveRank === 0 || branchRank === 0 || !confirmSuccess}>
-        <View
-          style={{
-            ...styles.buttonView,
-            backgroundColor:
-              viveRank === 0 || branchRank === 0 || !confirmSuccess
-                ? '#BEBEBE'
-                : '#4562F1',
-          }}>
-          <Text style={styles.buttonText}>저장</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };

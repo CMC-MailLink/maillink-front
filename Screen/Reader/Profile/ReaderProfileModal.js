@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
   TouchableWithoutFeedback,
 } from 'react-native';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import EraseNickname from '../../../assets/images/EraseNickname.png';
 
@@ -80,7 +80,7 @@ const ReaderProfileModal = ({
             onChangeText={setEditName}
           />
           <TouchableWithoutFeedback onPress={onPressErase}>
-            <Image style={styles.eraseButton} source={EraseNickname} />
+            <FastImage style={styles.eraseButton} source={EraseNickname} />
           </TouchableWithoutFeedback>
         </View>
         {status === 0 ? null : (
@@ -100,7 +100,9 @@ const ReaderProfileModal = ({
               <Text style={styles.modalCancel}>취소</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onPressEdit}>
+          <TouchableOpacity
+            onPress={onPressEdit}
+            disabled={status === 0 ? false : true}>
             <View>
               <Text style={styles.modalConfirm}>확인</Text>
             </View>

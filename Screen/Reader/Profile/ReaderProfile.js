@@ -11,6 +11,7 @@ import {
   Modal,
   ScrollView,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {ReaderAPI} from '../../../API/ReaderAPI';
@@ -327,6 +328,7 @@ const ReaderProfile = () => {
               onPress={() =>
                 navigation.navigate('ReaderStacks', {
                   screen: 'ReaderProfileSearch',
+                  params: {subscribeAuthorListData: subscribeAuthorListData},
                 })
               }>
               <FastImage
@@ -525,8 +527,10 @@ const ReaderProfile = () => {
                   <Text style={styles.bodyItemName}>
                     {data.writerInfo.nickName}
                   </Text>
-                  <Text style={styles.bodyItemIntro}>
-                    {data.writerInfo.introduction}
+                  <Text style={styles.bodyItemIntro} numberOfLines={2}>
+                    {data.writerInfo.introduction
+                      ? data.writerInfo.introduction
+                      : ''}
                   </Text>
                 </View>
                 {data.subscribeCheck ? (
@@ -648,12 +652,12 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItem: {
-    height: 68,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
   },
   bodyItemName: {
     fontFamily: 'NotoSansKR-Bold',
@@ -662,6 +666,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItemIntro: {
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

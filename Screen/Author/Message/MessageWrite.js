@@ -6,15 +6,15 @@ import {
   StatusBar,
   StyleSheet,
   TouchableWithoutFeedback,
-  Image,
   TextInput,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
+import {MessageAPI} from '../../../API/MessageAPI';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import ExitMessage from '../../../assets/images/ExitMessage.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
-import {MessageAPI} from '../../../API/MessageAPI';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
@@ -44,13 +44,19 @@ const MessageWrite = ({navigation: {setOptions}, route: {params}}) => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View>
-            <Image style={{width: 14.5, height: 14.5}} source={ExitMessage} />
+            <FastImage
+              style={{width: 14.5, height: 14.5}}
+              source={ExitMessage}
+            />
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>쪽지보내기</Text>
         <TouchableWithoutFeedback onPress={sendMessage}>
           <View>
-            <Image style={{width: 21.05, height: 25.43}} source={SendWriting} />
+            <FastImage
+              style={{width: 21.05, height: 25.43}}
+              source={SendWriting}
+            />
           </View>
         </TouchableWithoutFeedback>
       </View>

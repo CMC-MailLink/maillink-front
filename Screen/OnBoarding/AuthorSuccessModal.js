@@ -9,34 +9,10 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import NewCheckModal from '../../assets/images/NewCheckModal.png';
-import NoticeModal from './NoticeModal';
-import AppContext from '../../AppContext';
-const AuthorSuccessModal = ({
-  modalVisible,
-  setModalVisible,
-  modalVisible2,
-  setModalVisible2,
-  setModalConfirm,
-}) => {
-  const onPressModalConfirm2 = () => {
-    setModalVisible2(!modalVisible2);
-  };
 
+const AuthorSuccessModal = ({setModalVisible, setModalVisible2}) => {
   return (
     <View style={styles.centeredView}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible2}
-        onRequestClose={() => {
-          setModalVisible2(!modalVisible2);
-        }}>
-        <NoticeModal
-          modalVisible2={modalVisible2}
-          setModalVisible2={setModalVisible2}
-          setModalConfirm={setModalConfirm}
-        />
-      </Modal>
       <View style={styles.modalView}>
         <Image
           style={{width: 70, height: 70, top: -78 + 53}}
@@ -49,7 +25,11 @@ const AuthorSuccessModal = ({
           <Text style={styles.modalText3}>완료되었습니다.</Text>
         </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={onPressModalConfirm2}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(false);
+              setModalVisible2(true);
+            }}>
             <View>
               <Text style={styles.modalConfirm}>확인</Text>
             </View>

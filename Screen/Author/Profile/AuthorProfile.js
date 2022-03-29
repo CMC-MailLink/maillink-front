@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
@@ -14,10 +13,10 @@ import {
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AuthorAPI} from '../../../API/AuthorAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import FastImage from 'react-native-fast-image';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
-import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 
 import AuthorProfileIntro from './AuthorProfileIntro';
 import AuthorProfileMail from './AuthorProfileMail';
@@ -115,12 +114,12 @@ const AuthorProfile = () => {
                 screen: 'Setting',
               });
             }}>
-            <Image
+            <FastImage
               style={{
                 width: 18.68,
                 height: 19.2,
               }}
-              source={SettingProfile}></Image>
+              source={SettingProfile}></FastImage>
           </TouchableOpacity>
         </View>
         <View style={styles.profileView}>
@@ -131,14 +130,14 @@ const AuthorProfile = () => {
               width: 160,
             }}>
             <View>
-              <Image
+              <FastImage
                 style={{width: 78, height: 78, borderRadius: 90}}
                 defaultSource={DefaultProfile}
                 source={
                   !writerInfo || writerInfo.imgUrl == ''
                     ? DefaultProfile
                     : {uri: writerInfo.imgUrl}
-                }></Image>
+                }></FastImage>
             </View>
             <View style={{alignItems: 'center', top: 8}}>
               <Text style={styles.profileName}>{name}</Text>

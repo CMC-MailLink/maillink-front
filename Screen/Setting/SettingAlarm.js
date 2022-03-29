@@ -6,10 +6,10 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableWithoutFeedback,
-  Image,
   Switch,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 import BackMail from '../../assets/images/BackMail.png';
 
@@ -39,8 +39,10 @@ const SettingAlarm = () => {
       <StatusBar barStyle="light-content" />
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{position: 'absolute', left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail}></Image>
+          <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
+            <FastImage
+              style={{width: 9.5, height: 19}}
+              source={BackMail}></FastImage>
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>알림 설정</Text>

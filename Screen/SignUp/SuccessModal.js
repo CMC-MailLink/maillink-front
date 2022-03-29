@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 import NewCheckModal from '../../assets/images/NewCheckModal.png';
 
@@ -13,7 +14,7 @@ const SuccessModal = ({setModalConfirm, modalVisible, setModalVisible}) => {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Image
+        <FastImage
           style={{width: 70, height: 70, top: -78 + 53}}
           source={NewCheckModal}
         />

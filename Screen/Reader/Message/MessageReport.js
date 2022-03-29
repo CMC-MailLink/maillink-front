@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   StatusBar,
   TouchableWithoutFeedback,
@@ -14,12 +13,13 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FastImage from 'react-native-fast-image';
 
 import ReportCheck from '../../../assets/images/ReportCheck.png';
 import ReportCheckActivate from '../../../assets/images/ReportCheckActivate.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import ReportSuccessModal from './ReportSuccessModal';
-import FastImage from 'react-native-fast-image';
+
 const MessageReport = () => {
   const navigation = useNavigation();
   const [moneyReport, setMoneyReport] = useState(false);
@@ -28,10 +28,8 @@ const MessageReport = () => {
   const [sameReport, setSameReport] = useState(false);
   const [otherReport, setOtherReport] = useState(false);
   const [otherReportContent, setOtherReportContent] = useState('');
-  const [reportTypesData, setReportTypesData] = useState([]);
   const [confirmSuccess, setConfirmSuccess] = useState(true);
   const [enterCount, setenterCount] = useState(0);
-  const [textCount, setTextCount] = useState(0);
   const [subscribeCancel, setSubscribeCancel] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -61,13 +59,16 @@ const MessageReport = () => {
     setModalVisible(!modalVisible);
   };
   const onChangeText = text => setOtherReportContent(text);
-  const keyPress = e => {
-    if (e.key === 'Enter') {
+
+  useEffect(() => {
+    if (otherReportContent !== '') {
+      setConfirmSuccess(true);
+    } else {
+      setConfirmSuccess(false);
+    }
+    if (this.keyCode === 13) {
       setenterCount(enterCount + 1);
     }
-  };
-  useEffect(() => {
-    setTextCount(otherReportContent.length);
     if (
       moneyReport ||
       dateReport ||
@@ -77,8 +78,6 @@ const MessageReport = () => {
       subscribeCancel
     ) {
       setConfirmSuccess(true);
-    } else {
-      setConfirmSuccess(false);
     }
   }, [
     moneyReport,
@@ -111,7 +110,7 @@ const MessageReport = () => {
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>
           <View style={{position: 'absolute', left: 24, width: 20, height: 20}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
           </View>
         </TouchableWithoutFeedback>
 
@@ -120,8 +119,8 @@ const MessageReport = () => {
       {/* mainHeader */}
       <View style={styles.bodyHeader}>
         <Text style={styles.bodyHeaderText}>
-          해당 사용자를 신고하시겠습니까? {'\n'}사용자를 신고하는 사유를
-          선택해주세요. (중복가능)
+          해당 작가를 신고하는 이유를 선택해주세요. (중복가능){'\n'}해당
+          사용자와의 쪽지는 비활성화됩니다.
         </Text>
       </View>
       <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
@@ -130,9 +129,12 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>영리 목적/ 홍보성 글</Text>
             {!moneyReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -141,9 +143,12 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>음란성/선정성</Text>
             {!dateReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -152,26 +157,34 @@ const MessageReport = () => {
           <View style={styles.itemView}>
             <Text style={styles.itemText}>타인의 권리 침해</Text>
             {!rightReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback onPress={onPressSameReport}>
           <View style={styles.itemView}>
             <Text style={styles.itemText}>같은 내용 반복(도배)</Text>
             {!sameReport ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback onPress={onPressOtherReport}>
           <View style={{...styles.itemView}}>
             <Text style={styles.itemText}>기타 사유</Text>
-            <Image
+            <FastImage
               style={styles.itemCheckImg}
               source={!otherReport ? ReportCheck : ReportCheckActivate}
             />
@@ -183,6 +196,7 @@ const MessageReport = () => {
               alignItems: 'center',
               paddingVertical: 18,
               paddingHorizontal: 21,
+              backgroundColor: '#fff',
             }}>
             <View
               style={{
@@ -200,8 +214,6 @@ const MessageReport = () => {
                 maxLength={300}
                 maxHeight={300}
                 multiline={true}
-                autoCorrect={false}
-                autoCapitalize={false}
               />
             </View>
           </View>
@@ -217,9 +229,12 @@ const MessageReport = () => {
             }}>
             <Text style={styles.itemText}>해당 작가의 구독을 취소합니다.</Text>
             {!subscribeCancel ? (
-              <Image style={styles.itemCheckImg} source={ReportCheck} />
+              <FastImage style={styles.itemCheckImg} source={ReportCheck} />
             ) : (
-              <Image style={styles.itemCheckImg} source={ReportCheckActivate} />
+              <FastImage
+                style={styles.itemCheckImg}
+                source={ReportCheckActivate}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -263,11 +278,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerText: {
-    width: '100%',
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 16,
     color: '#3C3C3C',
-    textAlign: 'center',
     includeFontPadding: false,
   },
   bodyHeader: {
@@ -292,12 +305,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  itemOtherView: {
-    backgroundColor: 'white',
-    height: 269,
-    borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
   },
   textInput: {
     width: '100%',

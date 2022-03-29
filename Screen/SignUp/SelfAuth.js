@@ -5,7 +5,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
@@ -17,8 +16,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {SignUpAPI} from '../../API/SignUpAPI';
-// import Timer from './Timer';
-// import CheckBox from 'react-native-check-box';
+import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
@@ -165,13 +163,13 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
             </View>
           </TouchableWithoutFeedback>
         </View>
 
         {/* mainHeader */}
-        <Image
+        <FastImage
           style={{width: 48, height: 32.28, marginTop: 24, marginLeft: 25}}
           source={SignUpStep1}
         />
@@ -328,7 +326,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           </View>
         </View>
         {/* Body: number */}
-        <View style={{marginTop: 25, marginLeft: 22}}>
+        <View
+          style={{
+            marginTop: 25,
+            paddingHorizontal: 22,
+            flexDirection: 'row',
+          }}>
           {/* <CheckBox
             disabled={false}
             onClick={onPressCheckBox}
@@ -340,11 +343,14 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           /> */}
           {checkbox ? (
             <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
-              <Image style={{width: 23, height: 23}} source={CheckSelfAuth} />
+              <FastImage
+                style={{width: 23, height: 23}}
+                source={CheckSelfAuth}
+              />
             </TouchableWithoutFeedback>
           ) : (
             <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
-              <Image
+              <FastImage
                 style={{width: 23, height: 23}}
                 source={CheckDisabledSelfAuth}
               />
@@ -354,7 +360,17 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           <Text style={styles.rulesText}>
             메일링크 가입 약관에 모두 동의합니다
           </Text>
+<<<<<<< HEAD
           <TouchableOpacity onPress={onPressServiceTerms}>
+=======
+          <TouchableOpacity
+            onPress={async () =>
+              Linking.openURL(
+                'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
+              )
+            }
+            style={{position: 'absolute', right: 22}}>
+>>>>>>> donguri
             <Text style={styles.example}>보기</Text>
           </TouchableOpacity>
         </View>
@@ -508,18 +524,19 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   rulesText: {
-    position: 'absolute',
-    left: 37,
-    bottom: 1,
+    marginLeft: 14,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',
     includeFontPadding: false,
   },
   example: {
+<<<<<<< HEAD
     position: 'absolute',
     right: 21,
     bottom: 0,
+=======
+>>>>>>> donguri
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',

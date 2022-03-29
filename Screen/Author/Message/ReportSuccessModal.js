@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
+
 import NewCheckModal from '../../../assets/images/NewCheckModal.png';
 
 const ReportSuccessModal = ({
@@ -18,13 +20,13 @@ const ReportSuccessModal = ({
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Image
+        <FastImage
           style={{width: 70, height: 70, top: -78 + 53}}
           source={NewCheckModal}
         />
         <Text style={styles.modalText}>신고 접수 완료</Text>
         <Text style={styles.modalText2}>
-          한 번 나간 채팅은 복구되지 않습니다.
+          신고 내용이 메일링크 팀으로 전달되었습니다.
         </Text>
         <View style={styles.modalButtonView}>
           <TouchableOpacity onPress={goNextScreen}>

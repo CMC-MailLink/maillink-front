@@ -124,7 +124,6 @@ export const ReaderAPI = {
       });
       console.log(response);
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -276,7 +275,102 @@ export const ReaderAPI = {
         },
       );
       let json = await response.json();
-      console.log('작가 정보 : ', json.data);
+      console.log(json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //작가 관심하기
+  interesting: async ({writerId}) => {
+    console.log('독자 작가 관심하기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/reader/interest?writerId=${writerId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+
+  //작가 관심취소하기
+  cancelInteresting: async ({writerId}) => {
+    console.log('독자 작가 관심 취소하기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/reader/interest?writerId=${writerId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //작가 공개 메일 리스트 조회
+  getWriterPublishList: async ({queryKey}) => {
+    console.log('독자 작가 공개 메일 리스트 조회');
+    const [_, writerId] = queryKey;
+    console.log(writerId);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/publish/${writerId}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //취향분석
+  getAnalyzeResult: async ({queryKey}) => {
+    console.log('독자 취향분석 결과');
+    const [_, mood] = queryKey;
+    console.log(mood);
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/reader/recommendation?mood=${mood}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      console.log(response);
+      let json = await response.json();
+      console.log('result : ', json.data);
       return json.data;
     } catch (e) {
       console.log(e);

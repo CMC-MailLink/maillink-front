@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
   Platform,
   Dimensions,
@@ -13,6 +12,10 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
+<<<<<<< HEAD
+=======
+import FastImage from 'react-native-fast-image';
+>>>>>>> donguri
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
@@ -22,6 +25,7 @@ import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocus
 
 const ReaderTab = createBottomTabNavigator();
 
+<<<<<<< HEAD
 const CustomTabBarButton = ({children, onPress}) => (
   <TouchableOpacity onPress={onPress} activeOpacity={1}>
     <View
@@ -33,6 +37,19 @@ const CustomTabBarButton = ({children, onPress}) => (
     </View>
   </TouchableOpacity>
 );
+=======
+// const CustomTabBarButton = ({children, onPress}) => (
+//   <TouchableOpacity onPress={onPress} activeOpacity={1}>
+//     <View
+//       style={{
+//         top: 12,
+//         left: -Dimensions.get('window').width / 2,
+//       }}>
+//       <View>{children}</View>
+//     </View>
+//   </TouchableOpacity>
+// );
+>>>>>>> donguri
 
 const ReaderTabs = () => {
   const insets = useSafeAreaInsets();
@@ -59,7 +76,7 @@ const ReaderTabs = () => {
                 marginTop: insets.bottom / 2,
                 marginLeft: Dimensions.get('window').width / 10,
               }}>
-              <Image
+              <FastImage
                 style={{width: 20.2, height: 18}}
                 source={focused ? HeartTabsFocused : HeartTabs}
               />
@@ -102,7 +119,7 @@ const ReaderTabs = () => {
                   shadowOpacity: 0.314,
                   shadowRadius: 5,
                 }}>
-                <Image
+                <FastImage
                   style={{width: 68.58, height: 68.58}}
                   source={LogoTabs}
                 />
@@ -124,7 +141,7 @@ const ReaderTabs = () => {
                 marginTop: insets.bottom / 2,
                 marginRight: Dimensions.get('window').width / 10,
               }}>
-              <Image
+              <FastImage
                 style={{width: 18, height: 21.27}}
                 source={focused ? ReaderProfileTabsFocused : ReaderProfileTabs}
               />

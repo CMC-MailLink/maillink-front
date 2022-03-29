@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
+import {View, Text, StyleSheet, TouchableOpacity, Linking} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import Facebook from '../../../assets/images/Facebook.png';
 import Twitter from '../../../assets/images/Twitter.png';
@@ -56,7 +49,11 @@ const AuthorProfileIntro = ({writerInfo}) => {
       <View style={styles.bodyIntroView}>
         <Text style={styles.bodyIntroHeadText}>소개</Text>
         <Text style={styles.bodyIntroText}>
-          {writerInfo ? writerInfo.introduction : ''}
+          {writerInfo
+            ? writerInfo.introduction
+              ? writerInfo.introduction
+              : '작성된 소개글이 없습니다.'
+            : ''}
         </Text>
       </View>
       <View style={styles.bodyInterestView}>
@@ -84,7 +81,11 @@ const AuthorProfileIntro = ({writerInfo}) => {
                 {colorCategory[writerInfo.genre1].name}
               </Text>
             </View>
-          ) : null}
+          ) : (
+            <Text style={styles.bodyInterestHeadText}>
+              설정된 갈래가 없습니다.
+            </Text>
+          )}
           {writerInfo && writerInfo.genre2 ? (
             <View
               style={{
@@ -153,7 +154,11 @@ const AuthorProfileIntro = ({writerInfo}) => {
                 {colorCategory[writerInfo.mood1].name}
               </Text>
             </View>
-          ) : null}
+          ) : (
+            <Text style={styles.bodyInterestHeadText}>
+              설정된 분위기가 없습니다.
+            </Text>
+          )}
           {writerInfo && writerInfo.mood2 ? (
             <View
               style={{
@@ -214,28 +219,28 @@ const AuthorProfileIntro = ({writerInfo}) => {
                   `https://www.facebook.com/${writerInfo.facebook}`,
                 )
               }>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={Facebook}></Image>
+                source={Facebook}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={FacebookNone}></Image>
+              source={FacebookNone}></FastImage>
           )}
           {writerInfo && writerInfo.twitter ? (
             <TouchableOpacity
               onPress={() =>
                 onPressTwitter(`https://twitter.com/${writerInfo.twitter}`)
               }>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={Twitter}></Image>
+                source={Twitter}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={TwitterNone}></Image>
+              source={TwitterNone}></FastImage>
           )}
           {writerInfo && writerInfo.instagram ? (
             <TouchableOpacity
@@ -244,26 +249,26 @@ const AuthorProfileIntro = ({writerInfo}) => {
                   `https://www.instagram.com/${writerInfo.instagram}`,
                 )
               }>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={Instagram}></Image>
+                source={Instagram}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={InstagramNone}></Image>
+              source={InstagramNone}></FastImage>
           )}
           {writerInfo && writerInfo.etc ? (
             <TouchableOpacity
               onPress={() => onPressURL(`https://${writerInfo.etc}`)}>
-              <Image
+              <FastImage
                 style={{width: 39.83, height: 38.24, marginRight: 21}}
-                source={URL}></Image>
+                source={URL}></FastImage>
             </TouchableOpacity>
           ) : (
-            <Image
+            <FastImage
               style={{width: 39.83, height: 38.24, marginRight: 21}}
-              source={URLNone}></Image>
+              source={URLNone}></FastImage>
           )}
         </View>
       </View>

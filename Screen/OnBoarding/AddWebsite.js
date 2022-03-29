@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import FacebookNone from '../../assets/images/FacebookNone.png';
@@ -19,21 +20,49 @@ import URLNone from '../../assets/images/URLNone.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {SignUpAPI} from '../../API/SignUpAPI';
+import NoticeModal from './NoticeModal';
+import AppContext from '../../AppContext';
 
-const AddWebsite = () => {
+const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+  const myContext = useContext(AppContext);
   const [editFacebook, setEditFacebook] = useState('');
   const [editTwitter, setEditTwitter] = useState('');
   const [editInstagram, setEditInstagram] = useState('');
   const [editURL, setEditURL] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const [modalConfirm2, setModalConfirm2] = useState(false);
+  const facebookRef = useRef();
+  const twitterRef = useRef();
+  const instagramRef = useRef();
+  const urlRef = useRef();
 
   const onPressBack = () => {
     navigation.goBack();
   };
-  const onPressModalConfirm = () => {
-    setModalVisible(!modalVisible);
+  const onPressConfirm = async () => {
+    var result = await SignUpAPI.setAuthorInfo({
+      ...params,
+      facebook: editFacebook,
+      twitter: editTwitter,
+      instagram: editInstagram,
+      etc: editURL,
+    });
+
+    console.log(result);
+    if (result) {
+      setModalVisible(true);
+    }
   };
+
+  useEffect(() => {
+    if (modalConfirm2) {
+      myContext.setIsReader('WRITER');
+    }
+  }, [modalConfirm2, myContext]);
 
   return (
     <View style={{flex: 1}}>
@@ -46,9 +75,20 @@ const AddWebsite = () => {
           setModalVisible(!modalVisible);
         }}>
         <AuthorSuccessModal
-          modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}
+          setModalVisible2={setModalVisible2}
+        />
+      </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible2}
+        onRequestClose={() => {
+          setModalVisible2(!modalVisible2);
+        }}>
+        <NoticeModal
+          setModalVisible2={setModalVisible2}
+          setModalConfirm2={setModalConfirm2}
         />
       </Modal>
 
@@ -91,8 +131,13 @@ const AddWebsite = () => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={FacebookNone}
               />
-              <Text style={styles.websiteText}>facebook.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => facebookRef.current.focus()}>
+                <Text style={styles.websiteText}>facebook.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={facebookRef}
                 style={styles.websiteTextInput}
                 value={editFacebook}
                 onChangeText={setEditFacebook}
@@ -103,8 +148,13 @@ const AddWebsite = () => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={TwitterNone}
               />
-              <Text style={styles.websiteText}>twitter.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => twitterRef.current.focus()}>
+                <Text style={styles.websiteText}>twitter.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={twitterRef}
                 style={styles.websiteTextInput}
                 value={editTwitter}
                 onChangeText={setEditTwitter}
@@ -115,8 +165,13 @@ const AddWebsite = () => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={InstagramNone}
               />
-              <Text style={styles.websiteText}>instagram.com/</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => instagramRef.current.focus()}>
+                <Text style={styles.websiteText}>instagram.com/</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={instagramRef}
                 style={styles.websiteTextInput}
                 value={editInstagram}
                 onChangeText={setEditInstagram}
@@ -127,7 +182,13 @@ const AddWebsite = () => {
                 style={{width: 21.5, height: 20.64, marginRight: 17}}
                 source={URLNone}
               />
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => urlRef.current.focus()}>
+                <Text style={styles.websiteText}>https://</Text>
+              </TouchableOpacity>
               <TextInput
+                ref={urlRef}
                 style={styles.websiteTextInput}
                 value={editURL}
                 onChangeText={setEditURL}
@@ -138,10 +199,8 @@ const AddWebsite = () => {
       </KeyboardAwareScrollView>
 
       {/* Footer: Button pass */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={onPressModalConfirm}
-          style={styles.buttonAble}>
+      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
+        <TouchableOpacity onPress={onPressConfirm} style={styles.buttonAble}>
           <View>
             <Text style={styles.buttonAbleText}>완료</Text>
           </View>
@@ -191,21 +250,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E2E2E2',
   },
-  footer: {
-    position: 'static',
+  bottomView: {
     width: '100%',
-    paddingHorizontal: 20,
-    marginBottom: 80,
-    paddingTop: 5,
-    alignItems: 'center',
+    position: 'absolute',
   },
   buttonAble: {
-    width: '100%',
-    height: 52,
-    borderRadius: 26,
+    marginHorizontal: 20,
     backgroundColor: '#4562F1',
-    justifyContent: 'center',
+    borderRadius: 26,
+    height: 52,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
   },
   buttonAbleText: {
     includeFontPadding: false,
