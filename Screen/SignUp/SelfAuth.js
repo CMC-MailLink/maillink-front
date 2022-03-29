@@ -182,7 +182,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             marginHorizontal: 20,
             borderBottomWidth: 1,
             borderBottomColor: '#BEBEBE',
-            paddingBottom: 10,
+            ...Platform.select({
+              ios: {paddingBottom: 10},
+              android: {
+                paddingBottom: 17,
+              },
+            }),
             height: 67,
             justifyContent: 'space-between',
           }}>
@@ -211,9 +216,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               borderBottomWidth: 1,
               borderBottomColor: '#BEBEBE',
               borderColor: '#BEBEBE',
+              // paddingBottom: 10,
               ...Platform.select({
                 ios: {paddingBottom: 10},
-                android: {paddingTop: -10},
+                android: {
+                  paddingTop: -30,
+                },
               }),
             }}>
             <TextInput
@@ -226,6 +234,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             />
             {authRequest ? (
               <>
+                {/* timer */}
                 <View style={{position: 'absolute', right: 80}}>
                   {!confirmSuccess ? (
                     <Text style={styles.timerText}>
@@ -234,6 +243,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
                     </Text>
                   ) : null}
                 </View>
+                {/* 버튼 */}
                 <TouchableOpacity
                   disabled={confirmSuccess}
                   onPress={goAlertPhoneAdd}
@@ -286,7 +296,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               paddingBottom: 10,
               ...Platform.select({
                 ios: {},
-                android: {paddingBottom: 0},
+                android: {paddingBottom: -10, includeFontPadding: false},
               }),
             }}>
             <TextInput
@@ -297,6 +307,28 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               value={number}
               placeholder="인증 번호 입력"
             />
+            {/* {Platform.select({
+              ios: (
+                <TextInput
+                  editable={authRequest && !confirmSuccess ? true : false}
+                  keyboardType="number-pad"
+                  style={styles.input}
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="인증 번호 입력"
+                />
+              ),
+              android: (
+                <TextInput
+                  editable={authRequest && !confirmSuccess ? true : false}
+                  keyboardType="number-pad"
+                  style={phone ? styles.inputAndroid : styles.input}
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="인증 번호 입력"
+                />
+              ),
+            })} */}
             {/* Body: confirmRequest */}
             <TouchableOpacity
               disabled={!number.length || confirmSuccess ? true : false}
@@ -424,6 +456,13 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     includeFontPadding: false,
   },
+  inputAndroid: {
+    width: 200,
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 16,
+    color: '#3C3C3C',
+    includeFontPadding: false,
+  },
   input: {
     width: 200,
     fontFamily: 'NotoSansKR-Regular',
@@ -456,7 +495,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({
-      android: {marginTop: 25 - 10},
+      android: {marginTop: 43 - 28},
     }),
     includeFontPadding: false,
   },
@@ -476,7 +515,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({
-      android: {marginTop: 20},
+      android: {marginTop: 43 - 28},
+      includeFontPadding: false,
     }),
     includeFontPadding: false,
   },
@@ -506,6 +546,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBEBEB',
     justifyContent: 'center',
     alignItems: 'center',
+    includeFontPadding: false,
   },
   authRequestText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -533,6 +574,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#BEBEBE',
     justifyContent: 'center',
     alignItems: 'center',
+    includeFontPadding: false,
   },
   buttonDisableText: {
     fontFamily: 'NotoSansKR-Medium',
@@ -547,6 +589,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4562F1',
     justifyContent: 'center',
     alignItems: 'center',
+    includeFontPadding: false,
   },
   buttonAbleText: {
     fontFamily: 'NotoSansKR-Medium',

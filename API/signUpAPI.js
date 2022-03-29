@@ -91,8 +91,8 @@ export const SignUpAPI = {
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
         body: JSON.stringify({
-          socialType: 'APPLE',
-          socialId: 'bibitest7',
+          socialType: 'KAKAO',
+          socialId: 'dongurireader',
           fcmDeviceToken: fcmDeviceToken,
         }),
       });
@@ -132,22 +132,22 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   nickName: nickName,
-        //   imgUrl: imgUrl,
-        //   phoneNumber: phoneNumber,
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
         body: JSON.stringify({
-          socialType: 'APPLE',
-          socialId: 'bibitest7',
-          nickName: '비비테스트7',
+          socialType: socialType,
+          socialId: socialId,
+          nickName: nickName,
           imgUrl: imgUrl,
-          phoneNumber: '01011111111',
+          phoneNumber: phoneNumber,
           fcmDeviceToken: fcmDeviceToken,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'APPLE',
+        //   socialId: 'bibitest7',
+        //   nickName: '비비테스트7',
+        //   imgUrl: imgUrl,
+        //   phoneNumber: '01011111111',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
