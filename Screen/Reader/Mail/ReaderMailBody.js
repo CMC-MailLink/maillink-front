@@ -247,7 +247,8 @@ const ReaderMailBody = () => {
                 style={{
                   ...styles.itemTitleText,
                   color: data.item.isRead ? '#BEBEBE' : '#3C3C3C',
-                }}>
+                }}
+                numberOfLines={1}>
                 {data.item.title}
               </Text>
               <Text

@@ -153,11 +153,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EBEBEB',
   },
   titleView: {
-    height: 75,
+    paddingVertical: 13,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     justifyContent: 'center',
-    paddingLeft: 20,
+    paddingHorizontal: 20,
   },
   titleText: {
     fontFamily: 'NotoSansKR-Bold',

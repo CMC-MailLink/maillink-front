@@ -107,6 +107,16 @@ const SelectUserType = props => {
           marginBottom: 40,
           paddingTop: 5,
         }}>
+        <Text
+          style={{
+            fontFamily: 'NotoSansKR-Light',
+            fontSize: 13,
+            color: '#BEBEBE',
+            marginBottom: 20,
+            textAlign: 'center',
+          }}>
+          한 번 선택하면 이후에 변경이 불가합니다.
+        </Text>
         <TouchableOpacity
           disabled={readerSelect || authorSelect ? false : true}
           onPress={

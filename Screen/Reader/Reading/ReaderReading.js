@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,13 +17,20 @@ import {
   addScreenshotListener,
   removeScreenshotListener,
 } from 'react-native-detector';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
 import SendMail2 from '../../../assets/images/SendMail2.png';
 import StarMail from '../../../assets/images/StarMail.png';
 import NoStarMail from '../../../assets/images/NoStarMail.png';
-import {useEffect} from 'react/cjs/react.development';
+import ReportReading from '../../../assets/images/ReportReading.png';
+import ReportMenuPage from '../../../assets/images/ReportMenuPage.png';
 
 const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
@@ -124,6 +131,55 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     true;
   `;
 
+  const onPressReport = data => {
+    navigation.navigate('ReaderStacks', {
+      screen: 'MessageReport',
+    });
+  };
+
+  const RenderInfoItem = ({item}) => {
+    return (
+      <Menu style={{justifyContent: 'center'}}>
+        <MenuTrigger>
+          <View>
+            <FastImage style={{width: 23, height: 23}} source={ReportReading} />
+          </View>
+        </MenuTrigger>
+        <MenuOptions customStyles={optionsStyles}>
+          <MenuOption
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#E3E3E3',
+              borderLength: 226,
+            }}
+            onSelect={onPressReport}>
+            <Text style={styles.menuText}>
+              <Text>신고하기</Text>
+            </Text>
+            <FastImage
+              style={{
+                width: 22,
+                height: 22,
+                position: 'absolute',
+                left: 178.5,
+              }}
+              source={ReportMenuPage}
+            />
+          </MenuOption>
+          {/* <MenuOption onSelect={onPressModalConfirm}>
+            <Text style={styles.menuText}>
+              <Text>채팅방 나가기</Text>
+            </Text>
+            <Image
+              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              source={ReportMenuExit}
+            />
+          </MenuOption> */}
+        </MenuOptions>
+      </Menu>
+    );
+  };
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
@@ -139,6 +195,9 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
         </TouchableWithoutFeedback>
         {authorInfoData && authorInfoData.subscribeCheck ? (
           <>
+            <View style={{position: 'absolute', right: 101}}>
+              <RenderInfoItem></RenderInfoItem>
+            </View>
             <TouchableWithoutFeedback onPress={() => onPressBookmark()}>
               <View style={{position: 'absolute', right: 61}}>
                 {mailDetailData && mailDetailData.isSaved ? (
@@ -155,7 +214,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressSend}>
-              <View style={{position: 'absolute', right: 22}}>
+              <View style={{position: 'absolute', right: 21}}>
                 <FastImage
                   style={{width: 21.54, height: 23.82}}
                   source={SendMail2}></FastImage>
@@ -243,11 +302,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EBEBEB',
   },
   titleView: {
-    height: 75,
+    paddingVertical: 13,
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     justifyContent: 'center',
-    paddingLeft: 20,
+    paddingHorizontal: 20,
   },
   titleText: {
     fontFamily: 'NotoSansKR-Bold',
@@ -317,5 +376,30 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     width: '100%',
   },
+  menuText: {
+    left: 13,
+    fontFamily: 'NotoSansKR-Medium',
+    fontSize: 15,
+    color: '#5F5F5F',
+    includeFontPadding: false,
+  },
 });
+
+const optionsStyles = {
+  optionsContainer: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    width: 226,
+    marginTop: 25,
+    marginLeft: 95,
+  },
+  optionWrapper: {
+    paddingHorizontal: 10,
+    paddingVertical: 14,
+    justifyContent: 'center',
+  },
+};
 export default ReaderReading;

@@ -97,7 +97,6 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   const RenderItem = ({item}) => {
-    console.log(item);
     return (
       <TouchableWithoutFeedback onPress={() => onPressAuthor(item)}>
         <View

@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
@@ -17,8 +16,9 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import FastImage from 'react-native-fast-image';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import SignUpStep1 from '../../assets/images/SignUpStep1.png';
+import SignUpStepInterest from '../../assets/images/SignUpStepInterest.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import InfoAuthorProfile from '../../assets/images/InfoAuthorProfile.png';
 import InterestModal from '../../assets/images/InterestModal.png';
@@ -114,7 +114,10 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
     return (
       <Menu style={styles.menuView}>
         <MenuTrigger style={styles.menuTriggerView}>
-          <Image style={{width: 30, height: 30}} source={InfoAuthorProfile} />
+          <FastImage
+            style={{width: 30, height: 30}}
+            source={InfoAuthorProfile}
+          />
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           <MenuOption>
@@ -228,14 +231,14 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
-              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
             </View>
           </TouchableWithoutFeedback>
         </View>
         {/* mainHeader */}
-        <Image
+        <FastImage
           style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
-          source={SignUpStep1}
+          source={SignUpStepInterest}
         />
         <View style={{marginTop: 10, marginLeft: 20}}>
           <View style={{flexDirection: 'row'}}>
@@ -261,7 +264,7 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
           transparent={false}
           visible={modalOpen}
           closeOnTouchOutside={true}>
-          <Image
+          <FastImage
             style={{left: -23 + 340, width: 228, height: 187}}
             source={InterestModal}
           />

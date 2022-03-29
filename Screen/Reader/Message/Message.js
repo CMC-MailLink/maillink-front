@@ -158,7 +158,12 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               <Text>신고하기</Text>
             </Text>
             <FastImage
-              style={{width: 24, height: 24, position: 'absolute', left: 178.5}}
+              style={{
+                width: 22,
+                height: 22,
+                position: 'absolute',
+                left: 178.5,
+              }}
               source={ReportMenuPage}
             />
           </MenuOption>

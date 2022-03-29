@@ -23,7 +23,6 @@ import FastImage from 'react-native-fast-image';
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
 import AppleLogin from '../../assets/images/AppleLogin.png';
-import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = props => {
   const myContext = useContext(AppContext);
@@ -183,8 +182,8 @@ const SignIn = props => {
       }}>
       <FastImage
         style={{
-          width: 62.86,
-          height: 49,
+          width: 76.44,
+          height: 51.4,
           top: Platform.OS === 'ios' ? 157 : 157 - 48,
           left: 42,
         }}
