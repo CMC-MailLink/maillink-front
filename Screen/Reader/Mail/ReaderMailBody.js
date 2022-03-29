@@ -393,7 +393,7 @@ const ReaderMailBody = () => {
       </View>
       <View style={styles.bodyContainer}>
         <SwipeListView
-          // onScroll={onScroll}
+          onScroll={onScroll}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -411,7 +411,7 @@ const ReaderMailBody = () => {
                   style={{
                     position: 'absolute',
                     top: 0,
-                    right: 32,
+                    right: 14,
                     width: 164,
                     height: 179,
                   }}

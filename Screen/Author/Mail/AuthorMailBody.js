@@ -215,7 +215,7 @@ const AuthorMailBody = () => {
               style={{
                 position: 'absolute',
                 top: -4,
-                right: 32,
+                right: 13,
                 width: 176,
                 height: 182,
               }}

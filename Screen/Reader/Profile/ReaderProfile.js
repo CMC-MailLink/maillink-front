@@ -23,7 +23,6 @@ import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
 import AccordionProfile2 from '../../../assets/images/AccordionProfile2.png';
 import SearchProfile from '../../../assets/images/SearchProfile.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
