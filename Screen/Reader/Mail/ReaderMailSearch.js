@@ -208,7 +208,7 @@ const ReaderMailSearch = () => {
                         borderRadius: 90,
                       }}
                       source={
-                        data.writerImgUrl === ''
+                        data.writerImgUrl === '' || !data.writerImgUrl
                           ? DefaultProfile
                           : {uri: data.writerImgUrl}
                       }

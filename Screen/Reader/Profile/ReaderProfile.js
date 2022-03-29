@@ -100,6 +100,7 @@ const ReaderProfile = () => {
   useEffect(() => {
     if (subscribeAuthorListData) {
       var temp = subscribeAuthorListData.filter(data => {
+        if (data.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
         for (var i = 0; i < 3; i++) {
           if (branch[i].select)
             if (data.writerInfo.primaryGenre === branch[i].name) return true;
@@ -513,7 +514,7 @@ const ReaderProfile = () => {
                     borderRadius: 90,
                   }}
                   source={
-                    data.writerInfo.imgUrl === ''
+                    data.writerInfo.imgUrl === '' || !data.writerInfo.imgUrl
                       ? DefaultProfile
                       : {uri: data.writerInfo.imgUrl}
                   }

@@ -158,7 +158,9 @@ const ReaderAuthorProfile = ({navigation: {setOptions}, route: {params}}) => {
               <FastImage
                 style={{width: 78, height: 78, borderRadius: 90}}
                 source={
-                  !authorInfoData || authorInfoData.writerInfo.imgUrl === ''
+                  !authorInfoData ||
+                  authorInfoData.writerInfo.imgUrl === '' ||
+                  !authorInfoData.writerInfo.imgUrl
                     ? DefaultProfile
                     : {uri: authorInfoData.writerInfo.imgUrl}
                 }></FastImage>

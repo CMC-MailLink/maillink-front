@@ -219,7 +219,7 @@ const ReaderMailBody = () => {
                 borderRadius: 90,
               }}
               source={
-                data.item.writerImgUrl === ''
+                data.item.writerImgUrl === '' || !data.item.writerImgUrl
                   ? DefaultProfile
                   : {uri: data.item.writerImgUrl}
               }

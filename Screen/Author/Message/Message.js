@@ -200,7 +200,9 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
               marginRight: 14,
             }}
             source={
-              !messagePartnerData || messagePartnerData.partnerImgUrl === ''
+              !messagePartnerData ||
+              messagePartnerData.partnerImgUrl === '' ||
+              !messagePartnerData.partnerImgUrl
                 ? DefaultProfile
                 : {uri: messagePartnerData.partnerImgUrl}
             }

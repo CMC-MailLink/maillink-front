@@ -106,7 +106,9 @@ const ReaderAuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         <FastImage
           style={{width: 30, height: 30, marginRight: 12, borderRadius: 90}}
           source={
-            !mailDetailData || mailDetailData.writerImgUrl === ''
+            !mailDetailData ||
+            mailDetailData.writerImgUrl === '' ||
+            !mailDetailData.writerImgUrl
               ? DefaultProfile
               : {uri: mailDetailData.writerImgUrl}
           }></FastImage>

@@ -79,7 +79,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
         <FastImage
           style={{width: 30, height: 30, marginRight: 12, borderRadius: 90}}
           source={
-            params.memberInfo.imgUrl == ''
+            params.memberInfo.imgUrl == '' || !params.memberInfo.imgUrl
               ? DefaultProfile
               : {uri: params.memberInfo.imgUrl}
           }></FastImage>

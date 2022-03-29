@@ -134,7 +134,7 @@ const AuthorProfile = () => {
                 style={{width: 78, height: 78, borderRadius: 90}}
                 defaultSource={DefaultProfile}
                 source={
-                  !writerInfo || writerInfo.imgUrl == ''
+                  !writerInfo || writerInfo.imgUrl == '' || !writerInfo.imgUrl
                     ? DefaultProfile
                     : {uri: writerInfo.imgUrl}
                 }></FastImage>

@@ -119,7 +119,9 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
             <FastImage
               style={{width: 77.56, height: 77.56, borderRadius: 90}}
               source={
-                item[0].imgUrl === '' ? DefaultProfile : {uri: item[0].imgUrl}
+                item[0].imgUrl === '' || !item[0].imgUrl
+                  ? DefaultProfile
+                  : {uri: item[0].imgUrl}
               }></FastImage>
             <Text style={styles.itemName}>{item[0].nickName}</Text>
             <Text style={styles.itemAuthor}>작가님</Text>

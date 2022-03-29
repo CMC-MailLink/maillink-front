@@ -127,7 +127,7 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
                         borderRadius: 90,
                       }}
                       source={
-                        data.writerInfo.imgUrl === ''
+                        data.writerInfo.imgUrl === '' || !data.writerInfo.imgUrl
                           ? DefaultProfile
                           : {uri: data.writerInfo.imgUrl}
                       }></FastImage>
