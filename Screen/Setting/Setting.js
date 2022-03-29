@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../AppContext';
@@ -16,6 +17,7 @@ import BackMail from '../../assets/images/BackMail.png';
 import AlarmSetting from '../../assets/images/AlarmSetting.png';
 import AccountSetting from '../../assets/images/AccountSetting.png';
 import NextSetting from '../../assets/images/NextSetting.png';
+import RuleSetting from '../../assets/images/RuleSetting.png';
 
 const Setting = () => {
   const myContext = useContext(AppContext);
@@ -75,6 +77,22 @@ const Setting = () => {
             style={{width: 19, height: 22.51, marginRight: 20}}
             source={AccountSetting}></FastImage>
           <Text style={styles.menuText}>계정</Text>
+          <FastImage
+            style={{width: 7, height: 15, position: 'absolute', right: 21}}
+            source={NextSetting}></FastImage>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () =>
+          await Linking.openURL(
+            'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
+          )
+        }>
+        <View style={styles.menuView}>
+          <FastImage
+            style={{width: 19, height: 22.51, marginRight: 20}}
+            source={RuleSetting}></FastImage>
+          <Text style={styles.menuText}>이용약관</Text>
           <FastImage
             style={{width: 7, height: 15, position: 'absolute', right: 21}}
             source={NextSetting}></FastImage>

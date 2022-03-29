@@ -85,16 +85,16 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
         body: JSON.stringify({
-          socialType: 'APPLE',
-          socialId: 'bibitest7',
+          socialType: socialType,
+          socialId: socialId,
           fcmDeviceToken: fcmDeviceToken,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'APPLE',
+        //   socialId: 'bibitest7',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -132,22 +132,22 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   nickName: nickName,
-        //   imgUrl: imgUrl,
-        //   phoneNumber: phoneNumber,
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
         body: JSON.stringify({
-          socialType: 'APPLE',
-          socialId: 'bibitest7',
-          nickName: '비비테스트7',
+          socialType: socialType,
+          socialId: socialId,
+          nickName: nickName,
           imgUrl: imgUrl,
-          phoneNumber: '01011111111',
+          phoneNumber: phoneNumber,
           fcmDeviceToken: fcmDeviceToken,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'APPLE',
+        //   socialId: 'bibitest7',
+        //   nickName: '비비테스트7',
+        //   imgUrl: imgUrl,
+        //   phoneNumber: '01011111111',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -186,6 +186,8 @@ export const SignUpAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
+      console.log('유저정보조회');
+      console.log(response);
       let json = await response.json();
       return json.data.userType;
     } catch (e) {

@@ -12,6 +12,10 @@ import {WebView} from 'react-native-webview';
 import {useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
 import FastImage from 'react-native-fast-image';
+import {
+  addScreenshotListener,
+  removeScreenshotListener,
+} from 'react-native-detector';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../../assets/images/BackMail2.png';
@@ -40,6 +44,16 @@ const ReaderAuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   const onPressBack = () => {
     navigation.goBack();
   };
+
+  // useEffect(() => {
+  //   const userDidScreenshot = () => {
+  //     console.log('User took screenshot');
+  //   };
+  //   const unsubscribe = addScreenshotListener(userDidScreenshot);
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (!loading && !webviewLoading) {

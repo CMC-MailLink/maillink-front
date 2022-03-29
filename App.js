@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {PermissionsAndroid, Platform} from 'react-native';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {setCustomText} from 'react-native-global-props';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -30,6 +31,19 @@ const MyTheme = {
   },
 };
 
+const requestPermission = async () => {
+  await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    {
+      title: 'Get Read External Storage Access',
+      message: 'get read external storage access for detecting screenshots',
+      buttonNeutral: 'Ask Me Later',
+      buttonNegative: 'Cancel',
+      buttonPositive: 'OK',
+    },
+  );
+};
+
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -45,8 +59,9 @@ const App = () => {
 
   setCustomText(customTextProps);
   useEffect(() => {
-    requestUserPermission();
+    if (Platform.OS === 'android') requestUserPermission();
     notificationListener();
+    requestPermission();
 
     //Check if keys is set or not
     //If not then send for Authentication

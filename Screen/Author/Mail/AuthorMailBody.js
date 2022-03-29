@@ -246,7 +246,12 @@ const AuthorMailBody = () => {
             {mail ? (
               mail.length ? (
                 <View style={styles.bodyContainer}>
-                  <FlatList data={mail} renderItem={renderItem}></FlatList>
+                  <FlatList
+                    data={mail}
+                    renderItem={renderItem}
+                    ListFooterComponent={
+                      <View style={{height: 150, backgroundColor: 'white'}} />
+                    }></FlatList>
                 </View>
               ) : (
                 <View
