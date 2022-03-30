@@ -65,7 +65,9 @@ const App = () => {
   useEffect(() => {
     requestUserPermission();
     notificationListener();
-    if (Platform.OS === 'android') requestPermission();
+    if (Platform.OS === 'android') {
+      requestPermission();
+    }
 
     //Check if keys is set or not
     //If not then send for Authentication
@@ -100,8 +102,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (isLogged !== null) SplashScreen.hide();
-    else if (isReader !== null) SplashScreen.hide();
+    if (isLogged !== null) {
+      SplashScreen.hide();
+    } else if (isReader !== null) {
+      SplashScreen.hide();
+    }
   }, [isLogged, isReader]);
 
   return (

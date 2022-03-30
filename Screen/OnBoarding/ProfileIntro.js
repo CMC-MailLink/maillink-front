@@ -20,7 +20,6 @@ import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {keyCode} from 'react-native-keycode';
 
 const ProfileIntro = () => {
   const myContext = useContext(AppContext);
@@ -66,11 +65,18 @@ const ProfileIntro = () => {
       style={{
         ...Platform.select({
           ios: {flex: 1},
-          android: {flex: 0},
+          android: {flex: 1},
         }),
       }}>
       <SafeAreaView style={{flex: 0}} />
-      <KeyboardAwareScrollView enableOnAndroid={true}>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        contentContainerStyle={{flexGrow: 1}}
+        bounces={false}
+        keyboardOpeningTime={0}
+        enableAutomaticScroll={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}>
         <Modal
           animationType="fade"
           transparent={true}
@@ -106,16 +112,15 @@ const ProfileIntro = () => {
           <Text style={styles.introTitle}>소개해주세요.</Text>
           <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
         </View>
-
         {/* Body: Input */}
         <View
           style={{
             marginTop: 30,
             marginLeft: 20,
             marginRight: 20,
-            // ...Platform.select({
-            //   android: {height: 40},
-            // }),
+            ...Platform.select({
+              android: {paddingBottom: 0, flex: 0},
+            }),
           }}>
           <TextInput
             style={styles.input}
@@ -133,7 +138,14 @@ const ProfileIntro = () => {
         </View>
       </KeyboardAwareScrollView>
       {/* footer: Button pass */}
-      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
+      <View
+        style={{
+          ...styles.bottomView,
+          bottom: insets.bottom + 15,
+          ...Platform.select({
+            android: {},
+          }),
+        }}>
         {/* footer: Button*/}
         <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
           <View>
@@ -196,6 +208,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BEBEBE',
     textAlignVertical: 'top',
     includeFontPadding: false,
+    padding: 0,
   },
   buttonAble: {
     marginHorizontal: 20,
