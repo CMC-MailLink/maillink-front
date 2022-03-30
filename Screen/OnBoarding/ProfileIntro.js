@@ -62,7 +62,13 @@ const ProfileIntro = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        ...Platform.select({
+          ios: {flex: 1},
+          android: {flex: 0},
+        }),
+      }}>
       <SafeAreaView style={{flex: 0}} />
       <KeyboardAwareScrollView enableOnAndroid={true}>
         <Modal
@@ -104,10 +110,12 @@ const ProfileIntro = () => {
         {/* Body: Input */}
         <View
           style={{
-            marginTop: 34,
+            marginTop: 30,
             marginLeft: 20,
             marginRight: 20,
-            height: 40,
+            // ...Platform.select({
+            //   android: {height: 40},
+            // }),
           }}>
           <TextInput
             style={styles.input}
@@ -186,6 +194,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
+    textAlignVertical: 'top',
     includeFontPadding: false,
   },
   buttonAble: {

@@ -150,10 +150,23 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        ...Platform.select({
+          ios: {flex: 1},
+          android: {flex: 0},
+        }),
+      }}>
       <SafeAreaView style={{flex: 0}} />
-      {/* upperHeader */}
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        contentContainerStyle={{flexGrow: 1}}
+        bounces={false}
+        keyboardOpeningTime={0}
+        enableAutomaticScroll={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}>
+        {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
@@ -421,9 +434,14 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           paddingHorizontal: 20,
           marginBottom: 40,
           paddingTop: 5,
+          ...Platform.select({
+            android: {
+              paddingTop: 74 - 25,
+            },
+          }),
         }}>
         <TouchableOpacity
-          // disabled={!confirmSuccess && !checkbox}
+          //disabled={!confirmSuccess && !checkbox}
           onPress={goNextScreen}
           style={
             confirmSuccess && checkbox

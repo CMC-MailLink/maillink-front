@@ -87,14 +87,22 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
     var mood2 = null;
     var mood3 = null;
     branch.map(data => {
-      if (data.rank === 1) genre1 = colorCategory[data.name].name;
-      else if (data.rank === 2) genre2 = colorCategory[data.name].name;
-      else if (data.rank === 3) genre3 = colorCategory[data.name].name;
+      if (data.rank === 1) {
+        genre1 = colorCategory[data.name].name;
+      } else if (data.rank === 2) {
+        genre2 = colorCategory[data.name].name;
+      } else if (data.rank === 3) {
+        genre3 = colorCategory[data.name].name;
+      }
     });
     vive.map(data => {
-      if (data.rank === 1) mood1 = colorCategory[data.name].name;
-      else if (data.rank === 2) mood2 = colorCategory[data.name].name;
-      else if (data.rank === 3) mood3 = colorCategory[data.name].name;
+      if (data.rank === 1) {
+        mood1 = colorCategory[data.name].name;
+      } else if (data.rank === 2) {
+        mood2 = colorCategory[data.name].name;
+      } else if (data.rank === 3) {
+        mood3 = colorCategory[data.name].name;
+      }
     });
     navigation.navigate('OnBoardingStacks', {
       screen: 'AddWebsite',
@@ -164,13 +172,17 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
     } else if (temp[index].rank === 1) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 2 || data.rank === 3) data.rank--;
+        if (data.rank === 2 || data.rank === 3) {
+          data.rank--;
+        }
       });
       setBranchRank(branchRank - 1);
     } else if (temp[index].rank === 2) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 3) data.rank--;
+        if (data.rank === 3) {
+          data.rank--;
+        }
       });
       setBranchRank(branchRank - 1);
     } else if (temp[index].rank === 3) {
@@ -183,19 +195,25 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
   const onPressVive = (item, index) => {
     var temp = vive;
     if (temp[index].rank === 0) {
-      if (viveRank === 3) return;
+      if (viveRank === 3) {
+        return;
+      }
       temp[index].rank = viveRank + 1;
       setViveRank(viveRank + 1);
     } else if (temp[index].rank === 1) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 2 || data.rank === 3) data.rank--;
+        if (data.rank === 2 || data.rank === 3) {
+          data.rank--;
+        }
       });
       setViveRank(viveRank - 1);
     } else if (temp[index].rank === 2) {
       temp[index].rank = 0;
       temp.map(data => {
-        if (data.rank === 3) data.rank--;
+        if (data.rank === 3) {
+          data.rank--;
+        }
       });
       setViveRank(viveRank - 1);
     } else if (temp[index].rank === 3) {

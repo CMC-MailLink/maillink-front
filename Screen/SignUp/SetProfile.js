@@ -25,6 +25,7 @@ import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
 import axios from 'axios';
+import {Dimensions} from 'react-native';
 
 const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   const myContext = useContext(AppContext);
@@ -128,7 +129,13 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        ...Platform.select({
+          ios: {flex: 1},
+          android: {flex: 0},
+        }),
+      }}>
       <SafeAreaView style={{flex: 0}} />
       <Modal
         animationType="fade"
@@ -259,7 +266,11 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           <View style={{marginTop: 9, marginLeft: 42}}>
             <Text style={styles.checkMessage}>{checkMessage}</Text>
           </View>
-        ) : null}
+        ) : (
+          <View style={{marginTop: 9, marginLeft: 42}}>
+            <Text style={{...styles.checkMessage, color: 'white'}}>{}</Text>
+          </View>
+        )}
       </KeyboardAwareScrollView>
       {/* Footer: Button */}
       <View
@@ -269,6 +280,13 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           paddingHorizontal: 20,
           paddingTop: 5,
           marginBottom: 40,
+
+          ...Platform.select({
+            android: {
+              position: 'static',
+              bottom: -45 + 25,
+            },
+          }),
         }}>
         <TouchableOpacity
           disabled={confirmSuccess ? false : true}
