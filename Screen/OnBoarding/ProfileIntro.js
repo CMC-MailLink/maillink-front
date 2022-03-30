@@ -11,6 +11,7 @@ import {
   Alert,
   Modal,
   Keyboard,
+  Platform,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStepIntro from '../../assets/images/SignUpStepIntro.png';
@@ -54,9 +55,6 @@ const ProfileIntro = () => {
       setConfirmSuccess(false);
     }
     setTextCount(introText.length);
-    if (this.keyCode == 'enter') {
-      setenterCount(enterCount + 1);
-    }
   }, [introText, confirmSuccess, enterCount]);
 
   const onPressSkip = () => {
@@ -66,20 +64,20 @@ const ProfileIntro = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <AuthorSuccessModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}
-        />
-      </Modal>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView enableOnAndroid={true}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <AuthorSuccessModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            onPressModalConfirm={onPressModalConfirm}
+          />
+        </Modal>
         {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
@@ -118,7 +116,9 @@ const ProfileIntro = () => {
             maxLength={160}
             //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
             maxHeight={200}
-            multiline={introText > 160 && enterCount > 5 ? false : true}
+            multiline={introText > 160 ? false : true}
+            autoCorrect={false}
+            autoCapitalize={false}
           />
           <Text style={styles.textCount}> {textCount}/ 160자</Text>
         </View>
