@@ -71,7 +71,7 @@ const Profile = () => {
           style={{
             flexDirection: 'row',
             ...Platform.select({
-              android: {marginTop: -20},
+              android: {marginTop: -2},
             }),
           }}>
           <Text style={styles.NameTitle}>작가 프로필</Text>

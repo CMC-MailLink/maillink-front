@@ -93,7 +93,7 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'donguri2',
+          socialId: 'donguri3',
           fcmDeviceToken: fcmDeviceToken,
         }),
       });
@@ -143,8 +143,8 @@ export const SignUpAPI = {
         // }),
         body: JSON.stringify({
           socialType: 'KAKAO',
-          socialId: 'donguri2',
-          nickName: 'd2',
+          socialId: 'donguri3',
+          nickName: 'd3',
           imgUrl: imgUrl,
           phoneNumber: '01011111111',
           fcmDeviceToken: fcmDeviceToken,
