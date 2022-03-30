@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   Modal,
   Dimensions,
 } from 'react-native';
-import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import ReaderRecommendModal from './ReaderRecommendModal';

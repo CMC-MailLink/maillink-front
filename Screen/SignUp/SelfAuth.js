@@ -441,7 +441,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           }),
         }}>
         <TouchableOpacity
-          // disabled={!confirmSuccess && !checkbox}
+          disabled={!confirmSuccess && !checkbox}
           onPress={goNextScreen}
           style={
             confirmSuccess && checkbox
