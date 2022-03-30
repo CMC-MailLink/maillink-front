@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {PermissionsAndroid, Platform} from 'react-native';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {setCustomText} from 'react-native-global-props';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -30,17 +31,33 @@ const MyTheme = {
   },
 };
 
+const requestPermission = async () => {
+  await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    {
+      title: 'Get Read External Storage Access',
+      message: 'get read external storage access for detecting screenshots',
+      buttonNeutral: 'Ask Me Later',
+      buttonNegative: 'Cancel',
+      buttonPositive: 'OK',
+    },
+  );
+};
+
 const queryClient = new QueryClient();
 
 const App = () => {
   const [isLogged, setIsLogged] = useState();
   //'Not Decided'
   const [isReader, setIsReader] = useState();
+  const [alarmCount, setAlarmCount] = useState();
   const userSettings = {
     isLogged,
     setIsLogged,
     isReader,
     setIsReader,
+    alarmCount,
+    setAlarmCount,
   };
 
   setCustomText(customTextProps);
@@ -48,6 +65,7 @@ const App = () => {
   useEffect(() => {
     requestUserPermission();
     notificationListener();
+    if (Platform.OS === 'android') requestPermission();
 
     //Check if keys is set or not
     //If not then send for Authentication
@@ -71,11 +89,11 @@ const App = () => {
       //토큰있으면 login 성공
       setIsLogged(true);
       const result = await SignUpAPI.memberInfo();
-      if (result === 'Not Decided') {
+      if (result.userType === 'Not Decided') {
         setIsReader('Not Decided');
-      } else if (result === 'WRITER') {
+      } else if (result.userType === 'WRITER') {
         setIsReader('WRITER');
-      } else if (result === 'READER') {
+      } else if (result.userType === 'READER') {
         setIsReader('READER');
       }
     }

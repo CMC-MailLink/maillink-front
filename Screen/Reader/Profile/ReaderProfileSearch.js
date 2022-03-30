@@ -74,9 +74,10 @@ const ReaderProfileSearch = ({navigation: {setOptions}, route: {params}}) => {
     setQuery(data);
     setSubmit(true);
     if (subscribeAuthorListData) {
-      var res = subscribeAuthorListData.filter(item =>
-        item.writerInfo.nickName.includes(data),
-      );
+      var res = subscribeAuthorListData.filter(item => {
+        if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
+        if (item.writerInfo.nickName.includes(data)) return true;
+      });
       setResult([...res]);
     }
 
@@ -98,9 +99,10 @@ const ReaderProfileSearch = ({navigation: {setOptions}, route: {params}}) => {
     }
     setSubmit(true);
     if (subscribeAuthorListData) {
-      var res = subscribeAuthorListData.filter(item =>
-        item.writerInfo.nickName.includes(query),
-      );
+      var res = subscribeAuthorListData.filter(item => {
+        if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
+        if (item.writerInfo.nickName.includes(query)) return true;
+      });
       setResult([...res]);
     }
 
@@ -220,7 +222,7 @@ const ReaderProfileSearch = ({navigation: {setOptions}, route: {params}}) => {
                         borderRadius: 90,
                       }}
                       source={
-                        data.writerInfo.imgUrl === ''
+                        data.writerInfo.imgUrl === '' || !data.writerInfo.imgUrl
                           ? DefaultProfile
                           : {uri: data.writerInfo.imgUrl}
                       }

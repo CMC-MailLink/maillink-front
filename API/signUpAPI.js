@@ -63,6 +63,7 @@ export const SignUpAPI = {
           headers: {'Content-Type': 'multipart/form-data'},
         },
       );
+
       if (response.ok) {
         let json = await response.json();
         return json.data;
@@ -85,16 +86,16 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
         body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'dongurireader',
+          socialType: socialType,
+          socialId: socialId,
           fcmDeviceToken: fcmDeviceToken,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'APPLE',
+        //   socialId: 'bibitest2',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -142,8 +143,8 @@ export const SignUpAPI = {
         }),
         // body: JSON.stringify({
         //   socialType: 'APPLE',
-        //   socialId: 'bibitest7',
-        //   nickName: '비비테스트7',
+        //   socialId: 'bibitest2',
+        //   nickName: '비비테스트2',
         //   imgUrl: imgUrl,
         //   phoneNumber: '01011111111',
         //   fcmDeviceToken: fcmDeviceToken,
@@ -187,7 +188,7 @@ export const SignUpAPI = {
         },
       });
       let json = await response.json();
-      return json.data.userType;
+      return json.data;
     } catch (e) {
       console.log(e);
     }
@@ -276,6 +277,27 @@ export const SignUpAPI = {
         return false;
       }
       return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //탈퇴하기
+  secession: async () => {
+    console.log('유저 탈퇴');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/member/account`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
     }

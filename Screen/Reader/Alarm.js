@@ -69,7 +69,7 @@ const Alarm = () => {
               borderRadius: 90,
             }}
             source={
-              data.item.partnerImgUrl === ''
+              data.item.partnerImgUrl === '' || !data.item.partnerImgUrl
                 ? DefaultProfile
                 : {uri: data.item.partnerImgUrl}
             }

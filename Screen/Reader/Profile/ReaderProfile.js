@@ -23,7 +23,6 @@ import SettingProfile from '../../../assets/images/SettingProfile.png';
 import AccordionProfile from '../../../assets/images/AccordionProfile.png';
 import AccordionProfile2 from '../../../assets/images/AccordionProfile2.png';
 import SearchProfile from '../../../assets/images/SearchProfile.png';
-import AuthorProfileImage from '../../../assets/images/AuthorProfileImage.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../../assets/images/ImageEditProfile.png';
 import AllReaderProfile from '../../../assets/images/AllReaderProfile.png';
@@ -100,6 +99,9 @@ const ReaderProfile = () => {
   useEffect(() => {
     if (subscribeAuthorListData) {
       var temp = subscribeAuthorListData.filter(data => {
+        if (data.writerInfo.nickName === '탈퇴한 회원 입니다.') {
+          return false;
+        }
         for (var i = 0; i < 3; i++) {
           if (branch[i].select) {
             if (data.writerInfo.primaryGenre === branch[i].name) {
@@ -251,7 +253,11 @@ const ReaderProfile = () => {
         onScroll={onScroll}
         scrollEventThrottle={0}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#fff"
+          />
         }>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity
@@ -518,7 +524,7 @@ const ReaderProfile = () => {
                     borderRadius: 90,
                   }}
                   source={
-                    data.writerInfo.imgUrl === ''
+                    data.writerInfo.imgUrl === '' || !data.writerInfo.imgUrl
                       ? DefaultProfile
                       : {uri: data.writerInfo.imgUrl}
                   }

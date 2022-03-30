@@ -19,8 +19,29 @@ import {useQuery, useQueryClient} from 'react-query';
 import BackMail from '../../../assets/images/BackMail.png';
 import ExitResult from '../../../assets/images/ExitResult.png';
 import AgainRecommend from '../../../assets/images/AgainRecommend.png';
+import GoRecommend from '../../../assets/images/GoRecommend.png';
+import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
-const colorCategory = {
+const colorCategory1 = {
+  Comfortable: {
+    name: '편안',
+    back: '#E2FAE2',
+    font: '#00402D',
+    num: '#7FCE7F',
+  },
+  Clear: {name: '맑은', back: '#DDF9FF', font: '#002C36', num: '#6BD0E6'},
+  Lyrical: {name: '서정', back: '#E6DDFF', font: '#1E0072', num: '#AE92FF'},
+  Calm: {name: '잔잔', back: '#C5F0E3', font: '#00573D', num: '#5ECEAC'},
+  Light: {name: '명랑', back: '#FFF2AD', font: '#5D4300', num: '#FFC839'},
+  Cheerful: {name: '유쾌', back: '#FFDDDD', font: '#370000', num: '#FF8E8E'},
+  Sweet: {name: '달달', back: '#FFE8FB', font: '#3E0035', num: '#FFACDE'},
+  Kitsch: {name: '키치', back: '#FFE6B7', font: '#432C00', num: '#FFAD62'},
+  Poetry: {name: '시', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  Novels: {name: '소설', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+  Essays: {name: '에세이', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
+};
+
+const colorCategory2 = {
   편안: {
     name: 'Comfortable',
     back: '#E2FAE2',
@@ -46,7 +67,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const [subscribe, setSubscribe] = useState(false);
   const {isLoading: analyzeResultLoading, data: analyzeResultData} = useQuery(
-    ['AnalyzeResult', colorCategory[params].name],
+    ['AnalyzeResult', colorCategory2[params].name],
     ReaderAPI.getAnalyzeResult,
   );
 
@@ -61,73 +82,83 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
     });
   };
 
-  const onPressAuthor = () => {
+  const onPressAuthor = data => {
     if (myContext.isReader === 'READER') {
       navigation.navigate('ReaderStacks', {
         screen: 'ReaderAuthorProfile',
+        params: {id: data[0].id},
       });
     } else {
-      // myContext.setIsReader('READER');
       navigation.navigate('OnBoardingStacks', {
         screen: 'ReaderAuthorProfile',
+        params: {id: data[0].id},
       });
     }
   };
 
   const RenderItem = ({item}) => {
-    console.log(item);
     return (
-      <View></View>
-      // <TouchableWithoutFeedback onPress={onPressAuthor}>
-      //   <View
-      //     style={{
-      //       justifyContent: 'center',
-      //       alignItems: 'center',
-      //       top: -25 - 88,
-      //     }}>
-      //     <View style={styles.itemView}>
-      //       <FastImage
-      //         style={{
-      //           width: 8,
-      //           height: 15,
-      //           position: 'absolute',
-      //           right: 20,
-      //           top: 18,
-      //         }}
-      //         source={GoRecommend}></FastImage>
-      //       <FastImage
-      //         style={{width: 77.56, height: 77.56}}
-      //         source={AuthorRecommend}></FastImage>
-      //       <Text style={styles.itemName}>{item.writerInfo.nickName}</Text>
-      //       <Text style={styles.itemAuthor}>작가님</Text>
-      //       <Text style={styles.itemIntro}>{item.writerInfp.introduction}</Text>
-      //       <View style={{flexDirection: 'row', marginTop: 10}}>
-      //         <View style={{...styles.itemCategoryView, marginRight: 10}}>
-      //           <Text
-      //             style={{
-      //               ...styles.itemCategoryText,
-      //               color: '#0021C6',
-      //             }}>
-      //             {colorCategory[item.writerInfo.genre1].name}
-      //           </Text>
-      //         </View>
-      //         <View
-      //           style={{
-      //             ...styles.itemCategoryView,
-      //             backgroundColor: colorCategory[item.writerInfo.mood1].back,
-      //           }}>
-      //           <Text
-      //             style={{
-      //               ...styles.itemCategoryText,
-      //               color: colorCategory[item.writerInfo.mood1].font,
-      //             }}>
-      //             {colorCategory[item.writerInfo.mood1].name}
-      //           </Text>
-      //         </View>
-      //       </View>
-      //     </View>
-      //   </View>
-      // </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => onPressAuthor(item)}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            top: -25 - 88,
+          }}>
+          <View style={styles.itemView}>
+            <FastImage
+              style={{
+                width: 8,
+                height: 15,
+                position: 'absolute',
+                right: 20,
+                top: 18,
+              }}
+              source={GoRecommend}></FastImage>
+            <FastImage
+              style={{width: 77.56, height: 77.56, borderRadius: 90}}
+              source={
+                item[0].imgUrl === '' || !item[0].imgUrl
+                  ? DefaultProfile
+                  : {uri: item[0].imgUrl}
+              }></FastImage>
+            <Text style={styles.itemName}>{item[0].nickName}</Text>
+            <Text style={styles.itemAuthor}>작가님</Text>
+            <Text style={styles.itemIntro} numberOfLines={2}>
+              {item[0].introduction}
+            </Text>
+            <View style={{flexDirection: 'row', marginTop: 21}}>
+              <View
+                style={{
+                  ...styles.itemCategoryView,
+                  marginRight: 10,
+                  backgroundColor: colorCategory1[item[0].primaryGenre].back,
+                }}>
+                <Text
+                  style={{
+                    ...styles.itemCategoryText,
+                    color: '#0021C6',
+                  }}>
+                  {colorCategory1[item[0].primaryGenre].name}
+                </Text>
+              </View>
+              <View
+                style={{
+                  ...styles.itemCategoryView,
+                  backgroundColor: colorCategory1[item[0].primaryMood].back,
+                }}>
+                <Text
+                  style={{
+                    ...styles.itemCategoryText,
+                    color: colorCategory1[item[0].primaryMood].font,
+                  }}>
+                  {colorCategory1[item[0].primaryMood].name}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -161,12 +192,12 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
             <View
               style={{
                 ...styles.itemCategoryView,
-                backgroundColor: colorCategory[params].back,
+                backgroundColor: colorCategory2[params].back,
               }}>
               <Text
                 style={{
                   ...styles.itemCategoryText,
-                  color: colorCategory[params].font,
+                  color: colorCategory2[params].font,
                 }}>
                 {params}
               </Text>
@@ -180,8 +211,9 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
       </View>
 
       <View style={{flex: 1, backgroundColor: '#FFF', top: 10 - insets.bottom}}>
-        <RenderItem
-          item={analyzeResultData ? [analyzeResultData] : []}></RenderItem>
+        {analyzeResultData ? (
+          <RenderItem item={[analyzeResultData]}></RenderItem>
+        ) : null}
         <View style={{top: -25 - 88 + 26, alignItems: 'center'}}>
           {subscribe ? (
             <TouchableOpacity onPress={() => setSubscribe(false)}>

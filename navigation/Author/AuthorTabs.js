@@ -76,18 +76,46 @@ const AuthorTabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View
-              style={{
-                width: 88,
-                height: 88,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 90,
-                top: -15,
-              }}>
+            <View style={{alignItems: 'center'}}>
               <View
                 style={{
+                  width: 88,
+                  height: 88,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 90,
+                  top: -15,
+                  ...Platform.select({
+                    ios: {
+                      shadowColor: '#000000',
+                      shadowOffset: {
+                        width: 0,
+                        height: -2,
+                      },
+                      shadowOpacity: 0.18,
+                      shadowRadius: 15,
+                    },
+                    android: {
+                      elevation: 10,
+                    },
+                  }),
+                }}></View>
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom:
+                    insets.bottom === 0
+                      ? -insets.bottom / 2 + 6
+                      : -insets.bottom / 2 - 1,
+                  backgroundColor: '#fff',
+                  width: 150,
+                  height: insets.bottom / 2 + 76,
+                }}></View>
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 25,
                   width: 68.58,
                   height: 68.58,
                   shadowColor: '#4562F1',

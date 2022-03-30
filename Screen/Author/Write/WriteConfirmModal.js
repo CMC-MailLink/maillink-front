@@ -16,20 +16,12 @@ const WriteConfirmModal = ({
   setModalVisible,
   setModalConfirm,
   onPressSend2,
+  onPressConfirm,
 }) => {
-  const myContext = useContext(AppContext);
-  const navigation = useNavigation();
-  // const onPressCopy = () => {
-  //   Clipboard.setString('www.maillink.com');
-  //   Alert.alert('링크가 복사 되었습니다.', {
-  //     text: '확인',
-  //     style: 'cancel',
-  //   });
-  // };
-
-  const onPressConfirm = () => {
+  const onPressConfirm2 = async () => {
     onPressSend2();
     setModalVisible(false);
+    onPressConfirm();
   };
 
   return (
@@ -59,7 +51,7 @@ const WriteConfirmModal = ({
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              onPressConfirm();
+              onPressConfirm2();
             }}>
             <View>
               <Text style={styles.modalConfirm2}>발행</Text>

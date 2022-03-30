@@ -13,7 +13,7 @@ import {
   Keyboard,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import SignUpStep1 from '../../assets/images/SignUpStep1.png';
+import SignUpStepIntro from '../../assets/images/SignUpStepIntro.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
 import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
@@ -78,49 +78,50 @@ const ProfileIntro = () => {
           onPressModalConfirm={onPressModalConfirm}
         />
       </Modal>
-
-      {/* upperHeader */}
-      <View style={styles.headerView}>
-        <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-
-      {/* mainHeader */}
-      <Image
-        style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
-        source={SignUpStep1}
-      />
-      <View style={{marginTop: 10, marginLeft: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.nameTitle}>자신</Text>
-          <Text style={styles.introTitle}>을</Text>
+      <KeyboardAwareScrollView>
+        {/* upperHeader */}
+        <View style={styles.headerView}>
+          <TouchableWithoutFeedback onPress={onPressBack}>
+            <View style={{left: 24}}>
+              <Image style={{width: 9.5, height: 19}} source={BackMail2} />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-        <Text style={styles.introTitle}>소개해주세요.</Text>
-        <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
-      </View>
 
-      {/* Body: Input */}
-      <View
-        style={{
-          marginTop: 34,
-          marginLeft: 20,
-          marginRight: 20,
-        }}>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeIntroText}
-          value={introText}
-          placeholder="소개를 입력해주세요."
-          maxLength={160}
-          //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
-          maxHeight={200}
-          multiline={introText > 160 && enterCount > 5 ? false : true}
+        {/* mainHeader */}
+        <Image
+          style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
+          source={SignUpStepIntro}
         />
-        <Text style={styles.textCount}> {textCount}/ 160자</Text>
-      </View>
+        <View style={{marginTop: 10, marginLeft: 20}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.nameTitle}>자신</Text>
+            <Text style={styles.introTitle}>을</Text>
+          </View>
+          <Text style={styles.introTitle}>소개해주세요.</Text>
+          <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
+        </View>
+
+        {/* Body: Input */}
+        <View
+          style={{
+            marginTop: 34,
+            marginLeft: 20,
+            marginRight: 20,
+          }}>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeIntroText}
+            value={introText}
+            placeholder="소개를 입력해주세요."
+            maxLength={160}
+            //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
+            maxHeight={200}
+            multiline={introText > 160 && enterCount > 5 ? false : true}
+          />
+          <Text style={styles.textCount}> {textCount}/ 160자</Text>
+        </View>
+      </KeyboardAwareScrollView>
       {/* footer: Button pass */}
       <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
         {/* footer: Button*/}

@@ -23,7 +23,6 @@ import FastImage from 'react-native-fast-image';
 import LogoSignIn from '../../assets/images/LogoSignIn.png';
 import KakaoLogin from '../../assets/images/KakaoLogin.png';
 import AppleLogin from '../../assets/images/AppleLogin.png';
-import LineSignIn from '../../assets/images/LineSignIn.png';
 
 const SignIn = props => {
   const myContext = useContext(AppContext);
@@ -43,13 +42,13 @@ const SignIn = props => {
     });
     if (result) {
       const result2 = await SignUpAPI.memberInfo();
-      if (result2 === 'Not Decided') {
+      if (result2.userType === 'Not Decided') {
         myContext.setIsReader('Not Decided');
         myContext.setIsLogged(true);
-      } else if (result2 === 'WRITER') {
+      } else if (result2.userType === 'WRITER') {
         myContext.setIsReader('WRITER');
         myContext.setIsLogged(true);
-      } else if (result2 === 'READER') {
+      } else if (result2.userType === 'READER') {
         myContext.setIsReader('READER');
         myContext.setIsLogged(true);
       }
@@ -163,12 +162,12 @@ const SignIn = props => {
     if (result) {
       const result2 = await SignUpAPI.memberInfo();
       console.log('signIn : ', result2);
-      if (result2 === 'Not Decided') {
+      if (result2.userType === 'Not Decided') {
         myContext.setIsLogged(true);
-      } else if (result2 === 'WRITER') {
+      } else if (result2.userType === 'WRITER') {
         myContext.setIsReader('WRITER');
         myContext.setIsLogged(true);
-      } else if (result2 === 'READER') {
+      } else if (result2.userType === 'READER') {
         myContext.setIsReader('READER');
         myContext.setIsLogged(true);
       }
@@ -191,8 +190,8 @@ const SignIn = props => {
       }}>
       <FastImage
         style={{
-          width: 62.86,
-          height: 49,
+          width: 76.44,
+          height: 51.4,
           top: Platform.OS === 'ios' ? 157 : 157 - 48,
           left: 42,
         }}

@@ -51,9 +51,10 @@ const ReaderRecommendSearch = () => {
     }
     setSubmit(true);
     if (authorListData) {
-      var res = authorListData.filter(item =>
-        item.writerInfo.nickName.includes(query),
-      );
+      var res = authorListData.filter(item => {
+        if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
+        if (item.writerInfo.nickName.includes(query)) return true;
+      });
       setResult([...res]);
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,9 +79,10 @@ const ReaderRecommendSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = authorListData.filter(item =>
-      item.writerInfo.nickName.includes(data),
-    );
+    var res = authorListData.filter(item => {
+      if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
+      if (item.writerInfo.nickName.includes(data)) return true;
+    });
     setResult([...res]);
 
     var temp = recentSearch;
@@ -102,9 +104,10 @@ const ReaderRecommendSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = authorListData.filter(item =>
-      item.writerInfo.nickName.includes(query),
-    );
+    var res = authorListData.filter(item => {
+      if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
+      if (item.writerInfo.nickName.includes(query)) return true;
+    });
     setResult([...res]);
 
     var temp = recentSearch;
@@ -223,7 +226,7 @@ const ReaderRecommendSearch = () => {
                         borderRadius: 90,
                       }}
                       source={
-                        data.writerInfo.imgUrl === ''
+                        data.writerInfo.imgUrl === '' || !data.writerInfo.imgUrl
                           ? DefaultProfile
                           : {uri: data.writerInfo.imgUrl}
                       }

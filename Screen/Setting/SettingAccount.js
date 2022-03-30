@@ -22,11 +22,12 @@ import AppleSetting from '../../assets/images/AppleSetting.png';
 const SettingAccount = () => {
   const navigation = useNavigation();
   const myContext = useContext(AppContext);
-  const [isKakao, setIsKakao] = useState(true);
-  const {isLoading: memberInfoLoading, data: memberInfoData} = useQuery([
-    'MemberInfo',
+  const {isLoading: memberInfoLoading, data: memberInfoData} = useQuery(
+    ['MemberInfo'],
     SignUpAPI.memberInfo,
-  ]);
+  );
+
+  console.log('memberInfodata : ', memberInfoData);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -36,7 +37,15 @@ const SettingAccount = () => {
     myContext.setIsLogged(false);
     myContext.setIsReader('Not Decided');
   };
-  const onPressSignout = () => {};
+  const onPressSignout = async () => {
+    var result = SignUpAPI.secession();
+    console.log(result);
+    if (result) {
+      AsyncStorage.removeItem('keys');
+      myContext.setIsLogged(false);
+      myContext.setIsReader('Not Decided');
+    }
+  };
 
   return (
     <View style={{flex: 1}}>

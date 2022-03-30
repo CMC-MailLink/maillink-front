@@ -180,7 +180,9 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
             <FastImage
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
               defaultSource={DefaultProfile}
-              source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
+              source={
+                imageUri === '' || !imageUri ? DefaultProfile : {uri: imageUri}
+              }
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   StyleSheet,
@@ -13,6 +13,7 @@ import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
 import FastImage from 'react-native-fast-image';
+import AppContext from '../../AppContext';
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
@@ -34,6 +35,7 @@ const ReaderTab = createBottomTabNavigator();
 // );
 
 const ReaderTabs = () => {
+  const myContext = useContext(AppContext);
   const insets = useSafeAreaInsets();
   return (
     <ReaderTab.Navigator
@@ -79,18 +81,47 @@ const ReaderTabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View
-              style={{
-                width: 88,
-                height: 88,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 90,
-                top: -15,
-              }}>
+            <View style={{alignItems: 'center'}}>
               <View
                 style={{
+                  width: 88,
+                  height: 88,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 90,
+                  top: -15,
+                  ...Platform.select({
+                    ios: {
+                      shadowColor: '#000000',
+                      shadowOffset: {
+                        width: 0,
+                        height: -2,
+                      },
+                      shadowOpacity: 0.18,
+                      shadowRadius: 15,
+                    },
+                    android: {
+                      elevation: 10,
+                    },
+                  }),
+                }}></View>
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom:
+                    insets.bottom === 0
+                      ? -insets.bottom / 2 + 6
+                      : -insets.bottom / 2,
+                  backgroundColor: '#fff',
+                  width: 150,
+                  height: insets.bottom / 2 + 76,
+                }}></View>
+
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 25,
                   width: 68.58,
                   height: 68.58,
                   shadowColor: '#4562F1',
@@ -106,6 +137,29 @@ const ReaderTabs = () => {
                   source={LogoTabs}
                 />
               </View>
+              {myContext.alarmCount === 0 ? null : (
+                <View
+                  style={{
+                    position: 'absolute',
+                    bottom: 75,
+                    left: 55,
+                    backgroundColor: '#FF9B9B',
+                    width: 24,
+                    height: 24,
+                    borderRadius: 90,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: 'NotoSansKR-Bold',
+                      fontSize: 11,
+                      color: '#F5F8FF',
+                    }}>
+                    {myContext.alarmCount > 99 ? '99+' : myContext.alarmCount}
+                  </Text>
+                </View>
+              )}
             </View>
           ),
           // tabBarButton: props => <CustomTabBarButton {...props} />,
@@ -181,12 +235,6 @@ const styles = StyleSheet.create({
   //     },
   //   }),
   // },
-  customView: {
-    width: 64,
-    height: 64,
-    borderRadius: 90,
-    backgroundColor: '#4562F1',
-  },
   iconView: {
     alignItems: 'center',
     justifyContent: 'center',
