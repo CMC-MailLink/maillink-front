@@ -19,6 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {keyCode} from 'react-native-keycode';
 
 const ProfileIntro = () => {
   const myContext = useContext(AppContext);
@@ -53,7 +54,7 @@ const ProfileIntro = () => {
       setConfirmSuccess(false);
     }
     setTextCount(introText.length);
-    if (this.keyCode === 13) {
+    if (this.keyCode == 'enter') {
       setenterCount(enterCount + 1);
     }
   }, [introText, confirmSuccess, enterCount]);
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   textCount: {
     marginTop: 4,
@@ -161,17 +163,20 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   introTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   introSub: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
+    includeFontPadding: false,
   },
   input: {
     fontFamily: 'NotoSansKR-Regular',
@@ -180,6 +185,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
+    includeFontPadding: false,
   },
   buttonAble: {
     marginHorizontal: 20,
@@ -191,10 +197,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   buttonAbleText: {
-    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+    includeFontPadding: false,
   },
   bottomView: {
     width: '100%',
