@@ -12,9 +12,7 @@ const ReportSuccessModal = ({
 }) => {
   const navigation = useNavigation();
   const goNextScreen = () => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'Alarm',
-    });
+    navigation.goBack();
     setModalVisible(!modalVisible);
   };
   return (

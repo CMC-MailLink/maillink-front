@@ -15,6 +15,7 @@ import MenuProfile from '../../../assets/images/MenuProfile.png';
 import MenuItemProfile1 from '../../../assets/images/MenuItemProfile1.png';
 import MenuItemProfile2 from '../../../assets/images/MenuItemProfile2.png';
 import MenuItemProfile3 from '../../../assets/images/MenuItemProfile3.png';
+import MenuItemProfile4 from '../../../assets/images/MenuItemProfile4.png';
 import SearchAuthorProfile from '../../../assets/images/SearchAuthorProfile.png';
 
 const AuthorProfileMail = () => {
@@ -113,8 +114,8 @@ const AuthorProfileMail = () => {
           <MenuOption onSelect={() => setRep(item.id)}>
             <Text>대표글로 설정하기</Text>
             <FastImage
-              style={styles.menuImage}
-              source={MenuItemProfile1}></FastImage>
+              style={{width: 12, height: 20, position: 'absolute', right: 22.5}}
+              source={MenuItemProfile4}></FastImage>
           </MenuOption>
           {item.isPublic ? (
             <MenuOption

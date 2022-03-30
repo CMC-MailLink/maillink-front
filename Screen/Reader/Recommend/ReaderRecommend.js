@@ -136,7 +136,7 @@ const ReaderRecommend = () => {
               borderRadius: 90,
             }}
             source={
-              !item || item.writerInfo.imgUrl === ''
+              !item || item.writerInfo.imgUrl === '' || !item.writerInfo.imgUrl
                 ? DefaultProfile
                 : {uri: item.writerInfo.imgUrl}
             }></FastImage>

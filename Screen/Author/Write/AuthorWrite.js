@@ -10,6 +10,7 @@ import {
   Modal,
   RefreshControl,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FloatingAction} from 'react-native-floating-action';
@@ -116,7 +117,9 @@ const AuthorWrite = () => {
           <Text style={styles.itemDateText}>
             {data.item.tempSaveTime.slice(0, 10)}
           </Text>
-          <Text style={styles.itemTitleText}>{data.item.title}</Text>
+          <Text style={styles.itemTitleText} numberOfLines={1} width>
+            {data.item.title}
+          </Text>
           <Text style={styles.itemBodyText}>{data.item.preView}</Text>
         </View>
       </TouchableWithoutFeedback>
@@ -420,6 +423,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     includeFontPadding: false,
+    width: Dimensions.get('window').width - 40 - 42 - 30,
   },
   itemBodyText: {
     color: '#828282',

@@ -275,7 +275,6 @@ export const ReaderAPI = {
         },
       );
       let json = await response.json();
-      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -333,7 +332,6 @@ export const ReaderAPI = {
   getWriterPublishList: async ({queryKey}) => {
     console.log('독자 작가 공개 메일 리스트 조회');
     const [_, writerId] = queryKey;
-    console.log(writerId);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -355,8 +353,8 @@ export const ReaderAPI = {
   //취향분석
   getAnalyzeResult: async ({queryKey}) => {
     console.log('독자 취향분석 결과');
+
     const [_, mood] = queryKey;
-    console.log(mood);
     var token = await getCredentials();
     try {
       const response = await fetch(
@@ -368,10 +366,32 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
       let json = await response.json();
-      console.log('result : ', json.data);
       return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //독자알림설정
+  setAlarm: async ({mailAlarm, messageAlarm}) => {
+    console.log('독자 알림 설정');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/member/alarm/reader?mailAlarm=${mailAlarm}&messageAlarm=${messageAlarm}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
     }

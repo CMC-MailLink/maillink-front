@@ -70,7 +70,7 @@ const Alarm = () => {
               borderRadius: 90,
             }}
             source={
-              data.item.partnerImgUrl === ''
+              data.item.partnerImgUrl === '' || !data.item.partnerImgUrl
                 ? DefaultProfile
                 : {uri: data.item.partnerImgUrl}
             }
@@ -109,89 +109,7 @@ const Alarm = () => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>쪽지함</Text>
       </View>
-<<<<<<< HEAD
-      {/* <TouchableOpacity onPress={handleNotification}>
-        <View>
-          <Text>Alarm Test</Text>
-        </View>
-      </TouchableOpacity> */}
-
-      {/* mainHeader */}
-      <View style={styles.bodyHeader}>
-        <View
-          style={{
-            flex: 1,
-            width: 241,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginLeft: 36,
-            marginRight: 36,
-          }}>
-          <View
-            style={alarmSelect ? styles.bodyHeaderBorder : {marginLeft: 40}}>
-            <TouchableOpacity onPress={onPressAlarm}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: alarmSelect ? '#3C3C3C' : '#BEBEBE',
-                }}>
-                알림함
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={alarmSelect ? {marginRight: 40} : styles.bodyHeaderBorder}>
-            <TouchableOpacity onPress={onPressLetter}>
-              <Text
-                style={{
-                  ...styles.bodyHeaderText,
-                  color: alarmSelect ? '#BEBEBE' : '#3C3C3C',
-                }}>
-                쪽지함
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-
-      {/* body */}
-      {alarmSelect ? (
-        alarmData && alarmData.length ? (
-          <FlatList
-            style={styles.bodyContainer}
-            data={alarmData}
-            renderItem={renderAlarmItem}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshingAlarm}
-                onRefresh={onRefreshAlarm}
-                style={styles.refresh}
-                tintColor="#4562F1"
-              />
-            }
-          />
-        ) : (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              flex: 1,
-            }}>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Regular',
-                color: '#3C3C3C',
-                includeFontPadding: false,
-              }}>
-              알림이 없습니다.
-            </Text>
-          </View>
-        )
-      ) : messageData && messageData.length ? (
-=======
       {messageData && messageData.length ? (
->>>>>>> bibi
         <FlatList
           style={styles.bodyContainer}
           data={messageData}
@@ -252,38 +170,11 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     includeFontPadding: false,
   },
-<<<<<<< HEAD
-  bodyHeaderBorder: {
-    borderBottomWidth: 2,
-    width: 123,
-    borderBottomColor: '#4562F1',
-  },
-=======
->>>>>>> bibi
   bodyContainer: {
     backgroundColor: '#FFFFFF',
     flex: 1,
     paddingBottom: 103 - 23.78,
   },
-<<<<<<< HEAD
-  bodyHeader: {
-    height: 35,
-    backgroundColor: '#FFFFFF',
-    borderBottomColor: '#EBEBEB',
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  bodyHeaderText: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#BEBEBE',
-    textAlign: 'center',
-    paddingBottom: 8,
-    includeFontPadding: false,
-  },
-=======
->>>>>>> bibi
   itemView: {
     width: '100%',
     backgroundColor: '#FFF',

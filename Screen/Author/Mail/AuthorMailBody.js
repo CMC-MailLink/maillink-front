@@ -9,6 +9,7 @@ import {
   Dimensions,
   Animated,
   Easing,
+  RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AuthorAPI} from '../../../API/AuthorAPI';
@@ -93,12 +94,10 @@ const AuthorMailBody = () => {
   }
 
   //새로고침 이벤트
-  const onRelease = async () => {
-    if (offsetY <= -refreshingHeight && !refreshing) {
-      setRefreshing(true);
-      await queryClient.refetchQueries(['AuthorMail']);
-      setRefreshing(false);
-    }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(['AuthorMail']);
+    setRefreshing(false);
   };
 
   const onPressRecent = () => {
@@ -123,7 +122,9 @@ const AuthorMailBody = () => {
           <Text style={styles.itemDateText}>
             {item.publishedTime ? item.publishedTime.slice(0, 10) : ''}
           </Text>
-          <Text style={styles.itemTitleText}>{item.title}</Text>
+          <Text style={styles.itemTitleText} numberOfLines={1}>
+            {item.title}
+          </Text>
           <Text style={styles.itemBodyText}>{item.preView}</Text>
         </View>
       </TouchableWithoutFeedback>
@@ -181,7 +182,7 @@ const AuthorMailBody = () => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Animated.Image
+          {/* <Animated.Image
             style={{
               width: 14.67,
               height: 10.67,
@@ -195,14 +196,19 @@ const AuthorMailBody = () => {
                 },
               ],
             }}
-            source={MailRefresh}
-          />
-          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text>
+            source={MailRefresh}></Animated.Image>
+          <Text style={{...styles.refreshText}}>새 메일과 연결되는 중</Text> */}
         </View>
       </View>
       <FlatList
         onScroll={onScroll}
-        onResponderRelease={onRelease}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#fff"
+          />
+        }
         stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
@@ -211,7 +217,7 @@ const AuthorMailBody = () => {
               style={{
                 position: 'absolute',
                 top: -4,
-                right: 32,
+                right: 13,
                 width: 176,
                 height: 182,
               }}
@@ -249,7 +255,13 @@ const AuthorMailBody = () => {
             {mail ? (
               mail.length ? (
                 <View style={styles.bodyContainer}>
-                  <FlatList data={mail} renderItem={renderItem} />
+                  <FlatList
+                    data={mail}
+                    renderItem={renderItem}
+                    ListFooterComponent={
+                      <View style={{height: 150, backgroundColor: 'white'}} />
+                    }
+                  />
                 </View>
               ) : (
                 <View
@@ -352,6 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     includeFontPadding: false,
+    width: Dimensions.get('window').width - 40 - 42 - 30,
   },
   itemBodyText: {
     color: '#828282',

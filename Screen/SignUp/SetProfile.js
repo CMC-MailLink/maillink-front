@@ -180,7 +180,9 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
             <FastImage
               style={{width: 115.47, height: 112.24, borderRadius: 90}}
               defaultSource={DefaultProfile}
-              source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
+              source={
+                imageUri === '' || !imageUri ? DefaultProfile : {uri: imageUri}
+              }
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={onPressEditImage}>
@@ -218,19 +220,24 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <TextInput
-              style={!name.length ? styles.NameSetPlaceHolder : styles.NameSet}
-              onChangeText={value => {
-                onChangeName(value);
-                setMessageVisible(false);
-                setConfirmSuccess(false);
-                setNameValid(true);
-              }}
-              value={name}
-              placeholder="닉네임 입력 (한글 6자)"
-              autoCorrect={false}
-              autoCapitalize={false}
-            />
+            <View style={{height: 30}}>
+              <TextInput
+                style={
+                  !name.length ? styles.NameSetPlaceHolder : styles.NameSet
+                }
+                returnKeyType="search"
+                onChangeText={value => {
+                  onChangeName(value);
+                  setMessageVisible(false);
+                  setConfirmSuccess(false);
+                  setNameValid(true);
+                }}
+                value={name}
+                placeholder="닉네임 입력 (한글 6자)"
+                autoCorrect={false}
+                autoCapitalize={false}
+              />
+            </View>
             <TouchableWithoutFeedback onPress={onPressErase}>
               <FastImage style={styles.eraseButton} source={EraseNickname} />
             </TouchableWithoutFeedback>
@@ -317,6 +324,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#3C3C3C',
     includeFontPadding: false,
+    padding: 0,
   },
   NameSetPlaceHolder: {
     width: 190,
@@ -324,6 +332,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#BEBEBE',
     includeFontPadding: false,
+    padding: 0,
   },
   bodyNameBorder: {
     borderBottomWidth: 1,
