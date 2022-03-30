@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Modal,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -17,6 +18,7 @@ import SignUpAuthorProfile from '../../assets/images/SignUpAuthorProfile.png';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const myContext = useContext(AppContext);
@@ -54,11 +56,24 @@ const Profile = () => {
       </Modal>
 
       {/* mainHeader */}
-      <View style={{marginTop: 80, marginLeft: 20}}>
+      <View
+        style={{
+          marginTop: 80,
+          marginLeft: 20,
+          ...Platform.select({
+            android: {marginBottom: -10},
+          }),
+        }}>
         <Text style={styles.IntroSub}>
           독자들과 연결되도록 나를 소개해보세요.
         </Text>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            ...Platform.select({
+              android: {marginTop: -20},
+            }),
+          }}>
           <Text style={styles.NameTitle}>작가 프로필</Text>
           <Text style={styles.IntroTitle}>을</Text>
         </View>
@@ -66,8 +81,15 @@ const Profile = () => {
       </View>
 
       {/* Body: ProfileName */}
-      <View style={{marginTop: 30, alignItems: 'center'}}>
-        <Image
+      <View
+        style={{
+          marginTop: 30,
+          alignItems: 'center',
+          ...Platform.select({
+            android: {marginTop: 40},
+          }),
+        }}>
+        <FastImage
           style={{
             width: ((Dimensions.get('window').height / 2) * 369) / 392,
             height: Dimensions.get('window').height / 2,
@@ -107,8 +129,12 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    ...Platform.select({
+      android: {marginTop: 0},
+    }),
   },
   IntroSub: {
+    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
