@@ -107,6 +107,7 @@ const ProfileIntro = () => {
             marginTop: 34,
             marginLeft: 20,
             marginRight: 20,
+            height: 40,
           }}>
           <TextInput
             style={styles.input}
