@@ -432,4 +432,21 @@ export const AuthorAPI = {
     }
     return false;
   },
+  getAlarm: async () => {
+    console.log('작가 알림 정보얻기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/member/alarm/writer`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

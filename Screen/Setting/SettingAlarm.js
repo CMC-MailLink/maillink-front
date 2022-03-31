@@ -11,6 +11,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import AppContext from '../../AppContext';
+import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 
 import BackMail from '../../assets/images/BackMail.png';
 import {AuthorAPI} from '../../API/AuthorAPI';
@@ -22,6 +23,22 @@ const SettingAlarm = () => {
   const [isEnabledMail, setIsEnabledMail] = useState(true);
   const [isEnabledNewSubscribe, setIsEnabledNewSubscribe] = useState(true);
   const [isEnabledMessage, setIsEnabledMessage] = useState(true);
+  const {isLoading: alarmInfoLoading, data: alarmInfoData} = useQuery(
+    ['AlarmInfo'],
+    myContext.isReaader === 'READER' ? ReaderAPI.getAlarm : AuthorAPI.getAlarm,
+  );
+
+  useEffect(() => {
+    if (alarmInfoData) {
+      if (myContext.isReaader === 'READER') {
+        setIsEnabledMessage(alarmInfoData.mailAlarm);
+        setIsEnabledMessage(alarmInfoData.messageAlarm);
+      } else {
+        setIsEnabledMessage(alarmInfoData.messageAlarm);
+        setIsEnabledNewSubscribe(alarmInfoData.subscribeAlarm);
+      }
+    }
+  }, [alarmInfoData, myContext]);
 
   const toggleSwitchMail = () =>
     setIsEnabledMail(previousState => !previousState);
