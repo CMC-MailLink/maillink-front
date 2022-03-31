@@ -429,7 +429,6 @@ const ProfileInterest = ({navigation: {setOptions}, route: {params}}) => {
           </View>
         </View>
       </KeyboardAwareScrollView>
-
       {/* footer: Button pass */}
       <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
         <TouchableOpacity

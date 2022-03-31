@@ -68,19 +68,19 @@ const SignIn = props => {
       // navigation.navigate('SignUpStacks', {
       //   screen: 'SelfAuth',
       // });
-      // navigation.navigate('OnBoardingStacks', {
-      //   screen: 'SelectUserType',
-      // });
-      onAppleButtonPressIos();
+      navigation.navigate('OnBoardingStacks', {
+        screen: 'SelectUserType',
+      });
+      //onAppleButtonPressIos();
     } else {
       //for test
       // navigation.navigate('OnBoardingStacks', {
       //   screen: 'SelectUserType',
       // });
-      // navigation.navigate('SignUpStacks', {
-      //   screen: 'SelfAuth',
-      // });
-      onAppleButtonPressAndroid();
+      navigation.navigate('SignUpStacks', {
+        screen: 'SelfAuth',
+      });
+      //onAppleButtonPressAndroid();
     }
   };
 

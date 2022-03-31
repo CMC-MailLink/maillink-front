@@ -86,16 +86,16 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
         body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'donguri5',
+          socialType: socialType,
+          socialId: socialId,
           fcmDeviceToken: fcmDeviceToken,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'KAKAO',
+        //   socialId: 'donguriwriter',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -133,22 +133,22 @@ export const SignUpAPI = {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   socialType: socialType,
-        //   socialId: socialId,
-        //   nickName: nickName,
-        //   imgUrl: imgUrl,
-        //   phoneNumber: phoneNumber,
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
         body: JSON.stringify({
-          socialType: 'KAKAO',
-          socialId: 'donguri5',
-          nickName: 'd5',
+          socialType: socialType,
+          socialId: socialId,
+          nickName: nickName,
           imgUrl: imgUrl,
-          phoneNumber: '01011111111',
+          phoneNumber: phoneNumber,
           fcmDeviceToken: fcmDeviceToken,
         }),
+        // body: JSON.stringify({
+        //   socialType: 'KAKAO',
+        //   socialId: 'donguriwriter',
+        //   nickName: '동구리작가3',
+        //   imgUrl: imgUrl,
+        //   phoneNumber: '01025562578',
+        //   fcmDeviceToken: fcmDeviceToken,
+        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {

@@ -129,13 +129,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   return (
-    <View
-      style={{
-        ...Platform.select({
-          ios: {flex: 1},
-          android: {flex: 0},
-        }),
-      }}>
+    <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
       <Modal
         animationType="fade"
@@ -271,41 +265,40 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={{...styles.checkMessage, color: 'white'}}>{}</Text>
           </View>
         )}
-      </KeyboardAwareScrollView>
-      {/* Footer: Button */}
-      <View
-        style={{
-          position: 'static',
-          width: '100%',
-          paddingHorizontal: 20,
-          paddingTop: 5,
-          marginBottom: 40,
+        {/* Footer: Button */}
+        <View
+          style={{
+            position: 'static',
+            width: '100%',
+            paddingHorizontal: 20,
+            paddingTop: 5,
+            marginBottom: 40,
 
-          ...Platform.select({
-            android: {
-              position: 'static',
-              bottom: -45 + 25,
-            },
-          }),
-        }}>
-        <TouchableOpacity
-          disabled={confirmSuccess ? false : true}
-          onPress={onPressConfirm}
-          style={
-            confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
-          }>
-          <View>
-            <Text
-              style={
-                confirmSuccess && name
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              완료
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+            ...Platform.select({
+              android: {
+                bottom: -40 + 15,
+              },
+            }),
+          }}>
+          <TouchableOpacity
+            disabled={confirmSuccess ? false : true}
+            onPress={onPressConfirm}
+            style={
+              confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
+            }>
+            <View>
+              <Text
+                style={
+                  confirmSuccess && name
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                완료
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
