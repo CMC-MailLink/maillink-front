@@ -54,10 +54,11 @@ const SignIn = props => {
       }
     } else {
       navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
+        screen: 'SetProfile',
         params: {
           socialType: 'KAKAO',
           socialId: profile.id,
+          phoneNumber: '01012341234',
         },
       });
     }
@@ -166,10 +167,11 @@ const SignIn = props => {
       }
     } else {
       navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
+        screen: 'SetProfile',
         params: {
           socialType: 'APPLE',
           socialId: id,
+          phoneNumber: '01012341234',
         },
       });
     }
