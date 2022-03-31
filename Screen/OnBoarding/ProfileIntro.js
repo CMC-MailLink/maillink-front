@@ -115,6 +115,11 @@ const ProfileIntro = () => {
             marginLeft: 20,
             marginRight: 20,
             flex: 0,
+            ...Platform.select({
+              android: {
+                marginTop: 30,
+              },
+            }),
           }}>
           <TextInput
             style={styles.input}
@@ -127,6 +132,7 @@ const ProfileIntro = () => {
             multiline={introText > 160 ? false : true}
             autoCorrect={false}
             autoCapitalize={false}
+            inlineImagePadding={112}
           />
           <Text style={styles.textCount}> {textCount}/ 160자</Text>
         </View>
@@ -135,9 +141,6 @@ const ProfileIntro = () => {
           style={{
             ...styles.bottomView,
             bottom: insets.bottom + 15,
-            ...Platform.select({
-              android: {},
-            }),
           }}>
           {/* footer: Button*/}
           <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
@@ -202,7 +205,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BEBEBE',
     textAlignVertical: 'top',
     includeFontPadding: false,
+
     padding: 0,
+    margin: 0,
   },
   buttonAble: {
     marginHorizontal: 20,

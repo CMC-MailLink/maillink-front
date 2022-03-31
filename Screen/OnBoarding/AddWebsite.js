@@ -9,8 +9,6 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  Platform,
-  ScrollView,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStep1 from '../../assets/images/SignUpStep1.png';
@@ -67,13 +65,7 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
   }, [modalConfirm2, myContext]);
 
   return (
-    <View
-      style={{
-        ...Platform.select({
-          ios: {flex: 1},
-          android: {flex: 0},
-        }),
-      }}>
+    <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
       <Modal
         animationType="fade"
@@ -106,7 +98,8 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
         keyboardOpeningTime={0}
         enableAutomaticScroll={true}
         scrollEnabled={true}
-        resetScrollToCoords={{x: 0, y: 0}}>
+        resetScrollToCoords={{x: 0, y: 0}}
+        extraHeight={20}>
         {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
@@ -218,16 +211,16 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
             </View>
           </View>
         </View>
-      </KeyboardAwareScrollView>
 
-      {/* Footer: Button pass */}
-      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
-        <TouchableOpacity onPress={onPressConfirm} style={styles.buttonAble}>
-          <View>
-            <Text style={styles.buttonAbleText}>완료</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+        {/* Footer: Button pass */}
+        <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
+          <TouchableOpacity onPress={onPressConfirm} style={styles.buttonAble}>
+            <View>
+              <Text style={styles.buttonAbleText}>완료</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
