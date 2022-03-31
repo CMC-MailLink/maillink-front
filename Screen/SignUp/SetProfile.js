@@ -10,6 +10,7 @@ import {
   Modal,
   Platform,
   Alert,
+  Linking,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
@@ -24,7 +25,8 @@ import SignUpStep2 from '../../assets/images/SignUpStep2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import ImageEditProfile from '../../assets/images/ImageEditProfile.png';
 import EraseNickname from '../../assets/images/EraseNickname.png';
-import axios from 'axios';
+import CheckDisabledSelfAuth from '../../assets/images/CheckDisabledSelfAuth.png';
+import CheckSelfAuth from '../../assets/images/CheckSelfAuth.png';
 
 const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   const myContext = useContext(AppContext);
@@ -38,6 +40,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   const [imageUri, setImageUri] = useState('');
   const [modalConfirm, setModalConfirm] = useState(false);
   const [nameData, onChangeNameData] = useState('영이당당당당');
+  const [checkbox, setcheckbox] = useState(false); //체크박스 유무
 
   useEffect(() => {
     if (modalConfirm) {
@@ -263,11 +266,48 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           paddingTop: 5,
           marginBottom: 40,
         }}>
+        <View
+          style={{
+            marginBottom: 25,
+            paddingHorizontal: 22,
+            flexDirection: 'row',
+          }}>
+          {checkbox ? (
+            <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
+              <FastImage
+                style={{width: 23, height: 23}}
+                source={CheckSelfAuth}
+              />
+            </TouchableWithoutFeedback>
+          ) : (
+            <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
+              <FastImage
+                style={{width: 23, height: 23}}
+                source={CheckDisabledSelfAuth}
+              />
+            </TouchableWithoutFeedback>
+          )}
+
+          <Text style={styles.rulesText}>
+            메일링크 가입 약관에 모두 동의합니다
+          </Text>
+          <TouchableOpacity
+            onPress={async () =>
+              Linking.openURL(
+                'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
+              )
+            }
+            style={{position: 'absolute', right: 22}}>
+            <Text style={styles.example}>보기</Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
-          disabled={confirmSuccess ? false : true}
+          disabled={confirmSuccess && checkbox ? false : true}
           onPress={onPressConfirm}
           style={
-            confirmSuccess && name ? styles.buttonAble : styles.buttonDisable
+            confirmSuccess && name && checkbox
+              ? styles.buttonAble
+              : styles.buttonDisable
           }>
           <View>
             <Text
@@ -406,6 +446,13 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Light',
     fontSize: 14,
     color: '#BEBEBE',
+    includeFontPadding: false,
+  },
+  rulesText: {
+    marginLeft: 14,
+    fontFamily: 'NotoSansKR-Regular',
+    fontSize: 14,
+    color: '#828282',
     includeFontPadding: false,
   },
 });
