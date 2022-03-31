@@ -74,12 +74,12 @@ const SignIn = props => {
       //onAppleButtonPressIos();
     } else {
       //for test
-      // navigation.navigate('OnBoardingStacks', {
-      //   screen: 'SelectUserType',
-      // });
-      navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
+      navigation.navigate('OnBoardingStacks', {
+        screen: 'SelectUserType',
       });
+      // navigation.navigate('SignUpStacks', {
+      //   screen: 'SelfAuth',
+      // });
       //onAppleButtonPressAndroid();
     }
   };

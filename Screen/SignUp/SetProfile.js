@@ -146,7 +146,10 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
         />
       </Modal>
       {/* upperHeader */}
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        bounces={false}
+        keyboardOpeningTime={0}
+        extraHeight={100}>
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>

@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import InputScrollView from 'react-native-input-scroll-view';
 
 const ProfileIntro = () => {
   const myContext = useContext(AppContext);
@@ -71,9 +72,7 @@ const ProfileIntro = () => {
         bounces={true}
         keyboardOpeningTime={0}
         enableAutomaticScroll={true}
-        scrollEnabled={true}
-        resetScrollToCoords={{x: 1000, y: 1000}}
-        extraHeight={200}>
+        scrollEnabled={true}>
         <Modal
           animationType="fade"
           transparent={true}
@@ -108,15 +107,14 @@ const ProfileIntro = () => {
           <Text style={styles.introTitle}>소개해주세요.</Text>
           <Text style={styles.introSub}>작가인 나는 어떤 사람인가요?</Text>
         </View>
+
         {/* Body: Input */}
         <View
           style={{
             marginTop: 30,
             marginLeft: 20,
             marginRight: 20,
-            ...Platform.select({
-              android: {paddingBottom: 0, flex: 0},
-            }),
+            flex: 0,
           }}>
           <TextInput
             style={styles.input}
@@ -125,7 +123,7 @@ const ProfileIntro = () => {
             placeholder="소개를 입력해주세요."
             maxLength={160}
             //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
-            maxHeight={200}
+            maxHeight={100}
             multiline={introText > 160 ? false : true}
             autoCorrect={false}
             autoCapitalize={false}
