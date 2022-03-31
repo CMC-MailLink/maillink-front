@@ -71,7 +71,7 @@ const AuthorMail = () => {
             }}></View> */}
         </TouchableOpacity>
       </View>
-      <AuthorMailBody></AuthorMailBody>
+      <AuthorMailBody />
       <FloatingAction
         actions={[
           {
