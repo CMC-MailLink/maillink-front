@@ -64,23 +64,9 @@ const SignIn = props => {
   };
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
-      //for test
-      // navigation.navigate('SignUpStacks', {
-      //   screen: 'SelfAuth',
-      // });
-      navigation.navigate('OnBoardingStacks', {
-        screen: 'SelectUserType',
-      });
-      //onAppleButtonPressIos();
+      onAppleButtonPressIos();
     } else {
-      //for test
-      navigation.navigate('OnBoardingStacks', {
-        screen: 'SelectUserType',
-      });
-      // navigation.navigate('SignUpStacks', {
-      //   screen: 'SelfAuth',
-      // });
-      //onAppleButtonPressAndroid();
+      onAppleButtonPressAndroid();
     }
   };
 
@@ -137,9 +123,10 @@ const SignIn = props => {
         const user = response.user; // Present when user first logs in using appleId
         const state = response.state; // A copy of the state value that was passed to the initial request.
         console.log('Got auth code', code);
-        console.log('Got id_token', id_token);
         console.log('Got user', user);
         console.log('Got state', state);
+        console.log('Got id_token', id_token);
+        SignInApple(jwt_decode(id_token).sub);
       }
     } catch (error) {
       if (error && error.message) {

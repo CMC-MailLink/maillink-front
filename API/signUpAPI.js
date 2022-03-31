@@ -66,6 +66,7 @@ export const SignUpAPI = {
 
       if (response.ok) {
         let json = await response.json();
+        console.log(json.data);
         return json.data;
       } else {
         return false;
@@ -80,6 +81,7 @@ export const SignUpAPI = {
     console.log('로그인');
     console.log(socialType, socialId);
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
+    console.log(fcmDeviceToken);
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
         method: 'post',

@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Modal,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
@@ -25,7 +26,8 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   let webRef = useRef();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const url = 'https://www.mail-link.co.kr/quilEditor';
+  const urlIOS = 'https://www.mail-link.co.kr/quilEditorIOS';
+  const urlAndroid = 'https://www.mail-link.co.kr/quilEditorAndroid';
   // const url = 'http://localhost:3000/quilEditor';
   const [save, setSave] = useState(false);
   const [send, setSend] = useState(false);
@@ -222,7 +224,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       <WebView
         startInLoadingState={true}
         automaticallyAdjustContentInsets={false}
-        source={{uri: url}}
+        source={{uri: Platform.OS === 'ios' ? urlIOS : urlAndroid}}
         scrollEnabled={true}
         hideKeyboardAccessoryView={true}
         ref={webRef}
