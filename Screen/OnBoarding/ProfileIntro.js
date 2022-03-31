@@ -12,6 +12,8 @@ import {
   Modal,
   Keyboard,
   Platform,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStepIntro from '../../assets/images/SignUpStepIntro.png';
@@ -61,22 +63,17 @@ const ProfileIntro = () => {
   };
 
   return (
-    <View
-      style={{
-        ...Platform.select({
-          ios: {flex: 1},
-          android: {flex: 1},
-        }),
-      }}>
+    <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
       <KeyboardAwareScrollView
-        enableOnAndroid={true}
+        enableOnAndroid={false}
         contentContainerStyle={{flexGrow: 1}}
-        bounces={false}
+        bounces={true}
         keyboardOpeningTime={0}
         enableAutomaticScroll={true}
         scrollEnabled={true}
-        resetScrollToCoords={{x: 0, y: 0}}>
+        resetScrollToCoords={{x: 1000, y: 1000}}
+        extraHeight={200}>
         <Modal
           animationType="fade"
           transparent={true}
@@ -98,7 +95,6 @@ const ProfileIntro = () => {
             </View>
           </TouchableWithoutFeedback>
         </View>
-
         {/* mainHeader */}
         <Image
           style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
@@ -136,29 +132,29 @@ const ProfileIntro = () => {
           />
           <Text style={styles.textCount}> {textCount}/ 160자</Text>
         </View>
+        {/* footer: Button pass */}
+        <View
+          style={{
+            ...styles.bottomView,
+            bottom: insets.bottom + 15,
+            ...Platform.select({
+              android: {},
+            }),
+          }}>
+          {/* footer: Button*/}
+          <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
+            <View>
+              <Text style={styles.buttonAbleText}>다음</Text>
+            </View>
+          </TouchableOpacity>
+          {/* footer: Pass*/}
+          <TouchableWithoutFeedback onPress={onPressSkip}>
+            <View>
+              <Text style={styles.footerPassText}>다음에 할게요</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       </KeyboardAwareScrollView>
-      {/* footer: Button pass */}
-      <View
-        style={{
-          ...styles.bottomView,
-          bottom: insets.bottom + 15,
-          ...Platform.select({
-            android: {},
-          }),
-        }}>
-        {/* footer: Button*/}
-        <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
-          <View>
-            <Text style={styles.buttonAbleText}>다음</Text>
-          </View>
-        </TouchableOpacity>
-        {/* footer: Pass*/}
-        <TouchableWithoutFeedback onPress={onPressSkip}>
-          <View>
-            <Text style={styles.footerPassText}>다음에 할게요</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
     </View>
   );
 };

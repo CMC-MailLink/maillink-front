@@ -152,10 +152,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
   return (
     <View
       style={{
-        ...Platform.select({
-          ios: {flex: 1},
-          android: {flex: 0},
-        }),
+        flex: 1,
       }}>
       <SafeAreaView style={{flex: 0}} />
       <KeyboardAwareScrollView
@@ -425,41 +422,41 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.example}>보기</Text>
           </TouchableOpacity>
         </View>
+        {/* footer: Button */}
+        <View
+          style={{
+            position: 'static',
+            width: '100%',
+            paddingHorizontal: 20,
+            marginBottom: 40,
+            paddingTop: 5,
+            ...Platform.select({
+              android: {
+                bottom: -70 + 25,
+              },
+            }),
+          }}>
+          <TouchableOpacity
+            //</View>disabled={!confirmSuccess && !checkbox}
+            onPress={goNextScreen}
+            style={
+              confirmSuccess && checkbox
+                ? styles.buttonAble
+                : styles.buttonDisable
+            }>
+            <View>
+              <Text
+                style={
+                  confirmSuccess
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                다음
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
-      {/* footer: Button */}
-      <View
-        style={{
-          position: 'static',
-          width: '100%',
-          paddingHorizontal: 20,
-          marginBottom: 40,
-          paddingTop: 5,
-          ...Platform.select({
-            android: {
-              paddingTop: 74 - 25,
-            },
-          }),
-        }}>
-        <TouchableOpacity
-          disabled={!confirmSuccess && !checkbox}
-          onPress={goNextScreen}
-          style={
-            confirmSuccess && checkbox
-              ? styles.buttonAble
-              : styles.buttonDisable
-          }>
-          <View>
-            <Text
-              style={
-                confirmSuccess
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              다음
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
