@@ -61,6 +61,7 @@ const App = () => {
   };
 
   setCustomText(customTextProps);
+
   useEffect(() => {
     requestUserPermission();
     notificationListener();

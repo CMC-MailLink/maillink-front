@@ -257,6 +257,27 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //작가 정보 조회
+  getWriterInfo2: async ({writerId}) => {
+    console.log('작가 정보 조회');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/info/${writerId}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
   //작가 관심하기
   interesting: async ({writerId}) => {
     console.log('독자 작가 관심하기');
