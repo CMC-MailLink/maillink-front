@@ -279,8 +279,8 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             screen: 'InstaShare',
             params: {
               text: selectedText,
-              title: params.title,
-              // author: params.author,
+              title: mailDetailData.title,
+              author: authorInfoData.writerInfo.nickName,
             },
           });
         }}
