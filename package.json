@@ -27,6 +27,8 @@
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-check-box": "^2.1.7",
+    "react-native-code-push": "^7.0.4",
+    "react-native-config": "^1.4.5",
     "react-native-detector": "^0.2.1",
     "react-native-fast-image": "^8.5.11",
     "react-native-floating-action": "^1.22.0",

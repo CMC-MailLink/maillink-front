@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MailLinkApp</string>
     <string name="kakao_app_key">2b60393214da648ce2b6540b3ff228f4</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">_9Mq8VFK594O4jaEk_N2dcdu4RajPN9nLgxAl</string>
 </resources>
