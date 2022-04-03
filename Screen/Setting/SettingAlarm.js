@@ -12,6 +12,8 @@ import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import AppContext from '../../AppContext';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
+import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BackMail from '../../assets/images/BackMail.png';
 import {AuthorAPI} from '../../API/AuthorAPI';
@@ -20,6 +22,7 @@ import {ReaderAPI} from '../../API/ReaderAPI';
 const SettingAlarm = () => {
   const navigation = useNavigation();
   const myContext = useContext(AppContext);
+  const [alarmOn, setAlarmOn] = useState(false);
   const [isEnabledMail, setIsEnabledMail] = useState(true);
   const [isEnabledNewSubscribe, setIsEnabledNewSubscribe] = useState(true);
   const [isEnabledMessage, setIsEnabledMessage] = useState(true);
@@ -27,6 +30,41 @@ const SettingAlarm = () => {
     ['AlarmInfo'],
     myContext.isReaader === 'READER' ? ReaderAPI.getAlarm : AuthorAPI.getAlarm,
   );
+
+  useEffect(() => {
+    async function requestUserPermission() {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        console.log('AuthorizationStatus: ', authStatus);
+        getFcmToken();
+      }
+      console.log('notification authStatus : ', authStatus);
+      setAlarmOn(authStatus);
+    }
+    requestUserPermission();
+  }, []);
+
+  const getFcmToken = async () => {
+    let checkToken = await AsyncStorage.getItem('fcmToken');
+    console.log('the old token', checkToken);
+    AsyncStorage.removeItem('fcmToken');
+
+    if (!checkToken) {
+      try {
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+          console.log('fcm token generated', fcmToken);
+          await AsyncStorage.setItem('fcmToken', fcmToken);
+        }
+      } catch (error) {
+        console.log('error in fcmToken', error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (alarmInfoData) {
@@ -82,10 +120,16 @@ const SettingAlarm = () => {
         </TouchableWithoutFeedback>
         <Text style={styles.headerText}>알림 설정</Text>
       </View>
+      {!alarmOn ? (
+        <View>
+          <Text>알림을 켜주세요</Text>
+        </View>
+      ) : null}
       {myContext.isReader === 'READER' ? (
         <View style={styles.menuView}>
           <Text style={styles.menuText}>새 글 알림</Text>
           <Switch
+            disabled={!alarmOn}
             style={{width: 52, height: 28}}
             trackColor={{false: '#EBEBEB', true: '#4562F1'}}
             thumbColor="#FFFFFF"
@@ -99,6 +143,7 @@ const SettingAlarm = () => {
         <View style={styles.menuView}>
           <Text style={styles.menuText}>새 구독 알림</Text>
           <Switch
+            disabled={!alarmOn}
             style={{width: 52, height: 28}}
             trackColor={{false: '#EBEBEB', true: '#4562F1'}}
             thumbColor="#FFFFFF"
@@ -111,6 +156,7 @@ const SettingAlarm = () => {
       <View style={styles.menuView}>
         <Text style={styles.menuText}>쪽지 알림</Text>
         <Switch
+          disabled={!alarmOn}
           style={{width: 52, height: 28}}
           trackColor={{false: '#EBEBEB', true: '#4562F1'}}
           thumbColor="#FFFFFF"
