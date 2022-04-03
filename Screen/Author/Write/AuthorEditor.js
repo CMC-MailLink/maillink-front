@@ -60,7 +60,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
           type: 'image/png',
         });
 
-        const result = await SignUpAPI.profileEditing({image: imageData});
+        const result = await AuthorAPI.publishImage({image: imageData});
         if (result) {
           webRef.current.postMessage(JSON.stringify({imageURL: result}));
           setImageCount(imageCount + 1);
@@ -104,6 +104,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       if (!result) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
+      setModalVisible(false);
       navigation.goBack();
     }
   };

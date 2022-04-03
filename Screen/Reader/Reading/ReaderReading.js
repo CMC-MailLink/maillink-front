@@ -48,10 +48,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   );
   const loading = mailDetailLoading || authorInfoLoading;
 
-  useEffect(() => {
-    queryClient.refetchQueries(['ReaderMail']);
-  }, [queryClient]);
-
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -74,8 +70,9 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     if (!loading && !webviewLoading) {
       console.log('로딩 끝', mailDetailData);
       webRef.current.injectJavaScript(contentSending);
+      queryClient.refetchQueries(['ReaderMail']);
     }
-  }, [loading, contentSending, mailDetailData, webviewLoading]);
+  }, [loading, contentSending, mailDetailData, webviewLoading, queryClient]);
 
   const onPressBookmark = async () => {
     if (!mailDetailData.isSaved) {

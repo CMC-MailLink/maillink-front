@@ -110,6 +110,7 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
       if (!result || !result2) return;
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
+      setModalVisible(false);
       navigation.goBack();
     }
   };

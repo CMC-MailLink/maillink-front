@@ -449,4 +449,30 @@ export const AuthorAPI = {
     }
     return false;
   },
+  //메일 이미지 업로드
+  publishImage: async ({image}) => {
+    console.log('작가 메일 이미지 업로드');
+    var token = await getCredentials();
+    console.log(image, token);
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/writer/publish/img`, {
+        method: 'POST',
+        body: image,
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response);
+      if (response.ok) {
+        let json = await response.json();
+        return json.data;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

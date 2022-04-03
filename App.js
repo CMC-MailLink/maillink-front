@@ -21,9 +21,9 @@ import {
 } from './notificationService';
 import {SignUpAPI} from './API/SignUpAPI';
 import AppContext from './AppContext';
-
 import Root from './navigation/Root';
 import {getCredentials} from './Credentials';
+import ForegroundHandler from './ForegroundHandler';
 
 const customTextProps = {
   style: {
@@ -85,6 +85,7 @@ const App = () => {
 
     requestUserPermission();
     notificationListener();
+
     if (Platform.OS === 'android') requestPermission();
 
     async function loading() {
@@ -159,8 +160,6 @@ const App = () => {
     setProgress(progress);
   }
 
-  console.log('progressvalue : ', progress);
-
   const showProgressView = () => {
     return (
       <Modal transparent visible={true}>
@@ -209,6 +208,7 @@ const App = () => {
         <SafeAreaProvider>
           <NavigationContainer theme={MyTheme}>
             <MenuProvider>
+              <ForegroundHandler></ForegroundHandler>
               {progress ? showProgressView() : null}
               <Root isLogged={isLogged} isReader={isReader} />
             </MenuProvider>

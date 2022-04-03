@@ -13,14 +13,13 @@ import {
   ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import PushNotification from 'react-native-push-notification';
-// import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {useQuery, useQueryClient} from 'react-query';
 import {MessageAPI} from '../../API/MessageAPI';
 import FastImage from 'react-native-fast-image';
 
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import BackMail2 from '../../assets/images/BackMail2.png';
+import NoMessage from '../../assets/images/NoMessage.png';
 const STATUSBAR_HEIGHT = 48;
 
 const Alarm = () => {
@@ -125,7 +124,6 @@ const Alarm = () => {
         />
       ) : (
         <ScrollView
-          style={{flex: 1}}
           refreshControl={
             <RefreshControl
               refreshing={refreshingMessage}
@@ -136,17 +134,12 @@ const Alarm = () => {
           }>
           <View
             style={{
-              top: 100,
+              flex: 1,
+              paddingTop: 100,
               alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Regular',
-                color: '#3C3C3C',
-                includeFontPadding: false,
-              }}>
-              메세지가 없습니다.
-            </Text>
+            <FastImage style={{width: 190, height: 215}} source={NoMessage} />
           </View>
         </ScrollView>
       )}
