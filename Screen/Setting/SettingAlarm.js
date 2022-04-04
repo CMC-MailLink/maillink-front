@@ -7,7 +7,9 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Switch,
+  Modal,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import AppContext from '../../AppContext';
@@ -16,10 +18,12 @@ import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BackMail from '../../assets/images/BackMail.png';
+import AlarmOff from '../../assets/images/AlarmOff.png';
 import {AuthorAPI} from '../../API/AuthorAPI';
 import {ReaderAPI} from '../../API/ReaderAPI';
 
 const SettingAlarm = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const myContext = useContext(AppContext);
   const [alarmOn, setAlarmOn] = useState(false);
@@ -121,17 +125,38 @@ const SettingAlarm = () => {
         <Text style={styles.headerText}>알림 설정</Text>
       </View>
       {!alarmOn ? (
-        <View>
-          <Text>알림을 켜주세요</Text>
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            top: 43 + insets.top,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <FastImage
+            style={{width: 342, height: 301, top: -43 - insets.top}}
+            source={AlarmOff}
+          />
         </View>
       ) : null}
+
       {myContext.isReader === 'READER' ? (
         <View style={styles.menuView}>
-          <Text style={styles.menuText}>새 글 알림</Text>
+          <Text
+            style={{
+              ...styles.menuText,
+              color: alarmOn ? '#3C3C3C' : '#EBEBEB',
+            }}>
+            새 글 알림
+          </Text>
           <Switch
             disabled={!alarmOn}
             style={{width: 52, height: 28}}
-            trackColor={{false: '#EBEBEB', true: '#4562F1'}}
+            trackColor={{
+              false: '#EBEBEB',
+              true: alarmOn ? '#4562F1' : '#EBEBEB',
+            }}
             thumbColor="#FFFFFF"
             ios_backgroundColor="#EBEBEB"
             onValueChange={toggleSwitchMail}
@@ -141,11 +166,20 @@ const SettingAlarm = () => {
       ) : null}
       {myContext.isReader !== 'READER' ? (
         <View style={styles.menuView}>
-          <Text style={styles.menuText}>새 구독 알림</Text>
+          <Text
+            style={{
+              ...styles.menuText,
+              color: alarmOn ? '#3C3C3C' : '#EBEBEB',
+            }}>
+            새 구독 알림
+          </Text>
           <Switch
             disabled={!alarmOn}
             style={{width: 52, height: 28}}
-            trackColor={{false: '#EBEBEB', true: '#4562F1'}}
+            trackColor={{
+              false: '#EBEBEB',
+              true: alarmOn ? '#4562F1' : '#EBEBEB',
+            }}
             thumbColor="#FFFFFF"
             ios_backgroundColor="#EBEBEB"
             onValueChange={toggleSwitchNewSubscribe}
@@ -154,11 +188,17 @@ const SettingAlarm = () => {
         </View>
       ) : null}
       <View style={styles.menuView}>
-        <Text style={styles.menuText}>쪽지 알림</Text>
+        <Text
+          style={{
+            ...styles.menuText,
+            color: alarmOn ? '#3C3C3C' : '#EBEBEB',
+          }}>
+          쪽지 알림
+        </Text>
         <Switch
           disabled={!alarmOn}
           style={{width: 52, height: 28}}
-          trackColor={{false: '#EBEBEB', true: '#4562F1'}}
+          trackColor={{false: '#EBEBEB', true: alarmOn ? '#4562F1' : '#EBEBEB'}}
           thumbColor="#FFFFFF"
           ios_backgroundColor="#EBEBEB"
           onValueChange={toggleSwitchMessage}
@@ -197,7 +237,6 @@ const styles = StyleSheet.create({
   menuText: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
-    color: '#3C3C3C',
     includeFontPadding: false,
   },
 });
