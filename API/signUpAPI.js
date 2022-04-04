@@ -80,7 +80,7 @@ export const SignUpAPI = {
     console.log('로그인');
     console.log(socialType, socialId);
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
-
+    console.log(fcmDeviceToken);
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
         method: 'post',
@@ -90,7 +90,7 @@ export const SignUpAPI = {
         body: JSON.stringify({
           socialType: socialType,
           socialId: socialId,
-          fcmDeviceToken: fcmDeviceToken ? fcmDeviceToken : '',
+          fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
         //   socialType: 'APPLE',
@@ -140,7 +140,7 @@ export const SignUpAPI = {
           nickName: nickName,
           imgUrl: imgUrl,
           phoneNumber: phoneNumber,
-          fcmDeviceToken: fcmDeviceToken ? fcmDeviceToken : '',
+          fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
         //   socialType: 'APPLE',

@@ -14,6 +14,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {MenuProvider} from 'react-native-popup-menu';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import codePush from 'react-native-code-push';
+import FastImage from 'react-native-fast-image';
 
 import {
   notificationListener,
@@ -24,6 +25,8 @@ import AppContext from './AppContext';
 import Root from './navigation/Root';
 import {getCredentials} from './Credentials';
 import ForegroundHandler from './ForegroundHandler';
+
+import CodePushUpdate from './assets/images/CodePushUpdate.png';
 
 const customTextProps = {
   style: {
@@ -166,36 +169,68 @@ const App = () => {
         <View
           style={{
             flex: 1,
-            backgroundColor: 'rgba(0,0,0,0.4)',
+            backgroundColor: 'rgba(55,55,55,0.3)',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <View
             style={{
               backgroundColor: '#fff',
-              borderRadius: 8,
-              padding: 16,
+              width: 330,
+              height: 334,
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <Text>업데이트중...</Text>
-            <View>
-              <Text>{`${(Number(progress.receivedBytes) / 1048576).toFixed(
-                2,
-              )}MB/${(Number(progress.totalBytes) / 1048576).toFixed(
-                2,
-              )}MB`}</Text>
-              <View style={{alignItems: 'center'}}>
-                <ActivityIndicator
-                  style={{marginVertical: 8}}></ActivityIndicator>
-                <Text>
-                  {(
-                    (Number(progress?.receivedBytes) /
-                      Number(progress?.totalBytes)) *
-                    100
-                  ).toFixed(0)}
-                  %
-                </Text>
-              </View>
-            </View>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Bold',
+                fontSize: 18,
+                color: '#3c3c3c',
+                includeFontPadding: false,
+              }}>
+              업데이트 중입니다.
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Medium',
+                fontSize: 15,
+                color: '#D2D2D2',
+                includeFontPadding: false,
+              }}>
+              <Text
+                style={{
+                  color: '#828282',
+                }}>
+                {`${(Number(progress.receivedBytes) / 1048576).toFixed(2)}`}
+                &nbsp;
+              </Text>
+              <Text
+                style={{
+                  color: '#BEBEBE',
+                }}>
+                {`MB / ${(Number(progress.totalBytes) / 1048576).toFixed(2)}`}
+                &nbsp;
+              </Text>
+              MB
+            </Text>
+            <FastImage
+              style={{width: 157, height: 148, marginTop: 23, marginBottom: 13}}
+              source={CodePushUpdate}></FastImage>
+            <Text
+              style={{
+                fontFamily: 'NotoSansKR-Bold',
+                fontSize: 26,
+                color: '#4562F1',
+              }}>
+              {(
+                (Number(progress?.receivedBytes) /
+                  Number(progress?.totalBytes)) *
+                100
+              ).toFixed(0)}
+              <Text style={{fontSize: 16, color: '#BEBEBE'}}>&nbsp;%</Text>
+            </Text>
           </View>
         </View>
       </Modal>

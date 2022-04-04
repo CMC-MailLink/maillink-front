@@ -134,6 +134,7 @@ export const ReaderAPI = {
           },
         },
       );
+      console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {

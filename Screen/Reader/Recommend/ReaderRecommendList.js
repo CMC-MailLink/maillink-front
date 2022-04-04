@@ -71,6 +71,7 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
 
   //구독하기 버튼 클릭
   const onPressSubscribe = async writerId => {
+    console.log(writerId);
     var result = await ReaderAPI.subscribing({writerId: writerId});
     if (result) await queryClient.refetchQueries(['AuthorList']);
     await queryClient.refetchQueries(['SubscribeAuthorList']);

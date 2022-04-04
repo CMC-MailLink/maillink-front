@@ -475,7 +475,7 @@ const ReaderMailBody = () => {
                 <FastImage
                   style={{
                     width: 261,
-                    height: 317,
+                    height: 258,
                   }}
                   source={SubscribeMail}
                 />

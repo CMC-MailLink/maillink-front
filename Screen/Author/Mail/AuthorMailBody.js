@@ -271,7 +271,7 @@ const AuthorMailBody = () => {
                 <FastImage
                   style={{
                     width: 261,
-                    height: 278,
+                    height: 228,
                   }}
                   source={WriteMail}
                 />
