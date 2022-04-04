@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,18 +34,40 @@ const SettingAccount = () => {
     navigation.goBack();
   };
   const onPressLogout = () => {
-    AsyncStorage.removeItem('keys');
-    myContext.setIsLogged(false);
-    myContext.setIsReader('Not Decided');
+    Alert.alert('로그아웃', '로그아웃 하시겠습니까?', [
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+      {
+        text: '확인',
+        onPress: () => {
+          AsyncStorage.removeItem('keys');
+          myContext.setIsLogged(false);
+          myContext.setIsReader('Not Decided');
+        },
+      },
+    ]);
   };
   const onPressSignout = async () => {
-    var result = SignUpAPI.secession();
-    console.log(result);
-    if (result) {
-      AsyncStorage.removeItem('keys');
-      myContext.setIsLogged(false);
-      myContext.setIsReader('Not Decided');
-    }
+    Alert.alert('탈퇴하기', '계정을 삭제해도 활동은 남게 됩니다.', [
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+      {
+        text: '확인',
+        onPress: () => {
+          var result = SignUpAPI.secession();
+          console.log(result);
+          if (result) {
+            AsyncStorage.removeItem('keys');
+            myContext.setIsLogged(false);
+            myContext.setIsReader('Not Decided');
+          }
+        },
+      },
+    ]);
   };
 
   return (

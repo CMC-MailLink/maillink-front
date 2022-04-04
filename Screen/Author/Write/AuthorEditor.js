@@ -105,7 +105,10 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
       setModalVisible(false);
-      navigation.goBack();
+      navigation.navigate('AuthorTabs', {
+        screen: 'AuthorWrite',
+        params: {send: true},
+      });
     }
   };
 
@@ -220,7 +223,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         automaticallyAdjustContentInsets={false}
         source={{uri: url}}
         scrollEnabled={true}
-        hideKeyboardAccessoryView={true}
+        // hideKeyboardAccessoryView={true}
         ref={webRef}
         onMessage={handleOnMessage}
         injectedJavaScript={contentSending}

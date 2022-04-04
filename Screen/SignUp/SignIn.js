@@ -127,6 +127,7 @@ const SignIn = props => {
         console.log('Got id_token', id_token);
         console.log('Got user', user);
         console.log('Got state', state);
+        SignInApple(jwt_decode(id_token).sub);
       }
     } catch (error) {
       if (error && error.message) {
