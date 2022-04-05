@@ -74,7 +74,7 @@ const ReaderMail = () => {
             }}></View> */}
         </TouchableOpacity>
       </View>
-      <ReaderMailBody></ReaderMailBody>
+      <ReaderMailBody />
       <FloatingAction
         actions={[
           {

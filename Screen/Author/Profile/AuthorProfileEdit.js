@@ -410,6 +410,9 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                 width: '100%',
                 flexDirection: 'row',
                 alignItems: 'center',
+                ...Platform.select({
+                  android: {height: 30},
+                }),
               }}>
               <TextInput
                 style={
@@ -772,12 +775,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     includeFontPadding: false,
+    ...Platform.select({
+      android: {padding: 0},
+    }),
   },
   introView: {
     paddingVertical: 9,
     width: '100%',
     borderBottomColor: '#BEBEBE',
     borderBottomWidth: 1,
+    ...Platform.select({
+      android: {height: 44},
+    }),
   },
   introCountText: {
     marginTop: 6,
@@ -815,6 +824,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#BEBEBE',
     includeFontPadding: false,
+    ...Platform.select({
+      android: {},
+    }),
   },
   websiteTextInput: {
     padding: 0,
@@ -823,6 +835,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#3C3C3C',
     includeFontPadding: false,
+    ...Platform.select({
+      android: {height: 20},
+    }),
   },
   menuText: {
     fontFamily: 'NotoSansKR-Light',
@@ -851,6 +866,9 @@ const styles = StyleSheet.create({
     color: '#3C3C3C',
     includeFontPadding: false,
     width: '70%',
+    ...Platform.select({
+      android: {padding: 0},
+    }),
   },
   NameSetPlaceHolder: {
     fontFamily: 'NotoSansKR-Light',
@@ -858,6 +876,9 @@ const styles = StyleSheet.create({
     color: '#BEBEBE',
     includeFontPadding: false,
     width: '70%',
+    ...Platform.select({
+      android: {padding: 0},
+    }),
   },
   confirmBasic: {
     position: 'absolute',
