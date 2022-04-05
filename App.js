@@ -72,7 +72,7 @@ const App = () => {
     //Check if keys is set or not
     //If not then send for Authentication
     //else send to Home Screen
-    // AsyncStorage.removeItem('keys');
+    //AsyncStorage.removeItem('keys');
     async function loading() {
       await checkLogged();
     }
