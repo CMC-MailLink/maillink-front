@@ -30,7 +30,9 @@ const SignIn = props => {
   const navigation = useNavigation();
 
   const signInWithKakao = async () => {
+    console.log('kakao login button click');
     const token = await login();
+    console.log('kakao token : ', token);
     getProfile();
   };
 
