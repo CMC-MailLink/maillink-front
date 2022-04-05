@@ -12,16 +12,36 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ReaderRecommend from '../../Screen/Reader/Recommend/ReaderRecommend';
 import ReaderProfile from '../../Screen/Reader/Profile/ReaderProfile';
 import ReaderMail from '../../Screen/Reader/Mail/ReaderMail';
+<<<<<<< HEAD
+=======
 import FastImage from 'react-native-fast-image';
+<<<<<<< HEAD
+>>>>>>> donguri
+=======
 import AppContext from '../../AppContext';
+>>>>>>> donguri
 
 import LogoTabs from '../../assets/images/LogoTabs.png';
 import HeartTabs from '../../assets/images/HeartTabs.png';
 import HeartTabsFocused from '../../assets/images/HeartTabsFocused.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
 import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocused.png';
+
 const ReaderTab = createBottomTabNavigator();
 
+<<<<<<< HEAD
+const CustomTabBarButton = ({children, onPress}) => (
+  <TouchableOpacity onPress={onPress} activeOpacity={1}>
+    <View
+      style={{
+        top: 12,
+        left: -Dimensions.get('window').width / 2,
+      }}>
+      <View>{children}</View>
+    </View>
+  </TouchableOpacity>
+);
+=======
 // const CustomTabBarButton = ({children, onPress}) => (
 //   <TouchableOpacity onPress={onPress} activeOpacity={1}>
 //     <View
@@ -33,6 +53,7 @@ const ReaderTab = createBottomTabNavigator();
 //     </View>
 //   </TouchableOpacity>
 // );
+>>>>>>> donguri
 
 const ReaderTabs = () => {
   const myContext = useContext(AppContext);
@@ -196,6 +217,7 @@ const ReaderTabs = () => {
     </ReaderTab.Navigator>
   );
 };
+
 const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
@@ -250,4 +272,5 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
+
 export default ReaderTabs;

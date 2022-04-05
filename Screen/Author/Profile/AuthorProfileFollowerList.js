@@ -26,7 +26,7 @@ const AuthorProfileFollowerList = ({
   const [refreshing, setRefreshing] = useState(false);
   const {isLoading: authorFollowerListLoading, data: authorFollowerListData} =
     useQuery(['AuthorFollowerList'], AuthorAPI.getfollowerList);
-  console.log(authorFollowerListData);
+  // console.log(authorFollowerListData);
 
   const onPressBack = () => {
     navigation.goBack();

@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   swiperWrapper: {
     marginBottom: 215,
     ...Platform.select({
-      android: {height: 500},
+      android: {height: '100%'},
     }),
   },
   swiperDot: {

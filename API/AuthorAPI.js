@@ -492,4 +492,45 @@ export const AuthorAPI = {
     }
     return false;
   },
+  //작가 구독자수 확인
+  getfollowerNum: async () => {
+    console.log('작가 구독자수 확인');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/subscriber/count`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  getfollowerList: async () => {
+    console.log('작가 구독자리스트 확인');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/subscriber/info`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

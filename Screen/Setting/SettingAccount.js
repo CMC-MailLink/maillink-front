@@ -45,6 +45,9 @@ const SettingAccount = () => {
           AsyncStorage.removeItem('keys');
           myContext.setIsLogged(false);
           myContext.setIsReader('Not Decided');
+          navigation.navigate('SignUpStacks', {
+            screen: 'SignIn',
+          });
         },
       },
     ]);
@@ -64,6 +67,9 @@ const SettingAccount = () => {
             AsyncStorage.removeItem('keys');
             myContext.setIsLogged(false);
             myContext.setIsReader('Not Decided');
+            navigation.navigate('SignUpStacks', {
+              screen: 'SignIn',
+            });
           }
         },
       },

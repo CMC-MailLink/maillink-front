@@ -247,6 +247,7 @@ const App = () => {
           <NavigationContainer theme={MyTheme}>
             <MenuProvider>
               <ForegroundHandler></ForegroundHandler>
+
               {progress ? showProgressView() : null}
               <Root isLogged={isLogged} isReader={isReader} />
             </MenuProvider>

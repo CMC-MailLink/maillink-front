@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Switch,
   Modal,
+  Platform,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
@@ -47,7 +48,12 @@ const SettingAlarm = () => {
         getFcmToken();
       }
       console.log('notification authStatus : ', authStatus);
-      setAlarmOn(authStatus);
+      if (Platform.OS === 'android') {
+        const result = await messaging().hasPermission();
+        setAlarmOn(result);
+      } else {
+        setAlarmOn(authStatus);
+      }
     }
     requestUserPermission();
   }, []);

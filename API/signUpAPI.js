@@ -89,8 +89,18 @@ export const SignUpAPI = {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+<<<<<<< HEAD
+<<<<<<< HEAD
+          socialType: 'KAKAO',
+          socialId: 'donguriwriter615',
+=======
+          socialType: 'APPLE',
+          socialId: 'bibitest7',
+>>>>>>> donguri
+=======
           socialType: socialType,
           socialId: socialId,
+>>>>>>> donguri
           fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({

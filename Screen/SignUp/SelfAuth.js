@@ -148,6 +148,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
     });
   };
 
+  const onPressServiceTerms = () => {
+    Linking.openURL(
+      'https://makeus-challenge.notion.site/4e02a43255b14fd8a8f24208d925f8a0',
+    );
+  };
+
   return (
     <View
       style={{
@@ -411,6 +417,9 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
           <Text style={styles.rulesText}>
             메일링크 가입 약관에 모두 동의합니다
           </Text>
+<<<<<<< HEAD
+          <TouchableOpacity onPress={onPressServiceTerms}>
+=======
           <TouchableOpacity
             onPress={async () =>
               Linking.openURL(
@@ -418,6 +427,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               )
             }
             style={{position: 'absolute', right: 22}}>
+>>>>>>> donguri
             <Text style={styles.example}>보기</Text>
           </TouchableOpacity>
         </View>
@@ -593,6 +603,12 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   example: {
+<<<<<<< HEAD
+    position: 'absolute',
+    right: 21,
+    bottom: 0,
+=======
+>>>>>>> donguri
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 14,
     color: '#3C3C3C',
