@@ -104,7 +104,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
             params: {
               text: selectedText,
               title: params.data.title,
-              // author: params.author,
+              author: params.memberInfo.nickName,
             },
           });
         }}

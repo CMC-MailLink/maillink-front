@@ -30,7 +30,9 @@ const SignIn = props => {
   const navigation = useNavigation();
 
   const signInWithKakao = async () => {
+    console.log('kakao login button click');
     const token = await login();
+    console.log('kakao token : ', token);
     getProfile();
   };
 
@@ -54,27 +56,20 @@ const SignIn = props => {
       }
     } else {
       navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
+        screen: 'SetProfile',
         params: {
           socialType: 'KAKAO',
           socialId: profile.id,
+          phoneNumber: '01012341234',
         },
       });
     }
   };
   const onAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
-      //for test
-      navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
-      });
-      // onAppleButtonPressIos();
+      onAppleButtonPressIos();
     } else {
-      //for test
-      navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
-      });
-      //onAppleButtonPressAndroid();
+      onAppleButtonPressAndroid();
     }
   };
 
@@ -131,9 +126,10 @@ const SignIn = props => {
         const user = response.user; // Present when user first logs in using appleId
         const state = response.state; // A copy of the state value that was passed to the initial request.
         console.log('Got auth code', code);
-        console.log('Got id_token', id_token);
         console.log('Got user', user);
         console.log('Got state', state);
+        console.log('Got id_token', id_token);
+        SignInApple(jwt_decode(id_token).sub);
       }
     } catch (error) {
       if (error && error.message) {
@@ -173,10 +169,11 @@ const SignIn = props => {
       }
     } else {
       navigation.navigate('SignUpStacks', {
-        screen: 'SelfAuth',
+        screen: 'SetProfile',
         params: {
           socialType: 'APPLE',
           socialId: id,
+          phoneNumber: '01012341234',
         },
       });
     }

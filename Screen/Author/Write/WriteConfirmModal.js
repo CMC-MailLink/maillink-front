@@ -20,7 +20,6 @@ const WriteConfirmModal = ({
 }) => {
   const onPressConfirm2 = async () => {
     onPressSend2();
-    setModalVisible(false);
     onPressConfirm();
   };
 
@@ -36,7 +35,7 @@ const WriteConfirmModal = ({
           source={SendWriting}
         />
         <View style={styles.modalView2}>
-          <Text style={styles.modalText}>글을 발행하겠습니다?</Text>
+          <Text style={styles.modalText}>글을 발행하시겠습니까?</Text>
           <Text style={styles.modalText}>
             <Text style={styles.modalText3}>
               발행한 글은 수정이 불가합니다.

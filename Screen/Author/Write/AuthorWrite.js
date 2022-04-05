@@ -19,25 +19,39 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import {AuthorAPI} from '../../../API/AuthorAPI';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import FastImage from 'react-native-fast-image';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import PenceilWriting from '../../../assets/images/PenceilWriting.png';
 import LinkAuthorWrite from '../../../assets/images/LinkAuthorWrite.png';
 import DeleteAuthorWrite from '../../../assets/images/DeleteAuthorWrite.png';
 import DeleteModal from '../../../assets/images/DeleteModal.png';
+import NewCheckModal from '../../../assets/images/NewCheckModal.png';
 
-const AuthorWrite = () => {
+const AuthorWrite = ({navigation: {setOptions}, route: {params}}) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
+  const insets = useSafeAreaInsets();
   const [recentSelect, setRecentSelect] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [filterStorage, setFilterStorage] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const {isLoading: storageLoading, data: storageData} = useQuery(
     ['AuthorStorage'],
     AuthorAPI.writerGetSaving,
   );
+  useEffect(() => {
+    if (params) {
+      if (params.send) {
+        setAlertVisible(true);
+        setTimeout(function () {
+          setAlertVisible(false);
+        }, 4000);
+      }
+    }
+  }, [params]);
 
   useEffect(() => {
     if (storageData) {
@@ -167,6 +181,7 @@ const AuthorWrite = () => {
           </View>
         </View>
       </Modal>
+
       <View style={styles.headerView}>
         <Text style={styles.headerText}>메일쓰기</Text>
       </View>
@@ -340,6 +355,53 @@ const AuthorWrite = () => {
           onPressWritingPage();
         }}
       />
+      {alertVisible ? (
+        <View style={{position: 'absolute', top: 0, width: '100%'}}>
+          <View
+            style={{
+              marginTop: 88 + insets.top,
+              paddingHorizontal: 17,
+            }}>
+            <View
+              style={{
+                height: 70,
+                width: '100%',
+                backgroundColor: '#FFFFFF',
+                borderRadius: 19,
+                paddingHorizontal: 21,
+                flexDirection: 'row',
+                alignItems: 'center',
+                shadowOpacity: 0.07,
+                shadowColor: '#000000',
+                shadowRadius: 14,
+              }}>
+              <FastImage
+                style={{width: 34, height: 34, marginRight: 17}}
+                source={NewCheckModal}></FastImage>
+              <View>
+                <Text
+                  style={{
+                    fontFamily: 'NotoSansKR-Medium',
+                    fontSize: 14,
+                    color: '#3C3C3C',
+                    includeFontPadding: false,
+                  }}>
+                  글이 발행되었습니다.
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'NotoSansKR-Light',
+                    fontSize: 12,
+                    color: '#3C3C3C',
+                    includeFontPadding: false,
+                  }}>
+                  작가님의 글이 독자들과 연결되었습니다.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -375,6 +437,7 @@ const styles = StyleSheet.create({
   bodyHeaderTextOrder: {
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 12,
+    color: '#3C3C3C',
     includeFontPadding: false,
   },
   LinkView: {

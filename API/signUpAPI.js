@@ -66,6 +66,7 @@ export const SignUpAPI = {
 
       if (response.ok) {
         let json = await response.json();
+        console.log(json.data);
         return json.data;
       } else {
         return false;
@@ -80,6 +81,7 @@ export const SignUpAPI = {
     console.log('로그인');
     console.log(socialType, socialId);
     var fcmDeviceToken = await AsyncStorage.getItem('fcmToken');
+    console.log(fcmDeviceToken);
     try {
       const response = await fetch(`${BASE_URL}/api/v1/member/auth/login`, {
         method: 'post',
@@ -102,8 +104,8 @@ export const SignUpAPI = {
           fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
-        //   socialType: 'APPLE',
-        //   socialId: 'bibitest2',
+        //   socialType: 'KAKAO',
+        //   socialId: 'donguriwriter',
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
@@ -151,14 +153,6 @@ export const SignUpAPI = {
           phoneNumber: phoneNumber,
           fcmDeviceToken: fcmDeviceToken,
         }),
-        // body: JSON.stringify({
-        //   socialType: 'APPLE',
-        //   socialId: 'bibitest2',
-        //   nickName: '비비테스트2',
-        //   imgUrl: imgUrl,
-        //   phoneNumber: '01011111111',
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {

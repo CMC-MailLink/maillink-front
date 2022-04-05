@@ -222,9 +222,12 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
             {messagePartnerData ? messagePartnerData.partnerNickname : ''}
           </Text>
         </View>
-        <TouchableWithoutFeedback>
-          <RenderInfoItem />
-        </TouchableWithoutFeedback>
+        {messagePartnerData &&
+        messagePartnerData.partnerNickname === '탈퇴한 회원 입니다.' ? null : (
+          <TouchableWithoutFeedback>
+            <RenderInfoItem />
+          </TouchableWithoutFeedback>
+        )}
       </View>
       {/* body */}
       {messagePartnerData ? (
@@ -252,37 +255,40 @@ const Message = ({navigation: {setOptions}, route: {params}}) => {
           }}
         />
       )}
-      <FloatingAction
-        actions={[
-          {
-            icon: (
-              <FastImage
-                style={{
-                  width: 22,
-                  height: 22,
-                }}
-                source={PenceilWriting}
-              />
-            ),
-            name: 'bt_search',
-            position: 1,
-            buttonSize: 50,
-          },
-        ]}
-        color="#FFF"
-        distanceToEdge={{vertical: 56, horizontal: 17}}
-        buttonSize={50}
-        shadow={{
-          shadowOpacity: 0.12,
-          shadowColor: '#000000',
-          shadowRadius: 23,
-        }}
-        overrideWithAction={true}
-        animated={false}
-        onPressItem={() => {
-          onPressWritingPage();
-        }}
-      />
+      {messagePartnerData &&
+      messagePartnerData.partnerNickname === '탈퇴한 회원 입니다.' ? null : (
+        <FloatingAction
+          actions={[
+            {
+              icon: (
+                <FastImage
+                  style={{
+                    width: 22,
+                    height: 22,
+                  }}
+                  source={PenceilWriting}
+                />
+              ),
+              name: 'bt_search',
+              position: 1,
+              buttonSize: 50,
+            },
+          ]}
+          color="#FFF"
+          distanceToEdge={{vertical: 56, horizontal: 17}}
+          buttonSize={50}
+          shadow={{
+            shadowOpacity: 0.12,
+            shadowColor: '#000000',
+            shadowRadius: 23,
+          }}
+          overrideWithAction={true}
+          animated={false}
+          onPressItem={() => {
+            onPressWritingPage();
+          }}
+        />
+      )}
     </View>
   );
 };

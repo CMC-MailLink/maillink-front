@@ -37,7 +37,7 @@ const ReaderAuthorReading = ({navigation: {setOptions}, route: {params}}) => {
   const [webviewLoading, setWebviewLoading] = useState(true);
   const {isLoading: mailDetailLoading, data: mailDetailData} = useQuery(
     ['ReaderMailDetail', params.mailId],
-    ReaderAPI.mailReading,
+    ReaderAPI.mailProfileReading,
   );
   const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
     ['AuthorInfo', params.writerId],
@@ -192,8 +192,8 @@ const ReaderAuthorReading = ({navigation: {setOptions}, route: {params}}) => {
             screen: 'InstaShare',
             params: {
               text: selectedText,
-              title: params.title,
-              // author: params.author,
+              title: mailDetailData.title,
+              author: authorInfoData.writerInfo.nickName,
             },
           });
         }}

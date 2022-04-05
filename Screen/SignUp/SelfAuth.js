@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 // eslint-disable react-native/no-inline-styles
 import React, {useState, useEffect, useRef} from 'react';
 import {
@@ -156,10 +155,20 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        flex: 1,
+      }}>
       <SafeAreaView style={{flex: 0}} />
-      {/* upperHeader */}
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        contentContainerStyle={{flexGrow: 1}}
+        bounces={false}
+        keyboardOpeningTime={0}
+        enableAutomaticScroll={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}>
+        {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
@@ -422,36 +431,41 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.example}>보기</Text>
           </TouchableOpacity>
         </View>
+        {/* footer: Button */}
+        <View
+          style={{
+            position: 'static',
+            width: '100%',
+            paddingHorizontal: 20,
+            marginBottom: 40,
+            paddingTop: 5,
+            ...Platform.select({
+              android: {
+                bottom: -70 + 25,
+              },
+            }),
+          }}>
+          <TouchableOpacity
+            //</View>disabled={!confirmSuccess && !checkbox}
+            onPress={goNextScreen}
+            style={
+              confirmSuccess && checkbox
+                ? styles.buttonAble
+                : styles.buttonDisable
+            }>
+            <View>
+              <Text
+                style={
+                  confirmSuccess
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                다음
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
-      {/* footer: Button */}
-      <View
-        style={{
-          position: 'static',
-          width: '100%',
-          paddingHorizontal: 20,
-          marginBottom: 40,
-          paddingTop: 5,
-        }}>
-        <TouchableOpacity
-          // disabled={!confirmSuccess && !checkbox}
-          onPress={goNextScreen}
-          style={
-            confirmSuccess && checkbox
-              ? styles.buttonAble
-              : styles.buttonDisable
-          }>
-          <View>
-            <Text
-              style={
-                confirmSuccess
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              다음
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

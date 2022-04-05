@@ -479,7 +479,7 @@ const ReaderMailBody = () => {
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height - 301,
+                  height: Dimensions.get('window').height - 301 - 100,
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
@@ -487,7 +487,7 @@ const ReaderMailBody = () => {
                 <FastImage
                   style={{
                     width: 261,
-                    height: 211,
+                    height: 258,
                   }}
                   source={SubscribeMail}
                 />

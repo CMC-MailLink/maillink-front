@@ -20,6 +20,7 @@ import FastImage from 'react-native-fast-image';
 
 import BackMail2 from '../../assets/images/BackMail2.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
+import NoMessage from '../../assets/images/NoMessage.png';
 const STATUSBAR_HEIGHT = 48;
 
 const Alarm = () => {
@@ -135,17 +136,12 @@ const Alarm = () => {
           }>
           <View
             style={{
-              top: 100,
+              flex: 1,
+              paddingTop: 100,
               alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Regular',
-                color: '#3C3C3C',
-                includeFontPadding: false,
-              }}>
-              메세지가 없습니다.
-            </Text>
+            <FastImage style={{width: 190, height: 215}} source={NoMessage} />
           </View>
         </ScrollView>
       )}

@@ -252,40 +252,20 @@ const AuthorMailBody = () => {
         renderItem={renderCategory}
         ListFooterComponent={
           <View>
-            {mail ? (
-              mail.length ? (
-                <View style={styles.bodyContainer}>
-                  <FlatList
-                    data={mail}
-                    renderItem={renderItem}
-                    ListFooterComponent={
-                      <View style={{height: 150, backgroundColor: 'white'}} />
-                    }
-                  />
-                </View>
-              ) : (
-                <View
-                  style={{
-                    width: '100%',
-                    height: Dimensions.get('window').height - 301,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#FFFFFF',
-                  }}>
-                  <FastImage
-                    style={{
-                      width: 261,
-                      height: 211,
-                    }}
-                    source={WriteMail}
-                  />
-                </View>
-              )
+            {mail && mail.length ? (
+              <View style={styles.bodyContainer}>
+                <FlatList
+                  data={mail}
+                  renderItem={renderItem}
+                  ListFooterComponent={
+                    <View style={{height: 150, backgroundColor: 'white'}} />
+                  }></FlatList>
+              </View>
             ) : (
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height - 301,
+                  height: Dimensions.get('window').height - 301 - 100,
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: '#FFFFFF',
@@ -293,7 +273,7 @@ const AuthorMailBody = () => {
                 <FastImage
                   style={{
                     width: 261,
-                    height: 211,
+                    height: 228,
                   }}
                   source={WriteMail}
                 />

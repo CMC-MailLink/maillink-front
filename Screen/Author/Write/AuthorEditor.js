@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Modal,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
@@ -20,12 +21,14 @@ import WriteConfirmModal from './WriteConfirmModal.js';
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 import {AuthorAPI} from '../../../API/AuthorAPI';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 
 const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   let webRef = useRef();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const url = 'https://www.mail-link.co.kr/quilEditor';
+  const urlIOS = 'https://www.mail-link.co.kr/quilEditorIOS';
+  const urlAndroid = 'https://www.mail-link.co.kr/quilEditorAndroid';
   // const url = 'http://localhost:3000/quilEditor';
   const [save, setSave] = useState(false);
   const [send, setSend] = useState(false);
@@ -60,7 +63,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
           type: 'image/png',
         });
 
-        const result = await SignUpAPI.profileEditing({image: imageData});
+        const result = await AuthorAPI.publishImage({image: imageData});
         if (result) {
           webRef.current.postMessage(JSON.stringify({imageURL: result}));
           setImageCount(imageCount + 1);
@@ -108,7 +111,11 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
       }
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
-      navigation.goBack();
+      setModalVisible(false);
+      navigation.navigate('AuthorTabs', {
+        screen: 'AuthorWrite',
+        params: {send: true},
+      });
     }
   };
 
@@ -219,12 +226,13 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         value={title}
         onChangeText={setTitle}
       />
+
       <WebView
         startInLoadingState={true}
         automaticallyAdjustContentInsets={false}
-        source={{uri: url}}
+        source={{uri: Platform.OS === 'ios' ? urlIOS : urlAndroid}}
         scrollEnabled={true}
-        hideKeyboardAccessoryView={true}
+        // hideKeyboardAccessoryView={true}
         ref={webRef}
         onMessage={handleOnMessage}
         injectedJavaScript={contentSending}

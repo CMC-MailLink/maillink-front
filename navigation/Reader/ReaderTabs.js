@@ -176,6 +176,7 @@ const ReaderTabs = () => {
                       fontFamily: 'NotoSansKR-Bold',
                       fontSize: 11,
                       color: '#F5F8FF',
+                      includeFontPadding: false,
                     }}>
                     {myContext.alarmCount > 99 ? '99+' : myContext.alarmCount}
                   </Text>

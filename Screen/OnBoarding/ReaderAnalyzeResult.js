@@ -211,7 +211,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           <RenderItem item={[analyzeResultData]}></RenderItem>
         ) : null}
         <View style={{top: -25 - 88 + 26, alignItems: 'center'}}>
-          {subscribe ? (
+          {/* {subscribe ? (
             <TouchableOpacity onPress={() => setSubscribe(false)}>
               <View style={styles.subscribeView}>
                 <Text style={styles.subscribeText}>구독중</Text>
@@ -223,7 +223,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
                 <Text style={styles.notSubscribeText}>구독하기</Text>
               </View>
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
         <TouchableOpacity
           style={{

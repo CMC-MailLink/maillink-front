@@ -40,7 +40,6 @@ const AuthorProfileMail = () => {
   );
   useEffect(() => {
     if (mailData) {
-      console.log(mailData);
       var tempMail = mailData.mailList.slice().sort(function (a, b) {
         if (a.publishedTime >= b.publishedTime) {
           return recentSelect ? -1 : 1;
@@ -105,18 +104,26 @@ const AuthorProfileMail = () => {
           </View>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
-          <MenuOption onSelect={() => cancelRep(item.id)}>
-            <Text>대표글 취소하기</Text>
-            <FastImage
-              style={styles.menuImage}
-              source={MenuItemProfile1}></FastImage>
-          </MenuOption>
-          <MenuOption onSelect={() => setRep(item.id)}>
-            <Text>대표글로 설정하기</Text>
-            <FastImage
-              style={{width: 12, height: 20, position: 'absolute', right: 22.5}}
-              source={MenuItemProfile4}></FastImage>
-          </MenuOption>
+          {repMail && repMail.id === item.id ? (
+            <MenuOption onSelect={() => cancelRep(item.id)}>
+              <Text>대표글 취소하기</Text>
+              <FastImage
+                style={styles.menuImage}
+                source={MenuItemProfile4}></FastImage>
+            </MenuOption>
+          ) : (
+            <MenuOption onSelect={() => setRep(item.id)}>
+              <Text>대표글로 설정하기</Text>
+              <FastImage
+                style={{
+                  width: 12,
+                  height: 20,
+                  position: 'absolute',
+                  right: 22.5,
+                }}
+                source={MenuItemProfile1}></FastImage>
+            </MenuOption>
+          )}
           {item.isPublic ? (
             <MenuOption
               style={{borderBottomWidth: 0}}
@@ -159,7 +166,6 @@ const AuthorProfileMail = () => {
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.mailItemDate}>
-              {' '}
               {data.publishedTime.slice(0, 10)}
             </Text>
             {data.isPublic ? (

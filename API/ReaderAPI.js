@@ -145,9 +145,7 @@ export const ReaderAPI = {
         },
       );
       console.log(response);
-      if (response.status === 200) {
-        return true;
-      }
+      if (response.status === 200) return true;
       return false;
     } catch (e) {
       console.log(e);
@@ -281,6 +279,27 @@ export const ReaderAPI = {
     }
     return false;
   },
+  //작가 정보 조회
+  getWriterInfo2: async ({writerId}) => {
+    console.log('작가 정보 조회');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/info/${writerId}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
   //작가 관심하기
   interesting: async ({writerId}) => {
     console.log('독자 작가 관심하기');
@@ -392,6 +411,44 @@ export const ReaderAPI = {
       } else {
         return false;
       }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  getAlarm: async () => {
+    console.log('독자 알림 정보얻기');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/member/alarm/reader`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  mailProfileReading: async ({queryKey}) => {
+    console.log('독자 작가 프로필 리딩');
+    const [_, mailId] = queryKey;
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/publish/detail?mailId=${mailId}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
     } catch (e) {
       console.log(e);
     }

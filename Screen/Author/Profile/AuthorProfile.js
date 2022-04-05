@@ -18,6 +18,7 @@ import FastImage from 'react-native-fast-image';
 
 import SettingProfile from '../../../assets/images/SettingProfile.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
+import FollowerIcon from '../../../assets/images/FollowerIcon.png';
 
 import AuthorProfileIntro from './AuthorProfileIntro';
 import AuthorProfileMail from './AuthorProfileMail';
@@ -37,6 +38,8 @@ const AuthorProfile = () => {
     ['AuthorProfile'],
     AuthorAPI.writerInfo,
   );
+  const {isLoading: authorFollowerNumLoading, data: authorFollowerNumData} =
+    useQuery(['AuthorFollowerNum'], AuthorAPI.getfollowerNum);
 
   useEffect(() => {
     if (authorProfileData) {
@@ -77,6 +80,7 @@ const AuthorProfile = () => {
   const onRefresh = async () => {
     setRefreshing(true);
     await queryClient.refetchQueries(['AuthorProfile']);
+    await queryClient.refetchQueries(['AuthorFollowerNum']);
     setRefreshing(false);
   };
 
@@ -177,6 +181,42 @@ const AuthorProfile = () => {
               </TouchableOpacity>
             </View>
           </View>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 20, top: 10}}
+            onPress={() => {
+              navigation.navigate('AuthorStacks', {
+                screen: 'AuthorProfileFollowerList',
+                params: {name: name},
+              });
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <FastImage
+                style={{width: 10.38, height: 12.27, marginRight: 6, top: 1}}
+                source={FollowerIcon}></FastImage>
+              <Text
+                style={{
+                  fontFamily: 'NotoSansKR-Medium',
+                  fontSize: 14,
+                  color: '#BEBEBE',
+                  includeFontPadding: false,
+                }}>
+                구독자&nbsp;&nbsp;
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'NotoSansKR-Medium',
+                  fontSize: 14,
+                  color: '#3c3c3c',
+                  includeFontPadding: false,
+                }}>
+                {authorFollowerNumData ? authorFollowerNumData : '0'}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
         {introSelect ? (
           <AuthorProfileIntro writerInfo={writerInfo}></AuthorProfileIntro>
@@ -216,6 +256,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 20,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
   },
   bodyHeaderBorder: {

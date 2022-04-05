@@ -48,10 +48,6 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
   );
   const loading = mailDetailLoading || authorInfoLoading;
 
-  useEffect(() => {
-    queryClient.refetchQueries(['ReaderMail']);
-  }, [queryClient]);
-
   const onPressBack = () => {
     navigation.goBack();
   };
@@ -74,8 +70,9 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     if (!loading && !webviewLoading) {
       console.log('로딩 끝', mailDetailData);
       webRef.current.injectJavaScript(contentSending);
+      queryClient.refetchQueries(['ReaderMail']);
     }
-  }, [loading, contentSending, mailDetailData, webviewLoading]);
+  }, [loading, contentSending, mailDetailData, webviewLoading, queryClient]);
 
   const onPressBookmark = async () => {
     if (!mailDetailData.isSaved) {
@@ -122,7 +119,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     let div = document.createElement('div');
     div.classList.add('test');
     var textNode = document.createTextNode('${
-      mailDetailData ? mailDetailData.content : 'aa'
+      mailDetailData ? mailDetailData.content : ''
     }');
     div.append(textNode);
     div.style.display="none";
@@ -282,8 +279,8 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
             screen: 'InstaShare',
             params: {
               text: selectedText,
-              title: params.title,
-              // author: params.author,
+              title: mailDetailData.title,
+              author: authorInfoData.writerInfo.nickName,
             },
           });
         }}
