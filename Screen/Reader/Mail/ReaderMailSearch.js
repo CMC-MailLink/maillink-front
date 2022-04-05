@@ -156,28 +156,26 @@ const ReaderMailSearch = () => {
                 source={BackMail}></FastImage>
             </View>
           </TouchableWithoutFeedback>
-          <View>
-            <View style={styles.headerSearchBar}>
-              <TextInput
-                style={styles.searchTextInput}
-                value={query}
-                placeholder="작가 또는 제목을 검색해보세요."
-                placeholderTextColor="#D2D2D2"
-                returnKeyType="search"
-                onChangeText={onChangeText}
-                onSubmitEditing={onSubmit}></TextInput>
-              <TouchableWithoutFeedback onPress={onSubmit}>
-                <View style={styles.searchView}>
-                  <FastImage
-                    style={{
-                      width: 19,
-                      height: 20,
-                    }}
-                    source={SearchMail2}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
+          <View style={styles.headerSearchBar}>
+            <TextInput
+              style={styles.searchTextInput}
+              value={query}
+              placeholder="작가 또는 제목을 검색해보세요."
+              placeholderTextColor="#D2D2D2"
+              returnKeyType="search"
+              onChangeText={onChangeText}
+              onSubmitEditing={onSubmit}></TextInput>
+            <TouchableWithoutFeedback onPress={onSubmit}>
+              <View style={styles.searchView}>
+                <FastImage
+                  style={{
+                    width: 19,
+                    height: 20,
+                  }}
+                  source={SearchMail2}
+                />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </View>
@@ -353,11 +351,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: Dimensions.get('window').width,
+    paddingHorizontal: 40,
   },
   headerSearchBar: {
     backgroundColor: '#fff',
-    width: 322,
+    width: '100%',
     height: 44,
     borderRadius: 43,
     marginLeft: 15,
