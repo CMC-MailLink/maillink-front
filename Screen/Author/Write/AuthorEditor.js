@@ -21,6 +21,7 @@ import WriteConfirmModal from './WriteConfirmModal.js';
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
 import {AuthorAPI} from '../../../API/AuthorAPI';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 
 const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   let webRef = useRef();
@@ -225,6 +226,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         value={title}
         onChangeText={setTitle}
       />
+
       <WebView
         startInLoadingState={true}
         automaticallyAdjustContentInsets={false}

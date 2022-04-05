@@ -433,4 +433,25 @@ export const ReaderAPI = {
     }
     return false;
   },
+  mailProfileReading: async ({queryKey}) => {
+    console.log('독자 작가 프로필 리딩');
+    const [_, mailId] = queryKey;
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/publish/detail?mailId=${mailId}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };
