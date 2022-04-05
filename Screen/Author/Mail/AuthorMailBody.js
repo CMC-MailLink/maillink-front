@@ -44,7 +44,9 @@ const AuthorMailBody = () => {
   );
 
   useEffect(() => {
-    if (authorInfoData) setMemberInfo(authorInfoData);
+    if (authorInfoData) {
+      setMemberInfo(authorInfoData);
+    }
   }, [authorInfoData]);
 
   useEffect(() => {

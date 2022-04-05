@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     backgroundColor: '#FFFFFF',
     flex: 1,
-    paddingBottom: 103 - 23.78,
+    paddingBottom: '100%',
   },
   bodyHeader: {
     paddingBottom: 17,

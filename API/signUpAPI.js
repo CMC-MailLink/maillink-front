@@ -66,6 +66,7 @@ export const SignUpAPI = {
 
       if (response.ok) {
         let json = await response.json();
+        console.log(json.data);
         return json.data;
       } else {
         return false;
@@ -93,8 +94,8 @@ export const SignUpAPI = {
           fcmDeviceToken: fcmDeviceToken,
         }),
         // body: JSON.stringify({
-        //   socialType: 'APPLE',
-        //   socialId: 'bibitest2',
+        //   socialType: 'KAKAO',
+        //   socialId: 'donguriwriter',
         //   fcmDeviceToken: fcmDeviceToken,
         // }),
       });
@@ -142,14 +143,6 @@ export const SignUpAPI = {
           phoneNumber: phoneNumber,
           fcmDeviceToken: fcmDeviceToken,
         }),
-        // body: JSON.stringify({
-        //   socialType: 'APPLE',
-        //   socialId: 'bibitest2',
-        //   nickName: '비비테스트2',
-        //   imgUrl: imgUrl,
-        //   phoneNumber: '01011111111',
-        //   fcmDeviceToken: fcmDeviceToken,
-        // }),
       });
       let json = await response.json();
       if (json.errorCode === 400) {
@@ -227,7 +220,9 @@ export const SignUpAPI = {
         },
       );
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
@@ -272,7 +267,9 @@ export const SignUpAPI = {
         }),
       });
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);

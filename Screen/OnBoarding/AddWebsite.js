@@ -53,7 +53,9 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
     });
 
     console.log(result);
-    if (result) setModalVisible(true);
+    if (result) {
+      setModalVisible(true);
+    }
   };
 
   useEffect(() => {
@@ -89,8 +91,15 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
           setModalConfirm2={setModalConfirm2}
         />
       </Modal>
-
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        contentContainerStyle={{flexGrow: 1}}
+        bounces={false}
+        keyboardOpeningTime={0}
+        enableAutomaticScroll={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}
+        extraHeight={20}>
         {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
@@ -134,12 +143,14 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
                 onPress={() => facebookRef.current.focus()}>
                 <Text style={styles.websiteText}>facebook.com/</Text>
               </TouchableOpacity>
-              <TextInput
-                ref={facebookRef}
-                style={styles.websiteTextInput}
-                value={editFacebook}
-                onChangeText={setEditFacebook}
-              />
+              <View style={{height: 20, width: 240}}>
+                <TextInput
+                  ref={facebookRef}
+                  style={styles.websiteTextInput}
+                  value={editFacebook}
+                  onChangeText={setEditFacebook}
+                />
+              </View>
             </View>
             <View style={styles.websiteView}>
               <Image
@@ -151,12 +162,14 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
                 onPress={() => twitterRef.current.focus()}>
                 <Text style={styles.websiteText}>twitter.com/</Text>
               </TouchableOpacity>
-              <TextInput
-                ref={twitterRef}
-                style={styles.websiteTextInput}
-                value={editTwitter}
-                onChangeText={setEditTwitter}
-              />
+              <View style={{height: 20, width: 240}}>
+                <TextInput
+                  ref={twitterRef}
+                  style={styles.websiteTextInput}
+                  value={editTwitter}
+                  onChangeText={setEditTwitter}
+                />
+              </View>
             </View>
             <View style={styles.websiteView}>
               <Image
@@ -168,12 +181,14 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
                 onPress={() => instagramRef.current.focus()}>
                 <Text style={styles.websiteText}>instagram.com/</Text>
               </TouchableOpacity>
-              <TextInput
-                ref={instagramRef}
-                style={styles.websiteTextInput}
-                value={editInstagram}
-                onChangeText={setEditInstagram}
-              />
+              <View style={{height: 20, width: 240}}>
+                <TextInput
+                  ref={instagramRef}
+                  style={styles.websiteTextInput}
+                  value={editInstagram}
+                  onChangeText={setEditInstagram}
+                />
+              </View>
             </View>
             <View style={styles.websiteView}>
               <Image
@@ -185,25 +200,27 @@ const AddWebsite = ({navigation: {setOptions}, route: {params}}) => {
                 onPress={() => urlRef.current.focus()}>
                 <Text style={styles.websiteText}>https://</Text>
               </TouchableOpacity>
-              <TextInput
-                ref={urlRef}
-                style={styles.websiteTextInput}
-                value={editURL}
-                onChangeText={setEditURL}
-              />
+              <View style={{height: 20, width: 240}}>
+                <TextInput
+                  ref={urlRef}
+                  style={styles.websiteTextInput}
+                  value={editURL}
+                  onChangeText={setEditURL}
+                />
+              </View>
             </View>
           </View>
         </View>
-      </KeyboardAwareScrollView>
 
-      {/* Footer: Button pass */}
-      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
-        <TouchableOpacity onPress={onPressConfirm} style={styles.buttonAble}>
-          <View>
-            <Text style={styles.buttonAbleText}>완료</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+        {/* Footer: Button pass */}
+        <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
+          <TouchableOpacity onPress={onPressConfirm} style={styles.buttonAble}>
+            <View>
+              <Text style={styles.buttonAbleText}>완료</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -241,6 +258,7 @@ const styles = StyleSheet.create({
     top: -103 + 82,
     left: 37,
     paddingRight: 40,
+    includeFontPadding: false,
   },
   bodyinputBorder: {
     bottom: 22 - 11,

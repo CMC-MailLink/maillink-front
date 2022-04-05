@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import NewCheckModal from '../../assets/images/NewCheckModal.png';
-
 const AuthorSuccessModal = ({setModalVisible, setModalVisible2}) => {
   return (
     <View style={styles.centeredView}>

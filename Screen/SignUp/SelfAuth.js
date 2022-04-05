@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 // eslint-disable react-native/no-inline-styles
 import React, {useState, useEffect, useRef} from 'react';
 import {
@@ -150,10 +149,20 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        flex: 1,
+      }}>
       <SafeAreaView style={{flex: 0}} />
-      {/* upperHeader */}
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        contentContainerStyle={{flexGrow: 1}}
+        bounces={false}
+        keyboardOpeningTime={0}
+        enableAutomaticScroll={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}>
+        {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
@@ -182,7 +191,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             marginHorizontal: 20,
             borderBottomWidth: 1,
             borderBottomColor: '#BEBEBE',
-            paddingBottom: 10,
+            ...Platform.select({
+              ios: {paddingBottom: 10},
+              android: {
+                paddingTop: 0,
+              },
+            }),
             height: 67,
             justifyContent: 'space-between',
           }}>
@@ -211,9 +225,12 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               borderBottomWidth: 1,
               borderBottomColor: '#BEBEBE',
               borderColor: '#BEBEBE',
+              // paddingBottom: 10,
               ...Platform.select({
                 ios: {paddingBottom: 10},
-                android: {paddingTop: -10},
+                android: {
+                  paddingTop: 10,
+                },
               }),
             }}>
             <TextInput
@@ -224,8 +241,20 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               value={phone}
               placeholder="휴대전화 번호 입력"
             />
+
             {authRequest ? (
-              <>
+              <View
+                style={{
+                  ...Platform.select({
+                    ios: {marginLeft: 150},
+                    android: {
+                      position: 'absolute',
+                      right: 0,
+                      marginTop: 7,
+                    },
+                  }),
+                }}>
+                {/* timer */}
                 <View style={{position: 'absolute', right: 80}}>
                   {!confirmSuccess ? (
                     <Text style={styles.timerText}>
@@ -234,6 +263,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
                     </Text>
                   ) : null}
                 </View>
+                {/* 버튼 */}
                 <TouchableOpacity
                   disabled={confirmSuccess}
                   onPress={goAlertPhoneAdd}
@@ -253,7 +283,7 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-              </>
+              </View>
             ) : (
               <TouchableOpacity
                 disabled={phone.length ? false : true}
@@ -286,25 +316,52 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
               paddingBottom: 10,
               ...Platform.select({
                 ios: {},
-                android: {paddingBottom: 0},
+                android: {marginBottom: -10},
               }),
             }}>
             <TextInput
               editable={authRequest && !confirmSuccess ? true : false}
               keyboardType="number-pad"
-              style={styles.input}
+              style={{
+                ...Platform.select({
+                  ios: {...styles.input},
+                  android: {...styles.input, marginBottom: -10},
+                }),
+              }}
               onChangeText={onChangeNumber}
               value={number}
               placeholder="인증 번호 입력"
             />
+            {/* {Platform.select({
+              ios: (
+                <TextInput
+                  editable={authRequest && !confirmSuccess ? true : false}
+                  keyboardType="number-pad"
+                  style={styles.input}
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="인증 번호 입력"
+                />
+              ),
+              android: (
+                <TextInput
+                  editable={authRequest && !confirmSuccess ? true : false}
+                  keyboardType="number-pad"
+                  style={phone ? styles.inputAndroid : styles.input}
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="인증 번호 입력"
+                />
+              ),
+            })} */}
             {/* Body: confirmRequest */}
             <TouchableOpacity
               disabled={!number.length || confirmSuccess ? true : false}
               onPress={onPressConfirm}
               style={
                 !number.length || confirmSuccess
-                  ? styles.basicAuthRequest
-                  : styles.changeAuthRequest
+                  ? styles.basicAuthRequest2
+                  : styles.changeAuthRequest2
               }>
               <View>
                 <Text
@@ -364,36 +421,41 @@ const SelfAuth = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.example}>보기</Text>
           </TouchableOpacity>
         </View>
+        {/* footer: Button */}
+        <View
+          style={{
+            position: 'static',
+            width: '100%',
+            paddingHorizontal: 20,
+            marginBottom: 40,
+            paddingTop: 5,
+            ...Platform.select({
+              android: {
+                bottom: -70 + 25,
+              },
+            }),
+          }}>
+          <TouchableOpacity
+            //</View>disabled={!confirmSuccess && !checkbox}
+            onPress={goNextScreen}
+            style={
+              confirmSuccess && checkbox
+                ? styles.buttonAble
+                : styles.buttonDisable
+            }>
+            <View>
+              <Text
+                style={
+                  confirmSuccess
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                다음
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
-      {/* footer: Button */}
-      <View
-        style={{
-          position: 'static',
-          width: '100%',
-          paddingHorizontal: 20,
-          marginBottom: 40,
-          paddingTop: 5,
-        }}>
-        <TouchableOpacity
-          disabled={!confirmSuccess && !checkbox}
-          onPress={goNextScreen}
-          style={
-            confirmSuccess && checkbox
-              ? styles.buttonAble
-              : styles.buttonDisable
-          }>
-          <View>
-            <Text
-              style={
-                confirmSuccess
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              다음
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -404,7 +466,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingTop: 22,
-    includeFontPadding: false,
   },
   NameTitle: {
     fontFamily: 'NotoSansKR-Bold',
@@ -430,14 +491,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#3C3C3C',
     includeFontPadding: false,
-  },
-  bodyRequestBoarder: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: '#BEBEBE',
-    bottom: 16 - 10,
-    paddingTop: -23,
-    includeFontPadding: false,
+    ...Platform.select({
+      android: {padding: 0, paddingBottom: 8, height: 30},
+    }),
   },
   timer: {
     left: 239,
@@ -456,9 +512,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({
-      android: {marginTop: 25 - 10},
+      android: {marginTop: 5},
     }),
-    includeFontPadding: false,
+  },
+  basicAuthRequest2: {
+    width: 69,
+    height: 24,
+    borderRadius: 15,
+    position: 'absolute',
+    right: 0,
+    backgroundColor: '#fff',
+    borderColor: '#BEBEBE',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      android: {marginTop: -4},
+    }),
   },
   basicAuthRequestText: {
     fontFamily: 'NotoSansKR-Regular',
@@ -476,25 +546,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({
-      android: {marginTop: 20},
+      android: {marginTop: 5},
     }),
-    includeFontPadding: false,
+  },
+  changeAuthRequest2: {
+    width: 69,
+    height: 24,
+    borderRadius: 15,
+    position: 'absolute',
+    right: 0,
+    backgroundColor: '#4562F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      android: {marginTop: -4},
+    }),
   },
   changeAuthRequestText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 12,
     color: '#FFFFFF',
-    includeFontPadding: false,
-  },
-  confirmCheck: {
-    width: 69,
-    height: 24,
-    borderRadius: 15,
-    borderColor: '#BEBEBE',
-    borderWidth: 1,
-    backgroundColor: '#FFF',
-    justifyContent: 'center',
-    alignItems: 'center',
     includeFontPadding: false,
   },
   authRequest: {
@@ -506,6 +577,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBEBEB',
     justifyContent: 'center',
     alignItems: 'center',
+    includeFontPadding: false,
   },
   authRequestText: {
     fontFamily: 'NotoSansKR-Regular',

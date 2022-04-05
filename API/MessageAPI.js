@@ -47,7 +47,9 @@ export const MessageAPI = {
           text: text,
         }),
       });
-      if (response.status === 200) return true;
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);

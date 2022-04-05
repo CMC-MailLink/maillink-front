@@ -99,17 +99,25 @@ const ReaderProfile = () => {
   useEffect(() => {
     if (subscribeAuthorListData) {
       var temp = subscribeAuthorListData.filter(data => {
-        if (data.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
+        if (data.writerInfo.nickName === '탈퇴한 회원 입니다.') {
+          return false;
+        }
         for (var i = 0; i < 3; i++) {
-          if (branch[i].select)
-            if (data.writerInfo.primaryGenre === branch[i].name) return true;
+          if (branch[i].select) {
+            if (data.writerInfo.primaryGenre === branch[i].name) {
+              return true;
+            }
+          }
         }
         return false;
       });
       temp = temp.filter(data => {
         for (var i = 0; i < 8; i++) {
-          if (vive[i].select)
-            if (data.writerInfo.primaryMood === vive[i].name) return true;
+          if (vive[i].select) {
+            if (data.writerInfo.primaryMood === vive[i].name) {
+              return true;
+            }
+          }
         }
         return false;
       });
@@ -220,7 +228,8 @@ const ReaderProfile = () => {
         style={{
           ...styles.refreshView,
           height: refreshingHeight - offsetY + 40,
-        }}></View>
+        }}
+      />
       <Modal
         animationType="fade"
         transparent={true}
@@ -247,7 +256,8 @@ const ReaderProfile = () => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor="#fff"></RefreshControl>
+            tintColor="#fff"
+          />
         }>
         <View style={{height: 43, backgroundColor: '#4562F1'}}>
           <TouchableOpacity

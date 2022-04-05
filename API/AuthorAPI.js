@@ -76,7 +76,9 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      if (response.status !== 200) return false;
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -101,7 +103,9 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      if (response.status !== 200) return false;
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -127,7 +131,9 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
-      if (response.status !== 200) return false;
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -149,7 +155,9 @@ export const AuthorAPI = {
           },
         },
       );
-      if (response.status !== 200) return false;
+      if (response.status !== 200) {
+        return false;
+      }
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -231,7 +239,9 @@ export const AuthorAPI = {
         },
       );
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
@@ -276,7 +286,9 @@ export const AuthorAPI = {
         }),
       });
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
@@ -297,7 +309,9 @@ export const AuthorAPI = {
           },
         },
       );
-      if (response.status === 200) return true;
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
@@ -317,8 +331,11 @@ export const AuthorAPI = {
           'Content-Type': 'multipart/form-data',
         },
       });
-      if (response.status === 200) return true;
-      else return false;
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
       return false;

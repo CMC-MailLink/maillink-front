@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
@@ -175,6 +176,9 @@ const OnBoarding = props => {
           bottom: 0,
           width: '100%',
           marginBottom: 0,
+          ...Platform.select({
+            android: {marginBottom: -100 + 58},
+          }),
         }}>
         <View style={styles.bottomView}>
           <TouchableWithoutFeedback onPress={onPressSkip}>
@@ -199,6 +203,9 @@ const styles = StyleSheet.create({
   },
   swiperWrapper: {
     marginBottom: 215,
+    ...Platform.select({
+      android: {height: 500},
+    }),
   },
   swiperDot: {
     backgroundColor: '#BEBEBE',
@@ -208,6 +215,9 @@ const styles = StyleSheet.create({
     marginLeft: 3.5,
     marginRight: 3.5,
     marginBottom: 60,
+    ...Platform.select({
+      android: {marginBottom: -47 + 65},
+    }),
   },
   swiperActiveDot: {
     backgroundColor: '#4562F1',
@@ -217,21 +227,21 @@ const styles = StyleSheet.create({
     marginLeft: 3.5,
     marginRight: 3.5,
     marginBottom: 60,
-  },
-  bodyView: {
-    width: '100%',
-    backgroundColor: 'yellow',
-    alignItems: 'center',
+    ...Platform.select({
+      android: {marginBottom: -47 + 65},
+    }),
   },
   bodyTitleText: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   bodyDescText: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
+    includeFontPadding: false,
   },
   bottomView: {
     position: 'static',
@@ -247,6 +257,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#828282',
     width: 72,
+    includeFontPadding: false,
   },
   nextText: {
     fontFamily: 'NotoSansKR-Bold',
@@ -254,6 +265,7 @@ const styles = StyleSheet.create({
     color: '#4562F1',
     width: 72,
     textAlign: 'right',
+    includeFontPadding: false,
   },
 });
 export default OnBoarding;

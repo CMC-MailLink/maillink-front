@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
+  Platform,
 } from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import {SignUpAPI} from '../../API/SignUpAPI';
@@ -65,7 +66,10 @@ const SelectUserType = props => {
       {/* Header: main */}
       <View style={{marginTop: 80, marginLeft: 20}}>
         <Text style={styles.IntroSub}>메일링크에 오신걸 환영합니다!</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
           <Text style={styles.NameTitle}>메일링크</Text>
           <Text style={styles.IntroTitle}>에서</Text>
         </View>
@@ -78,6 +82,9 @@ const SelectUserType = props => {
           marginTop: 60,
           flexDirection: 'row',
           justifyContent: 'center',
+          ...Platform.select({
+            android: {marginTop: 63},
+          }),
         }}>
         <TouchableWithoutFeedback
           onPress={onPressReaderSelect}
@@ -114,6 +121,10 @@ const SelectUserType = props => {
             color: '#BEBEBE',
             marginBottom: 20,
             textAlign: 'center',
+            includeFontPadding: false,
+            ...Platform.select({
+              android: {marginBottom: 21},
+            }),
           }}>
           한 번 선택하면 이후에 변경이 불가합니다.
         </Text>
@@ -174,6 +185,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
+    includeFontPadding: false,
+    ...Platform.select({
+      android: {marginBottom: 2},
+    }),
   },
   buttonDisable: {
     width: '100%',

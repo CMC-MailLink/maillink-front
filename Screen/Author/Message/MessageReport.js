@@ -205,6 +205,7 @@ const MessageReport = () => {
                 maxLength={300}
                 maxHeight={300}
                 multiline={true}
+                textAlignVertical="top"
               />
             </View>
           </View>

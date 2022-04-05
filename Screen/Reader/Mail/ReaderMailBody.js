@@ -90,7 +90,9 @@ const ReaderMailBody = () => {
         }
       });
       setMail([...tempMail]);
-    } else setMail([{key: 'category'}]);
+    } else {
+      setMail([{key: 'category'}]);
+    }
   }, [mailData, recentSelect, mailSelect]);
 
   // useEffect(() => {
@@ -119,14 +121,20 @@ const ReaderMailBody = () => {
 
   useEffect(() => {
     var temp = mail.filter(item => {
-      if (item.key === 'category') return true;
-      if (item.isSaved) return true;
+      if (item.key === 'category') {
+        return true;
+      }
+      if (item.isSaved) {
+        return true;
+      }
     });
     setBookmark([...temp]);
 
     var tempCount = 0;
     mail.map(item => {
-      if (item.isRead === false) tempCount++;
+      if (item.isRead === false) {
+        tempCount++;
+      }
     });
     setCount(tempCount);
     myContext.setAlarmCount(tempCount);
@@ -154,10 +162,14 @@ const ReaderMailBody = () => {
     }
     if (!item.isSaved) {
       var result = await ReaderAPI.mailSaving({mailId: item.id});
-      if (result) await queryClient.refetchQueries(['ReaderMail']);
+      if (result) {
+        await queryClient.refetchQueries(['ReaderMail']);
+      }
     } else {
       var result = await ReaderAPI.mailCancelSaving({mailId: item.id});
-      if (result) await queryClient.refetchQueries(['ReaderMail']);
+      if (result) {
+        await queryClient.refetchQueries(['ReaderMail']);
+      }
     }
   };
 

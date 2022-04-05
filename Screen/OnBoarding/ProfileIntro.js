@@ -11,6 +11,9 @@ import {
   Alert,
   Modal,
   Keyboard,
+  Platform,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SignUpStepIntro from '../../assets/images/SignUpStepIntro.png';
@@ -19,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import InputScrollView from 'react-native-input-scroll-view';
 
 const ProfileIntro = () => {
   const myContext = useContext(AppContext);
@@ -53,9 +57,6 @@ const ProfileIntro = () => {
       setConfirmSuccess(false);
     }
     setTextCount(introText.length);
-    if (this.keyCode === 13) {
-      setenterCount(enterCount + 1);
-    }
   }, [introText, confirmSuccess, enterCount]);
 
   const onPressSkip = () => {
@@ -65,20 +66,26 @@ const ProfileIntro = () => {
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0}} />
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <AuthorSuccessModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          onPressModalConfirm={onPressModalConfirm}
-        />
-      </Modal>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
+        enableOnAndroid={false}
+        contentContainerStyle={{flexGrow: 1}}
+        bounces={true}
+        keyboardOpeningTime={0}
+        enableAutomaticScroll={true}
+        scrollEnabled={true}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <AuthorSuccessModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            onPressModalConfirm={onPressModalConfirm}
+          />
+        </Modal>
         {/* upperHeader */}
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
@@ -87,7 +94,6 @@ const ProfileIntro = () => {
             </View>
           </TouchableWithoutFeedback>
         </View>
-
         {/* mainHeader */}
         <Image
           style={{width: 48, height: 32.28, marginTop: 25, marginLeft: 25}}
@@ -105,9 +111,15 @@ const ProfileIntro = () => {
         {/* Body: Input */}
         <View
           style={{
-            marginTop: 34,
+            marginTop: 30,
             marginLeft: 20,
             marginRight: 20,
+            flex: 0,
+            ...Platform.select({
+              android: {
+                marginTop: 30,
+              },
+            }),
           }}>
           <TextInput
             style={styles.input}
@@ -116,27 +128,34 @@ const ProfileIntro = () => {
             placeholder="소개를 입력해주세요."
             maxLength={160}
             //MaxHeight(엔터의 개수를 줄인다.)엔터 한번당 20
-            maxHeight={200}
-            multiline={introText > 160 && enterCount > 5 ? false : true}
+            maxHeight={100}
+            multiline={introText > 160 ? false : true}
+            autoCorrect={false}
+            autoCapitalize={false}
+            inlineImagePadding={112}
           />
           <Text style={styles.textCount}> {textCount}/ 160자</Text>
         </View>
+        {/* footer: Button pass */}
+        <View
+          style={{
+            ...styles.bottomView,
+            bottom: insets.bottom + 15,
+          }}>
+          {/* footer: Button*/}
+          <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
+            <View>
+              <Text style={styles.buttonAbleText}>다음</Text>
+            </View>
+          </TouchableOpacity>
+          {/* footer: Pass*/}
+          <TouchableWithoutFeedback onPress={onPressSkip}>
+            <View>
+              <Text style={styles.footerPassText}>다음에 할게요</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       </KeyboardAwareScrollView>
-      {/* footer: Button pass */}
-      <View style={{...styles.bottomView, bottom: insets.bottom + 15}}>
-        {/* footer: Button*/}
-        <TouchableOpacity onPress={goNextScreen} style={styles.buttonAble}>
-          <View>
-            <Text style={styles.buttonAbleText}>다음</Text>
-          </View>
-        </TouchableOpacity>
-        {/* footer: Pass*/}
-        <TouchableWithoutFeedback onPress={onPressSkip}>
-          <View>
-            <Text style={styles.footerPassText}>다음에 할게요</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
     </View>
   );
 };
@@ -152,6 +171,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   textCount: {
     marginTop: 4,
@@ -161,17 +181,20 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   introTitle: {
     fontFamily: 'NotoSansKR-Light',
     fontSize: 27,
     color: '#3C3C3C',
+    includeFontPadding: false,
   },
   introSub: {
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 16,
     color: '#BEBEBE',
     marginTop: 6,
+    includeFontPadding: false,
   },
   input: {
     fontFamily: 'NotoSansKR-Regular',
@@ -180,6 +203,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#BEBEBE',
+    textAlignVertical: 'top',
+    includeFontPadding: false,
+
+    padding: 0,
+    margin: 0,
   },
   buttonAble: {
     marginHorizontal: 20,
@@ -191,10 +219,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   buttonAbleText: {
-    includeFontPadding: false,
     fontFamily: 'NotoSansKR-Medium',
     fontSize: 16,
     color: '#FFFFFF',
+    includeFontPadding: false,
   },
   bottomView: {
     width: '100%',

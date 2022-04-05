@@ -20,7 +20,6 @@ import HeartTabs from '../../assets/images/HeartTabs.png';
 import HeartTabsFocused from '../../assets/images/HeartTabsFocused.png';
 import ReaderProfileTabs from '../../assets/images/ProfileTabs.png';
 import ReaderProfileTabsFocused from '../../assets/images/ReaderProfileTabsFocused.png';
-
 const ReaderTab = createBottomTabNavigator();
 
 // const CustomTabBarButton = ({children, onPress}) => (
@@ -156,6 +155,7 @@ const ReaderTabs = () => {
                       fontFamily: 'NotoSansKR-Bold',
                       fontSize: 11,
                       color: '#F5F8FF',
+                      includeFontPadding: false,
                     }}>
                     {myContext.alarmCount > 99 ? '99+' : myContext.alarmCount}
                   </Text>
@@ -196,7 +196,6 @@ const ReaderTabs = () => {
     </ReaderTab.Navigator>
   );
 };
-
 const styles = StyleSheet.create({
   navigator: {
     position: 'absolute',
@@ -251,5 +250,4 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
-
 export default ReaderTabs;

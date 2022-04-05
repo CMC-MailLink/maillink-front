@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCredentials} from '../Credentials';
-import {API_URL} from '@env';
 
-const BASE_URL = API_URL;
+const BASE_URL = 'https://www.maillink-api.com';
 
 //Reader API
 export const ReaderAPI = {
@@ -36,6 +35,7 @@ export const ReaderAPI = {
         },
       });
       let json = await response.json();
+      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -56,7 +56,10 @@ export const ReaderAPI = {
           },
         },
       );
-      if (response.status === 200) return true;
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
@@ -76,8 +79,11 @@ export const ReaderAPI = {
           'Content-Type': 'multipart/form-data',
         },
       });
-      if (response.status === 200) return true;
-      else return false;
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log(e);
       return false;
@@ -94,8 +100,11 @@ export const ReaderAPI = {
           method: 'post',
         },
       );
+      console.log(response);
       let json = await response.json();
-      if (json.errorCode === 400) return false;
+      if (json.errorCode === 400) {
+        return false;
+      }
       return true;
     } catch (e) {
       console.log(e);
@@ -113,6 +122,7 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
+      console.log(response);
       let json = await response.json();
       return json.data;
     } catch (e) {
@@ -156,7 +166,10 @@ export const ReaderAPI = {
           },
         },
       );
-      if (response.status === 200) return true;
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
@@ -175,7 +188,9 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
+      console.log(response);
       let json = await response.json();
+      console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -193,7 +208,10 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      if (response.status === 200) return true;
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
@@ -211,7 +229,10 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      if (response.status === 200) return true;
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
@@ -293,13 +314,16 @@ export const ReaderAPI = {
           },
         },
       );
-      if (response.status === 200) return true;
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);
     }
     return false;
   },
+
   //작가 관심취소하기
   cancelInteresting: async ({writerId}) => {
     console.log('독자 작가 관심 취소하기');
@@ -314,7 +338,9 @@ export const ReaderAPI = {
           },
         },
       );
-      if (response.status === 200) return true;
+      if (response.status === 200) {
+        return true;
+      }
       return false;
     } catch (e) {
       console.log(e);

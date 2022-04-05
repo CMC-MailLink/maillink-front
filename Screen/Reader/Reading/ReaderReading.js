@@ -119,7 +119,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     let div = document.createElement('div');
     div.classList.add('test');
     var textNode = document.createTextNode('${
-      mailDetailData ? mailDetailData.content : 'aa'
+      mailDetailData ? mailDetailData.content : ''
     }');
     div.append(textNode);
     div.style.display="none";

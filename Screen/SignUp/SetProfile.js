@@ -66,6 +66,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
   //확인 버튼 클릭
   const onCheckName = async () => {
     var result = await SignUpAPI.checkNickName({nickName: name});
+    console.log(result);
     if (!result) {
       onChangeCheckMessage('이미 존재하는 닉네임입니다.');
       setMessageVisible(true);
@@ -74,7 +75,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);
-    } else if (result && name) {
+    } else if (result) {
       onChangeCheckMessage('사용할 수 있는 이름이에요.');
       setNameValid(true);
       setMessageVisible(true);
@@ -147,7 +148,10 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
         />
       </Modal>
       {/* upperHeader */}
-      <KeyboardAwareScrollView bounces={false} keyboardOpeningTime={0}>
+      <KeyboardAwareScrollView
+        bounces={false}
+        keyboardOpeningTime={0}
+        extraHeight={100}>
         <View style={styles.headerView}>
           <TouchableWithoutFeedback onPress={onPressBack}>
             <View style={{left: 24}}>
@@ -222,18 +226,24 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <TextInput
-              style={!name.length ? styles.NameSetPlaceHolder : styles.NameSet}
-              onChangeText={value => {
-                onChangeName(value);
-                setMessageVisible(false);
-                setConfirmSuccess(false);
-                setNameValid(true);
-              }}
-              value={name}
-              placeholder="닉네임 입력 (한글 6자)"
-              autoCorrect={false}
-            />
+            <View style={{height: 30}}>
+              <TextInput
+                style={
+                  !name.length ? styles.NameSetPlaceHolder : styles.NameSet
+                }
+                returnKeyType="search"
+                onChangeText={value => {
+                  onChangeName(value);
+                  setMessageVisible(false);
+                  setConfirmSuccess(false);
+                  setNameValid(true);
+                }}
+                value={name}
+                placeholder="닉네임 입력 (한글 6자)"
+                autoCorrect={false}
+                autoCapitalize={false}
+              />
+            </View>
             <TouchableWithoutFeedback onPress={onPressErase}>
               <FastImage style={styles.eraseButton} source={EraseNickname} />
             </TouchableWithoutFeedback>
@@ -255,72 +265,82 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
           <View style={{marginTop: 9, marginLeft: 42}}>
             <Text style={styles.checkMessage}>{checkMessage}</Text>
           </View>
-        ) : null}
-      </KeyboardAwareScrollView>
-      {/* Footer: Button */}
-      <View
-        style={{
-          position: 'static',
-          width: '100%',
-          paddingHorizontal: 20,
-          paddingTop: 5,
-          marginBottom: 40,
-        }}>
+        ) : (
+          <View style={{marginTop: 9, marginLeft: 42}}>
+            <Text style={{...styles.checkMessage, color: 'white'}}>{}</Text>
+          </View>
+        )}
+        {/* Footer: Button */}
         <View
           style={{
-            marginBottom: 25,
-            paddingHorizontal: 22,
-            flexDirection: 'row',
-          }}>
-          {checkbox ? (
-            <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
-              <FastImage
-                style={{width: 23, height: 23}}
-                source={CheckSelfAuth}
-              />
-            </TouchableWithoutFeedback>
-          ) : (
-            <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
-              <FastImage
-                style={{width: 23, height: 23}}
-                source={CheckDisabledSelfAuth}
-              />
-            </TouchableWithoutFeedback>
-          )}
+            position: 'static',
+            width: '100%',
+            paddingHorizontal: 20,
+            paddingTop: 5,
+            marginBottom: 40,
 
-          <Text style={styles.rulesText}>
-            메일링크 가입 약관에 모두 동의합니다
-          </Text>
+            ...Platform.select({
+              android: {
+                bottom: -40 + 15,
+              },
+            }),
+          }}>
+          <View
+            style={{
+              marginBottom: 25,
+              // paddingHorizontal: 22,
+              flexDirection: 'row',
+            }}>
+            {checkbox ? (
+              <TouchableWithoutFeedback onPress={() => setcheckbox(false)}>
+                <FastImage
+                  style={{width: 23, height: 23}}
+                  source={CheckSelfAuth}
+                />
+              </TouchableWithoutFeedback>
+            ) : (
+              <TouchableWithoutFeedback onPress={() => setcheckbox(true)}>
+                <FastImage
+                  style={{width: 23, height: 23}}
+                  source={CheckDisabledSelfAuth}
+                />
+              </TouchableWithoutFeedback>
+            )}
+
+            <Text style={styles.rulesText}>
+              메일링크 가입 약관에 모두 동의합니다
+            </Text>
+            <TouchableOpacity
+              onPress={async () =>
+                Linking.openURL(
+                  'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
+                )
+              }
+              style={{position: 'absolute', right: 0}}>
+              <Text style={styles.example}>보기</Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
-            onPress={async () =>
-              Linking.openURL(
-                'https://amazing-coach-6d7.notion.site/22d825a0e7b74268841a8bda25fcc57e',
-              )
-            }
-            style={{position: 'absolute', right: 22}}>
-            <Text style={styles.example}>보기</Text>
+            disabled={confirmSuccess && checkbox ? false : true}
+            onPress={onPressConfirm}
+            style={
+              confirmSuccess && name && checkbox
+                ? styles.buttonAble
+                : styles.buttonDisable
+            }>
+            <View>
+              <Text
+                style={
+                  confirmSuccess && name
+                    ? styles.buttonAbleText
+                    : styles.buttonDisableText
+                }>
+                완료
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          disabled={confirmSuccess && checkbox ? false : true}
-          onPress={onPressConfirm}
-          style={
-            confirmSuccess && name && checkbox
-              ? styles.buttonAble
-              : styles.buttonDisable
-          }>
-          <View>
-            <Text
-              style={
-                confirmSuccess && name
-                  ? styles.buttonAbleText
-                  : styles.buttonDisableText
-              }>
-              완료
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -357,6 +377,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#3C3C3C',
     includeFontPadding: false,
+    padding: 0,
   },
   NameSetPlaceHolder: {
     width: 190,
@@ -364,6 +385,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#BEBEBE',
     includeFontPadding: false,
+    padding: 0,
   },
   bodyNameBorder: {
     borderBottomWidth: 1,
