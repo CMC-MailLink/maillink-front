@@ -34,7 +34,7 @@ const AuthorReading = ({navigation: {setOptions}, route: {params}}) => {
     let div = document.createElement('div');
     div.classList.add('test');
     var textNode = document.createTextNode('${
-      params.data ? params.data.content : ''
+      params.data ? params.data.content.replaceAll("'", "\\'") : ''
     }');
     div.append(textNode);
     div.style.display="none";

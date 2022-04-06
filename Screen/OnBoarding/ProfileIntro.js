@@ -22,7 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import AuthorSuccessModal from './AuthorSuccessModal';
 import AppContext from '../../AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import InputScrollView from 'react-native-input-scroll-view';
+// import InputScrollView from 'react-native-input-scroll-view';
 
 const ProfileIntro = () => {
   const myContext = useContext(AppContext);
@@ -131,7 +131,7 @@ const ProfileIntro = () => {
             maxHeight={100}
             multiline={introText > 160 ? false : true}
             autoCorrect={false}
-            autoCapitalize={false}
+            // autoCapitalize={false}
             inlineImagePadding={112}
           />
           <Text style={styles.textCount}> {textCount}/ 160자</Text>

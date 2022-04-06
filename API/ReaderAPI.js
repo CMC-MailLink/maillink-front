@@ -35,7 +35,7 @@ export const ReaderAPI = {
         },
       });
       let json = await response.json();
-      console.log(json.data);
+      // console.log(json.data);
       return json.data;
     } catch (e) {
       console.log(e);
@@ -132,6 +132,7 @@ export const ReaderAPI = {
   },
   //작가 구독하기
   subscribing: async ({writerId}) => {
+    console.log(writerId);
     console.log('독자 작가 구독하기');
     var token = await getCredentials();
     try {
@@ -144,7 +145,7 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) return true;
       return false;
     } catch (e) {
@@ -166,7 +167,7 @@ export const ReaderAPI = {
           },
         },
       );
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         return true;
       }
@@ -188,7 +189,7 @@ export const ReaderAPI = {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      console.log(response);
+      // console.log(response);
       let json = await response.json();
       console.log(json.data);
       return json.data;
@@ -440,6 +441,27 @@ export const ReaderAPI = {
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/writer/publish/detail?mailId=${mailId}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+      let json = await response.json();
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+  //오늘의 작가 추천
+  getRecommendList: async () => {
+    console.log('독자 오늘의 작가 추천');
+    var token = await getCredentials();
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/writer/recommendation-today`,
         {
           method: 'GET',
           headers: {

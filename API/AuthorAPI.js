@@ -89,6 +89,7 @@ export const AuthorAPI = {
   //작가 메일발행
   writerPostSending: async ({title, content, preView}) => {
     console.log('작가 메일발행');
+    console.log(content, title, preView);
     var token = await getCredentials();
     try {
       const response = await fetch(`${BASE_URL}/api/v1/writer/publish`, {
@@ -103,6 +104,7 @@ export const AuthorAPI = {
           preView: preView,
         }),
       });
+      console.log(response);
       if (response.status !== 200) {
         return false;
       }

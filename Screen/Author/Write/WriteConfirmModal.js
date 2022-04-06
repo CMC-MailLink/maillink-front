@@ -19,7 +19,7 @@ const WriteConfirmModal = ({
   onPressConfirm,
 }) => {
   const onPressConfirm2 = async () => {
-    onPressSend2();
+    // onPressSend2();
     onPressConfirm();
   };
 

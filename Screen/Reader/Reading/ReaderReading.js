@@ -68,7 +68,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
 
   useEffect(() => {
     if (!loading && !webviewLoading) {
-      console.log('로딩 끝', mailDetailData);
+      console.log('로딩 끝', mailDetailData.content);
       webRef.current.injectJavaScript(contentSending);
       queryClient.refetchQueries(['ReaderMail']);
     }
@@ -119,7 +119,7 @@ const ReaderReading = ({navigation: {setOptions}, route: {params}}) => {
     let div = document.createElement('div');
     div.classList.add('test');
     var textNode = document.createTextNode('${
-      mailDetailData ? mailDetailData.content : ''
+      mailDetailData ? mailDetailData.content.replaceAll("'", "\\'") : ''
     }');
     div.append(textNode);
     div.style.display="none";

@@ -53,9 +53,9 @@ const ReaderRecommend = () => {
     ['ReaderInfo'],
     ReaderAPI.memberInfo,
   );
-  const {isLoading: authorInfoLoading, data: authorInfoData} = useQuery(
-    ['AuthorInfo', 1],
-    ReaderAPI.getWriterInfo,
+  const {isLoading: recommendListLoading, data: recommendListData} = useQuery(
+    ['RecommendList', 1],
+    ReaderAPI.getRecommendList,
   );
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const ReaderRecommend = () => {
   const onPressAuthor = data => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAuthorProfile',
-      params: {id: data.writerInfo.id},
+      params: {id: data.id},
     });
   };
   const onPressAnalyze = () => {
@@ -97,10 +97,10 @@ const ReaderRecommend = () => {
       <TouchableWithoutFeedback onPress={() => onPressAuthor(item)}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View style={styles.itemView}>
-            <Text style={styles.itemName}>{item.writerInfo.nickName}</Text>
+            <Text style={styles.itemName}>{item.nickName}</Text>
             <Text style={styles.itemAuthor}>작가님</Text>
             <Text style={styles.itemIntro} numberOfLines={2}>
-              {item.writerInfo.introduction}
+              {item.introduction}
             </Text>
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <View style={{...styles.itemCategoryView, marginRight: 10}}>
@@ -109,20 +109,20 @@ const ReaderRecommend = () => {
                     ...styles.itemCategoryText,
                     color: '#0021C6',
                   }}>
-                  {colorCategory[item.writerInfo.genre1].name}
+                  {colorCategory[item.primaryGenre].name}
                 </Text>
               </View>
               <View
                 style={{
                   ...styles.itemCategoryView,
-                  backgroundColor: colorCategory[item.writerInfo.mood1].back,
+                  backgroundColor: colorCategory[item.primaryMood].back,
                 }}>
                 <Text
                   style={{
                     ...styles.itemCategoryText,
-                    color: colorCategory[item.writerInfo.mood1].font,
+                    color: colorCategory[item.primaryMood].font,
                   }}>
-                  {colorCategory[item.writerInfo.mood1].name}
+                  {colorCategory[item.primaryMood].name}
                 </Text>
               </View>
             </View>
@@ -136,9 +136,9 @@ const ReaderRecommend = () => {
               borderRadius: 90,
             }}
             source={
-              !item || item.writerInfo.imgUrl === '' || !item.writerInfo.imgUrl
+              !item || item.imgUrl === '' || !item.imgUrl
                 ? DefaultProfile
-                : {uri: item.writerInfo.imgUrl}
+                : {uri: item.imgUrl}
             }></FastImage>
         </View>
       </TouchableWithoutFeedback>
@@ -190,7 +190,7 @@ const ReaderRecommend = () => {
         </View>
         <View style={styles.recView}>
           <FlatList
-            data={authorInfoData ? [authorInfoData] : []}
+            data={recommendListData ? recommendListData : []}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{paddingHorizontal: 20}}
@@ -317,6 +317,7 @@ const styles = StyleSheet.create({
   },
   itemIntro: {
     marginTop: 5,
+    height: 32,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 11,
     color: '#828282',

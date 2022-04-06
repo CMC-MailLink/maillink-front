@@ -27,7 +27,7 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
   let webRef = useRef();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const urlIOS = 'https://www.mail-link.co.kr/quilEditorIOS';
+  const urlIOS = 'https://www.mail-link.co.kr/quilEditor';
   const urlAndroid = 'https://www.mail-link.co.kr/quilEditorAndroid';
   // const url = 'http://localhost:3000/quilEditor';
   const [save, setSave] = useState(false);
@@ -226,7 +226,6 @@ const AuthorEditor = ({navigation: {setOptions}, route: {params}}) => {
         value={title}
         onChangeText={setTitle}
       />
-
       <WebView
         startInLoadingState={true}
         automaticallyAdjustContentInsets={false}

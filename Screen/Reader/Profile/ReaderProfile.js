@@ -161,7 +161,7 @@ const ReaderProfile = () => {
   const onPressEditImage = async () => {
     ImagePicker.openPicker({
       width: 300,
-      height: 300,
+      height: 400,
       cropping: true,
     }).then(image => {
       imageUpload(image.path);

@@ -9,6 +9,7 @@ import {
   Platform,
   TextInput,
   Modal,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
@@ -26,7 +27,7 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
   let webRef = useRef();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const urlIOS = 'https://www.mail-link.co.kr/quilEditorIOS';
+  const urlIOS = 'https://www.mail-link.co.kr/quilEditor';
   const urlAndroid = 'https://www.mail-link.co.kr/quilEditorAndroid';
   const [save, setSave] = useState(false);
   const [send, setSend] = useState(false);
