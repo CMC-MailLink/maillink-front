@@ -249,7 +249,6 @@ const ReaderProfile = () => {
         <Text style={styles.headerText}>프로필</Text>
       </View>
       <ScrollView
-        style={{backgroundColor: '#fff'}}
         stickyHeaderIndices={[2]}
         onScroll={onScroll}
         scrollEventThrottle={0}
