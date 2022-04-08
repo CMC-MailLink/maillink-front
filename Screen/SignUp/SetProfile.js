@@ -321,7 +321,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            disabled={confirmSuccess && checkbox ? false : true}
+            disabled={confirmSuccess && name && checkbox ? false : true}
             onPress={onPressConfirm}
             style={
               confirmSuccess && name && checkbox
@@ -331,7 +331,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
             <View>
               <Text
                 style={
-                  confirmSuccess && name
+                  confirmSuccess && name && checkbox
                     ? styles.buttonAbleText
                     : styles.buttonDisableText
                 }>

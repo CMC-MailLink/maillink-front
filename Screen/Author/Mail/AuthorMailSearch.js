@@ -71,7 +71,9 @@ const AuthorMailSearch = () => {
   const onPressRecentSearch = (data, index) => {
     setQuery(data);
     setSubmit(true);
-    var res = mailData.mailList.filter(item => item.title.includes(data));
+    var res = mailData.mailList.filter(item =>
+      item.title.toLowerCase().includes(data.toLowerCase()),
+    );
     setResult([...res]);
 
     var temp = recentSearch;
@@ -92,7 +94,9 @@ const AuthorMailSearch = () => {
       return;
     }
     setSubmit(true);
-    var res = mailData.mailList.filter(item => item.title.includes(query));
+    var res = mailData.mailList.filter(item =>
+      item.title.toLowerCase().includes(query.toLowerCase()),
+    );
     setResult([...res]);
 
     var temp = recentSearch;

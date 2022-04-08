@@ -53,7 +53,10 @@ const ReaderRecommendSearch = () => {
     if (authorListData) {
       var res = authorListData.filter(item => {
         if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
-        if (item.writerInfo.nickName.includes(query)) return true;
+        if (
+          item.writerInfo.nickName.toLowerCase().includes(query.toLowerCase())
+        )
+          return true;
       });
       setResult([...res]);
     }
@@ -81,7 +84,8 @@ const ReaderRecommendSearch = () => {
     setSubmit(true);
     var res = authorListData.filter(item => {
       if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
-      if (item.writerInfo.nickName.includes(data)) return true;
+      if (item.writerInfo.nickName.toLowerCase().includes(data.toLowerCase()))
+        return true;
     });
     setResult([...res]);
 
@@ -106,7 +110,8 @@ const ReaderRecommendSearch = () => {
     setSubmit(true);
     var res = authorListData.filter(item => {
       if (item.writerInfo.nickName === '탈퇴한 회원 입니다.') return false;
-      if (item.writerInfo.nickName.includes(query)) return true;
+      if (item.writerInfo.nickName.toLowerCase().includes(query.toLowerCase()))
+        return true;
     });
     setResult([...res]);
 

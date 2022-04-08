@@ -79,7 +79,7 @@ const SettingAlarm = () => {
   useEffect(() => {
     if (alarmInfoData) {
       if (myContext.isReaader === 'READER') {
-        setIsEnabledMessage(alarmInfoData.mailAlarm);
+        setIsEnabledMail(alarmInfoData.mailAlarm);
         setIsEnabledMessage(alarmInfoData.messageAlarm);
       } else {
         setIsEnabledMessage(alarmInfoData.messageAlarm);

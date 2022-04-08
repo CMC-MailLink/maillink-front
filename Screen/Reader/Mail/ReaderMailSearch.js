@@ -73,7 +73,8 @@ const ReaderMailSearch = () => {
     var res = mail.filter(item => {
       if (
         item.key !== 'category' &&
-        (item.title.includes(data) || item.writerNickname.includes(data))
+        (item.title.toLowerCase().includes(data.toLowerCase()) ||
+          item.writerNickname.toLowerCase().includes(data.toLowerCase()))
       )
         return true;
     });
@@ -100,7 +101,8 @@ const ReaderMailSearch = () => {
     var res = mail.filter(item => {
       if (
         item.key !== 'category' &&
-        (item.title.includes(query) || item.writerNickname.includes(query))
+        (item.title.toLowerCase().includes(query.toLowerCase()) ||
+          item.writerNickname.toLowerCase().includes(query.toLowerCase()))
       )
         return true;
     });
