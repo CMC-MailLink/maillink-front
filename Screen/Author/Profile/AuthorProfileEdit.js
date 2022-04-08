@@ -235,7 +235,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
       setNameValid(false);
       setConfirmSuccess(false);
     } else if (!editName || editName.length > 6) {
-      onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
+      onChangeCheckMessage('사용할 수 없는 이름이에요. (최대 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);
       setConfirmSuccess(false);
@@ -425,7 +425,7 @@ const AuthorProfileEdit = ({navigation: {setOptions}, route: {params}}) => {
                   setNameValid(true);
                 }}
                 value={editName}
-                placeholder="닉네임 입력 (한글 6자)"
+                placeholder="닉네임 입력 (한글, 영문 6자)"
                 autoCorrect={false}
               />
               <TouchableWithoutFeedback onPress={onPressErase}>

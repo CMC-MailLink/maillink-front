@@ -5,55 +5,45 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
+  Linking,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import InfoWeb from '../../../assets/images/InfoWeb.png';
-import Clipboard from '@react-native-clipboard/clipboard';
-import AppContext from '../../../AppContext';
-import SendWriting from '../../../assets/images/PaperAirplane.png';
-const WriteConfirmModal = ({
-  setModalVisible,
-  setModalConfirm,
-  onPressSend2,
-  onPressConfirm,
-}) => {
-  const onPressConfirm2 = async () => {
-    setModalVisible(false);
-    onPressConfirm();
-  };
 
+import FailWriting from '../../../assets/images/FailWriting.png';
+
+const AuthorFailWriteModal = ({setModalFailVisible}) => {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <Image
           style={{
-            width: 259,
-            height: 254,
-            top: -45 + 24,
+            width: 206,
+            height: 199,
           }}
-          source={SendWriting}
+          source={FailWriting}
         />
         <View style={styles.modalView2}>
-          <Text style={styles.modalText}>글을 발행하시겠습니까?</Text>
-          <Text style={styles.modalText}>
-            <Text style={styles.modalText3}>
-              발행한 글은 수정이 불가합니다.
-            </Text>
-          </Text>
+          <Text style={styles.modalText}>발행에 실패하였습니다.</Text>
+          <Text style={styles.modalText3}>이모티콘 사용은 불가합니다.</Text>
         </View>
+        <Text style={styles.modalText4}>
+          오류를 신고하시겠습니까?{'\n'}maillink.youngdung@gmail.com
+        </Text>
         <View style={styles.modalButtonView}>
-          <TouchableOpacity onPress={() => setModalVisible(false)}>
+          <TouchableOpacity
+            onPress={async () => {
+              setModalFailVisible(false);
+              await Linking.openURL('mailto:maillink.youngdung@gmail.com');
+            }}>
             <View style={{marginRight: 26}}>
-              <Text style={styles.modalConfirm}>취소</Text>
+              <Text style={styles.modalConfirm}>신고</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              onPressConfirm2();
+              setModalFailVisible(false);
             }}>
             <View>
-              <Text style={styles.modalConfirm2}>발행</Text>
+              <Text style={styles.modalConfirm2}>닫기</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -71,39 +61,40 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: 330,
-    height: 395,
+    height: 426,
     borderRadius: 15,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   modalView2: {
-    top: 43,
+    width: 257,
+    paddingVertical: 15,
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
   },
   modalText: {
     includeFontPadding: false,
-    top: -70,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 20,
     color: '#3C3C3C',
-  },
-  modalText2: {
-    includeFontPadding: false,
-    fontFamily: 'NotoSansKR-Light',
-    fontSize: 24,
-    color: '#3C3C3C',
+    textAlign: 'center',
   },
   modalText3: {
     includeFontPadding: false,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 15,
     color: '#828282',
+    textAlign: 'center',
   },
   modalText4: {
-    top: -80 + 19,
+    marginTop: 15,
+    marginBottom: 35,
     fontFamily: 'NotoSansKR-Light',
-    fontSize: 16,
-    color: '#AFAFAF',
+    fontSize: 12,
+    color: '#BEBEBE',
+    textAlign: 'center',
+    includeFontPadding: false,
   },
   modalConfirm: {
     fontFamily: 'NotoSansKR-Bold',
@@ -132,4 +123,4 @@ const styles = StyleSheet.create({
     right: 27,
   },
 });
-export default WriteConfirmModal;
+export default AuthorFailWriteModal;

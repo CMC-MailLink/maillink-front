@@ -98,12 +98,6 @@ const Setting = () => {
             source={NextSetting}></FastImage>
         </View>
       </TouchableOpacity>
-      {/* <TouchableOpacity
-        onPress={async () =>
-          await Linking.openURL('mailto:support@example.com')
-        }>
-        <Text>이메일</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItemIntro: {
-    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75 - 10,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

@@ -33,7 +33,7 @@ const SettingAlarm = () => {
   const [isEnabledMessage, setIsEnabledMessage] = useState(true);
   const {isLoading: alarmInfoLoading, data: alarmInfoData} = useQuery(
     ['AlarmInfo'],
-    myContext.isReaader === 'READER' ? ReaderAPI.getAlarm : AuthorAPI.getAlarm,
+    myContext.isReader === 'READER' ? ReaderAPI.getAlarm : AuthorAPI.getAlarm,
   );
 
   useEffect(() => {
@@ -78,7 +78,8 @@ const SettingAlarm = () => {
 
   useEffect(() => {
     if (alarmInfoData) {
-      if (myContext.isReaader === 'READER') {
+      if (myContext.isReader === 'READER') {
+        console.log('alarmInfo Data : ', alarmInfoData);
         setIsEnabledMail(alarmInfoData.mailAlarm);
         setIsEnabledMessage(alarmInfoData.messageAlarm);
       } else {

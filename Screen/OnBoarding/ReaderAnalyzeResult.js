@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../AppContext';
@@ -21,6 +22,7 @@ import ExitResult from '../../assets/images/ExitResult.png';
 import DefaultProfile from '../../assets/images/DefaultProfile.png';
 import GoRecommend from '../../assets/images/GoRecommend.png';
 import AgainRecommend from '../../assets/images/AgainRecommend.png';
+import AnalyzeResult from '../../assets/images/AnalyzeResult.png';
 
 const colorCategory1 = {
   Comfortable: {
@@ -99,7 +101,6 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            top: -25 - 88,
           }}>
           <View style={styles.itemView}>
             <FastImage
@@ -123,7 +124,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
             <Text style={styles.itemIntro} numberOfLines={2}>
               {item[0].introduction}
             </Text>
-            <View style={{flexDirection: 'row', marginTop: 21}}>
+            <View style={{flexDirection: 'row', marginTop: 17}}>
               <View
                 style={{
                   ...styles.itemCategoryView,
@@ -163,7 +164,7 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#4562F1'}} />
       {/* <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}> */}
       <StatusBar barStyle="light-content" />
-      <View style={{flex: 1, backgroundColor: '#4562F1'}}>
+      <View style={{height: 255, backgroundColor: '#4562F1', width: '100%'}}>
         <View style={styles.headerView}>
           {Platform.OS === 'ios' ? (
             <TouchableWithoutFeedback onPress={onPressBack}>
@@ -200,45 +201,52 @@ const ReaderAnalyzeResult = ({navigation: {setOptions}, route: {params}}) => {
             </View>
             <Text style={styles.titleFeelText}>느낌의</Text>
           </View>
-          <Text style={styles.titleText}>
-            당신과 잘 맞을 것 같은{'\n'}작가님이에요
+          <Text
+            style={{
+              ...styles.titleFeelText,
+              marginTop: 10,
+              fontSize: 22,
+              lineHeight: 33,
+              fontFamily: 'NotoSansKR-Regular',
+            }}>
+            당신과{'\n'}
+            <Text style={{...styles.titleText}}>
+              잘 맞을 것 같은{'\n'}작가님
+            </Text>
+            이에요
           </Text>
         </View>
+        <FastImage
+          style={{
+            width: 193,
+            height: 216,
+            position: 'absolute',
+            right: 0,
+            bottom: -25,
+          }}
+          source={AnalyzeResult}></FastImage>
       </View>
 
-      <View style={{flex: 1, backgroundColor: '#FFF', top: 10 - insets.bottom}}>
+      <View
+        style={{
+          width: '100%',
+          height: Dimensions.get('window').height - 255 - 60,
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
         {analyzeResultData ? (
           <RenderItem item={[analyzeResultData]}></RenderItem>
         ) : null}
-        <View style={{top: -25 - 88 + 26, alignItems: 'center'}}>
-          {/* {subscribe ? (
-            <TouchableOpacity onPress={() => setSubscribe(false)}>
-              <View style={styles.subscribeView}>
-                <Text style={styles.subscribeText}>구독중</Text>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => setSubscribe(true)}>
-              <View style={styles.notSubscribeView}>
-                <Text style={styles.notSubscribeText}>구독하기</Text>
-              </View>
-            </TouchableOpacity>
-          )} */}
+        <View>
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
+            <View style={styles.againView}>
+              <FastImage
+                style={{width: 18, height: 14, marginRight: 7}}
+                source={AgainRecommend}></FastImage>
+              <Text style={styles.againText}>다시하기</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: 40,
-            right: 23,
-          }}
-          onPress={() => navigation.popToTop()}>
-          <View style={styles.againView}>
-            <FastImage
-              style={{width: 18, height: 14, marginRight: 7}}
-              source={AgainRecommend}></FastImage>
-            <Text style={styles.againText}>다시하기</Text>
-          </View>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -290,7 +298,7 @@ const styles = StyleSheet.create({
   itemIntro: {
     marginTop: 12,
     fontFamily: 'NotoSansKR-Regular',
-    fontSize: 11,
+    fontSize: 14,
     color: '#828282',
     includeFontPadding: false,
   },
@@ -316,10 +324,10 @@ const styles = StyleSheet.create({
   titleText: {
     marginTop: 7,
     fontFamily: 'NotoSansKR-Bold',
-    fontSize: 27,
+    fontSize: 24,
     color: '#FFF',
     includeFontPadding: false,
-    lineHeight: 40,
+    // lineHeight: 40,
   },
   subscribeView: {
     width: 95,

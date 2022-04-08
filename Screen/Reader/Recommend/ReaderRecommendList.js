@@ -14,6 +14,7 @@ import {ReaderAPI} from '../../../API/ReaderAPI';
 import FastImage from 'react-native-fast-image';
 
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
+import NoHeartAuthor from '../../../assets/images/NoHeartAuthor.png';
 
 const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
   const navigation = useNavigation();
@@ -170,17 +171,11 @@ const ReaderRecommendList = ({modalVisible, setModalVisible, allSelect}) => {
           <View
             style={{
               alignItems: 'center',
-              justifyContent: 'center',
-              height: 100,
+              height: 400,
             }}>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Regular',
-                color: '#3C3C3C',
-                includeFontPadding: false,
-              }}>
-              작가가 없습니다.
-            </Text>
+            <FastImage
+              style={{width: 261, height: 193, marginTop: 90}}
+              source={NoHeartAuthor}></FastImage>
           </View>
         )}
       </View>
@@ -205,7 +200,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   itemIntro: {
-    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75 - 10,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

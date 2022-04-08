@@ -206,7 +206,7 @@ const ReaderRecommend = () => {
               source={TestPageRecommend}></FastImage>
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={{borderTopColor: '#F8F8F8', borderTopWidth: 6}}>
           <View style={styles.headerMiddleView}>
             <Text style={styles.headerMiddleText}>전체 메일링크 작가</Text>
             <TouchableOpacity
@@ -325,8 +325,6 @@ const styles = StyleSheet.create({
   },
   testPageView: {
     paddingBottom: 24,
-    borderBottomColor: '#F8F8F8',
-    borderBottomWidth: 6,
   },
   itemCategoryView: {
     paddingHorizontal: 14.6,

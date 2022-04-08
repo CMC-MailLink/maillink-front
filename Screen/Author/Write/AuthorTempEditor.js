@@ -18,6 +18,7 @@ import {SignUpAPI} from '../../../API/SignUpAPI';
 import FastImage from 'react-native-fast-image';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import WriteConfirmModal from './WriteConfirmModal.js';
+import AuthorFailWriteModal from './AuthorFailWriteModal';
 
 import ExitWriting from '../../../assets/images/ExitWriting.png';
 import SendWriting from '../../../assets/images/SendWriting.png';
@@ -34,6 +35,7 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
   const [title, setTitle] = useState(params ? params.title : '');
   const [imageCount, setImageCount] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalFailVisible, setModalFailVisible] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
 
   const onPressBack = () => {
@@ -91,6 +93,7 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
         preView: preView,
       });
       if (!result) {
+        setModalFailVisible(true);
         return;
       }
       await queryClient.refetchQueries(['AuthorStorage']);
@@ -111,11 +114,11 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
         tempMailId: params.id,
       });
       if (!result || !result2) {
+        setModalFailVisible(true);
         return;
       }
       await queryClient.refetchQueries(['AuthorStorage']);
       await queryClient.refetchQueries(['AuthorMail']);
-      setModalVisible(false);
       navigation.navigate('AuthorTabs', {
         screen: 'AuthorWrite',
         params: {send: true},
@@ -170,6 +173,16 @@ const AuthorTempEditor = ({navigation: {setOptions}, route: {params}}) => {
           onPressSend2={onPressSend2}
           onPressConfirm={onPressConfirm}
         />
+      </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalFailVisible}
+        onRequestClose={() => {
+          setModalFailVisible(!modalFailVisible);
+        }}>
+        <AuthorFailWriteModal
+          setModalFailVisible={setModalFailVisible}></AuthorFailWriteModal>
       </Modal>
       <View style={styles.headerView}>
         <TouchableWithoutFeedback onPress={onPressBack}>

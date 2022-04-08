@@ -97,6 +97,7 @@ const AuthorProfile = () => {
         <Text style={styles.headerText}>프로필</Text>
       </View>
       <ScrollView
+        style={{backgroundColor: '#fff'}}
         onScroll={onScroll}
         scrollEventThrottle={0}
         refreshControl={

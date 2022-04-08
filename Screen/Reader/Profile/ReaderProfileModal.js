@@ -86,7 +86,7 @@ const ReaderProfileModal = ({
         {status === 0 ? null : (
           <Text style={styles.modalText}>
             {status == 1
-              ? '사용할 수 없는 이름이에요.\n(한글 6자 제한)'
+              ? '사용할 수 없는 이름이에요.\n(최대 6자 제한)'
               : '이미 존재하는 닉네임입니다.'}
           </Text>
         )}

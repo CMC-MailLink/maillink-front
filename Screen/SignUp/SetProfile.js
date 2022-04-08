@@ -72,7 +72,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
       setMessageVisible(true);
       setNameValid(false);
     } else if (name.length > 6 || !name) {
-      onChangeCheckMessage('사용할 수 없는 이름이에요. (한글 6자 제한)');
+      onChangeCheckMessage('사용할 수 없는 이름이에요. (최대 6자 제한)');
       setMessageVisible(true);
       setNameValid(false);
     } else if (result) {
@@ -239,7 +239,7 @@ const SetProfile = ({navigation: {setOptions}, route: {params}}) => {
                   setNameValid(true);
                 }}
                 value={name}
-                placeholder="닉네임 입력 (한글 6자)"
+                placeholder="닉네임 입력 (한글, 영문 6자)"
                 autoCorrect={false}
                 // autoCapitalize={false}
               />

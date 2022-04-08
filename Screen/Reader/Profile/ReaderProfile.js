@@ -249,6 +249,7 @@ const ReaderProfile = () => {
         <Text style={styles.headerText}>프로필</Text>
       </View>
       <ScrollView
+        style={{backgroundColor: '#fff'}}
         stickyHeaderIndices={[2]}
         onScroll={onScroll}
         scrollEventThrottle={0}
@@ -672,7 +673,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   bodyItemIntro: {
-    width: Dimensions.get('window').width - 40 - 42 - 15 - 75,
+    width: Dimensions.get('window').width - 40 - 42 - 15 - 75 - 10,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#828282',

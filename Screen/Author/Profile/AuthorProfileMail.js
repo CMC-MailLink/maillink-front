@@ -17,6 +17,7 @@ import MenuItemProfile2 from '../../../assets/images/MenuItemProfile2.png';
 import MenuItemProfile3 from '../../../assets/images/MenuItemProfile3.png';
 import MenuItemProfile4 from '../../../assets/images/MenuItemProfile4.png';
 import SearchAuthorProfile from '../../../assets/images/SearchAuthorProfile.png';
+import NoRepresentMail from '../../../assets/images/NoRepresentMail.png';
 
 const AuthorProfileMail = () => {
   const navigation = useNavigation();
@@ -204,16 +205,10 @@ const AuthorProfileMail = () => {
             </View>
           </TouchableOpacity>
         ) : (
-          <View>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Light',
-                fontSize: 14,
-                color: '#828282',
-                includeFontPadding: false,
-              }}>
-              설정된 대표글이 없습니다.
-            </Text>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <FastImage
+              style={{width: 187, height: 56, marginTop: 10}}
+              source={NoRepresentMail}></FastImage>
           </View>
         )}
       </View>

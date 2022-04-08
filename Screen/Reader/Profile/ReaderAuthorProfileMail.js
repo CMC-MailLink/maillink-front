@@ -3,6 +3,10 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
 import {ReaderAPI} from '../../../API/ReaderAPI';
+import FastImage from 'react-native-fast-image';
+
+import NoRepresentMail from '../../../assets/images/NoRepresentMail.png';
+import NoAuthorMail from '../../../assets/images/NoAuthorMail.png';
 
 const ReaderAuthorProfileMail = ({id}) => {
   const navigation = useNavigation();
@@ -91,16 +95,10 @@ const ReaderAuthorProfileMail = ({id}) => {
             </View>
           </TouchableOpacity>
         ) : (
-          <View>
-            <Text
-              style={{
-                fontFamily: 'NotoSansKR-Light',
-                fontSize: 14,
-                color: '#828282',
-                includeFontPadding: false,
-              }}>
-              설정한 대표글이 없습니다.
-            </Text>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <FastImage
+              style={{width: 187, height: 56, marginTop: 10}}
+              source={NoRepresentMail}></FastImage>
           </View>
         )}
       </View>
@@ -145,13 +143,25 @@ const ReaderAuthorProfileMail = ({id}) => {
           </View>
         </View>
       </View>
-      {mail
-        ? mail.map((data, index) =>
-            data.isPublic ? (
-              <RenderItem data={data} key={data.id}></RenderItem>
-            ) : null,
-          )
-        : null}
+      {mail && mail.length ? (
+        mail.map((data, index) =>
+          data.isPublic ? (
+            <RenderItem data={data} key={data.id}></RenderItem>
+          ) : null,
+        )
+      ) : (
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <FastImage
+            style={{width: 261, height: 224}}
+            source={NoAuthorMail}></FastImage>
+        </View>
+      )}
     </View>
   );
 };

@@ -44,11 +44,14 @@ const OnBoarding = props => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       <StatusBar barStyle="dark-content" />
       <View style={styles.headerView}>
-        {/* <TouchableWithoutFeedback onPress={onPressBack}>
-          <View style={{left: 24}}>
-            <Image style={{width: 9.5, height: 19}} source={BackMail2} />
-          </View>
-        </TouchableWithoutFeedback> */}
+        {swiperIndex !== 0 ? (
+          <TouchableWithoutFeedback
+            onPress={() => setSwiperIndex(swiperIndex - 1)}>
+            <View style={{left: 24}}>
+              <FastImage style={{width: 9.5, height: 19}} source={BackMail2} />
+            </View>
+          </TouchableWithoutFeedback>
+        ) : null}
       </View>
 
       <Swiper
@@ -76,8 +79,8 @@ const OnBoarding = props => {
             }}>
             <FastImage
               style={{
-                width: ((Dimensions.get('window').height / 1.7) * 418) / 509,
-                height: Dimensions.get('window').height / 1.7,
+                width: ((Dimensions.get('window').height / 2) * 418) / 509,
+                height: Dimensions.get('window').height / 2,
               }}
               source={OnBoarding1}
             />
@@ -118,8 +121,8 @@ const OnBoarding = props => {
             }}>
             <FastImage
               style={{
-                width: ((Dimensions.get('window').height / 1.7) * 418) / 509,
-                height: Dimensions.get('window').height / 1.7,
+                width: ((Dimensions.get('window').height / 2) * 418) / 509,
+                height: Dimensions.get('window').height / 2,
               }}
               source={OnBoarding2}
             />
@@ -153,8 +156,8 @@ const OnBoarding = props => {
             }}>
             <FastImage
               style={{
-                width: ((Dimensions.get('window').height / 1.7) * 418) / 509,
-                height: Dimensions.get('window').height / 1.7,
+                width: ((Dimensions.get('window').height / 2) * 418) / 509,
+                height: Dimensions.get('window').height / 2,
               }}
               source={OnBoarding3}
             />
@@ -196,7 +199,7 @@ const OnBoarding = props => {
 const styles = StyleSheet.create({
   headerView: {
     width: '100%',
-    height: 91 - 48,
+    height: 100,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     flexDirection: 'row',
@@ -232,6 +235,7 @@ const styles = StyleSheet.create({
     }),
   },
   bodyTitleText: {
+    marginTop: 25,
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 27,
     color: '#3C3C3C',
