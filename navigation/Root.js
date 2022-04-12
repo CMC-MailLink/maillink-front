@@ -28,26 +28,22 @@ const Root = props => {
           <AuthorNav.Screen name="AuthorTabs" component={AuthorTabs} />
           <AuthorNav.Screen name="AuthorStacks" component={AuthorStacks} />
         </RootNav.Group>
+      ) : props.isReader === 'Not Decided' ? (
+        <RootNav.Group>
+          <OnBoardingNav.Screen
+            name="OnBoardingStacks"
+            component={OnBoardingStacks}
+          />
+        </RootNav.Group>
+      ) : props.isReader === 'READER' ? (
+        <RootNav.Group>
+          <ReaderNav.Screen name="ReaderTabs" component={ReaderTabs} />
+          <ReaderNav.Screen name="ReaderStacks" component={ReaderStacks} />
+        </RootNav.Group>
       ) : (
         <RootNav.Group>
-          {props.isReader === 'Not Decided' ? (
-            <RootNav.Group>
-              <OnBoardingNav.Screen
-                name="OnBoardingStacks"
-                component={OnBoardingStacks}
-              />
-            </RootNav.Group>
-          ) : props.isReader === 'READER' ? (
-            <RootNav.Group>
-              <ReaderNav.Screen name="ReaderTabs" component={ReaderTabs} />
-              <ReaderNav.Screen name="ReaderStacks" component={ReaderStacks} />
-            </RootNav.Group>
-          ) : (
-            <RootNav.Group>
-              <AuthorNav.Screen name="AuthorTabs" component={AuthorTabs} />
-              <AuthorNav.Screen name="AuthorStacks" component={AuthorStacks} />
-            </RootNav.Group>
-          )}
+          <AuthorNav.Screen name="AuthorTabs" component={AuthorTabs} />
+          <AuthorNav.Screen name="AuthorStacks" component={AuthorStacks} />
         </RootNav.Group>
       )}
     </RootNav.Navigator>

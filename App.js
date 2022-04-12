@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  PermissionsAndroid,
-  Platform,
-  Modal,
-  View,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
+import {PermissionsAndroid, Platform, Modal, View, Text} from 'react-native';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {setCustomText} from 'react-native-global-props';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -60,9 +53,9 @@ const queryClient = new QueryClient();
 let codePushOptions = {checkFrequency: codePush.CheckFrequency.MANUAL};
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState();
+  const [isLogged, setIsLogged] = useState(null);
   //'Not Decided'
-  const [isReader, setIsReader] = useState();
+  const [isReader, setIsReader] = useState(null);
   const [alarmCount, setAlarmCount] = useState();
   const userSettings = {
     isLogged,
@@ -109,14 +102,16 @@ const App = () => {
       setIsLogged(false);
     } else {
       //토큰있으면 login 성공
-      setIsLogged(true);
       const result = await SignUpAPI.memberInfo();
       if (result.userType === 'Not Decided') {
         setIsReader('Not Decided');
+        setIsLogged(true);
       } else if (result.userType === 'WRITER') {
         setIsReader('WRITER');
+        setIsLogged(true);
       } else if (result.userType === 'READER') {
         setIsReader('READER');
+        setIsLogged(true);
       }
     }
   };
@@ -249,7 +244,9 @@ const App = () => {
               <ForegroundHandler></ForegroundHandler>
 
               {progress ? showProgressView() : null}
-              <Root isLogged={isLogged} isReader={isReader} />
+              {isLogged && isReader ? (
+                <Root isLogged={isLogged} isReader={isReader} />
+              ) : null}
             </MenuProvider>
           </NavigationContainer>
         </SafeAreaProvider>
