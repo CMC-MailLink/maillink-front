@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,67 +9,49 @@ import {
   FlatList,
   Dimensions,
   ScrollView,
-  TouchableWithoutFeedback,
   RefreshControl,
 } from 'react-native';
-import ReaderRecommendList from './ReaderRecommendList';
-import {useInfiniteQuery, useQuery, useQueryClient} from 'react-query';
-import {ReaderAPI} from '../../../API/ReaderAPI';
+import {useQuery, useQueryClient} from 'react-query';
 import FastImage from 'react-native-fast-image';
-
-import SearchRecommend from '../../../assets/images/SearchRecommend.png';
-import DefaultProfile from '../../../assets/images/DefaultProfile.png';
-import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
-import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 import {useNavigation} from '@react-navigation/native';
 
-const colorCategory = {
-  Comfortable: {
-    name: '편안',
-    back: '#E2FAE2',
-    font: '#00402D',
-    num: '#7FCE7F',
-  },
-  Clear: {name: '맑은', back: '#DDF9FF', font: '#002C36', num: '#6BD0E6'},
-  Lyrical: {name: '서정', back: '#E6DDFF', font: '#1E0072', num: '#AE92FF'},
-  Calm: {name: '잔잔', back: '#C5F0E3', font: '#00573D', num: '#5ECEAC'},
-  Light: {name: '명랑', back: '#FFF2AD', font: '#5D4300', num: '#FFC839'},
-  Cheerful: {name: '유쾌', back: '#FFDDDD', font: '#370000', num: '#FF8E8E'},
-  Sweet: {name: '달달', back: '#FFE8FB', font: '#3E0035', num: '#FFACDE'},
-  Kitsch: {name: '키치', back: '#FFE6B7', font: '#432C00', num: '#FFAD62'},
-  Poetry: {name: '시', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
-  Novels: {name: '소설', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
-  Essays: {name: '에세이', back: '#E8EBFF', font: '#0021C6', num: '#4562F1'},
-};
+import {ReaderAPI} from '../../../API/ReaderAPI';
+import ReaderRecommendList from './ReaderRecommendList';
+import Loader from '../../../Components/Loader';
+import RecommendAuthorListItem from '../../../Components/Reader/RecommendAuthorListItem';
+
+import SearchRecommend from '../../../assets/images/SearchRecommend.png';
+import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
+import FilterRecommend from '../../../assets/images/FilterRecommend.png';
 
 const ReaderRecommend = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const [name, setName] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [allSelect, setAllSelect] = useState(true);
+  const [refreshing, setRefreshing] = useState(false); //새로고침 상태
+  const [modalVisible, setModalVisible] = useState(false); //전체작가 modal 화면 표시 유무
+  const [allSelect, setAllSelect] = useState(true); //전체작가 or 관심작가 선택
+
+  //독자 멤버정보
   const {isLoading: readerInfoLoading, data: readerInfoData} = useQuery(
     ['ReaderInfo'],
     ReaderAPI.memberInfo,
   );
+  //오늘의 추천작가리스트
   const {isLoading: recommendListLoading, data: recommendListData} = useQuery(
-    ['RecommendList', 1],
+    ['RecommendList'],
     ReaderAPI.getRecommendList,
   );
+  //전체작가리스트
+  const {isLoading: authorListLoading, data: authorListData} = useQuery(
+    ['AuthorList'],
+    ReaderAPI.getWriters,
+  );
 
-  useEffect(() => {
-    if (readerInfoData) {
-      setName(readerInfoData.nickName);
-    }
-  }, [readerInfoData]);
+  //화면 로딩
+  const loading =
+    readerInfoLoading || recommendListLoading || authorListLoading;
 
-  const onPressAuthor = data => {
-    navigation.navigate('ReaderStacks', {
-      screen: 'ReaderAuthorProfile',
-      params: {id: data.id},
-    });
-  };
+  //취향분석페이지 선택
   const onPressAnalyze = () => {
     navigation.navigate('ReaderStacks', {
       screen: 'ReaderAnalyze',
@@ -86,66 +68,18 @@ const ReaderRecommend = () => {
     setAllSelect(false);
   };
 
+  //새로고침
   const onRefresh = async () => {
     setRefreshing(true);
+    await queryClient.refetchQueries(['ReaderInfo']);
     await queryClient.refetchQueries(['AuthorList']);
+    await queryClient.refetchQueries(['RecommendList']);
     setRefreshing(false);
   };
 
-  const renderItem = ({item}) => {
-    return (
-      <TouchableWithoutFeedback onPress={() => onPressAuthor(item)}>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <View style={styles.itemView}>
-            <Text style={styles.itemName}>{item.nickName}</Text>
-            <Text style={styles.itemAuthor}>작가님</Text>
-            <Text style={styles.itemIntro} numberOfLines={2}>
-              {item.introduction}
-            </Text>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              <View style={{...styles.itemCategoryView, marginRight: 10}}>
-                <Text
-                  style={{
-                    ...styles.itemCategoryText,
-                    color: '#0021C6',
-                  }}>
-                  {colorCategory[item.primaryGenre].name}
-                </Text>
-              </View>
-              <View
-                style={{
-                  ...styles.itemCategoryView,
-                  backgroundColor: colorCategory[item.primaryMood].back,
-                }}>
-                <Text
-                  style={{
-                    ...styles.itemCategoryText,
-                    color: colorCategory[item.primaryMood].font,
-                  }}>
-                  {colorCategory[item.primaryMood].name}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <FastImage
-            style={{
-              width: 56,
-              height: 56,
-              position: 'absolute',
-              top: 10,
-              borderRadius: 90,
-            }}
-            source={
-              !item || item.imgUrl === '' || !item.imgUrl
-                ? DefaultProfile
-                : {uri: item.imgUrl}
-            }></FastImage>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  };
-
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       <StatusBar barStyle="dark-content" />
@@ -155,9 +89,7 @@ const ReaderRecommend = () => {
       <ScrollView
         stickyHeaderIndices={[3]}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}></RefreshControl>
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>
@@ -168,7 +100,7 @@ const ReaderRecommend = () => {
                 color: '#3C3C3C',
                 includeFontPadding: false,
               }}>
-              {name}
+              {readerInfoData.nickName}
             </Text>
             님,
           </Text>
@@ -185,16 +117,18 @@ const ReaderRecommend = () => {
                 width: 19,
                 height: 20,
               }}
-              source={SearchRecommend}></FastImage>
+              source={SearchRecommend}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.recView}>
           <FlatList
-            data={recommendListData ? recommendListData : []}
+            data={recommendListData}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{paddingHorizontal: 20}}
-            renderItem={renderItem}></FlatList>
+            renderItem={({item}) => <RecommendAuthorListItem item={item} />}
+          />
         </View>
         <View style={styles.testPageView}>
           <TouchableOpacity onPress={onPressAnalyze}>
@@ -203,7 +137,8 @@ const ReaderRecommend = () => {
                 width: Dimensions.get('window').width,
                 height: (Dimensions.get('window').width * 131) / 390,
               }}
-              source={TestPageRecommend}></FastImage>
+              source={TestPageRecommend}
+            />
           </TouchableOpacity>
         </View>
         <View style={{borderTopColor: '#F8F8F8', borderTopWidth: 6}}>
@@ -217,7 +152,8 @@ const ReaderRecommend = () => {
                   width: 21,
                   height: 17,
                 }}
-                source={FilterRecommend}></FastImage>
+                source={FilterRecommend}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.bodyHeader}>
@@ -254,9 +190,11 @@ const ReaderRecommend = () => {
           </View>
         </View>
         <ReaderRecommendList
+          authorListData={authorListData}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          allSelect={allSelect}></ReaderRecommendList>
+          allSelect={allSelect}
+        />
       </ScrollView>
     </View>
   );
@@ -286,58 +224,6 @@ const styles = StyleSheet.create({
   },
   recView: {
     paddingTop: 5,
-  },
-  itemView: {
-    width: 159,
-    height: 155,
-    shadowColor: '#000000',
-    shadowOpacity: 0.08,
-    shadowRadius: 9,
-    elevation: 4,
-    borderRadius: 15,
-    backgroundColor: '#fff',
-    marginHorizontal: 5,
-    alignItems: 'center',
-    paddingHorizontal: 21,
-    marginTop: 40,
-    paddingTop: 30,
-    marginBottom: 20,
-  },
-  itemName: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#3C3C3C',
-    includeFontPadding: false,
-  },
-  itemAuthor: {
-    fontFamily: 'NotoSansKR-Medium',
-    fontSize: 10,
-    color: '#BEBEBE',
-    includeFontPadding: false,
-  },
-  itemIntro: {
-    marginTop: 5,
-    height: 32,
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 11,
-    color: '#828282',
-    includeFontPadding: false,
-  },
-  testPageView: {
-    paddingBottom: 24,
-  },
-  itemCategoryView: {
-    paddingHorizontal: 14.6,
-    height: 30,
-    borderRadius: 26,
-    backgroundColor: '#E8EBFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  itemCategoryText: {
-    fontFamily: 'NotoSansKR-Regular',
-    fontSize: 12,
-    includeFontPadding: false,
   },
   bodyHeader: {
     backgroundColor: '#fff',
@@ -372,6 +258,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#3C3C3C',
     includeFontPadding: false,
+  },
+  testPageView: {
+    paddingBottom: 24,
   },
 });
 
