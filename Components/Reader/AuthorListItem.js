@@ -20,15 +20,19 @@ const AuthorListItem = ({data}) => {
   const onPressSubscribe = async writerId => {
     console.log(writerId);
     var result = await ReaderAPI.subscribing({writerId: writerId});
-    if (result) await queryClient.refetchQueries(['AuthorList']);
-    await queryClient.refetchQueries(['SubscribeAuthorList']);
+    if (result) {
+      await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
+    }
   };
 
   //구독 취소하기 버튼 클릭
   const onPressCancelSubscribe = async writerId => {
     var result = await ReaderAPI.cancelSubscribing({writerId: writerId});
-    if (result) await queryClient.refetchQueries(['AuthorList']);
-    await queryClient.refetchQueries(['SubscribeAuthorList']);
+    if (result) {
+      await queryClient.refetchQueries(['AuthorList']);
+      await queryClient.refetchQueries(['SubscribeAuthorList']);
+    }
   };
 
   return (

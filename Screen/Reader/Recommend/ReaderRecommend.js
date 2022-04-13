@@ -23,12 +23,13 @@ import RecommendAuthorListItem from '../../../Components/Reader/RecommendAuthorL
 import SearchRecommend from '../../../assets/images/SearchRecommend.png';
 import TestPageRecommend from '../../../assets/images/TestPageRecommend.png';
 import FilterRecommend from '../../../assets/images/FilterRecommend.png';
+import HeaderWithoutBack from '../../../Components/HeaderWithoutBack';
 
 const ReaderRecommend = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false); //새로고침 상태
-  const [modalVisible, setModalVisible] = useState(false); //전체작가 modal 화면 표시 유무
+  const [modalVisible, setModalVisible] = useState(false); //작가 필터링 modal 화면 표시 유무
   const [allSelect, setAllSelect] = useState(true); //전체작가 or 관심작가 선택
 
   //독자 멤버정보
@@ -83,10 +84,9 @@ const ReaderRecommend = () => {
     <View style={{flex: 1}}>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFF'}} />
       <StatusBar barStyle="dark-content" />
-      <View style={styles.headerView}>
-        <Text style={styles.headerText}>작가찾기</Text>
-      </View>
+      <HeaderWithoutBack title={'작가 찾기'} theme={'white'} />
       <ScrollView
+        showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[3]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -109,6 +109,7 @@ const ReaderRecommend = () => {
             onPress={() =>
               navigation.navigate('ReaderStacks', {
                 screen: 'ReaderRecommendSearch',
+                params: {authorListData: authorListData},
               })
             }
             style={{position: 'absolute', right: 20, bottom: 5}}>
@@ -201,18 +202,6 @@ const ReaderRecommend = () => {
 };
 
 const styles = StyleSheet.create({
-  headerView: {
-    height: 83 - 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 7,
-  },
-  headerText: {
-    fontFamily: 'NotoSansKR-Bold',
-    fontSize: 16,
-    color: '#3C3C3C',
-    includeFontPadding: false,
-  },
   titleView: {
     paddingHorizontal: 20,
   },

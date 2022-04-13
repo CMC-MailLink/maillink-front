@@ -30,36 +30,52 @@ const ReaderRecommendList = ({
     {name: 'Sweet', category: '달달', select: true},
     {name: 'Kitsch', category: '키치', select: true},
   ]);
-  const [author, setAuthor] = useState([]);
+  const [authorAll, setAuthorAll] = useState([]); //전체작가리스트
+  const [authorInterest, setAuthorInterest] = useState([]); //관심작가리스트
   const [filterAuthor, setFilterAuthor] = useState([]);
 
   useEffect(() => {
-    if (authorListData && !allSelect) {
-      var temp = authorListData.filter(data => {
-        if (data.interestedCheck) return true;
-      });
-      setAuthor([...temp]);
-    } else if (authorListData) setAuthor([...authorListData]);
-  }, [authorListData, allSelect]);
+    setAuthorAll([...authorListData]);
+    var temp = authorListData.filter(data => {
+      if (data.interestedCheck) return true;
+    });
+    setAuthorInterest([...temp]);
+  }, [authorListData]);
 
   useEffect(() => {
-    if (!author) return;
-    var temp = author.filter(data => {
-      for (var i = 0; i < 3; i++) {
-        if (branch[i].select)
-          if (data.writerInfo.primaryGenre === branch[i].name) return true;
-      }
-      return false;
-    });
-    temp = temp.filter(data => {
-      for (var i = 0; i < 8; i++) {
-        if (vive[i].select)
-          if (data.writerInfo.primaryMood === vive[i].name) return true;
-      }
-      return false;
-    });
+    if (allSelect) {
+      var temp = authorAll.filter(data => {
+        for (var i = 0; i < 3; i++) {
+          if (branch[i].select)
+            if (data.writerInfo.primaryGenre === branch[i].name) return true;
+        }
+        return false;
+      });
+      temp = temp.filter(data => {
+        for (var i = 0; i < 8; i++) {
+          if (vive[i].select)
+            if (data.writerInfo.primaryMood === vive[i].name) return true;
+        }
+        return false;
+      });
+    } else {
+      var temp = authorInterest.filter(data => {
+        for (var i = 0; i < 3; i++) {
+          if (branch[i].select)
+            if (data.writerInfo.primaryGenre === branch[i].name) return true;
+        }
+        return false;
+      });
+      temp = temp.filter(data => {
+        for (var i = 0; i < 8; i++) {
+          if (vive[i].select)
+            if (data.writerInfo.primaryMood === vive[i].name) return true;
+        }
+        return false;
+      });
+    }
     setFilterAuthor([...temp]);
-  }, [author, branch, vive]);
+  }, [authorAll, authorInterest, branch, vive, allSelect]);
 
   //작가 선택
   const onPressAuthor = data => {
@@ -71,35 +87,28 @@ const ReaderRecommendList = ({
 
   return (
     <View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {}}>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <ReaderRecommendModal
-          modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           branch={branch}
           setBranch={setBranch}
           vive={vive}
           setVive={setVive}
-          filterAuthor={filterAuthor}
-          setFilterAuthor={setFilterAuthor}></ReaderRecommendModal>
+        />
       </Modal>
-
       <View style={{minHeight: 400}}>
-        {filterAuthor && filterAuthor.length ? (
+        {filterAuthor.length ? (
           <View>
             {filterAuthor.map((data, index) =>
               data.writerInfo.nickName === '탈퇴한 회원 입니다.' ? null : (
                 <TouchableOpacity
                   onPress={() => onPressAuthor(data)}
                   key={index}>
-                  <AuthorListItem data={data}></AuthorListItem>
+                  <AuthorListItem data={data} />
                 </TouchableOpacity>
               ),
             )}
-            <View style={{height: 200, backgroundColor: 'white'}}></View>
+            <View style={{height: 200, backgroundColor: 'white'}} />
           </View>
         ) : (
           <View
@@ -109,7 +118,8 @@ const ReaderRecommendList = ({
             }}>
             <FastImage
               style={{width: 261, height: 193, marginTop: 90}}
-              source={NoHeartAuthor}></FastImage>
+              source={NoHeartAuthor}
+            />
           </View>
         )}
       </View>

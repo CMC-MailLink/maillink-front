@@ -52,9 +52,9 @@ const ReaderProfile = () => {
   const [category, setCategory] = useState(false);
   const [recentSelect, setRecentSelect] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState();
+  // const [name, setName] = useState();
   const [editName, setEditName] = useState();
-  const [imageUri, setImageUri] = useState('');
+  // const [imageUri, setImageUri] = useState('');
   const [filterAuthor, setFilterAuthor] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const {isLoading: subscribeAuthorListLoading, data: subscribeAuthorListData} =
@@ -66,9 +66,7 @@ const ReaderProfile = () => {
 
   useEffect(() => {
     if (readerInfoData) {
-      setName(readerInfoData.nickName);
       setEditName(readerInfoData.nickName);
-      setImageUri(readerInfoData.imgUrl);
     }
   }, [readerInfoData]);
 
@@ -154,7 +152,7 @@ const ReaderProfile = () => {
     setVive([...temp]);
   };
   const onPressModalConfirm = () => {
-    setName(editName);
+    // setName(editName);
     setModalVisible(!modalVisible);
   };
 
@@ -286,7 +284,11 @@ const ReaderProfile = () => {
             <TouchableWithoutFeedback onPress={onPressEditImage}>
               <FastImage
                 style={{width: 78, height: 78, borderRadius: 90}}
-                source={imageUri === '' ? DefaultProfile : {uri: imageUri}}
+                source={
+                  readerInfoData.imgUrl === ''
+                    ? DefaultProfile
+                    : {uri: readerInfoData.imgUrl}
+                }
               />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPressEditImage}>
@@ -296,7 +298,7 @@ const ReaderProfile = () => {
               />
             </TouchableWithoutFeedback>
             <View style={{alignItems: 'center', top: -21}}>
-              <Text style={styles.profileName}>{name}</Text>
+              <Text style={styles.profileName}>{readerInfoData.nickName}</Text>
               <Text style={styles.profileCategory}>독자님</Text>
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <View style={styles.nameEditView}>

@@ -26,7 +26,7 @@ import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
 import DefaultProfile from '../../../assets/images/DefaultProfile.png';
 
-const STORAGE_KEY = '@recentDataReaderMailSearch';
+const STORAGE_KEY = '@recentSearch';
 
 const ReaderMailSearch = () => {
   const navigation = useNavigation();

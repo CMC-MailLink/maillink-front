@@ -12,28 +12,27 @@ import CloseRecommend from '../../../assets/images/CloseRecommend.png';
 import RefreshAllRecommend from '../../../assets/images/RefreshAllRecommend.png';
 
 const ReaderRecommendModal = ({
-  modalVisible,
   setModalVisible,
   setBranch,
   setVive,
   branch,
   vive,
-  filterAuthor,
-  setFilterAuthor,
 }) => {
-  const [tempBranch, setTempBranch] = useState(branch);
-  const [tempVive, setTempVive] = useState(vive);
+  const [tempBranch, setTempBranch] = useState(branch); //적용 전 branch
+  const [tempVive, setTempVive] = useState(vive); //적용 전 vive
 
   const onPressBranch = index => {
     var temp = tempBranch;
     temp[index].select = !temp[index].select;
     setTempBranch([...temp]);
   };
+
   const onPressVive = index => {
     var temp = tempVive;
     temp[index].select = !temp[index].select;
     setTempVive([...temp]);
   };
+
   const onPressAll = () => {
     setTempBranch([
       {name: 'Poetry', category: '시', select: true},
@@ -51,31 +50,25 @@ const ReaderRecommendModal = ({
       {name: 'Kitsch', category: '키치', select: true},
     ]);
   };
-  const submit = () => {
+
+  const onPressSubmit = () => {
     setBranch([...tempBranch]);
     setVive([...tempVive]);
     setModalVisible(false);
   };
 
   return (
-    <View style={styles.bottomView}>
+    <View style={styles.modalBack}>
       <View style={styles.modalView}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={styles.modalText}>필터</Text>
           <TouchableOpacity
-            style={{
-              position: 'absolute',
-              right: 12,
-              top: -6,
-              width: 30,
-              height: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            style={styles.closeIcon}
             onPress={() => setModalVisible(false)}>
             <FastImage
               style={{width: 14, height: 14}}
-              source={CloseRecommend}></FastImage>
+              source={CloseRecommend}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.branchView}>
@@ -105,76 +98,49 @@ const ReaderRecommendModal = ({
           </View>
         </View>
         <View style={styles.viveView}>
-          <Text style={{...styles.categoryText, marginRight: 17}}>분위기</Text>
-          <View>
-            <View style={{flexDirection: 'row', marginBottom: 7}}>
-              {tempVive.length
-                ? tempVive.map((data, index) => {
-                    if (index > 4) {
-                      return null;
-                    } else {
-                      return (
-                        <TouchableOpacity
-                          onPress={e => onPressVive(index)}
-                          key={index}>
-                          <View
-                            style={{
-                              ...styles.itemView,
-                              borderColor: data.select ? '#4562F1' : '#EBEBEB',
-                            }}>
-                            <Text
-                              style={{
-                                ...styles.itemText,
-                                color: data.select ? '#4562F1' : '#828282',
-                              }}>
-                              {data.category}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }
-                  })
-                : null}
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              {tempVive.length
-                ? tempVive.map((data, index) => {
-                    if (index < 5) {
-                      return null;
-                    } else {
-                      return (
-                        <TouchableOpacity
-                          onPress={e => onPressVive(index)}
-                          key={index}>
-                          <View
-                            style={{
-                              ...styles.itemView,
-                              borderColor: data.select ? '#4562F1' : '#EBEBEB',
-                            }}>
-                            <Text
-                              style={{
-                                ...styles.itemText,
-                                color: data.select ? '#4562F1' : '#828282',
-                              }}>
-                              {data.category}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }
-                  })
-                : null}
-            </View>
+          <Text style={styles.categoryText}>분위기</Text>
+          <View
+            style={{
+              flex: 1,
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+              backgroundColor: 'pink',
+              height: 55,
+            }}>
+            {tempVive.length
+              ? tempVive.map((data, index) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={e => onPressVive(index)}
+                      key={index}>
+                      <View
+                        style={{
+                          ...styles.itemView,
+                          borderColor: data.select ? '#4562F1' : '#EBEBEB',
+                        }}>
+                        <Text
+                          style={{
+                            ...styles.itemText,
+                            color: data.select ? '#4562F1' : '#828282',
+                          }}>
+                          {data.category}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
           </View>
         </View>
         <View style={{paddingHorizontal: 20, flexDirection: 'row'}}>
           <TouchableOpacity style={{marginRight: 6}} onPress={onPressAll}>
             <FastImage
               style={{width: 52, height: 52}}
-              source={RefreshAllRecommend}></FastImage>
+              source={RefreshAllRecommend}
+            />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={submit}
+            onPress={onPressSubmit}
             style={{width: Dimensions.get('window').width - 20 - 52 - 26}}>
             <View
               style={{
@@ -202,9 +168,8 @@ const ReaderRecommendModal = ({
   );
 };
 const styles = StyleSheet.create({
-  bottomView: {
+  modalBack: {
     flex: 1,
-    bottom: 0,
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(55, 55, 55, 0.3)',
@@ -238,10 +203,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   categoryText: {
+    width: 40,
     fontFamily: 'NotoSansKR-Regular',
     fontSize: 14,
     color: '#3C3C3C',
-    marginRight: 32,
+    marginRight: 17,
     includeFontPadding: false,
   },
   itemText: {
@@ -258,6 +224,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 26,
     marginRight: 7,
+  },
+  closeIcon: {
+    position: 'absolute',
+    right: 12,
+    top: -6,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

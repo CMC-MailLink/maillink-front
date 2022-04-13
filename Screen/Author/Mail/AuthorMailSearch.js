@@ -25,7 +25,7 @@ import DeleteMail from '../../../assets/images/DeleteMail.png';
 import NoRecentDataMail from '../../../assets/images/NoRecentDataMail.png';
 import NoSearchDataMail from '../../../assets/images/NoSearchDataMail.png';
 
-const STORAGE_KEY = '@recentDataAuthorMailSearch';
+const STORAGE_KEY = '@recentSearch';
 
 const AuthorMailSearch = () => {
   const [recentSearch, setRecentSearch] = useState([]);

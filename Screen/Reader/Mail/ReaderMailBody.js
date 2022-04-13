@@ -33,7 +33,6 @@ const ReaderMailBody = () => {
   const myContext = useContext(AppContext);
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const [memberInfo, setMemberInfo] = useState(); //유저 정보
   const [mailSelect, setMailSelect] = useState(true); //메일함,저장함 선택 toggle
   const [recentSelect, setRecentSelect] = useState(true); //최신순, 오래된순 선택 toggle
   const [count, setCount] = useState(0); //읽지않은 메일 수
@@ -50,12 +49,6 @@ const ReaderMailBody = () => {
     ['ReaderInfo'],
     ReaderAPI.memberInfo,
   );
-
-  useEffect(() => {
-    if (readerInfoData) {
-      setMemberInfo(readerInfoData);
-    }
-  }, [readerInfoData]);
 
   useEffect(() => {
     Animated.loop(
@@ -442,7 +435,7 @@ const ReaderMailBody = () => {
                           ...styles.headerText,
                           fontFamily: 'NotoSansKR-Medium',
                         }}>
-                        {memberInfo ? memberInfo.nickName : null}&nbsp;
+                        {readerInfoData ? readerInfoData.nickName : null}&nbsp;
                       </Text>
                       님,
                     </Text>
