@@ -1,39 +1,43 @@
-# Versions
+# Version 1.1
 
-## Version 1.1
+## Modifications
 
-### 수정 사항
+### Author
 
-#### 작가
+- Applied editor indentation (temporarily added the indent button since the first line spacebar doesn't seem to work on mobile)
+- If publishing fails, the modal window will not close
+- Toggled between Featured Post and Public Post buttons
 
-- 에디터 들여쓰기 적용 (모바일에서는 첫줄 스페이스바가 인식이 안되는거 같아 일단 임시로 들여쓰기 버튼 추가
-- 발행 실패한다면 모달창 안꺼지도록 수정
-- 대표글, 공개글 버튼 토글
+### Reader
 
-#### 독자
+- Applied automatic read marking when leaving the mail reading screen (no need to refresh)
 
-- 메일 리딩화면 이동 후 나갈 때 자동으로 읽음 표시 적용 (새로고침 필요X)
+### Common
 
-#### 공통
+- Applied code push
+- Notifications will now be shown even when the app is running
+- Applied updated design for when there are no messages or emails
+- Added a success notification for publishing (displays for 4 seconds and then disappears; animation can be added later if needed)
+- Added the author's name at the bottom of the text on the share screen
+- Added confirmation alerts for logout and withdrawal
+- Added a notification message when notification permissions are not granted
+- Fixed an issue where errors occurred when reading emails not present in the user's mailbox
+- Added a page to check subscribers on the author's profile
 
-- code push 적용
-- 앱 실행중일 때도 알람오도록 변경
-- 쪽지 없을 때, 메일 없을 때 수정된 디자인 적용
-- 발행 성공 알림창 추가(4초 표시후 사라짐, 애니메이션이 필요하다면...추후적용)
-- 공유화면 텍스트 하단에 작가 이름 추가
-- 로그아웃, 탈퇴 확인 alert 추가
-- 알림 권한 없을 때 안내 메시지 추가
-- 자신의 메일함에 없는 메일 리딩화면 오류 수정
-- 작가 프로필 구독자 확인 페이지 추가
-
-### IOS
+### iOS
 
 - X
 
-### ANDROID
+### Android
 
-- 카카오 로그인 오류 해결 (코드 난독화: proguard-rules 추가 )
+- Fixed Kakao login issue (Code obfuscation: added proguard-rules)
 
 ---
+- Commit test on April 17th
 
-- 4월 17일 커밋테스트
+
+
+
+
+
+
